@@ -1,7 +1,7 @@
 ---
-title: 'Welcome'
-date: 2024-11-24T17:18:05+01:00
+title: 'My First Post'
+date: 2024-11-25T00:30:00+08:00
 draft: false
 ---
 
-大家好，我是Tony老师。
+大家好，我是 Tony 老师！
