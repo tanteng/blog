@@ -1,11 +1,7 @@
 {
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "hugoVersion": "0.92.0"
-      }
+  "build": {
+    "env": {
+      "HUGO_VERSION": "0.88.1"
     }
-  ]
+  }
 }
