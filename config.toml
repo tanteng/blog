@@ -1,4 +1,4 @@
 baseURL = "https://blog.tanteng.space"
-languageCode = "zh-CN"
+defaultContentLanguage = 'zh'
 title = "Tony老师的博客"
 theme = "ananke"
