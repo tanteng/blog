@@ -1,4 +1,5 @@
 .env
 .env.build
 public
-resources
+
+resources/_gen
