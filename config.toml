@@ -5,8 +5,7 @@ theme = "ananke"
 resourceDir = "../resources"
 
 [params]
-author = "谈腾"
-featured_image = "/2024/11/595de450c164d681e8212922a4e9d1ea.png"
+author = "Tony老师"
 description = "记录生活，摄影和计算机技术。我是谈腾，现居深圳。"
 open_graph_title = "Tony老师的博客"
 open_graph_description = "Hi，我是Tony老师"
