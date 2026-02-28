@@ -8,7 +8,7 @@ categories: ['技术']
 
 在 MacBook Pro 上安装了 OpenClaw 后，AI 助手可以直接在本地运行，不依赖云端服务，数据更安全。作为一个自托管的 AI 网关，它连接了各种聊天渠道和 AI Agent，让日常工作和生活更加高效。
 
-...
+[展开阅读 →](#什么是-openclaw)
 
 ## 什么是 OpenClaw？
 
