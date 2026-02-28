@@ -8,6 +8,8 @@ categories: ['技术']
 
 在 MacBook Pro 上安装了 OpenClaw 后，AI 助手可以直接在本地运行，不依赖云端服务，数据更安全。作为一个自托管的 AI 网关，它连接了各种聊天渠道和 AI Agent，让日常工作和生活更加高效。
 
+more
+
 ## 什么是 OpenClaw？
 
 OpenClaw 是一个开源的**自托管 AI 网关**，通过它可以把 WhatsApp、Telegram、Discord、iMessage 等各种聊天工具和 AI Agent 连接起来。一个 Gateway 进程同时服务多个渠道，数据留在本地，安全可控。
@@ -111,6 +113,36 @@ OpenClaw 支持众多消息渠道，一个网关同时接入多个平台：
 - 敏感信息加密存储
 - 沙箱模式隔离执行
 
+## 实用案例
+
+以下是社区中大家正在用 OpenClaw 做的事情：
+
+### 🐙 GitHub PR 代码审查
+
+AI 完成代码修改后，自动打开 PR，OpenClaw 审查 diff 并在 Telegram 中回复审查意见，包括合并建议和需要修复的问题。
+
+> "OpenCode finishes the change → opens a PR → OpenClaw reviews the diff and replies in Telegram"
+
+### 🍷 私人酒窖管理
+
+只需要给 AI 一个 CSV 导出文件，告诉它存储位置，几分钟内就能创建一个本地酒窖管理技能。测试一下，962 瓶酒的库存管理就完成了。
+
+### 🛒 Tesco 超市自动下单
+
+每周制定 meal plan → 选购常购商品 → 自动预约配送时间 → 确认订单。整个过程无需任何 API，完全通过浏览器控制完成。
+
+### 📸 照片自动整理
+
+配合 iOS/Android 节点，可以自动将拍摄的照片分类整理，识别内容并归档。
+
+### 📅 日程管理
+
+通过 Heartbeat 定期检查日历，在有重要会议前主动提醒你。
+
+### 🔔 监控系统
+
+配合 Cron Jobs 和 Webhooks，监控服务器状态、服务健康度，出现异常时通过 Telegram/Discord 立即通知。
+
 ## 适用场景
 
 1. **个人助理**：回答问题、查资料、整理信息
@@ -119,6 +151,7 @@ OpenClaw 支持众多消息渠道，一个网关同时接入多个平台：
 4. **信息汇总**：定期检查邮件、天气、日程
 5. **自动化任务**：定时提醒、数据同步、监控系统
 6. **远程控制**：通过手机发消息控制 Mac
+7. **家庭自动化**：控制智能设备、记录生活数据
 
 ## 技术栈
 
