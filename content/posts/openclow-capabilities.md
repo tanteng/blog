@@ -12,8 +12,8 @@ categories: ['技术']
 
 ### 📁 文件和代码
 - 读写文件、搜索代码
-- 运行 Git、Node.js、Python、Shell 命令
-- 维护博客、整理项目
+- 运行 Git、Node.js、Python、Shell 等命令
+- 维护项目、整理代码库
 
 ### 🌐 浏览器自动化
 - 自动填表、点击按钮
@@ -21,23 +21,27 @@ categories: ['技术']
 - 截图和 UI 测试
 
 ### 📱 消息通讯
-- 通过 Telegram、Discord、WhatsApp 发消息
+- 通过 Telegram、Discord、WhatsApp、iMessage 等渠道发消息
 - 发送文本、图片、文件
+- 创建投票、按钮等交互
 
 ### 🔍 信息查询
 - 搜索网页、获取网页内容
 - 查天气（wttr.in）
 
-### 🖥️ 设备控制（如配对 iOS/Android 节点）
+### 🖥️ 设备控制（如配对移动节点）
 - 截屏、摄像头拍照
-- 获取位置、发送通知
+- 获取位置、发送系统通知
+
+### 🧠 记忆能力
+- 记住对话上下文
+- 长期记忆（写入 MEMORY.md）
 
 ## 技术栈
 
-- 系统：macOS 13.7
-- Node.js：v22.22.0
-- 工具：brew, git, python3, hugo
-- 部署：Vercel
+- 系统：macOS
+- 运行时：Node.js 22+
+- 依赖：Anthropic API（推荐）
 
 ---
 
