@@ -4,6 +4,7 @@ date: 2026-02-28T20:30:00+08:00
 draft: false
 tags: ['Go', 'Golang', '性能优化', '内存管理']
 categories: ['技术']
+description: 'Go 1.26 带来了 slice 栈分配优化，本文深入讲解栈与堆的区别、逃逸分析原理，以及如何利用新特性提升性能。'
 ---
 
 ## 栈 vs 堆：物理存储
