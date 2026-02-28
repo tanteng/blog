@@ -5,8 +5,8 @@ theme = "ananke"
 resourceDir = "../resources"
 
 [params]
-author = "Tony老师"
 description = "记录生活与成长的空间。热爱摄影、旅行、技术，这里有技术笔记与生活随想。"
+keywords = ["谈腾", "Tony老师", "摄影", "旅行", "技术博客", "Go语言"]
 open_graph_title = "Tony老师的博客"
 open_graph_description = "Hi，我是Tony老师"
 open_graph_image = "/images/og-image.jpg"
