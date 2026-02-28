@@ -6,7 +6,6 @@ resourceDir = "../resources"
 sectionPagesMenu = "main"
 
 [params]
-mainSections = ["posts"]
 description = "记录生活与成长的空间。热爱摄影、旅行、技术，这里有技术笔记与生活随想。"
 open_graph_title = "Tony老师的博客"
 open_graph_description = "Hi，我是Tony老师"
