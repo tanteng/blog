@@ -7,6 +7,12 @@ sectionPagesMenu = "main"
 
 [menu]
   [[menu.main]]
+    identifier = "photos"
+    name = "相册"
+    url = "https://photos.tanteng.space"
+    weight = -90
+
+  [[menu.main]]
     identifier = "about"
     name = "关于"
     url = "/about/"
