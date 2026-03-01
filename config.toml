@@ -5,6 +5,13 @@ theme = "ananke"
 resourceDir = "../resources"
 sectionPagesMenu = "main"
 
+[menu]
+  [[menu.main]]
+    identifier = "about"
+    name = "关于"
+    url = "/about/"
+    weight = -100
+
 [pagination]
 pagerSize = 20
 
@@ -16,4 +23,20 @@ copyright = "谈腾"
 open_graph_title = "Tony老师的博客"
 open_graph_description = "Hi，我是Tony老师"
 open_graph_image = "/images/og-image.jpg"
+
+[params.ananke.social.follow]
+networks = [
+  "instagram",
+  "facebook",
+  "linkedin"
+]
+
+[params.ananke.social.instagram]
+username = "tanteng1031"
+
+[params.ananke.social.facebook]
+username = "tanteng1031"
+
+[params.ananke.social.linkedin]
+username = "tanteng"
 
