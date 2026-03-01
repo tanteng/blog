@@ -35,6 +35,7 @@ networks = [
 username = "tanteng1031"
 
 [params.ananke.social.facebook]
+username = "tanteng001"
 username = "tanteng1031"
 
 [params.ananke.social.linkedin]
