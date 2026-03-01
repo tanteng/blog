@@ -1,20 +1,20 @@
 ---
-title: "Hacker News 热门 - 2026年3月"
+title: "Hacker News 热门 - 2026年3月1日"
 date: 2026-03-01
 draft: false
 tags: ["Hacker News", "AI", "科技"]
 categories: ["科技"]
 ---
 
-📰 Hacker News 热门 - 2026-03-01
-
-## 热门话题
+📰 Hacker News 热门 - 2026年3月1日
 
 1. **microgpt: A minimal GPT implementation in ~200 lines of Python**
    Andre Karpathy发布了microgpt，这是一个仅200行纯Python代码（无依赖）的GPT训练和推理实现。该项目包含完整的数据集、分词器、自研autograd引擎、类GPT-2神经网络、Adam优化器、训练和推理循环。Karpathy称这是他十年努力的结晶，将LLM简化到最本质的算法。
 
 2. **We do not think Anthropic should be designated as a supply chain risk**
    OpenAI在社交媒体上公开表态，认为Anthropic不应该被指定为供应链风险。这条推文获得487个赞同，引发235条讨论。这反映了当前AI领域巨头之间复杂的竞争与合作关系。
+
+<!--more-->
 
 3. **Qwen3.5 122B and 35B models offer Sonnet 4.5 performance on local computers**
    阿里巴巴发布了Qwen3.5中杯模型系列，包括35B-A3B、122B-A10B和27B三款开源模型（Apache 2.0许可）。这些模型在基准测试中超越了OpenAI的GPT-5-mini和Anthropic的Claude Sonnet 4.5。35B-A3B可在消费级32GB显存GPU上运行超过100万token上下文窗口。API定价极低：输入$0.1/百万token，输出$0.4/百万token。
@@ -39,8 +39,6 @@ categories: ["科技"]
 
 10. **The Eternal Promise: A History of Attempts to Eliminate Programmers**
     一篇关于"消灭程序员"历史尝试的长文，获得268个赞和176条评论。文章回顾了从COBOL到AI的各种简化编程的尝试，探讨了自动化编程的梦想与现实。
-
-<!--more-->
 
 ## 值得关注
 
