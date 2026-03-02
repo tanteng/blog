@@ -5,6 +5,11 @@ theme = "ananke"
 resourceDir = "../resources"
 sectionPagesMenu = "main"
 
+[sitemap]
+  changefreq = "weekly"
+  filename = "sitemap.xml"
+  priority = 0.5
+
 [menu]
   [[menu.main]]
     identifier = "photos"
