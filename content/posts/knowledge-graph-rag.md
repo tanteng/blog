@@ -12,6 +12,8 @@ categories: ["技术"]
 
 而这恰恰是Graph RAG要解决的问题。
 
+> ⚠️ **特别说明**：本文是对 Graph RAG 概念的解读，源自对 AST-ASG-Graph-RAG 项目 README 的研究。该项目主要在探讨概念本身，而非一个完整的产品解决方案。
+
 <!--more-->
 
 ---

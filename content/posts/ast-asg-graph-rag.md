@@ -1,5 +1,5 @@
 ---
-title: "当RAG遇到代码理解：AST-ASG-Graph-RAG深度解读"
+title: "当RAG遇到代码理解：AST-ASG-Graph-RAG概念解读"
 date: 2026-03-02
 draft: false
 tags: ["RAG", "AI", "AST", "ASG", "代码理解"]
@@ -10,7 +10,9 @@ categories: ["技术"]
 
 传统RAG（检索增强生成）虽然能解决大模型"知识陈旧"的问题，但对于代码这种高度结构化的知识，仍然力不从心。
 
-今天要介绍的这个开源项目 **AST-ASG-Graph-RAG**，提供了一个全新的思路：用代码本身的结构来增强RAG。
+今天要介绍的这个概念 **AST-ASG-Graph-RAG**，提供了一种全新的思路：用数据本身的结构来增强RAG。
+
+> ⚠️ **特别说明**：本文介绍的是一个概念探讨（来自 GitHub 项目 README），而非一个完整的产品或工具。该项目的 README 主要在解释 AST/ASG/Graph RAG 这些概念本身，而非声称要解决某个具体问题。
 
 <!--more-->
 
