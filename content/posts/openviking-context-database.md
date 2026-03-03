@@ -154,7 +154,83 @@ ov find "what is openviking"
 
 ---
 
-## 九、 总结与展望
+## 十、本地实践：我的 Blog 接入 OpenViking
+
+最近将个人博客接入了 OpenViking，以下是实践记录。
+
+### 1. 安装与配置
+
+```bash
+# 安装
+pip3 install openviking
+
+# 创建配置 ~/.openviking/ov.conf
+# 支持多种模型供应商：volcengine、openai、litellm
+```
+
+### 2. 核心工作原理
+
+```
+博客文件 → 解析 → 分层摘要(L0/L1/L2) → 向量化 → 向量数据库
+```
+
+| 步骤 | 说明 |
+|------|------|
+| 文件解析 | 支持 Markdown、PDF、DOCX、图片 OCR |
+| 分层摘要 | L0一句话 → L1段落 → L2完整内容 |
+| 向量化 | 用 Embedding 模型把文本转成向量 |
+| 语义检索 | 查询也转向量，用余弦相似度找最相关的 |
+
+**本质**：不是精确匹配关键词，而是理解"语义"。
+
+### 3. 常用命令
+
+```bash
+# 添加资源（博客、项目文档等）
+ov add-resource /path/to/blog --ignore-dirs "node_modules,.git" --wait
+
+# 语义搜索
+ov find "Sony相机"
+
+# 列出目录
+ov ls /resources
+
+# 读取完整内容（Level 2）
+ov read /resources/blog/content/posts/xxx.md
+
+# 只读概览（Level 1）
+ov overview /resources/blog/
+
+# 查看目录树
+ov tree /resources/blog/
+
+# 查看状态
+ov status
+```
+
+### 4. 实际效果
+
+搜索 "Sony相机" 的结果：
+
+```
+context_type  uri                                                                         level  score   abstract
+resource     viking://resources/blog/content/posts/Sony_A7M4_创意外观风格/a7m4-s...         2     0.47   This document serves as a reference guide for Sony A7M4 camera users...
+```
+
+- **score**：相关度分数（0-1），越高越相关
+- **level**：1=概览，2=详细
+- **abstract**：AI 生成的摘要
+
+### 5. 与传统搜索的区别
+
+| 传统搜索 | OpenViking 语义搜索 |
+|----------|---------------------|
+| 精确匹配关键词 | 理解语义 |
+| 搜"相机"找不到"摄影器材" | 搜"相机"能找到"摄影"相关内容 |
+
+---
+
+## 十一、总结与展望
 
 OpenViking 的开源标志着字节跳动将其核心的检索技术回馈社区。对于正在构建复杂 AI 应用的开发者来说，它不仅是一个存储工具，更是一个提升 AI"智商"的外部大脑。
 
