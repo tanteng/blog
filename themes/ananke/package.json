@@ -1,7 +1,7 @@
 {
   "name": "@thenewdynamic/gohugo-theme-ananke",
   "description": "Ananke: A theme for Hugo Sites",
-  "version": "2.11.2",
+  "version": "2.12.2",
   "license": "MIT",
   "repository": "thenewdynamic/gohugo-theme-ananke",
   "author": "Bud Parr (https://github.com/budparr)",
@@ -32,18 +32,19 @@
     "gohugo-module"
   ],
   "dependencies": {
-    "cssnano": "7.0.6",
-    "postcss": "8.4.49",
-    "postcss-preset-env": "10.1.0",
+    "cssnano": "7.1.2",
+    "postcss": "8.5.6",
+    "postcss-preset-env": "11.1.1",
     "tachyons": "4.12.0"
   },
   "devDependencies": {
-    "@davidsneighbour/markdownlint-config": "^2024.4.8",
-    "@davidsneighbour/release-config": "2024.4.8",
-    "@davidsneighbour/tools": "2024.4.8"
+    "@biomejs/biome": "2.3.11",
+    "@davidsneighbour/markdownlint-config": "2025.3.6",
+    "@davidsneighbour/release-config": "2025.3.9",
+    "@davidsneighbour/tools": "2025.3.9",
+    "dotenv": "17.2.3"
   },
   "scripts": {
-    "deploy": "cd exampleSite; hugo;",
     "release": "wireit",
     "release:pre": "wireit",
     "server": "wireit"
@@ -56,7 +57,7 @@
       "command": "commit-and-tag-version --sign -a -t \"v\" --releaseCommitMessageFormat \"chore(release): v{{currentTag}}\" --prerelease prerelease -- --no-verify"
     },
     "server": {
-      "command": "cd exampleSite; rm -rf public; hugo server -D -E -F --environment gargulus --disableFastRender --verbose --logLevel debug --debug --tlsAuto --panicOnWarning"
+      "command": "cd site && hugo server"
     }
   }
 }
