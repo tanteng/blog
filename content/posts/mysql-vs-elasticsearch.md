@@ -232,32 +232,39 @@ Doc2: TF=1, 正文命中 → Score=8.1
 [Doc1, Doc2...]
 ```
 
-## 实战：推荐模块选型分析
+## 实战：商品推荐模块选型分析
 
-最近在设计一个**首页推荐模块**：
-- 根据用户错题关联的知识点（Top5）
-- 通过标签推荐相关课程或知识库内容
+最近在设计一个**电商首页推荐模块**：
+- 根据用户最近浏览的商品分类（Top5）
+- 通过分类标签推荐相关商品
 
 **为什么选择 MySQL 而不是 ES？**
 
-1. **查询模式固定**：知识点 → 标签 → 内容，是关联查询，不是搜索
+1. **查询模式固定**：用户 ID → 最近浏览分类 → 推荐相关商品，是关联查询，不是搜索
 2. **不需要全文搜索**：用户不输入搜索词，是系统推荐
-3. **数据量不大**：几十万级数据，MySQL + 索引完全够用
-4. **不需要模糊匹配**：精确的标签关联关系
+3. **数据量不大**：几十万级商品数据，MySQL + 索引完全够用
+4. **不需要模糊匹配**：精确的分类关联关系
 5. **已有 MySQL 基础设施**：无需引入新组件
 
 这套逻辑用 MySQL 实现简单高效：
 
 ```sql
--- 获取用户错题关联的知识点 Top5
-SELECT ekp.id, ekp.title, COUNT(*) AS wrong_count
-FROM exam_event_staff_mistake eesm
-JOIN exam_question_knowledge_point eqkp ON eesm.question_id = eqkp.question_id
-JOIN exam_knowledge_points ekp ON eqkp.knowledge_point_id = ekp.id
-WHERE eesm.staff_id = ?
-GROUP BY ekp.id, ekp.title
-ORDER BY wrong_count DESC
+-- 获取用户最近浏览的商品分类 Top5
+SELECT c.id, c.name, COUNT(*) AS view_count
+FROM user_browse_history ubh
+JOIN products p ON ubh.product_id = p.id
+JOIN categories c ON p.category_id = c.id
+WHERE ubh.user_id = ? AND ubh.created_at > DATE_SUB(NOW(), INTERVAL 7 DAY)
+GROUP BY c.id, c.name
+ORDER BY view_count DESC
 LIMIT 5;
+
+-- 根据分类推荐商品
+SELECT p.id, p.name, p.price, p.image_url
+FROM products p
+WHERE p.category_id IN (...) AND p.status = 1
+ORDER BY p.sales DESC
+LIMIT 20;
 ```
 
 ## 总结
