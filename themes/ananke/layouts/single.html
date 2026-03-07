@@ -4,8 +4,8 @@
 {{ end }}
 
 {{ define "main" }}
-  {{- $related_content := .RegularPages.Related . -}}
-  {{- $needs_aside := or .Params.toc $related_content -}}
+  {{- $related_content := .Site.RegularPages.Related . -}}
+  {{- $needs_aside := or .Params.toc $related_content (gt (len $related_content) 0) -}}
   {{ $page := .}}
   {{ $section := .Site.GetPage "section" .Section }}
 
@@ -69,20 +69,6 @@
       {{- .Content -}}
       {{- partials.Include "tags.html" . -}}
       
-      {{- $related := .Site.RegularPages.Related . | collections.First 5 -}}
-      {{ with $related }}
-      <div class="related-posts mt6">
-        <h3 class="f4 b mb3">相关文章</h3>
-        <ul class="pa0 list nested-links">
-          {{ range . }}
-            <li class="mb2">
-              <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-            </li>
-          {{ end }}
-        </ul>
-      </div>
-      {{ end }}
-      
       {{ if .Site.Config.Services.Disqus.Shortname }}
       <div class="mt6 instapaper_ignoref">
         {{/* former internal template */}}
@@ -98,6 +84,7 @@
     {{- if $needs_aside -}}
     <aside class="w-30-l mt6-l">
       {{- partials.Include "menu-contextual.html" . -}}
+      {{- partials.Include "related-posts.html" . -}}
     </aside>
     {{- end -}}
 

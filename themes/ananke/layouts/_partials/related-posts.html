@@ -1,0 +1,13 @@
+{{- $related := .Site.RegularPages.Related . | collections.First 5 -}}
+{{ with $related }}
+<div class="related-posts bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+  <p class="f5 b mb3">相关文章</p>
+  <ul class="pa0 list">
+    {{ range . }}
+      <li class="mb2">
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      </li>
+    {{ end }}
+  </ul>
+</div>
+{{ end }}
