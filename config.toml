@@ -27,7 +27,7 @@ sectionPagesMenu = "main"
 pagerSize = 20
 
 [params]
-customCSS = ["custom.css"]
+customCSS = ["css/custom.css"]
 mainSections = ["posts"]
 recent_posts_number = 20
 description = "记录生活与成长的空间。热爱摄影、旅行、技术，这里有技术笔记与生活随想。"

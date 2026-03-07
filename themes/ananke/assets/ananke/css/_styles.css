@@ -18,3 +18,60 @@
 .nested-links a{
   overflow-wrap: break-word;
 }
+
+/* 自定义表格样式 */
+table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin: 1.5rem 0 !important;
+  font-size: 0.9rem !important;
+  overflow-x: auto !important;
+  border: 2px solid #2c3e50 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+}
+
+tbody {
+  display: table-row-group !important;
+}
+
+thead {
+  display: table-header-group !important;
+}
+
+tr {
+  display: table-row !important;
+}
+
+th, td {
+  border: 1px solid #ddd !important;
+  padding: 12px 16px !important;
+  text-align: left !important;
+  display: table-cell !important;
+}
+
+th {
+  background-color: #2c3e50 !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  font-size: 0.8rem !important;
+  letter-spacing: 0.5px !important;
+}
+
+tr:nth-child(even) {
+  background-color: #f8f9fa !important;
+}
+
+tr:nth-child(odd) {
+  background-color: #fff !important;
+}
+
+tr:hover {
+  background-color: #e8f4f8 !important;
+}
+
+td:first-child {
+  font-weight: 500 !important;
+  color: #333 !important;
+}
