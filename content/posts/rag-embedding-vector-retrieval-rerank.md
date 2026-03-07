@@ -6,19 +6,15 @@ categories: ["技术"]
 description: "全面解析 RAG 系统中 Embedding 向量编码、向量检索召回、Chunk 分块策略以及 Rerank 重排的核心技术原理与最佳实践。"
 ---
 
-<!--more-->
-
 ## 什么是 RAG？
 
-RAG（Retrieval-Augmented Generation，检索增强生成）是大模型应用的核心架构。它通过"检索+生成"的两阶段模式，让 AI 能够利用私有知识库回答问题，而不是仅依赖模型内部的训练数据。
+RAG（Retrieval-Augmented Generation，检索增强生成）是大模型应用的核心架构。它通过"检索+生成"的两阶段模式，让 AI 能够利用私有知识库回答问题，而不是仅依赖模型内部的训练数据。<!--more-->
 
 典型的 RAG 流程如下：
 
 ```
 用户查询 → 向量检索（召回）→ Rerank（重排）→ LLM 生成 → 最终回答
 ```
-
-<!--more-->
 
 本文将深入解析这个流程中的三个核心技术：**Embedding 向量编码**、**向量检索召回**和 **Rerank 重排**。
 
