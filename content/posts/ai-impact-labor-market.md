@@ -114,4 +114,4 @@ Anthropic提出了**"观察暴露度"（Observed Exposure）**新指标，综合
 
 ---
 
-*来源：Anthropic Research (2026年3月)*
+*来源：[Anthropic Research - Labor market impacts of AI](https://www.anthropic.com/research/labor-market-impacts) (2026年3月)*
