@@ -68,6 +68,21 @@
     <div class="nested-copy-line-height lh-copy {{ $.Param "post_content_classes"  | compare.Default "serif"}} f4 nested-links {{ $.Param "text_color" | compare.Default "mid-gray" }} {{ compare.Conditional (compare.Eq $.Site.Language.LanguageDirection "rtl") "pl4-l" "pr4-l" }} {{ if $needs_aside }}w-two-thirds-l{{ else }}w-100-l{{ end }}">
       {{- .Content -}}
       {{- partials.Include "tags.html" . -}}
+      
+      {{- $related := .Site.RegularPages.Related . | collections.First 5 -}}
+      {{ with $related }}
+      <div class="related-posts mt6">
+        <h3 class="f4 b mb3">相关文章</h3>
+        <ul class="pa0 list nested-links">
+          {{ range . }}
+            <li class="mb2">
+              <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+            </li>
+          {{ end }}
+        </ul>
+      </div>
+      {{ end }}
+      
       {{ if .Site.Config.Services.Disqus.Shortname }}
       <div class="mt6 instapaper_ignoref">
         {{/* former internal template */}}

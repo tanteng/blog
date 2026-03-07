@@ -5,6 +5,16 @@ theme = "ananke"
 resourceDir = "../resources"
 sectionPagesMenu = "main"
 
+[related]
+  threshold = 80
+  toLower = false
+  [[related.indices]]
+    name = "tags"
+    weight = 100
+  [[related.indices]]
+    name = "categories"
+    weight = 80
+
 [sitemap]
   changefreq = "weekly"
   filename = "sitemap.xml"

@@ -237,11 +237,3 @@ RAG 系统的核心是**检索精度**和**生成质量**的平衡：
 随着大模型能力不断增强，RAG 已成为企业知识管理、智能客服、代码助手等场景的标配技术。掌握这套核心技术栈，能让你在 AI 应用开发中更具竞争力。
 
 ---
-
-## 相关文章
-
-- [MySQL vs Elasticsearch：使用场景深度解析](/posts/mysql-vs-elasticsearch/) - 深入对比 MySQL 和 Elasticsearch 的适用场景
-- [基于 Elasticsearch 标签的推荐系统设计](/posts/es-tag-recommendation-system/) - ES 在推荐系统中的实践
-- [2026年后端工程师破局：从微服务拆解到AI智能体编排](/posts/backend-ai-agent-architecture/) - AI 时代后端工程师的进阶之路
-
----
