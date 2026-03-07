@@ -1,73 +1,87 @@
 /* 自定义表格样式 - 增强可见性 */
 table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 1.5rem 0;
-  font-size: 0.9rem;
-  overflow-x: auto;
-  display: block;
-  border: 2px solid #2c3e50;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin: 1.5rem 0 !important;
+  font-size: 0.9rem !important;
+  overflow-x: auto !important;
+  display: block !important;
+  border: 2px solid #2c3e50 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
 }
 
-@media min-width: 768px {
+@media (min-width: 768px) {
   table {
-    display: table;
+    display: table !important;
   }
 }
 
+tbody {
+  display: table-row-group !important;
+}
+
+thead {
+  display: table-header-group !important;
+}
+
+tr {
+  display: table-row !important;
+}
+
 th, td {
-  border: 1px solid #ddd;
-  padding: 12px 16px;
-  text-align: left;
+  border: 1px solid #ddd !important;
+  padding: 12px 16px !important;
+  text-align: left !important;
+  display: table-cell !important;
 }
 
 th {
-  background-color: #2c3e50;
-  color: #fff;
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  letter-spacing: 0.5px;
+  background-color: #2c3e50 !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  font-size: 0.8rem !important;
+  letter-spacing: 0.5px !important;
+  display: table-cell !important;
 }
 
 tr:nth-child(even) {
-  background-color: #f8f9fa;
+  background-color: #f8f9fa !important;
 }
 
 tr:nth-child(odd) {
-  background-color: #fff;
+  background-color: #fff !important;
 }
 
 tr:hover {
-  background-color: #e8f4f8;
+  background-color: #e8f4f8 !important;
 }
 
 /* 表格单元格对齐优化 */
 td:first-child {
-  font-weight: 500;
-  color: #333;
+  font-weight: 500 !important;
+  color: #333 !important;
 }
 
 /* 代码块样式优化 */
 pre {
-  background-color: #f6f8fa;
-  border-radius: 6px;
-  padding: 1rem;
-  overflow-x: auto;
-  font-size: 0.85rem;
-  line-height: 1.5;
+  background-color: #f6f8fa !important;
+  border-radius: 6px !important;
+  padding: 1rem !important;
+  overflow-x: auto !important;
+  font-size: 0.85rem !important;
+  line-height: 1.5 !important;
 }
 
 code {
-  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
-  font-size: 0.9em;
+  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace !important;
+  font-size: 0.9em !important;
 }
 
 /* 图片样式优化 */
 img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 4px;
+  max-width: 100% !important;
+  height: auto !important;
+  border-radius: 4px !important;
 }
