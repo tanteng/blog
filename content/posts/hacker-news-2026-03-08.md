@@ -7,13 +7,11 @@ description: "2026年3月8日 Hacker News 热门话题汇总"
 
 2026年3月8日 Hacker News 热门话题如下：
 
-<!--more-->
-
 ## 热门话题
 
 ### 1. A decade of Docker containers
 
-这是一篇来自 ACM 通讯的深度文章，探讨 Docker 容器技术在过去十年中的发展历程及其对现代软件开发和云计算的深远影响。Docker 于 2013 年开源后，彻底改变了应用程序的打包和部署方式，使得"容器化"成为 DevOps 实践的核心。文章回顾了容器技术从 Linux cgroups 的早期实验到 Kubernetes 生态系统的崛起，分析了容器安全、标准化和 orchestration 工具的演进。对于当今的云原生开发者和运维人员来说，理解这段历史有助于更好地把握未来技术趋势。
+这是一篇来自 ACM 通讯的深度文章，探讨 Docker 容器技术在过去十年中的发展历程及其对现代软件开发和云计算的深远影响。Docker 于 2013 年开源后，彻底改变了应用程序的打包和部署方式，使得"容器化"成为 DevOps 实践的核心。文章回顾了容器技术从 Linux cgroups 的早期实验到 Kubernetes 生态系统的崛起，分析了容器安全、标准化和 orchestration 工具的演进。对于当今的云原生开发者和运维人员来说，理解这段历史有助于更好地把握未来技术趋势。<!--more-->
 
 链接: https://news.ycombinator.com/item?id=47289311
 
