@@ -9,8 +9,13 @@
     <section class="ph4">
       {{ range $term := .Data.Pages }}
         <h2 class="f1">
+          {{ $termName := $term.LinkTitle }}
+          {{ $translated := index $.Site.Data.i18n.zh (printf "category.%s" $termName) }}
+          {{ if $translated }}
+            {{ $termName = $translated.other }}
+          {{ end }}
           <a href="{{ $term.RelPermalink }}" class="link blue hover-black">
-            {{ $.Data.Singular | inflect.Humanize }}: {{ $term.LinkTitle }}
+            {{ $.Data.Singular | inflect.Humanize }}: {{ $termName }}
           </a>
         </h2>
         {{ range $term.Pages }}
