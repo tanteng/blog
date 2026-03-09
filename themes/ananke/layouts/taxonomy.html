@@ -4,7 +4,11 @@
 {{ if $translated }}
   {{ $categoryName = $translated.other }}
 {{ end }}
-{{ partial "page-header.html" (dict "title" $categoryName "context" .) }}
+<header class="pb3 mv4">
+  <div class="tc-l pv3 ph4-ns">
+    <h1 class="f2 f-subheadline-l fw2 light-silver mb0 lh-title">{{ $categoryName }}</h1>
+  </div>
+</header>
 {{ end }}
 
 {{ define "main" }}

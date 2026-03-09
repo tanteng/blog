@@ -1,5 +1,14 @@
 {{ define "header" }}
-{{ partial "page-header.html" . }}
+{{ $termName := .Title }}
+{{ $translated := index $.Site.Data.i18n.zh (printf "category.%s" $termName) }}
+{{ if $translated }}
+  {{ $termName = $translated.other }}
+{{ end }}
+<header class="pb3 mv4">
+  <div class="tc-l pv3 ph4-ns">
+    <h1 class="f2 f-subheadline-l fw2 light-silver mb0 lh-title">{{ $termName }}</h1>
+  </div>
+</header>
 {{ end }}
 
 {{ define "main" }}
