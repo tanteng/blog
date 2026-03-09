@@ -51,8 +51,8 @@
       {{/* 显示分类 */}}
       {{ with .Params.categories }}
       <span class="f6 mv4 dib tracked"> | 
-        {{ range $index, . }}
-          {{ if $index }} / {{ end }}<a href="{{ "categories" | relLangURL }}/{{ . | urlize }}/" class="link mid-gray dim">{{ . }}</a>
+        {{ range $index, $cat := . }}
+          {{ if $index }} / {{ end }}<a href="{{ "categories" | relLangURL }}/{{ $cat | urlize }}/" class="link mid-gray dim">{{ $cat }}</a>
         {{ end }}
       </span>
       {{ end }}
