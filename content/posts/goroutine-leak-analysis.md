@@ -3,7 +3,7 @@ title: 'Go 语言 Goroutine 泄露：实战案例分析与排查指南'
 date: 2026-03-01T10:00:00+08:00
 draft: false
 tags: ['Go', 'Golang', 'Goroutine', '性能优化', '内存管理']
-categories: ['Tech']
+categories: ['tech']
 description: 'Goroutine 泄露是 Go 开发中最隐蔽的问题之一。本文通过4个实战案例深入分析泄露原因，并提供 pprof 排查工具和预防原则。'
 ---
 
