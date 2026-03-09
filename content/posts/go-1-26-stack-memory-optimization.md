@@ -2,7 +2,7 @@
 title: 'Go 1.26 栈内存优化：深入理解 slice 的栈分配与逃逸'
 date: 2026-02-28T21:00:00+08:00
 draft: false
-tags: ['Go', 'Golang', '性能优化', '内存管理']
+tags: ['go', 'golang', 'performance-optimization', 'memory-management']
 categories: ['tech']
 description: 'Go 1.26 带来了 slice 栈分配优化，本文深入讲解栈与堆的区别、逃逸分析原理，以及如何利用新特性提升性能。'
 ---

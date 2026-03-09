@@ -2,7 +2,7 @@
 title: "2026后端工程师破局：从微服务拆解到AI智能体编排"
 date: 2026-03-02
 draft: false
-tags: ["AI", "后端", "架构师", "Agent", "RAG", "职业发展", "DDD"]
+tags: ["ai", "backend", "architect", "agent", "rag", "career", "ddd"]
 categories: ["AI"]
 ---
 

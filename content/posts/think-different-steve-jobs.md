@@ -2,7 +2,7 @@
 title: '致那些疯狂的人：乔布斯最伟大的宣言'
 date: 2026-02-28T22:35:00+08:00
 draft: false
-tags: ['乔布斯', '苹果', 'Think Different', '广告', '创业']
+tags: ['jobs', 'apple', 'think-different', 'advertising', 'entrepreneurship']
 categories: []
 description: '1997年，苹果正处于生死存亡之际。乔布斯回归后，砍掉70%产品线，推出了被誉为20世纪最伟大广告的《致那些疯狂的人》。这不仅是苹果的宣言，更是乔布斯的精神自传。'
 ---

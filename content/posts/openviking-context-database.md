@@ -2,7 +2,7 @@
 title: "深度解析 OpenViking —— 字节跳动开源的 AI 上下文数据库"
 date: 2026-03-02
 draft: false
-tags: ["AI", "智能体", "RAG", "OpenViking", "火山引擎", "向量数据库"]
+tags: ["ai", "agent", "rag", "openviking", "volcengine", "vector-db"]
 categories: ["AI"]
 ---
 

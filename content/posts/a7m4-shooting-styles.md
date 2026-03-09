@@ -2,7 +2,7 @@
 title: 'Sony A7M4 创意外观风格'
 date: 2024-08-19T00:00:00+08:00
 draft: false
-tags: ['Sony', 'A7M4', '相机', '摄影', '创意外观']
+tags: ['sony', 'a7m4', 'camera', 'photography', 'creative-look']
 categories: ['photo']
 ---
 
