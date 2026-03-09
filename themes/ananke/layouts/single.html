@@ -50,14 +50,14 @@
       {{end}}
 
       {{/* 显示分类 - 只在posts列表显示 */}}
+      {{ $titleMap := dict "Tech" "技术" "Photo" "摄影" "AI" "AI" "Investment" "投资" "TechNews" "科技资讯" "Science" "科学" "Art" "艺术" }}
       {{ if and .Params.categories (eq .Section "posts") }}
       <span class="f6 mv4 dib tracked"> | 
         {{ range $index, $cat := .Params.categories }}
           {{ if $index }} / {{ end }}
-          {{ $translated := i18n (printf "taxonomy.%s" $cat) }}
-          {{ $catName := $translated }}
-          {{ if eq $translated (printf "taxonomy.%s" $cat) }}
-            {{ $catName = $cat }}
+          {{ $catName := $cat }}
+          {{ with index $titleMap $cat }}
+            {{ $catName = . }}
           {{ end }}
           <a href="{{ "categories" | relLangURL }}/{{ $cat | urlize }}/" class="link mid-gray dim">{{ $catName }}</a>
         {{ end }}
