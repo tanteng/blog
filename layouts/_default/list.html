@@ -1,8 +1,8 @@
 {{ define "header" }}
 {{ $categoryName := .Title }}
-{{ $translated := index $.Site.Data.i18n.zh (printf "category.%s" $categoryName) }}
-{{ if $translated }}
-  {{ $categoryName = $translated.other }}
+{{ $displayNames := dict "Tech" "技术" "Photo" "摄影" "AI" "AI" "Investment" "投资" "TechNews" "科技资讯" "Science" "科学" "Art" "艺术" }}
+{{ if index $displayNames $categoryName }}
+  {{ $categoryName = index $displayNames $categoryName }}
 {{ end }}
 <header class="pb3 mv4">
   <div class="tc-l pv3 ph4-ns">
