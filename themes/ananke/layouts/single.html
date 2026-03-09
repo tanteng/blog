@@ -48,6 +48,15 @@
       </time>
       {{end}}
 
+      {{/* 显示分类 */}}
+      {{ with .Params.categories }}
+      <span class="f6 mv4 dib tracked"> | 
+        {{ range $index, . }}
+          {{ if $index }} / {{ end }}<a href="{{ "categories" | relLangURL }}/{{ . | urlize }}/" class="link mid-gray dim">{{ . }}</a>
+        {{ end }}
+      </span>
+      {{ end }}
+
       {{/*
           Show "reading time" and "word count" but only if one of the following are true:
           1) A global config `params` value is set `show_reading_time = true`
@@ -67,17 +76,6 @@
     </header>
     <div class="nested-copy-line-height lh-copy {{ $.Param "post_content_classes"  | compare.Default "serif"}} f4 nested-links {{ $.Param "text_color" | compare.Default "mid-gray" }} {{ compare.Conditional (compare.Eq $.Site.Language.LanguageDirection "rtl") "pl4-l" "pr4-l" }} {{ if $needs_aside }}w-two-thirds-l{{ else }}w-100-l{{ end }}">
       {{- .Content -}}
-      
-      {{/* 显示分类 */}}
-      {{ with .Params.categories }}
-      <div class="mt4">
-        <span class="f6 dib tracked">分类: </span>
-        {{ range . }}
-          <a href="{{ "categories" | relLangURL }}/{{ . | urlize }}/" class="f6 dib tracked link mid-gray dim">{{ . }}</a>
-        {{ end }}
-      </div>
-      {{ end }}
-      
       {{- partials.Include "tags.html" . -}}
       
       {{ if .Site.Config.Services.Disqus.Shortname }}
