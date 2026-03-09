@@ -6,13 +6,20 @@ tags: ["腾讯云", "COS", "Vercel", "Next.js", "EXIF", "照片博客"]
 categories: ["技术"]
 ---
 
-最近把自用的照片博客 exif-photo-blog-v2 成功接入了腾讯云 COS 存储，整个过程比预想的要顺畅。本文记录一下改造过程，供有同样需求的朋友参考。
+## 项目介绍
+
+[exif-photo-blog](https://github.com/sambecker/exif-photo-blog) 是一个基于 Next.js 的开源照片博客项目，专注于展示照片的 EXIF 信息（如相机型号、镜头参数、拍摄时间、地理位置等）。它支持：
+
+- 自动提取和展示照片的 EXIF 数据
+- AI 标签生成（通过 Claude/GPT 自动识别照片内容）
+- 响应式设计，完美适配移动端
+- 支持多种存储后端
+
+由于 Vercel Blob 在国内访问速度不稳定，且流量费用较高，我决定将存储迁移到腾讯云 COS（对象存储）。腾讯云 COS 对国内用户更友好，访问速度快，且成本可控。
 
 <!--more-->
 
 ## 背景
-
-EXIF Photo Blog 是一个基于 Next.js 的开源照片博客项目，支持 EXIF 信息展示、AI 标签生成等功能。默认使用 Vercel Blob 存储照片，但我使用的是腾讯云 COS 作为对象存储。
 
 原项目支持 AWS S3、Cloudflare R2、MinIO 等 S3 兼容存储，但没有直接支持腾讯云 COS。不过腾讯云 COS 兼容 S3 API，所以理论上可以通过适配器接入。
 
