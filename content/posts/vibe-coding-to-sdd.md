@@ -3,7 +3,7 @@ title: '从 Vibe Coding 到规范驱动开发：AI 编程的工业级进化'
 date: 2026-03-01T13:10:00+08:00
 draft: false
 tags: ['AI编程', 'OpenSpec', 'SDD', 'Vibe Coding', '开发方法论', 'TDD']
-categories: ['技术思考']
+categories: ['技术']
 description: 'Vibe Coding 听起来很酷，但本质上依靠直觉和 AI 的模糊理解。OpenSpec 和 SDD（规范驱动开发）让这种开发模式从"靠运气"变成"工业级可靠"。'
 ---
 
