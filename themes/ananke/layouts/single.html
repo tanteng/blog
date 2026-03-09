@@ -49,10 +49,10 @@
       </time>
       {{end}}
 
-      {{/* 显示分类 */}}
-      {{ with .Params.categories }}
+      {{/* 显示分类 - 只在posts列表显示 */}}
+      {{ if and .Params.categories (eq .Section "posts") }}
       <span class="f6 mv4 dib tracked"> | 
-        {{ range $index, $cat := . }}
+        {{ range $index, $cat := .Params.categories }}
           {{ if $index }} / {{ end }}<a href="{{ "categories" | relLangURL }}/{{ $cat | urlize }}/" class="link mid-gray dim">{{ $cat }}</a>
         {{ end }}
       </span>
