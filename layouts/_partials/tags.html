@@ -1,0 +1,14 @@
+{{ $tagMap := dict "Investment" "投资" "Stock" "股票" "ReadingNotes" "读书笔记" "Thinking" "思考" "Photography" "摄影" "Camera" "相机" "Nikon" "尼康" "FilmCamera" "胶片相机" "ColorGrading" "调色" "TencentCloud" "腾讯云" "COS" "COS" "Vercel" "Vercel" "NextJS" "Next.js" "EXIF" "EXIF" "PhotoBlog" "照片博客" "Database" "数据库" "Elasticsearch" "Elasticsearch" "MySQL" "MySQL" "Psychology" "心理学" "CommonSense" "常识" "Adler" "阿德勒" "CourageToBeDisliked" "被讨厌的勇气" "Growth" "成长" "SelfAwareness" "自我认知" "Dopamine" "多巴胺" "Endorphin" "内啡肽" "Neuroscience" "神经科学" "Happiness" "幸福感" "Jobs" "乔布斯" "Apple" "苹果" "ThinkDifferent" "Think Different" "Advertising" "广告" "Entrepreneurship" "创业" "Aviation" "航空" "Aerodynamics" "空气动力学" "Physics" "物理" "KnowledgeGraph" "知识图谱" "KnowledgeManagement" "知识管理" "GraphRAG" "Graph RAG" "VectorSearch" "向量检索" "SemanticSearch" "语义搜索" "ServiceMesh" "Service Mesh" "Microservices" "微服务" "HackerNews" "Hacker News" "TechNews" "技术新闻" "Goroutine" "Goroutine" "PerformanceOptimization" "性能优化" "MemoryManagement" "内存管理" "Recommendation" "推荐系统" "TagMatching" "标签匹配" "UserProfile" "用户画像" "Tech" "技术" "Science" "科普" "AI" "AI" "RAG" "RAG" "NLP" "NLP" "Kubernetes" "Kubernetes" "Istio" "Istio" "Go" "Go" "Golang" "Go语言" "Sony" "Sony" "A7M4" "A7M4" "CreativeLook" "创意外观" }}
+<ul class="pa0">
+  {{ range .GetTerms "tags" }}
+   {{ $tagName := .LinkTitle }}
+   {{ with index $tagMap $tagName }}
+     {{ $tagName = . }}
+   {{ end }}
+   <li class="list di">
+     <a href="{{ .RelPermalink }}" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">
+       {{- $tagName -}}
+     </a>
+   </li>
+  {{ end }}
+</ul>

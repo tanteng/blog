@@ -1,15 +1,23 @@
 {{ define "header" }}
-{{ $categoryName := .Title }}
-{{ $titleMap := dict "Tech" "技术" "Photo" "摄影" "AI" "AI" "Investment" "投资" "TechNews" "科技资讯" "Science" "科学" "Art" "艺术" "随笔" "随笔" }}
-{{ with index $titleMap $categoryName }}
-  {{ $categoryName = . }}
+{{ $titleName := .Title }}
+{{/* 分类映射 */}}
+{{ $catMap := dict "Tech" "技术" "Photo" "摄影" "AI" "AI" "Investment" "投资" "TechNews" "科技资讯" "Science" "科学" "Art" "艺术" "随笔" "随笔" }}
+{{/* 标签映射 */}}
+{{ $tagMap := dict "Investment" "投资" "Stock" "股票" "ReadingNotes" "读书笔记" "Thinking" "思考" "Photography" "摄影" "Camera" "相机" "Nikon" "尼康" "FilmCamera" "胶片相机" "ColorGrading" "调色" "TencentCloud" "腾讯云" "COS" "COS" "Vercel" "Vercel" "NextJS" "Next.js" "EXIF" "EXIF" "PhotoBlog" "照片博客" "Database" "数据库" "Elasticsearch" "Elasticsearch" "MySQL" "MySQL" "Psychology" "心理学" "CommonSense" "常识" "Adler" "阿德勒" "CourageToBeDisliked" "被讨厌的勇气" "Growth" "成长" "SelfAwareness" "自我认知" "Dopamine" "多巴胺" "Endorphin" "内啡肽" "Neuroscience" "神经科学" "Happiness" "幸福感" "Jobs" "乔布斯" "Apple" "苹果" "ThinkDifferent" "Think Different" "Advertising" "广告" "Entrepreneurship" "创业" "Aviation" "航空" "Aerodynamics" "空气动力学" "Physics" "物理" "KnowledgeGraph" "知识图谱" "KnowledgeManagement" "知识管理" "GraphRAG" "Graph RAG" "VectorSearch" "向量检索" "SemanticSearch" "语义搜索" "ServiceMesh" "Service Mesh" "Microservices" "微服务" "HackerNews" "Hacker News" "TechNews" "技术新闻" "Goroutine" "Goroutine" "PerformanceOptimization" "性能优化" "MemoryManagement" "内存管理" "Recommendation" "推荐系统" "TagMatching" "标签匹配" "UserProfile" "用户画像" }}
+{{/* 优先查找分类映射，再查找标签映射 */}}
+{{ with index $catMap $titleName }}
+  {{ $titleName = . }}
+{{ else }}
+  {{ with index $tagMap $titleName }}
+    {{ $titleName = . }}
+  {{ end }}
 {{ end }}
 <header>
   <div class="pb3-m pb6-l bg-black">
     {{ partials.Include "site-navigation.html" . }}
     <div class="tc-l pv3 ph3 ph4-ns">
       <h1 class="f2 f-subheadline-l fw2 light-silver mb0 lh-title">
-        {{ $categoryName }}
+        {{ $titleName }}
       </h1>
     </div>
   </div>

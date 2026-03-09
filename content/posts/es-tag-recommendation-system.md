@@ -1,7 +1,7 @@
 ---
 title: "基于 Elasticsearch 标签的推荐系统设计"
 date: 2024-12-14
-tags: ["Elasticsearch", "推荐系统", "标签匹配", "用户画像"]
+tags: ["Elasticsearch", "Recommendation", "TagMatching", "UserProfile"]
 categories: ["Tech"]
 draft: false
 ---

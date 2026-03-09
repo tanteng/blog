@@ -2,7 +2,7 @@
 title: "Hacker News 热门 - 2026年3月1日"
 date: 2026-03-01
 draft: false
-tags: ["Hacker News", "AI", "科技"]
+tags: ["HackerNews", "AI", "Tech"]
 categories: ["TechNews"]
 ---
 

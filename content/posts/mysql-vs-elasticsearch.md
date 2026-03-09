@@ -2,7 +2,7 @@
 title: "MySQL vs Elasticsearch：使用场景深度解析"
 date: 2023-08-23
 draft: false
-tags: ["技术", "数据库", "Elasticsearch", "MySQL"]
+tags: ["Tech", "Database", "Elasticsearch", "MySQL"]
 categories: ["Tech"]
 ---
 

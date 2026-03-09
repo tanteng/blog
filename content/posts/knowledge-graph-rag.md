@@ -2,7 +2,7 @@
 title: "从代码到知识：Graph RAG 如何打通「知识孤岛」"
 date: 2026-03-02
 draft: false
-tags: ["RAG", "AI", "知识图谱", "知识管理", "Graph RAG"]
+tags: ["RAG", "AI", "KnowledgeGraph", "KnowledgeManagement", "GraphRAG"]
 categories: ["AI"]
 ---
 
