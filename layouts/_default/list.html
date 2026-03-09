@@ -4,9 +4,14 @@
 {{ with index $titleMap $categoryName }}
   {{ $categoryName = . }}
 {{ end }}
-<header class="pb3 mv4">
-  <div class="tc-l pv3 ph4-ns">
-    <h1 class="f2 f-subheadline-l fw2 light-silver mb0 lh-title">{{ $categoryName }}</h1>
+<header>
+  <div class="pb3-m pb6-l bg-black">
+    {{ partials.Include "site-navigation.html" . }}
+    <div class="tc-l pv3 ph3 ph4-ns">
+      <h1 class="f2 f-subheadline-l fw2 light-silver mb0 lh-title">
+        {{ $categoryName }}
+      </h1>
+    </div>
   </div>
 </header>
 {{ end }}
