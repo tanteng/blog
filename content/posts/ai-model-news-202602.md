@@ -3,7 +3,7 @@ title: '2026年2月AI资讯（2月28日）：中国AI调用量首超美国'
 date: 2026-03-01T14:36:00+08:00
 draft: false
 tags: ['AI', '大模型', '行业资讯', '中国AI']
-categories: ['科技']
+categories: ['科技资讯']
 description: '中国AI模型Token调用量首超美国，四款国产模型霸榜全球前五'
 ---
 

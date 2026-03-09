@@ -3,7 +3,7 @@ title: '向量查询之跨语言语义搜索原理'
 date: 2026-02-28T21:30:00+08:00
 draft: false
 tags: ['NLP', '向量检索', '语义搜索', 'AI']
-categories: ['技术']
+categories: ['AI']
 description: '为什么用英文的摘要进行向量化查询，能找到相关的中文知识？本文深入讲解跨语言语义搜索的原理。'
 ---
 
