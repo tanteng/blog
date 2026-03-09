@@ -9,7 +9,7 @@ description: "将 exif-photo-blog 开源照片博客从 Vercel Blob 迁移到腾
 
 ## 为什么需要接入腾讯云 COS？
 
-[exif-photo-blog](https://github.com/sambecker/exif-photo-blog) 是一个基于 Next.js 的开源照片博客项目，专注于展示照片的 EXIF 信息（如相机型号、镜头参数、拍摄时间、地理位置等）。它支持自动提取 EXIF 数据、AI 标签生成、响应式设计。
+[exif-photo-blog](https://github.com/sambecker/exif-photo-blog) 是一个基于 Next.js 的开源照片博客项目，可以自动展示照片的 EXIF 信息（如相机型号、镜头参数、拍摄时间、地理位置等），这是它的一大特色。项目还支持 AI 标签生成、响应式设计等功能。
 
 原项目默认使用 **Vercel Blob** 存储照片，但国内用户访问 Vercel 速度不稳定，且流量费用较高。因此考虑迁移到腾讯云 COS——对国内用户更友好，访问速度快，成本也更低。
 
