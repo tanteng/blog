@@ -1,31 +1,25 @@
 ---
-title: "EXIF Photo Blog 接入腾讯云 COS 存储实战"
+title: "exif-photo-blog 接入腾讯云 COS 实战"
 date: 2026-03-03
 draft: false
 tags: ["腾讯云", "COS", "Vercel", "Next.js", "EXIF", "照片博客"]
 categories: ["技术"]
+description: "将 exif-photo-blog 开源照片博客从 Vercel Blob 迁移到腾讯云 COS 的完整教程"
 ---
 
-## 项目介绍
+## 为什么需要接入腾讯云 COS？
 
-[exif-photo-blog](https://github.com/sambecker/exif-photo-blog) 是一个基于 Next.js 的开源照片博客项目，专注于展示照片的 EXIF 信息（如相机型号、镜头参数、拍摄时间、地理位置等）。它支持：
+[exif-photo-blog](https://github.com/sambecker/exif-photo-blog) 是一个基于 Next.js 的开源照片博客项目，专注于展示照片的 EXIF 信息（如相机型号、镜头参数、拍摄时间、地理位置等）。它支持自动提取 EXIF 数据、AI 标签生成、响应式设计。
 
-- 自动提取和展示照片的 EXIF 数据
-- AI 标签生成（通过 Claude/GPT 自动识别照片内容）
-- 响应式设计，完美适配移动端
-- 支持多种存储后端
+原项目默认使用 **Vercel Blob** 存储照片，但国内用户访问 Vercel 速度不稳定，且流量费用较高。因此考虑迁移到腾讯云 COS——对国内用户更友好，访问速度快，成本也更低。
 
-由于 Vercel Blob 在国内访问速度不稳定，且流量费用较高，我决定将存储迁移到腾讯云 COS（对象存储）。腾讯云 COS 对国内用户更友好，访问速度快，且成本可控。
+原项目支持 AWS S3、Cloudflare R2、MinIO 等 S3 兼容存储，但没有直接支持腾讯云 COS。好在腾讯云 COS 兼容 S3 API，可以通过适配器接入。
 
 <!--more-->
 
-## 背景
+---
 
-原项目支持 AWS S3、Cloudflare R2、MinIO 等 S3 兼容存储，但没有直接支持腾讯云 COS。不过腾讯云 COS 兼容 S3 API，所以理论上可以通过适配器接入。
-
-## 改造过程
-
-### 1. 创建 COS 适配器
+## 一、创建 COS 适配器
 
 参考项目现有的 S3 适配器，创建 `tencent-cos.ts`：
 
@@ -57,12 +51,14 @@ export const tencentCosClient = () => new S3Client({
 });
 ```
 
-关键点：
-- 使用 AWS SDK 访问腾讯云 COS（因为 COS 兼容 S3 API）
-- endpoint 格式为 `cos.{region}.myqcloud.com`
+**关键点：**
+- 使用 AWS SDK 访问腾讯云 COS（COS 兼容 S3 API）
+- endpoint 格式：`cos.{region}.myqcloud.com`
 - Bucket 名称格式：`{bucket}-{appId}`
 
-### 2. 修改配置检测
+---
+
+## 二、修改配置检测
 
 在 `src/app/config.ts` 中添加配置检测：
 
@@ -78,21 +74,28 @@ export const HAS_TENCENT_COS_STORAGE =
   Boolean(process.env.TENCENT_COS_SECRET_KEY);
 ```
 
-### 3. 集成到存储系统
+---
+
+## 三、集成到存储系统
 
 修改 `src/platforms/storage/index.ts`，在各个存储函数中添加 tencent-cos 的 case：
 
-- `putFile` - 上传文件
-- `copyFile` - 复制文件
-- `deleteFile` - 删除文件
-- `getSignedUrlForKey` - 获取预签名 URL
-- `getSignedUrlForUrl` - 获取预签名 URL（从 URL 解析）
+| 函数 | 说明 |
+|------|------|
+| `putFile` | 上传文件 |
+| `copyFile` | 复制文件 |
+| `deleteFile` | 删除文件 |
+| `getSignedUrlForKey` | 获取预签名 URL |
+| `getSignedUrlForUrl` | 获取预签名 URL（从 URL 解析）|
 
-## 环境变量配置
+---
+
+## 四、环境变量配置
 
 在 Vercel 项目中配置以下环境变量：
 
 ### 公共变量（NEXT_PUBLIC_ 开头）
+
 | 变量名 | 说明 | 示例 |
 |--------|------|------|
 | NEXT_PUBLIC_TENCENT_COS_BUCKET | Bucket 名称 | my-photo-blog |
@@ -100,12 +103,14 @@ export const HAS_TENCENT_COS_STORAGE =
 | NEXT_PUBLIC_TENCENT_COS_APP_ID | 腾讯云 AppID | 1234567890 |
 
 ### 私有变量
+
 | 变量名 | 说明 | 示例 |
 |--------|------|------|
 | TENCENT_COS_SECRET_ID | SecretId | AKIDxxxxxx |
 | TENCENT_COS_SECRET_KEY | SecretKey | xxxxxxxxxx |
 
 ### 可选变量
+
 ```
 NEXT_PUBLIC_STORAGE_PREFERENCE = tencent-cos
 ```
@@ -120,12 +125,16 @@ NEXT_PUBLIC_STORAGE_PREFERENCE = tencent-cos
 | 香港 | ap-hongkong |
 | 新加坡 | ap-singapore |
 
-## 注意事项
+---
+
+## 五、注意事项
 
 1. **权限问题**：确保 COS API 密钥有对应的读写权限
 2. **CORS 配置**：在 COS 控制台配置 CORS，允许你的域名访问
 3. **公网访问**：确保 Bucket 设置为公网可访问，或者使用 CDN 加速
-4. **迁移注意**：如果已有数据，需要自行迁移或配置跨 Bucket 复制
+4. **数据迁移**：如果已有数据，需要自行迁移或配置跨 Bucket 复制
+
+---
 
 ## 效果
 
@@ -133,7 +142,9 @@ NEXT_PUBLIC_STORAGE_PREFERENCE = tencent-cos
 
 项目已开源在我的 GitHub：https://github.com/tanteng/exif-photo-blog-v2
 
+---
+
 ## 参考
 
 - [腾讯云 COS S3 API 文档](https://cloud.tencent.com/document/product/436/41284)
-- [EXIF Photo Blog 原项目](https://github.com/sambecker/exif-photo-blog)
+- [exif-photo-blog 原项目](https://github.com/sambecker/exif-photo-blog)
