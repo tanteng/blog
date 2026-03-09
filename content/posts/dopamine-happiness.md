@@ -2,7 +2,7 @@
 title: "多巴胺的陷阱与内啡肽的救赎"
 date: 2026-03-01
 draft: false
-tags: ["Dopamine", "Endorphin", "Psychology", "Neuroscience", "Happiness"]
+tags: ["dopamine", "endorphin", "psychology", "neuroscience", "happiness"]
 categories: []
 ---
 

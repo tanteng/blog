@@ -2,7 +2,7 @@
 title: "课题分离：做好自己的事，其他的都与你无关"
 date: 2025-09-02
 draft: false
-tags: ["Psychology", "Adler", "CourageToBeDisliked", "Growth", "SelfAwareness"]
+tags: ["psychology", "adler", "courage-to-be-disliked", "growth", "self-awareness"]
 categories: []
 ---
 

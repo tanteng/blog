@@ -2,7 +2,7 @@
 title: '尼康FM2相机历史脉络和使用技巧'
 date: 2026-02-28T22:30:00+08:00
 draft: false
-tags: ['Photography', 'Camera', 'Nikon', 'FilmCamera', 'FM2']
+tags: ['photography', 'camera', 'nikon', 'film-camera', 'fm2']
 categories: ['Photo']
 description: '尼康FM2不仅仅是一款相机，它代表了机械胶片相机时代的巅峰。本文带你了解FM2的前世今生、使用技巧及镜头推荐。'
 ---

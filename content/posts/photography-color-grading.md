@@ -2,7 +2,7 @@
 title: "光影赋格：真实之上，意境之中"
 date: 2026-03-04
 draft: false
-tags: ["Photography", "Thinking", "ColorGrading"]
+tags: ["photography", "thinking", "color-grading"]
 categories: ["Photo"]
 ---
 
