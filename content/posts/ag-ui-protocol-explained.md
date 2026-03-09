@@ -11,7 +11,7 @@ categories: ["技术"]
 
 AG-UI（Agent User Interaction Protocol）是一个**开放、轻量级、基于事件的标准协议**，用于规范 AI Agent 与前端应用之间的通信方式。
 
-它由 CopilotKit 提出，来源于 LangGraph、CrewAI 等项目的生产实践经验，旨在解决 Agent 特有的交互模式问题。
+它由 CopilotKit 提出，来源于 LangGraph、CrewAI 等项目的生产实践经验，旨在解决 Agent 特有的交互模式问题。<!--more-->
 
 ### 核心定位
 
