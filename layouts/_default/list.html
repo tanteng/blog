@@ -1,6 +1,6 @@
 {{ define "header" }}
 {{ $categoryName := .Title }}
-{{ $titleMap := dict "Tech" "技术" "Photo" "摄影" "AI" "AI" "Investment" "投资" "TechNews" "科技资讯" "Science" "科学" "Art" "艺术" }}
+{{ $titleMap := dict "Tech" "技术" "Photo" "摄影" "AI" "AI" "Investment" "投资" "TechNews" "科技资讯" "Science" "科学" "Art" "艺术" "随笔" "随笔" }}
 {{ with index $titleMap $categoryName }}
   {{ $categoryName = . }}
 {{ end }}
@@ -12,18 +12,18 @@
 {{ end }}
 
 {{ define "main" }}
-  <article class="pa3 pa4-ns nested-copy-line-height">
-    <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy nested-links {{ $.Param "text_color" | compare.Default "mid-gray" }}">
+  <article class="cf pa3 pa4-m pa4-l">
+    <div class="measure-wide-l center f4 lh-copy nested-copy-line-height nested-links {{ $.Param "text_color" | compare.Default "mid-gray" }}">
       <p>共 {{ len .Pages }} 篇文章</p>
-      {{- .Content -}}
-    </section>
+    </div>
+  </article>
+  <div class="mw8 center">
     <section class="flex-ns mt5 flex-wrap justify-around">
-      {{ range .Paginator.Pages }}
-        <div class="w-100 w-30-l mb4 relative bg-white">
+      {{ range .Pages }}
+        <div class="w-100 mb4 relative bg-white">
           {{ .Render "summary" }}
         </div>
       {{ end }}
     </section>
-    {{ partial "pagination.html" . -}}
-  </article>
+  </div>
 {{ end }}
