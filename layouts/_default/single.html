@@ -1,7 +1,7 @@
 {{ define "header" }}
 {{ $featured_image := partials.Include "func/GetFeaturedImage.html" . }}
 {{ if not $featured_image }}
-  {{ $featured_image = "/images/cover.jpg" | urls.AbsURL }}
+  {{ $featured_image = "/images/cover-new.jpg" | urls.AbsURL }}
 {{ end }}
 <header class="cover bg-top" style="background-image: url('{{ $featured_image }}');;">
   <div class="bg-black-60">
