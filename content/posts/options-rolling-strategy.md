@@ -2,8 +2,8 @@
 title: "期权滚动交易：Short Put 与 Covered Call 的实战技巧"
 date: 2025-12-03
 draft: false
-tags: ["期权", "投资", "Short Put", "Covered Call", "Delta"]
-categories: ["投资理财"]
+tags: ["investment", "options", "delta", "trading"]
+categories: ["Investment"]
 description: "深度解析期权卖方的核心策略：Delta 甜蜜点、滚动交易技巧与实战操作指南"
 ---
 <!--more-->
