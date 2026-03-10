@@ -1,7 +1,6 @@
-/* 移动端封面图 */
+/* 移动端封面图从左开始 */
 @media screen and (max-width: 768px) {
   header.cover {
-    background-image: url('/images/cover-mobile.jpg') !important;
     background-position: left center !important;
   }
 }
