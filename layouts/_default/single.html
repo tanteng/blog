@@ -1,0 +1,106 @@
+{{ define "header" }}
+{{ $featured_image := partials.Include "func/GetFeaturedImage.html" . }}
+{{ if not $featured_image }}
+  {{ $featured_image = "/images/cover.jpg" | urls.AbsURL }}
+{{ end }}
+<header class="cover bg-top" style="background-image: url('{{ $featured_image }}');">
+  <div class="bg-black-60">
+    {{ partials.Include "site-navigation.html" . }}
+    <div class="tc-l pv4 pv6-l ph3 ph4-ns">
+      <h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
+        {{ .Title }}
+      </h1>
+    </div>
+  </div>
+</header>
+{{ end }}
+
+{{ define "main" }}
+  {{- $related_content := .Site.RegularPages.Related . -}}
+  {{- $needs_aside := or .Params.toc $related_content (gt (len $related_content) 0) -}}
+  {{ $page := .}}
+  {{ $section := .Site.GetPage "section" .Section }}
+
+  {{/* Calculate a unique class for this post */}}
+  {{- $post_class := "" -}}
+  {{- with .File -}}
+    {{- $post_class = printf "page-%s" .ContentBaseName -}}
+  {{- end -}}
+
+  <article class="{{ $post_class }} flex-l {{ if $needs_aside }}mw8{{ else }}mw7{{ end }} center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          {{ .CurrentSection.Title }}
+      </aside>
+      {{- partials.IncludeCached "social/share.html" . . -}}
+      <h1 class="f1 athelas mt3 mb1">
+        {{- .Title -}}
+      </h1>
+      {{ with .Params.author | compare.Default .Site.Params.author }}
+      <p class="tracked">
+        {{- if compare.Eq $page.Language "de" "en" "es" "fr" "it" "no" "pt" -}}
+          {{- lang.Translate "by" -}}
+        {{ end -}} <strong>
+        {{- if reflect.IsSlice . -}}
+            {{ collections.Delimit . ", " | transform.Markdownify }}
+        {{- else -}}
+            {{ . | transform.Markdownify }}
+        {{- end -}}
+        </strong>
+      </p>
+      {{ end }}
+      {{ if and (not .Date.IsZero) (eq .Section "posts") }}
+      <time class="f6 mv4 dib tracked" {{ fmt.Printf `datetime="%s"` (.Date.Format "2006-01-02T15:04:05Z07:00") | safe.HTMLAttr }}>
+        {{- .Date | time.Format (compare.Default "January 2, 2006" .Site.Params.date_format) -}}
+      </time>
+      {{end}}
+
+      {{ $catMap := dict "tech" "技术" "photo" "摄影" "ai" "AI" "investment" "投资" "tech-news" "科技资讯" "science" "科学" "art" "艺术" }}
+      {{ if and .Params.categories (eq .Section "posts") }}
+      <span class="f6 mv4 dib tracked"> | 
+        {{ range $index, $cat := .Params.categories }}
+          {{ if $index }} / {{ end }}
+          {{ $catName := lower $cat }}
+          {{ with index $catMap $catName }}
+            {{ $catName = . }}
+          {{ end }}
+          <a href="{{ "categories" | relLangURL }}/{{ $cat | urlize }}/" class="link mid-gray dim">{{ $catName }}</a>
+        {{ end }}
+      </span>
+      {{ end }}
+
+      {{ if (or (compare.Eq (.Param "show_reading_time") true) (compare.Eq $section.Params.show_reading_time true) )}}
+        {{ $readingTime := .ReadingTime }}
+        {{ with .Site.Params.reading_speed }}
+          {{ $readingTime = div (float $.WordCount) . }}
+          {{ $readingTime = math.Ceil $readingTime }}
+          {{ $readingTime = int $readingTime }}
+        {{ end }}
+        <span class="f6 mv4 dib tracked"> - {{ lang.Translate "readingTime" $readingTime }} </span>
+        <span class="f6 mv4 dib tracked"> - {{ lang.Translate "wordCount" .WordCount }} </span>
+      {{ end }}
+    </header>
+    <div class="nested-copy-line-height lh-copy {{ $.Param "post_content_classes"  | compare.Default "serif"}} f4 nested-links {{ $.Param "text_color" | compare.Default "mid-gray" }} {{ compare.Conditional (compare.Eq $.Site.Language.LanguageDirection "rtl") "pl4-l" "pr4-l" }} {{ if $needs_aside }}w-two-thirds-l{{ else }}w-100-l{{ end }}">
+      {{- .Content -}}
+      {{- partials.Include "tags.html" . -}}
+      
+      {{ if .Site.Config.Services.Disqus.Shortname }}
+      <div class="mt6 instapaper_ignoref">
+        {{ partials.Include "disqus.html" . }}
+      </div>
+      {{ end }}
+      {{ if .Site.Params.commentoEnable }}
+      <div class="mt6 instapaper_ignoref">
+        {{ partials.Include "commento.html" . }}
+      </div>
+      {{ end }}
+    </div>
+    {{- if $needs_aside -}}
+    <aside class="w-30-l mt6-l">
+      {{- partials.Include "menu-contextual.html" . -}}
+      {{- partials.Include "related-posts.html" . -}}
+    </aside>
+    {{- end -}}
+
+  </article>
+{{ end }}
