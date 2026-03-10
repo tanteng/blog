@@ -4,3 +4,8 @@
     background-image: url('/images/cover-mobile.jpg') !important;
   }
 }
+@media (min-width: 769px) {
+  header.cover {
+    background-image: url('/images/cover.jpg') !important;
+  }
+}
