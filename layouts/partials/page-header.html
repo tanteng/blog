@@ -1,6 +1,6 @@
 {{ $featured_image := partials.Include "func/GetFeaturedImage.html" . }}
 {{ if not $featured_image }}
-  {{ $featured_image = "/images/cover.jpg" | urls.AbsURL }}
+  {{ $featured_image = "/images/cover-pc.jpg" | urls.AbsURL }}
 {{ end }}
 {{ if $featured_image }}
   {{ $featured_image_class := .Params.featured_image_class | compare.Default "cover bg-center" }}
