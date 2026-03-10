@@ -1,0 +1,6 @@
+/* 响应式封面图 */
+@media (max-width: 768px) {
+  header.cover {
+    background-image: url('/images/cover-mobile.jpg') !important;
+  }
+}
