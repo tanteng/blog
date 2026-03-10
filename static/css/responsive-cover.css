@@ -1,6 +1,0 @@
-/* 响应式封面图 - 桌面端覆盖默认移动端封面 */
-@media (min-width: 769px) {
-  header.cover {
-    background-image: url('/images/cover.jpg') !important;
-  }
-}

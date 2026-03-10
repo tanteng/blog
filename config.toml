@@ -37,7 +37,7 @@ sectionPagesMenu = "main"
 pagerSize = 20
 
 [params]
-customCSS = ["css/custom.css", "css/responsive-cover.css"]
+customCSS = ["css/custom.css"]
 mainSections = ["posts"]
 recent_posts_number = 20
 featured_image = "/images/cover.jpg"
