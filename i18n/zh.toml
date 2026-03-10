@@ -1,0 +1,46 @@
+# Tags translation / 标签翻译
+
+[options]
+other = "期权"
+
+[trading]
+other = "交易"
+
+[delta]
+other = "Delta"
+
+[investment]
+other = "投资理财"
+
+[stock]
+other = "股票"
+
+[ai]
+other = "人工智能"
+
+[tech]
+other = "科技"
+
+[photography]
+other = "摄影"
+
+[camera]
+other = "相机"
+
+[photo]
+other = "照片"
+
+[hacker-news]
+other = "黑客新闻"
+
+[rag]
+other = "RAG"
+
+[llm]
+other = "大语言模型"
+
+[agent]
+other = "智能体"
+
+[programming]
+other = "编程"
