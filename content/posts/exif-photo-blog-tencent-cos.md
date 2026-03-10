@@ -3,7 +3,7 @@ title: "exif-photo-blog 接入腾讯云 COS 实战"
 date: 2026-03-03
 draft: false
 tags: ["tencent-cloud", "cos", "vercel", "next-js", "exif", "photo-blog"]
-categories: ["Tech"]
+categories: ["tech"]
 description: "将 exif-photo-blog 开源照片博客从 Vercel Blob 迁移到腾讯云 COS 的完整教程"
 ---
 

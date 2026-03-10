@@ -1,46 +1,103 @@
-# Tags translation / 标签翻译
-
-[options]
+# 标签翻译（tag.前缀）
+[tag.options]
 other = "期权"
 
-[trading]
+[tag.trading]
 other = "交易"
 
-[delta]
+[tag.delta]
 other = "Delta"
 
-[investment]
-other = "投资理财"
+[tag.investment]
+other = "投资"
 
-[stock]
+[tag.stock]
 other = "股票"
 
-[ai]
+[tag.ai]
 other = "人工智能"
 
-[tech]
+[tag.tech]
 other = "科技"
 
-[photography]
+[tag.photography]
 other = "摄影"
 
-[camera]
+[tag.camera]
 other = "相机"
 
-[photo]
+[tag.photo]
 other = "照片"
 
-[hacker-news]
+[tag.hacker-news]
 other = "黑客新闻"
 
-[rag]
+[tag.rag]
 other = "RAG"
 
-[llm]
+[tag.llm]
 other = "大语言模型"
 
-[agent]
+[tag.agent]
 other = "智能体"
 
-[programming]
+[tag.programming]
 other = "编程"
+
+[tag.reading-notes]
+other = "读书笔记"
+
+[tag.thinking]
+other = "思考"
+
+[tag.physics]
+other = "物理"
+
+[tag.aviation]
+other = "航空"
+
+[tag.contemporary-art]
+other = "当代艺术"
+
+[tag.exhibition]
+other = "展览"
+
+[tag.nlp]
+other = "自然语言处理"
+
+[tag.vector-search]
+other = "向量检索"
+
+[tag.semantic-search]
+other = "语义搜索"
+
+[tag.kubernetes]
+other = "Kubernetes"
+
+[tag.service-mesh]
+other = "服务网格"
+
+[tag.microservices]
+other = "微服务"
+
+# 分类翻译（category.前缀）
+[category.tech]
+other = "技术"
+
+[category.ai]
+other = "AI"
+
+[category.investment]
+other = "投资"
+
+[category.photo]
+other = "摄影"
+
+[category.technews]
+other = "科技资讯"
+
+[category.science]
+other = "科学"
+
+[category.art]
+other = "艺术"

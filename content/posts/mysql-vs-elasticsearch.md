@@ -3,7 +3,7 @@ title: "MySQL vs Elasticsearch：使用场景深度解析"
 date: 2023-08-23
 draft: false
 tags: ["tech", "database", "elasticsearch", "mysql"]
-categories: ["Tech"]
+categories: ["tech"]
 ---
 
 在做系统设计时，数据库选型是一个关键决策。MySQL 和 Elasticsearch 是两种不同定位的存储方案，今天结合实际项目经验，系统性地对比一下它们的适用场景。

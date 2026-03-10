@@ -2,7 +2,7 @@
 title: '莫瑞吉奥·卡特兰的《喜剧演员》'
 date: 2024-11-26T23:27:00+08:00
 draft: false
-tags: ['艺术', '卡特兰', '当代艺术', '迈阿密巴塞尔', '艺术评论']
+tags: ['art', 'contemporary-art', ' exhibition']
 categories: ['art']
 ---
 

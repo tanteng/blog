@@ -2,7 +2,7 @@
 title: "深入理解 RAG 核心技术：Embedding、向量检索与 Rerank"
 date: 2025-12-30
 tags: ["ai", "rag", "embedding", "vector-search", "llm"]
-categories: ["AI"]
+categories: ["ai"]
 description: "全面解析 RAG 系统中 Embedding 向量编码、向量检索召回、Chunk 分块策略以及 Rerank 重排的核心技术原理与最佳实践。"
 ---
 

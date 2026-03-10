@@ -2,7 +2,7 @@
 title: 'K8s Service 与 Istio 流量管理'
 date: 2026-02-28T22:00:00+08:00
 draft: false
-tags: ['Kubernetes', 'Istio', 'Service Mesh', '微服务']
+tags: ['kubernetes', 'istio', 'service-mesh', 'microservices']
 categories: ['tech']
 description: 'K8s Service 是"修路并挂牌子"，Istio 则是"专业的交警和智能导航"。深入理解两者的区别，以及为何 K8s 原生不支持 L7。'
 ---

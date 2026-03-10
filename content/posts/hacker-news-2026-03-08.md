@@ -1,9 +1,9 @@
 ---
 title: "Hacker News 热门 - 2026年3月8日"
 date: 2026-03-08
-tags: ["hacker-news", "tech", "tech-news"]
+tags: ["hacker-news", "tech", "technews"]
 description: "2026年3月8日 Hacker News 热门话题汇总"
-categories: ["TechNews"]
+categories: ["technews"]
 ---
 
 2026年3月8日 Hacker News 热门话题如下：

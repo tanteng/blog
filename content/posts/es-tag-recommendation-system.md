@@ -2,7 +2,7 @@
 title: "基于 Elasticsearch 标签的推荐系统设计"
 date: 2024-12-14
 tags: ["elasticsearch", "recommendation", "tag-matching", "user-profile"]
-categories: ["Tech"]
+categories: ["tech"]
 draft: false
 ---
 
