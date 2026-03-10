@@ -3,7 +3,6 @@
   <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="{{ .Site.Home.Permalink }}" >
     &copy; {{ with .Site.Copyright | compare.Default .Site.Title }} {{ . | safe.HTML }} {{ now.Format "2006"}} {{ end }}
   </a>
-  <span class="f6 dib white-50">粤ICP备2024315706号</span>
     <div>{{ partials.IncludeCached "social/follow.html" . }}</div>
   </div>
 </footer>
