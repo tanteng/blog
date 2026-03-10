@@ -1,5 +1,7 @@
-@media (max-width: 768px) {
-  header.cover {
+@media screen and (max-width: 768px) {
+  body main header.cover,
+  header.cover.bg-top,
+  header.cover.bg-center {
     background-image: url('/images/cover-mobile.jpg') !important;
   }
 }
