@@ -3,7 +3,7 @@
 {{ if not $featured_image }}
   {{ $featured_image = "/images/cover.jpg" | urls.AbsURL }}
 {{ end }}
-<header class="cover bg-top" style="background-image: url('{{ $featured_image }}'); min-height: 40vh;">
+<header class="cover bg-top" style="background-image: url('{{ $featured_image }}'); min-height: 40vh; margin-top: -15px;">
   <div class="bg-black-60">
     {{ partials.Include "site-navigation.html" . }}
     <div class="tc-l pv6 pv8-l ph3 ph4-ns">
