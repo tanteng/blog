@@ -1,5 +1,5 @@
 @media (max-width: 768px) {
   header.cover {
-    min-height: 20vh !important;
+    min-height: 15vh !important;
   }
 }
