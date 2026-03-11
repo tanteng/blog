@@ -66,7 +66,7 @@ MCP 服务器支持三种传输方式：**stdio**、**SSE**、**Streamable HTTP*
 
 **本地进程通信**，通过标准输入输出传递数据。
 
-```mermaid
+{{< mermaid >}}
 graph LR
     A[客户端<br/>Cherry Studio/OpenClaw] -->|stdio| B[MCP 服务器<br/>本地进程]
     B -->|调用远程 API| C[外部服务]
@@ -74,7 +74,7 @@ graph LR
     style A fill:#e1f5fe
     style B fill:#fff3e0
     style C fill:#e8f5e8
-```
+{{< /mermaid >}}
 
 - **适用场景**: 本地开发的 MCP 服务
 - **优点**: 配置简单，无需网络
@@ -84,7 +84,7 @@ graph LR
 
 **Server-Sent Events**，服务器推送模式。
 
-```mermaid
+{{< mermaid >}}
 sequenceDiagram
     participant C as 客户端
     participant S as MCP 服务器
@@ -99,7 +99,7 @@ sequenceDiagram
     S-->>C: 返回结果
     
     Note over C,S: 连接一直保持，对话结束断开
-```
+{{< /mermaid >}}
 
 - **适用场景**: 需要服务器推送的场景
 - **优点**: 支持实时推送
@@ -109,7 +109,7 @@ sequenceDiagram
 
 **官方推荐的现代传输方式**（2025年3月推出）。
 
-```mermaid
+{{< mermaid >}}
 sequenceDiagram
     participant C as 客户端
     participant S as MCP 服务器
@@ -121,7 +121,7 @@ sequenceDiagram
     S-->>C: 返回结果
     
     Note over C,S: 无状态，每次独立请求
-```
+{{< /mermaid >}}
 
 - **适用场景**: 云部署、无服务器环境
 - **优点**: 无状态、适合水平扩展、官方推荐
@@ -328,7 +328,7 @@ mcporter call "go-demo.add(a: 5, b: 3)"
 
 ## 整体架构流程
 
-```mermaid
+{{< mermaid >}}
 flowchart TB
     subgraph 用户层
         U[用户提问]
@@ -366,7 +366,7 @@ flowchart TB
     style MC fill:#fff3e0
     style HTTP fill:#e8f5e8
     style STDIO fill:#e8f5e8
-```
+{{< /mermaid >}}
 
 ---
 
