@@ -7,3 +7,10 @@
     background-size: cover !important;
   }
 }
+
+/* 移动端底部留白优化 */
+@media screen and (max-width: 768px) {
+  body > main {
+    padding-bottom: 1rem !important;
+  }
+}
