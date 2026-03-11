@@ -38,4 +38,11 @@
 
 {{/* return either a permalink, or an empty string. Note that partials can only have a single
 return statement, so this needs to be at the end of the partial (and not in the if block) */}}
-{{ return $linkToCover }}
+{{ if $linkToCover }}
+  {{ return $linkToCover }}
+{{ else }}
+  {{/* Use default featured image from site params if no page-specific image found */}}
+  {{ with .Site.Params.featured_image }}
+    {{ return . }}
+  {{ end }}
+{{ end }}
