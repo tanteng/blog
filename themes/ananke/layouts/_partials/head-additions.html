@@ -1,9 +1,11 @@
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="apple-touch-icon" href="/favicon.png">
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="/js/mermaid.min.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    if (document.querySelector('.language-mermaid, .mermaid, pre code.language-mermaid')) {
+      mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    }
   });
 </script>
