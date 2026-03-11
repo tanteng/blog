@@ -75,3 +75,14 @@ username = "tanteng001"
 [params.ananke.social.linkedin]
 username = "tanteng"
 
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4
+
+[markup.mermaid]
+  generateSWM = false
+
