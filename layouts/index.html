@@ -1,0 +1,39 @@
+{{ define "header" }}
+{{ $featured_image := "https://tanteng.space/blog-cover.jpg" | urls.AbsURL }}
+<header class="cover bg-top" style="background-image: url('{{ $featured_image }}');">
+  <div class="bg-black-60">
+    {{ partials.Include "site-navigation.html" . }}
+  </div>
+</header>
+{{ end }}
+
+{{ define "main" }}
+  <article class="cf pa3 pa4-m pa4-l">
+    <div class="measure-wide-l center f4 lh-copy nested-copy-line-height nested-links {{ $.Param "text_color" | compare.Default "mid-gray" }}">
+      {{ .Content }}
+    </div>
+  </article>
+
+  <div class="mw8 center">
+    {{ $paginator := .Paginate (where .Site.RegularPages "Section" "in" .Site.Params.mainSections) }}
+    <section class="flex-ns mt5 flex-wrap justify-around">
+      {{ range $paginator.Pages }}
+        <div class="w-100 mb4 relative">
+          {{ .Render "summary-with-image" }}
+        </div>
+      {{ end }}
+    </section>
+
+    {{ if gt $paginator.TotalPages 1 }}
+    <div class="flex justify-center pa4">
+      {{ if $paginator.HasPrev }}
+        <a href="{{ $paginator.Prev.URL }}" class="f5 dim ba b--black ph3 pv2 mb3 dib br2">← 上一页</a>
+      {{ end }}
+      <span class="f5 ph3 pv2 mb3 dib">{{ $paginator.PageNumber }} / {{ $paginator.TotalPages }}</span>
+      {{ if $paginator.HasNext }}
+        <a href="{{ $paginator.Next.URL }}" class="f5 dim ba b--black ph3 pv2 mb3 dib br2">下一页 →</a>
+      {{ end }}
+    </div>
+    {{ end }}
+  </div>
+{{ end }}
