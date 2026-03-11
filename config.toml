@@ -84,5 +84,5 @@ username = "tanteng"
     endLevel = 4
 
 [markup.mermaid]
-  generateSWM = false
+  generateSWM = true
 
