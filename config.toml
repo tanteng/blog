@@ -46,7 +46,7 @@ sectionPagesMenu = "main"
     weight = 4
 
 [pagination]
-pagerSize = 20
+paginate = 20
 
 [params]
 customCSS = ["css/custom.css"]
