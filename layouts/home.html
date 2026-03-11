@@ -1,0 +1,44 @@
+{{ define "main" }}
+
+  {{- $config := site.Params.ananke.home -}}
+  {{- $text_alignment := "tc-l" -}}
+  {{- if eq $config.content_alignment "left" -}}
+    {{- $text_alignment = "tl-l" -}}
+  {{- else if eq $config.content_alignment "right" -}}
+    {{- $text_alignment = "tr-l" -}}
+  {{- end -}}
+
+  <article class="cf ph3 ph5-l pv3 pv4-l f4 {{ $text_alignment }} center measure-wide lh-copy nested-links {{ $.Param "text_color" | compare.Default "mid-gray" }}">
+    {{ .Content }}
+  </article>
+
+  {{/* 使用分页 */}}
+  {{ $paginator := .Paginate (where .Site.RegularPages "Section" "in" .Site.Params.mainSections) }}
+
+  {{ if gt $paginator.TotalPages 0 }}
+    <div class="pa3 pa4-ns w-100 w-70-ns center">
+      <section class="w-100 mw8">
+        {{ range $paginator.Pages }}
+          <div class="w-100 mb4 relative">
+            {{ .Render "summary-with-image" }}
+          </div>
+        {{ end }}
+      </section>
+
+      {{/* 分页导航 */}}
+      {{ if gt $paginator.TotalPages 1 }}
+      <div class="flex justify-center items-center pa4">
+        {{ if $paginator.HasPrev }}
+          <a href="{{ $paginator.Prev.URL }}" class="f5 dim ba b--black ph3 pv2 mb3 dib br2 mr2">← 上一页</a>
+        {{ end }}
+        
+        <span class="f5 ph3 pv2 mb3 dib">{{ $paginator.PageNumber }} / {{ $paginator.TotalPages }}</span>
+        
+        {{ if $paginator.HasNext }}
+          <a href="{{ $paginator.Next.URL }}" class="f5 dim ba b--black ph3 pv2 mb3 dib br2 ml2">下一页 →</a>
+        {{ end }}
+      </div>
+      {{ end }}
+    </div>
+  {{ end }}
+{{ end }}
