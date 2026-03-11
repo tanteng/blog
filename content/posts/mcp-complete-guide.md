@@ -1,23 +1,14 @@
 ---
 title: "MCP 完全指南：从协议原理到 Go 服务开发实战"
-date: 2026-03-11
+date: 2025-12-28
 categories:
   - 技术
-  - MCP
-  - Golang
 tags:
   - MCP
-  - Model Context Protocol
   - Go
-  - Cherry Studio
-  - OpenClaw
 ---
 
-# MCP 完全指南：从协议原理到 Go 服务开发实战
-
-> MCP（Model Context Protocol）是 AI 时代的重要协议，本文详细介绍其原理、传输方式差异、以及如何用 Go 开发 MCP 服务。
-
-## 什么是 MCP？
+> MCP（Model Context Protocol）是 AI 与大模型交互的桥梁，让 AI 能够调用外部工具和资源。本文详细介绍 MCP 的核心概念、三种传输模式的区别，以及如何用 Go 开发自己的 MCP 服务。
 
 MCP（Model Context Protocol，模型上下文协议）是一个**标准化协议**，旨在增强大语言模型（LLM）与外部应用之间的交互。
 
