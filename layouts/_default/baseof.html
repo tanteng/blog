@@ -8,7 +8,8 @@
     <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}">
     {{ hugo.Generator }}
     
-    <!-- Mermaid JS -->
+    <!-- Mermaid JS - 按需加载 -->
+    {{ if or .HasShortcode "mermaid" (in .Content "mermaid") }}
     <script src="https://cdn.bootcdn.net/ajax/libs/mermaid/10.9.0/mermaid.min.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -18,7 +19,6 @@
           securityLevel: 'loose'
         });
         
-        // 延迟执行确保 DOM 完全加载
         setTimeout(function() {
           var graphs = document.querySelectorAll('.mermaid');
           graphs.forEach(function(graph, index) {
@@ -37,6 +37,7 @@
         text-align: center;
       }
     </style>
+    {{ end }}
 
     {{ partials.Include "site-style.html" . }}
     {{ partials.Include "site-scripts.html" . }}
