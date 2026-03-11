@@ -3,7 +3,7 @@
   header.cover.bg-top,
   header.cover.bg-center {
     background-image: url('https://tanteng.space/blog-cover.jpg') !important;
-    background-position-x: -20px !important;
-    background-position-y: center !important;
+    background-position: -20px 0 !important;
+    background-size: cover !important;
   }
 }
