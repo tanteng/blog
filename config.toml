@@ -22,16 +22,28 @@ sectionPagesMenu = "main"
 
 [menu]
   [[menu.main]]
+    identifier = "posts"
+    name = "文章"
+    url = "/posts/"
+    weight = 1
+
+  [[menu.main]]
     identifier = "photos"
     name = "相册"
     url = "https://photos.tanteng.space"
-    weight = -90
+    weight = 2
+
+  [[menu.main]]
+    identifier = "tech"
+    name = "技术"
+    url = "/categories/tech/"
+    weight = 3
 
   [[menu.main]]
     identifier = "about"
     name = "关于"
     url = "/about/"
-    weight = -100
+    weight = 4
 
 [pagination]
 pagerSize = 20
