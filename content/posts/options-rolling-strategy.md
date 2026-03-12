@@ -6,7 +6,6 @@ tags: ["investment", "options", "delta", "trading"]
 categories: ["investment"]
 description: "深度解析期权卖方的核心策略：Delta 甜蜜点、滚动交易技巧与实战操作指南"
 ---
-<!--more-->
 
 ## 引言
 
@@ -20,6 +19,8 @@ description: "深度解析期权卖方的核心策略：Delta 甜蜜点、滚动
 
 - **行情上涨/震荡**：权利金落袋
 - **行情大跌**：可能被行权被动接货
+
+<!--more-->
 
 ### 什么是 Covered Call（备兑看涨期权）
 
