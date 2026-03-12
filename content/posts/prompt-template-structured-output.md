@@ -1,8 +1,8 @@
 ---
-title: "Golang 中实现 Prompt Template 与结构化输出实战"
+title: "Prompt Template 与结构化输出实战"
 date: 2023-12-25
-tags: ["Golang", "AI", "Prompt", "DeepSeek", "结构化输出"]
-categories: ["技术"]
+tags: ["AI", "Prompt", "DeepSeek", "结构化输出"]
+categories: ["tech"]
 ---
 
 在 AI 应用开发中，如何让大模型稳定地输出我们想要的格式？本文介绍如何使用 Golang 实现 Prompt Template，并结合 DeepSeek 的 JSON Mode 实现可靠的结构化输出。
