@@ -80,6 +80,210 @@ other = "服务网格"
 [tag.microservices]
 other = "微服务"
 
+[tag.progression]
+other = "进程"
+
+[tag.a7m4]
+other = "A7M4"
+
+[tag.adler]
+other = "阿德勒"
+
+[tag.advertising]
+other = "广告"
+
+[tag.ag-ui]
+other = "AG-UI"
+
+[tag.apple]
+other = "苹果"
+
+[tag.architect]
+other = "架构师"
+
+[tag.art]
+other = "艺术"
+
+[tag.backend]
+other = "后端"
+
+[tag.career]
+other = "职业发展"
+
+[tag.china-ai]
+other = "中国AI"
+
+[tag.color-grading]
+other = "调色"
+
+[tag.common-sense]
+other = "常识"
+
+[tag.cos]
+other = "COS"
+
+[tag.courage-to-be-disliked]
+other = "被讨厌的勇气"
+
+[tag.creative-look]
+other = "创意外观"
+
+[tag.database]
+other = "数据库"
+
+[tag.ddd]
+other = "DDD"
+
+[tag.deepseek]
+other = "DeepSeek"
+
+[tag.dopamine]
+other = "多巴胺"
+
+[tag.elasticsearch]
+other = "Elasticsearch"
+
+[tag.embedding]
+other = "Embedding"
+
+[tag.endorphin]
+other = "内啡肽"
+
+[tag.entrepreneurship]
+other = "创业"
+
+[tag.exif]
+other = "EXIF"
+
+[tag.film-camera]
+other = "胶片相机"
+
+[tag.fm2]
+other = "FM2"
+
+[tag.go]
+other = "Go"
+
+[tag.golang]
+other = "Go语言"
+
+[tag.goroutine]
+other = "Goroutine"
+
+[tag.graph-rag]
+other = "Graph RAG"
+
+[tag.growth]
+other = "成长"
+
+[tag.happiness]
+other = "幸福感"
+
+[tag.industry-news]
+other = "行业资讯"
+
+[tag.istio]
+other = "Istio"
+
+[tag.jobs]
+other = "乔布斯"
+
+[tag.knowledge-graph]
+other = "知识图谱"
+
+[tag.knowledge-management]
+other = "知识管理"
+
+[tag.memory-management]
+other = "内存管理"
+
+[tag.methodology]
+other = "开发方法论"
+
+[tag.mysql]
+other = "MySQL"
+
+[tag.neuroscience]
+other = "神经科学"
+
+[tag.next-js]
+other = "Next.js"
+
+[tag.nikon]
+other = "尼康"
+
+[tag.openspec]
+other = "OpenSpec"
+
+[tag.openviking]
+other = "OpenViking"
+
+[tag.pcntl]
+other = "进程"
+
+[tag.performance-optimization]
+other = "性能优化"
+
+[tag.photo-blog]
+other = "照片博客"
+
+[tag.php]
+other = "PHP"
+
+[tag.protocol]
+other = "协议"
+
+[tag.psychology]
+other = "心理学"
+
+[tag.recommendation]
+other = "推荐系统"
+
+[tag.science]
+other = "科普"
+
+[tag.sdd]
+other = "SDD"
+
+[tag.self-awareness]
+other = "自我认知"
+
+[tag.sony]
+other = "Sony"
+
+[tag.tag-matching]
+other = "标签匹配"
+
+[tag.tdd]
+other = "TDD"
+
+[tag.technews]
+other = "科技资讯"
+
+[tag.tencent-cloud]
+other = "腾讯云"
+
+[tag.think-different]
+other = "Think Different"
+
+[tag.user-profile]
+other = "用户画像"
+
+[tag.vector-db]
+other = "向量数据库"
+
+[tag.vercel]
+other = "Vercel"
+
+[tag.vibe-coding]
+other = "Vibe Coding"
+
+[tag.volcengine]
+other = "火山引擎"
+
+[tag.ai-programming]
+other = "AI编程"
+
 # 分类翻译（category.前缀）
 [category.tech]
 other = "技术"
