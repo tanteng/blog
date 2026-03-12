@@ -11,6 +11,8 @@ categories: ["tech"]
 
 Prompt Template 是将提示词模板化的技术，通过占位符动态注入变量，让同一套提示词可以处理不同输入。类似于 Web 开发中的模板引擎。
 
+<!--more-->
+
 ## DeepSeek 的 JSON Mode
 
 DeepSeek API 支持 JSON Mode，通过设置 `response_format` 参数为 `json_object`，可以强制模型输出有效的 JSON 字符串。
