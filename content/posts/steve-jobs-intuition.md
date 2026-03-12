@@ -4,11 +4,12 @@ date: 2012-08-14T05:19:53+08:00
 draft: false
 tags: ['stevejobs']
 categories: ['reading-notes']
-author: "深 呼吸"
 description: "回到美国对我来说是更大的文化冲击。印度农村的人不像我们使用理性，他们使用直觉，而他们的直觉比世界上其他地方的人发达得多。直觉是非常强大的东西，比理性更强大。"
 ---
 
 Coming back to America was, for me, much more of a cultural shock than going to India. The people in the Indian countryside don't use their intellect like we do, they use their intuition instead, and their intuition is far more developed than in the rest of the world. Intuition is a very powerful thing, more powerful than intellect, in my opinion. That's had a big impact on my work.
+
+<!--more-->
 
 Western rational thought is not an innate human characteristic; it is learned and is the great achievement of Western civilization. In the villages of India, they never learned it. They learned something else, which is in some ways just as valuable but in other ways is not. That's the power of intuition and experiential wisdom. Coming back after seven months in Indian villages, I saw the craziness of the Western world as well as its capacity for rational thought. If you just sit and observe, you will see how restless your mind is.
 
