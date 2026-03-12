@@ -18,6 +18,8 @@ Go 的并发模型以 goroutine 和 channel 为核心，但在实际项目中，
 - **sync.WaitGroup**：Go 标准库，简单同步
 - **errgroup**：Go 扩展库，功能更强大
 
+<!--more-->
+
 ## sync.WaitGroup
 
 WaitGroup 是 Go 标准库的一部分，用于等待一组 goroutine 完成。
