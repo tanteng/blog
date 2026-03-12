@@ -2,7 +2,7 @@
 title: "MySQL数据库性能优化之缓存参数设置"
 date: 2016-03-28T04:02:15+08:00
 draft: false
-tags: ['mysql']
+tags: ['mysql', '索引优化']
 categories: ['tech']
 description: "MySQL数据库性能优化之缓存参数设置"
 ---
