@@ -9,8 +9,6 @@ description: "使用 netstat 命令统计 TCP 连接状态"
 
 在 Linux 服务器运维中，了解 TCP 连接状态对于排查网络问题非常重要。本文介绍如何使用 netstat 统计各状态的连接数量。
 
-<!--more-->
-
 ### 统计 TCP 各状态数量
 
 ```bash
@@ -18,6 +16,8 @@ netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'
 ```
 
 输出结果示例：
+
+<!--more-->
 
 ```
 TIME_WAIT 418
