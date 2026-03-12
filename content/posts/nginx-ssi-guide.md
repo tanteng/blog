@@ -1,10 +1,10 @@
 ---
-title: "Nginx 开启 SSI"
+title: "Nginx SSI 使用指南"
 date: 2016-04-08T12:47:34+08:00
 draft: false
 tags: ['nginx']
 categories: ['tech']
-description: "Nginx 开启 SSI"
+description: "Nginx SSI 使用指南"
 ---
 
 相信很多人在浏览网页时都遇到过这样的情况：本地在开发环境运行正常的页面，部署到测试环境后却发现部分内容缺失。比如导航栏、页脚、公用组件等内容本地看不到。
