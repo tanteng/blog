@@ -2,8 +2,8 @@
 title: "深入理解 PHP 内存管理：栈、堆与 zval 机制"
 date: 2012-09-09T07:54:05+08:00
 draft: false
-tags: ['php', '内存管理', '性能优化']
-categories: ['tech']
+tags: ["php", "memory-management", "performance-optimization"]
+categories: ["tech"]
 description: "详解 PHP 对象在内存中的分配机制，解析栈、堆的区别以及 zval 引用计数原理"
 ---
 
