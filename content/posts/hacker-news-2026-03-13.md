@@ -129,8 +129,8 @@ Vite 8.0正式发布，这是最流行的前端构建工具之一的最新版本
 
 ## 值得关注
 
+- **ATMs didn't kill bank teller jobs, but the iPhone did** — 深度分析技术对就业的影响机制，揭示"替代任务"与"创造新范式"的本质区别，对理解AI对就业的影响有重要启示
 - **Innocent woman jailed after being misidentified using AI facial recognition** — AI误判导致无辜者被监禁，暴露了面部识别技术的严重问题和对司法系统的警示意义
-
 - **Reversing memory loss via gut-brain communication** — 斯坦福研究揭示肠道-大脑通讯可逆转认知衰退，为治疗老年痴呆带来新希望
 
 ---
