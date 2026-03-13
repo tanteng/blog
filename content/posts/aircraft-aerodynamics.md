@@ -1,5 +1,5 @@
 ---
-title: '飞机为何能飞？深入理解空气动力学与飞行的秘密'
+title: '空气动力学与飞行的秘密'
 date: 2026-03-01T12:00:00+08:00
 draft: false
 tags: ['science', 'physics', 'aviation']
