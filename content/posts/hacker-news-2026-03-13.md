@@ -2,6 +2,7 @@
 title: "Hacker News 热门 - 2026年3月13日"
 date: 2026-03-13
 tags: ["Hacker News", "科技", "技术新闻"]
+categories: ["tech"]
 description: "2026年3月13日 Hacker News 热门话题汇总"
 ---
 
