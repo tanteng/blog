@@ -2,94 +2,124 @@
 title: "深入理解 PHP 中 session 和 cookies 的联系"
 date: 2012-09-26T01:46:43+08:00
 draft: false
-tags: ['php']
-categories: ['tech']
+tags: ["php"]
+categories: ["tech"]
 description: "深入理解 PHP 中 session 和 cookies 的联系"
 ---
 
-1. session概念
-
-2. http协议与状态保持
-
-3. 理解cookie
-
-4. php中session的生成机制
-
-5. php中session的过期回收机制
-
-6. php中session的客户端存储机制
+PHP 中的 session 和 cookies 是 Web 开发中非常重要的概念，本文将深入解析它们的工作原理和联系。
 
 <!--more-->
 
-# 1. session概念
+## 1. Session 概念
 
-在web服务器蓬勃发展的时代，session在web开发语境下的语义是指一类用来在客户端与服务器之间保持状态的解决方案。
+在 Web 服务器蓬勃发展的时代，session 在 Web 开发语境下的语义是指**一类用来在客户端与服务器之间保持状态的解决方案**。
 
-# 2. http协议与状态保持
+Session 解决了 HTTP 协议无状态的问题，让服务器能够"认识"同一个客户端的多次请求。
 
-http协议本身是无状态的，客户端只需要简单的向服务器请求下载某些文件，无论是客户端还是服务器都没有必要纪录彼此过去的行为，每一次请求之间都是独立的。
+---
 
-然而人们很快发现如果能够提供一些按需生成的动态信息会使web变得更加有用，就像给有线电视加上点播功能一样。这种需求一方面迫使HTML逐步添加了表单、脚本、DOM等客户端行为，另一方面在服务器端则出现了CGI规范以响应客户端的动态请求，作为传输载体的HTTP协议也添加了文件上载、cookie这些特性。其中cookie的作用就是为了解决HTTP协议无状态的缺陷所作出的努力。至于后来出现的session机制则是又一种在客户端与服务器之间保持状态的解决方案。
+## 2. HTTP 协议与状态保持
 
-session机制可能需要借助于cookie机制来达到保存标识的目的。所以有必要了解下cookie。
+HTTP 协议本身是**无状态**的——客户端只需要简单地请求下载某些文件，无论是客户端还是服务器都没有必要记录彼此过去的行为，每一次请求之间都是独立的。
 
-# 3. 理解cookie
+然而人们很快发现：如果能够提供一些按需生成的动态信息，会让 Web 变得更加有用。就像给有线电视加上点播功能一样。
 
-cookie分发是通过扩展HTTP协议来实现的，服务器通过在HTTP的响应头中加上一行特殊的指示以提示浏览器按照指示生成相应的cookie。然而纯粹的客户端脚本如JavaScript或者VBScript也可以生成cookie。
+这种需求推动了技术的发展：
+- **客户端**：HTML 逐步添加了表单、脚本、DOM 等客户端行为
+- **服务器端**：出现了 CGI 规范响应客户端的动态请求
+- **HTTP 协议**：添加了文件上传、Cookie 等特性
 
-而cookie 的使用是由浏览器按照一定的原则在后台自动发送给服务器的。浏览器检查所有存储的cookie，如果某个cookie所声明的作用范围大于等于将要请求的资源所在的位置，则把该cookie附在请求资源的HTTP请求头上发送给服务器。
+其中 **Cookie 的作用就是为了解决 HTTP 协议无状态的缺陷**。而 Session 机制则是另一种在客户端与服务器之间保持状态的解决方案。
 
-cookie的内容主要包括：名字，值，过期时间，路径和域。
+---
 
-其中域可以指定某一个域比如.google.com，相当于总店招牌，比如宝洁公司，也可以指定一个域下的具体某台机器比如www.google.com或者froogle.google.com，可以用飘柔来做比。路径就是跟在域名后面的URL路径，比如/或者/foo等等，可以用某飘柔专柜做比。
+## 3. 理解 Cookie
 
-路径与域合在一起就构成了cookie的作用范围。
+Cookie 分发是通过扩展 HTTP 协议来实现的，服务器通过在 HTTP 响应头中加上特殊指示，提示浏览器按照指示生成相应的 Cookie。纯粹的客户端脚本（如 JavaScript）也可以生成 Cookie。
 
-如果不设置过期时间，则表示这个cookie的生命期为浏览器会话期间，只要关闭浏览器窗口，cookie就消失了。这种生命期为浏览器会话期的 cookie被称为会话cookie。会话cookie一般不存储在硬盘上而是保存在内存里，当然这种行为并不是规范规定的。如果设置了过期时间，浏览器就会把cookie保存到硬盘上，关闭后再次打开浏览器，这些cookie仍然有效直到超过设定的过期时间
+### Cookie 的使用原则
 
-存储在硬盘上的cookie 不可以在不同的浏览器间共享，可以在同一浏览器的不同进程间共享，比如两个IE窗口。
+浏览器会按照一定原则在后台自动发送 Cookie给服务器。浏览器检查所有存储的 Cookie，如果某个 Cookie 所声明的作用范围大于等于将要请求的资源所在的位置，则把该 Cookie 附在请求资源的 HTTP 请求头上发送给服务器。
 
-这是因为每中浏览器存储cookie的位置不一样，比如
+### Cookie 的内容
 
-Chrome下的cookie放在：
+Cookie 主要包括：**名字、值、过期时间、路径和域**。
 
-C:\Users\sharexie\AppData\Local\Google\Chrome\User Data\Default\Cache
+- **域（Domain）**：可以指定某个域（如 `.google.com`），也可以指定域下的具体某台机器（如 `www.google.com`）
+- **路径（Path）**：跟在域名后面的 URL 路径，如 `/` 或 `/foo`
+- **域 + 路径**：合在一起构成 Cookie 的作用范围
 
-Firefox下的cookie放在：
+### Cookie 的生命周期
 
-C:\Users\sharexie\AppData\Roaming\Mozilla\Firefox\Profiles\tq2hit6m.default\cookies.sqlite （倒数第二个文件名是随机的文件名字）
+- **会话 Cookie**：如果不设置过期时间，Cookie 的生命期为浏览器会话期间，关闭浏览器窗口后 Cookie 就消失了。会话 Cookie 一般保存在内存里，而不是硬盘上。
 
-Ie下的cookie放在：
+- **持久 Cookie**：如果设置了过期时间，浏览器会把 Cookie 保存到硬盘上，关闭后再次打开浏览器仍然有效，直到超过设定的过期时间。
 
-C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Cookies
+### Cookie 的共享规则
 
-# 4. php中session的生成机制
+存储在硬盘上的 Cookie **不能在不同浏览器间共享**，但可以在**同一浏览器的不同进程间共享**。
 
-我们先来分析一下PHP中是怎么生成一个session的。设计出session的目的是保持每一个用户的各种状态来弥补HTTP协议的不足(无状态)。session是保存在服务器的，既然它用于保持每一个用户的状态那它利用什么来区别用户的呢？这个时候就得借助cookie了。当我们在代码中调用session_start();时，PHP会同时往SESSION的存放目录(默认为/tmp/)和客户端的cookie目录各生成一个文件。session文件名称像这样：
+不同浏览器存储 Cookie 的位置：
 
-格式为sess_{SESSIONID} ，这时session文件中没有任何内容，当我们在session_start();添加了这两行代码：
+| 浏览器 | Cookie 存储位置 |
+|--------|---------------|
+| Chrome | `%LOCALAPPDATA%\Google\Chrome\User Data\Default\Cache` |
+| Firefox | `%APPDATA%\Mozilla\Firefox\Profiles\随机目录\cookies.sqlite` |
+| IE | `%APPDATA%\Microsoft\Windows\Cookies` |
+
+---
+
+## 4. PHP 中 Session 的生成机制
+
+Session 的目的是保持每一个用户的各种状态，弥补 HTTP 协议的不足（无状态）。Session 保存在服务器端，那么它用什么来区别不同用户呢？
+
+答案是 **借助 Cookie**。
+
+当调用 `session_start()` 时，PHP 会同时在 Session 存放目录（默认为 `/tmp/`）和客户端的 Cookie 目录各生成一个文件。
+
+### Session 文件格式
+
+文件名称格式为 `sess_{SESSIONID}`，初始时 session 文件中没有任何内容。
 
 ```php
+<?php
+session_start();
+
 $_SESSION['name'] = 'sharexie';
-$_SESSION['webUlr'] = 'www.qq.com';
+$_SESSION['webUrl'] = 'www.qq.com';
 ```
 
-这时文件就有内容了：
+添加上述代码后，session 文件内容如下：
 
 ```
-name|s:8:"sharexie";webUlr|s:10:"www.qq.com";
+name|s:8:"sharexie";webUrl|s:10:"www.qq.com";
 ```
 
-# 5. php中session的过期回收机制
+---
 
-我们明白了session的生成及工作原理，发现在session目录下会有许多session文件。当然这些文件一定不是永远存在的，PHP一定提供了一种过期回收机制。在php.ini中session.gc_maxlifetime为session设置了生存时间(默认为1440s)。如果session文件的最后更新时间到现在超过了生存时间，这个session文件就被认为是过期的了。在下一次session回收的时候就会被删除。
+## 5. PHP 中 Session 的过期回收机制
 
-# 6. php中session的客户端存储机制
+随着使用时间增长，session 目录下会有许多 session 文件。PHP 提供了过期回收机制来清理这些文件。
 
-由于cookie可以被人为的禁止，必须有其他机制以便在cookie被禁止时仍然能够把session id传递回服务器。解决办法有：
+在 `php.ini` 中，`session.gc_maxlifetime` 设置了 session 的生存时间（**默认为 1440 秒 = 24 分钟**）。
 
-1、URL重写，就是把session id直接附加在URL路径的后面
+如果 session 文件的最后更新时间到当前时间超过了生存时间，这个 session 文件就被认为是过期的。在下一次 session 回收时，过期的 session 文件就会被删除。
 
-2、作为查询字符串附加在URL后面
+---
 
-3、表单隐藏字段
+## 6. PHP 中 Session 的客户端存储机制
+
+由于 Cookie 可以被人为禁止，必须有其他机制在 Cookie 被禁止时仍然能够把 session id 传递回服务器。解决方案包括：
+
+1. **URL 重写**：把 session id 直接附加在 URL 路径后面
+2. **查询字符串**：把 session id 作为查询字符串附加在 URL 后面
+3. **表单隐藏字段**：在表单中使用隐藏字段存储 session id
+
+---
+
+## 总结
+
+- **Cookie**：保存在客户端，由服务器生成并通过 HTTP 头传递
+- **Session**：保存在服务器端，借助 Cookie（或其他方式）来识别用户
+- **关系**：Session 需要 Cookie 来保存 session id，但也可以在 Cookie 被禁用时通过 URL 重写等方式传递 session id
