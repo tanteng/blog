@@ -38,11 +38,23 @@
   </article>
   <div class="mw8 center">
     <section class="flex-ns mt5 flex-wrap justify-around">
-      {{ range .Pages }}
+      {{ range .Paginator.Pages }}
         <div class="w-100 mb4 relative bg-white">
           {{ .Render "summary" }}
         </div>
       {{ end }}
     </section>
   </div>
+  
+  {{ if gt .Paginator.TotalPages 1 }}
+  <nav class="flex-ns justify-center mt4 mb4">
+    {{ if .Paginator.HasPrev }}
+      <a href="{{ .Paginator.Prev.URL }}" class="f5 no-underline black bg-animate hover-bg-black-10 pa2 pv1 ba br2 mr2">上一页</a>
+    {{ end }}
+    <span class="f5 pa2">{{ .Paginator.PageNumber }} / {{ .Paginator.TotalPages }}</span>
+    {{ if .Paginator.HasNext }}
+      <a href="{{ .Paginator.Next.URL }}" class="f5 no-underline black bg-animate hover-bg-black-10 pa2 pv1 ba br2 ml2">下一页</a>
+    {{ end }}
+  </nav>
+  {{ end }}
 {{ end }}
