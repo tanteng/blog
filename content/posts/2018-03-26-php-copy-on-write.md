@@ -83,7 +83,12 @@ int(10480040)
 
 PHP 中的 COW 基于引用计数 ref_count 和 is_ref 实现，多一个变量指针，就将 ref_count 加1，反之减去1，减到0就销毁；同理，多一个强制引用 &,就将 is_ref 加1，反之减去1。
 
+### 2025年更新
+
+PHP 8.x 仍然延续了 COW 机制，但在某些场景下有优化改进。在现代 PHP 版本中，字符串和数组类型都采用写时复制策略，只有在真正需要修改时才会进行内存复制。
+
 ### 参考资料
 
 - [深入理解PHP内核 - 写时复制](https://docs.kilvn.com/tipi/chapt06/06-06-copy-on-write.html)
 - [PHP 官方手册 - Reference Counting Basics](https://www.php.net/manual/en/features.gc.refcounting-basics.php)
+- [维基百科 - 写入时复制](https://zh.wikipedia.org/zh-hans/%E5%AF%AB%E5%85%A5%E6%99%82%E8%A4%87%E8%A3%BD)

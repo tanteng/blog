@@ -49,8 +49,12 @@ EXEC
 - 因为不需要对回滚进行支持，Redis 的内部可以保持简单且快速
 - 回滚并不能解决编程错误带来的问题
 
+### 2025年更新
+
+Redis 事务机制在 Redis 7.x 中引入了 Redis Functions，进一步增强了脚本能力。对于需要更强原子性保证的场景，建议使用 Lua 脚本或 Redis Functions。
+
 ### 参考资料
 
-- [Redis 事务文档](http://redisdoc.com/topic/transaction.html)
+- [Redis 事务文档](https://redis.io/docs/latest/interact/transactions/)
 - [Redis 事务实现](http://redisbook.readthedocs.io/en/latest/feature/transaction.html)
 - [ACID - Wikipedia](https://zh.wikipedia.org/wiki/ACID)

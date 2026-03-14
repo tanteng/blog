@@ -88,3 +88,12 @@ carry 方法返回一个闭包，作为 array_reduce 的回调函数。每次迭
 执行 $next($request) 的时候就会把所有中间件都执行完，然后别忘了前面说的第一个闭包是 $this->dispatchToRouter() 提供的，它会进入到控制器逻辑，然后再是执行每个中间件中 $response = $next($request) 接下来的逻辑。
 
 这也是前置中间件和后置中间件的原理。
+
+### Laravel Pipeline 的现代应用
+
+Laravel 的 Pipeline 模式不仅用于 HTTP 请求处理，还广泛应用于数据处理链式调用。在 Laravel 10+ 中，Pipeline 仍然是核心组件，被用于输入净化、格式化等多种场景。
+
+### 参考资料
+
+- [Laravel Pipeline 官方文档](https://laravel.com/docs/pipeline)
+- [Laravel Pipeline for Input Sanitization - Medium](https://medium.com/@zulfikarditya/laravel-pipeline-for-input-sanitization-safe-reusable-and-fast-484009cc3323)

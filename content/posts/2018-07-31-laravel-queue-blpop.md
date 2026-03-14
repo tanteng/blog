@@ -44,4 +44,6 @@ Redis 官方文档也有说明：
 
 ### 参考资料
 
-- <a href="https://github.com/laravel/framework/issues/22939" target="_blank" rel="noopener nofollow">Laravel GitHub Issue #22939</a>
+- [Laravel GitHub Issue #22939](https://github.com/laravel/framework/issues/22939)
+- [Redis BLPOP 官方文档](https://redis.io/docs/latest/commands/blpop/)
+- [JavaGuide - Redis常见面试题](https://javaguide.cn/database/redis/redis-questions-01.html)
