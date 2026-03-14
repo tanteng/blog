@@ -2,7 +2,7 @@
 title: "段永平的卖Put策略：像收保费一样做投资"
 date: 2026-02-25
 draft: false
-tags: ["investment", "stock", "Duan Yongping", "option"]
+tags: ["investment", "stock", "option"]
 categories: ["investment"]
 ---
 
