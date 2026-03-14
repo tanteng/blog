@@ -3,7 +3,7 @@ title: "向那些疯狂的家伙致敬"
 date: 2013-07-13T12:00:00+08:00
 draft: false
 tags: ['stevejobs', '苹果', 'thinkdifferent', '思考']
-categories: ['think']
+categories: ["tech"]
 description: "1997年乔布斯重返苹果后推出的经典广告《Think Different》，致敬那些改变世界的疯狂天才"
 ---
 
