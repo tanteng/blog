@@ -1,59 +1,70 @@
 ---
-title: "使用 Docker 搭建 Laravel 本地环境"
+title: "使用 Docker 搭建 Laravel 本地开发环境"
+author: tanteng
+type: post
 date: 2017-10-14T11:28:48+08:00
 draft: false
-tags: ['laravel', 'docker']
+tags: ['laravel', 'docker', '容器化']
 categories: ['tech']
-description: "使用 Docker 搭建 Laravel 本地环境"
+description: "使用 Docker 和 Laradock 搭建 Laravel 本地开发环境指南"
 ---
 
-Laravel 官方提供 Homestead 和 Valet 作为本地开发环境，Homestead 是一个官方预封装的 Vagrant Box，也就是一个虚拟机，但是跟 Docker 比，它占用体积太大，启动速度慢，同时响应速度很慢，现在有了 Docker 这种更好的方式，可以轻松方便的搭建整套 PHP 开发环境。
+Laravel 官方提供 Homestead 和 Valet 作为本地开发环境，但 Docker 相比虚拟机占用体积更小、启动更快，是更好的选择。
 
 <!--more-->
 
-### 安装 Docker
+## 为什么选择 Docker？
 
-首先安装 Docker。
+- **占用资源小**：相比 Vagrant 虚拟机，Docker 容器更轻量
+- **启动速度快**：秒级启动
+- **环境一致**：开发环境与生产环境保持一致
+- **易于管理**：使用 docker-compose 统一管理多容器
 
-### 克隆 Laradock
+## Laradock 简介
 
-Laradock 官方文档：http://laradock.io/
+Laradock 是 Docker 上最完整的 PHP 开发环境，包含：
+- PHP-FPM
+- Nginx
+- MySQL / PostgreSQL
+- Redis
+- Elasticsearch
+- Composer
+- 等等
 
-Laradock github：https://github.com/laradock/laradock
+**官网**：http://laradock.io/  
+**GitHub**：https://github.com/laradock/laradock
 
-Laradock 是一个包含全功能用于 Docker 的 PHP 运行环境，使用 docker-compose 方式部署。（特别说明：它不仅用于 Laravel 环境搭建，而且支持所有其他 PHP 框架，它就是一整套 PHP 的环境。）
+## 快速开始
 
-### 部署 PHP 环境
-
-1.克隆 laradock
+### 1. 克隆 Laradock
 
 ```bash
 git clone https://github.com/Laradock/laradock.git
 ```
 
-2.创建环境变量文件
+### 2. 创建环境变量文件
 
 ```bash
 cp env-example .env
 ```
 
-3.直接用 docker-compose 运行需要启用的服务，如：
+### 3. 启动服务
 
 ```bash
-docker-compose up -d nginx mysql redis beanstalkd
+docker-compose up -d nginx mysql redis
 ```
 
-这样就启动了所需的 PHP 运行环境，php-fpm 默认会运行，所以不需要指定。
+这会启动 Nginx、MySQL、Redis 等服务。
 
-### Laravel 配置文件
+### 4. 配置 Laravel
 
-Laravel 配置文件需要注意的问题是，在 .env 文件中，mysql 和 redis 的地址需填写成这样：
+在 `.env` 文件中配置数据库连接：
 
 ```ini
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
-DB_DATABASE=tanteng.me
+DB_DATABASE=your_database
 DB_USERNAME=root
 DB_PASSWORD=root
 
@@ -62,16 +73,61 @@ REDIS_PASSWORD=null
 REDIS_PORT=6379
 ```
 
-### Nginx 配置
+注意：Docker 容器间通过服务名通信，所以 Host 填写 `mysql`、`redis` 而不是 `127.0.0.1`。
 
-在本地通过域名方式访问站点，要将 host 中域名绑定到本地，同时还需要增加 nginx 配置。在 laradock 项目的 nginx 文件夹下的 sites 目录下添加配置文件即可。
+## 常用命令
 
-### 执行 Composer
-
-执行 composer 等操作，需要进入到 workspace 容器中进行，使用命令：
+### 进入工作容器
 
 ```bash
 docker-compose exec workspace bash
 ```
 
-进入到 workspace 容器，就可以进行 compose 命令等操作了。
+### 查看运行中的容器
+
+```bash
+docker-compose ps
+```
+
+### 停止服务
+
+```bash
+docker-compose stop
+```
+
+### 重新构建
+
+```bash
+docker-compose build
+```
+
+## Laravel Sail（官方新方案）
+
+ Laravel 9+ 官方推出了 Laravel Sail，是官方推荐的 Docker 开发环境：
+
+```bash
+curl -s "https://laravel.build/example-app" | bash
+cd example-app
+./vendor/bin/sail up
+```
+
+Sail 基于 Docker Compose，提供一致的体验。
+
+## Docker Compose 多容器架构
+
+典型的 Laravel Docker 环境包含：
+
+| 服务 | 作用 |
+|------|------|
+| nginx | Web 服务器 |
+| php-fpm | PHP 解释器 |
+| mysql | 数据库 |
+| redis | 缓存 |
+| workspace | 开发工具（Composer、Artisan） |
+
+## 最佳实践
+
+1. **开发环境与生产环境分离**：使用不同的 docker-compose.yml
+2. **数据持久化**：挂载卷保存数据
+3. **网络隔离**：使用自定义网络
+4. **环境变量管理**：使用 .env 文件管理配置
