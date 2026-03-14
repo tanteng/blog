@@ -1,7 +1,7 @@
 ---
 title: 深入理解 Redis 事务与原子性
-date: 2024-04-03T02:00:00+00:00
-url: /2024/04/redis-transaction-atomicity/
+date: 2020-10-22T02:00:00+00:00
+url: /2020/10/redis-transaction-atomicity/
 categories:
  - Redis
 tags:
