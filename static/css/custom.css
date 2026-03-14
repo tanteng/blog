@@ -1,14 +1,11 @@
 /* 移动端封面图样式 */
 @media screen and (max-width: 768px) {
-  body main header.cover,
-  body main header.cover.bg-top,
-  body main header.cover.bg-center,
   header.cover,
   header.cover.bg-top,
   header.cover.bg-center {
     background-image: url('https://tanteng.space/blog-cover.jpg') !important;
-    background-position: -20px 0px !important;
     background-size: cover !important;
+    background-position: center top !important;
   }
 }
 
