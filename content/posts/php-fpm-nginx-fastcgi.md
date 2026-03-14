@@ -1,6 +1,5 @@
 ---
 title: "PHP-FPM、Nginx、FastCGI 之间的关系与配置详解"
-author: tanteng
 type: post
 date: 2017-11-09T08:44:27+08:00
 draft: false

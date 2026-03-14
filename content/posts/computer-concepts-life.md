@@ -1,6 +1,5 @@
 ---
 title: "计算机概念在生活中的类比"
-author: tanteng
 type: post
 date: 2017-10-08T06:14:13+08:00
 draft: false

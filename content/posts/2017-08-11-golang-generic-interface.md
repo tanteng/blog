@@ -1,6 +1,5 @@
 ---
 title: "Golang 使用接口实现类似泛型的排序功能"
-author: tanteng
 type: post
 date: 2017-08-11T10:14:10+00:00
 url: /2017/08/golang-generic-interface/

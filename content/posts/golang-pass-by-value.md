@@ -1,6 +1,5 @@
 ---
 title: "Golang 值传递与引用传递深度解析"
-author: tanteng
 type: post
 date: 2017-11-19T12:22:01+08:00
 draft: false

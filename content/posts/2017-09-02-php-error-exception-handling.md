@@ -1,6 +1,5 @@
 ---
 title: PHP 错误和异常处理
-author: tanteng
 type: post
 date: 2017-09-02T07:27:24+00:00
 url: /2017/09/php-error-exception-handling/
