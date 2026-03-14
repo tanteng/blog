@@ -7,7 +7,6 @@ categories:
  - MySQL
 tags:
  - 阅读清单
-
 ---
 
 1.MySQL的异步复制和半同步复制

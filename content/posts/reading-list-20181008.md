@@ -7,9 +7,7 @@ categories: ['tech']
 description: "本周阅读清单20181008"
 ---
 
-本周阅读清单汇总。
 
-<!--more-->
 
 1. **Laravel 中的 Pivot 表与多对多关系**  
    https://9iphp.com/web/laravel/pivot-tables-and-many-to-many-relationships.html

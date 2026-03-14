@@ -7,9 +7,7 @@ categories: ['tech']
 description: "本周阅读清单20181105"
 ---
 
-本周阅读清单汇总。
 
-<!--more-->
 
 1. **Writing Protobuf Services in PHP**  
    https://mattallan.org/posts/protobuf-php-services/

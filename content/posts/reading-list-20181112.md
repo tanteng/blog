@@ -7,9 +7,7 @@ categories: ['tech']
 description: "本周阅读清单20181112"
 ---
 
-本周阅读清单汇总。
 
-<!--more-->
 
 1. **腾讯云点播视频加密方案**  
    https://cloud.tencent.com/document/product/266/9638

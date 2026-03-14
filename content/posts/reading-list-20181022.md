@@ -7,9 +7,7 @@ categories: ['tech']
 description: "本周阅读清单20181022"
 ---
 
-本周阅读清单汇总。
 
-<!--more-->
 
 1. **Practical Go: Real world advice for writing maintainable Go programs**  
    https://dave.cheney.net/practical-go/presentations/qcon-china.html

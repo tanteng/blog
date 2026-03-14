@@ -7,9 +7,7 @@ categories: ['tech']
 description: "本周阅读清单20190830"
 ---
 
-本周阅读清单汇总。
 
-<!--more-->
 
 1. **HTTP 代理原理及实现**  
    https://imququ.com/post/web-proxy.html

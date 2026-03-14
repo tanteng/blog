@@ -8,7 +8,6 @@ categories:
  - PHP
 tags:
  - 阅读清单
-
 ---
 
 1.Learning Elasticsearch with Laravel

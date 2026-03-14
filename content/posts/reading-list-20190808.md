@@ -7,9 +7,7 @@ categories: ['tech']
 description: "本周阅读清单20190808"
 ---
 
-本周阅读清单汇总。
 
-<!--more-->
 
 1. **PHP 正则 preg_match 匹配长度限制**  
    https://learnku.com/articles/7193/php-regular-preg-match-matching-length-limit

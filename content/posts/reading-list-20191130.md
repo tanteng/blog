@@ -7,9 +7,7 @@ categories: ['tech']
 description: "本周阅读清单20191130"
 ---
 
-本周阅读清单汇总。
 
-<!--more-->
 
 1. **Uber 的 Go 指导规范**  
    https://github.com/uber-go/guide/blob/master/style.md

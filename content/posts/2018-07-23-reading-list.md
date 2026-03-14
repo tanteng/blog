@@ -10,7 +10,6 @@ categories:
  - Redis
 tags:
  - 阅读清单
-
 ---
 
 1.GoLang: When to use string pointers
