@@ -1,11 +1,15 @@
 ---
-title: "PHP 写时复制（Copy On Write）机制详解"
+title: 深入理解 PHP 写时复制机制
 date: 2018-03-26T14:04:07+00:00
-url: /2018/03/php-copy-on-write/
+url: /2018/03/php-copy-on-write-mechanism/
 categories:
- - tech
+ - PHP
+tags:
+ - PHP
+ - 内存管理
 
 ---
+
 一个例子：
 
 ```php
@@ -79,4 +83,7 @@ int(10480040)
 
 PHP 中的 COW 基于引用计数 ref_count 和 is_ref 实现，多一个变量指针，就将 ref_count 加1，反之减去1，减到0就销毁；同理，多一个强制引用 &,就将 is_ref 加1，反之减去1。
 
-参考：<http://www.php-internals.com/book/?p=chapt06/06-06-copy-on-write>
+### 参考资料
+
+- [深入理解PHP内核 - 写时复制](https://docs.kilvn.com/tipi/chapt06/06-06-copy-on-write.html)
+- [PHP 官方手册 - Reference Counting Basics](https://www.php.net/manual/en/features.gc.refcounting-basics.php)
