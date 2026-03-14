@@ -2,8 +2,8 @@
 title: "段永平的卖Put策略：像收保费一样做投资"
 date: 2026-02-25
 draft: false
-tags: ["investment", "stock", "option"]
-categories: ["investment"]
+tags: ["投资", "股票", "期权"]
+categories: ["投资"]
 ---
 
 在段永平的投资工具箱里，有一个策略他屡试不爽——那就是「卖Put」（卖出看跌期权）。这个策略被他形象地称为"收保费"，今天我们就来详细聊聊这个策略的逻辑和风险。
