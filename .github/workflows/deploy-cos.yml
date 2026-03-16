@@ -24,21 +24,10 @@ jobs:
       - name: Build
         run: hugo --minify
 
-      - name: Delete COS files
-        timeout-minutes: 10
-        uses: zkqiang/tencent-cos-action@v0.1.0
-        with:
-          args: delete -r -f /
-          secret_id: ${{ secrets.TENCENT_SECRET_ID }}
-          secret_key: ${{ secrets.TENCENT_SECRET_KEY }}
-          bucket: ${{ secrets.TENCENT_BUCKET }}
-          region: ${{ secrets.TENCENT_REGION }}
-
       - name: Upload to COS
-        timeout-minutes: 30
         uses: zkqiang/tencent-cos-action@v0.1.0
         with:
-          args: upload -r ./public/ /
+          args: sync ./public/ /
           secret_id: ${{ secrets.TENCENT_SECRET_ID }}
           secret_key: ${{ secrets.TENCENT_SECRET_KEY }}
           bucket: ${{ secrets.TENCENT_BUCKET }}
