@@ -1,10 +1,11 @@
 
+---
 title: "Hacker News 热门 - 2026年3月13日"
 date: 2026-03-13
 tags: ["hacker-news", "tech", "industry-news"]
 categories: ["tech"]
 description: "2026年3月13日 Hacker News 热门话题汇总"
-
+---
 
 ### 1. Malus – Clean Room as a Service
 
