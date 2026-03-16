@@ -27,7 +27,7 @@ jobs:
       - name: Upload to COS
         uses: zkqiang/tencent-cos-action@v0.1.0
         with:
-          args: sync ./public/ /
+          args: upload -r ./public/ /
           secret_id: ${{ secrets.TENCENT_SECRET_ID }}
           secret_key: ${{ secrets.TENCENT_SECRET_KEY }}
           bucket: ${{ secrets.TENCENT_BUCKET }}
