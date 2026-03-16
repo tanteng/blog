@@ -23,17 +23,11 @@ jobs:
       - name: Build
         run: hugo --minify
 
-      - name: Setup COSCMD
-        run: pip install coscmd
-
-      - name: Configure COSCMD
-        env:
-          SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
-          SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
-          BUCKET: ${{ secrets.TENCENT_BUCKET }}
-          REGION: ${{ secrets.TENCENT_REGION }}
-        run: |
-          coscmd config -a $SECRET_ID -s $SECRET_KEY -b $BUCKET -r $REGION
-
       - name: Upload to COS
-        run: coscmd delete -r / && coscmd put -r ./public/* /
+        uses: zkqiang/tencent-cos-action@v0.1.0
+        with:
+          args: delete -r -f / && upload -r ./public/ /
+          secret_id: ${{ secrets.TENCENT_SECRET_ID }}
+          secret_key: ${{ secrets.TENCENT_SECRET_KEY }}
+          bucket: ${{ secrets.TENCENT_BUCKET }}
+          region: ${{ secrets.TENCENT_REGION }}
