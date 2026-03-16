@@ -22,7 +22,7 @@ jobs:
           extended: true
 
       - name: Build
-        run: hugo --minify
+        run: hugo
 
       - name: Upload to COS
         uses: zkqiang/tencent-cos-action@v0.1.0
