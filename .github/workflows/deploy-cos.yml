@@ -1,0 +1,34 @@
+name: Deploy to Tencent COS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.120.0'
+          extended: true
+
+      - name: Build
+        run: hugo --minify
+
+      - name: Deploy to COS
+        uses: zkqiang/tencent-cos-action@v1
+        with:
+          secret_id: ${{ secrets.TENCENT_SECRET_ID }}
+          secret_key: ${{ secrets.TENCENT_SECRET_KEY }}
+          bucket: ${{ secrets.TENCENT_BUCKET }}
+          region: ${{ secrets.TENCENT_REGION }}
+          src_dir: ./public
+          dist_dir: /
