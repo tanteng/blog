@@ -22,6 +22,12 @@ sectionPagesMenu = "main"
 
 [menu]
   [[menu.main]]
+    identifier = "home"
+    name = "首页"
+    url = "/"
+    weight = 0
+
+  [[menu.main]]
     identifier = "posts"
     name = "文章"
     url = "/posts/"
