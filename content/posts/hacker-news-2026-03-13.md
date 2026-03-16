@@ -1,10 +1,10 @@
----
+
 title: "Hacker News 热门 - 2026年3月13日"
 date: 2026-03-13
 tags: ["hacker-news", "tech", "industry-news"]
 categories: ["tech"]
 description: "2026年3月13日 Hacker News 热门话题汇总"
----
+
 
 ### 1. Malus – Clean Room as a Service
 
@@ -14,7 +14,6 @@ description: "2026年3月13日 Hacker News 热门话题汇总"
 
 链接: https://news.ycombinator.com/item?id=47350424
 
----
 
 ### 2. Shall I implement it? No
 
@@ -22,7 +21,7 @@ description: "2026年3月13日 Hacker News 热门话题汇总"
 
 链接: https://news.ycombinator.com/item?id=47357042
 
----
+
 
 ### 3. Innocent woman jailed after being misidentified using AI facial recognition
 
@@ -30,7 +29,7 @@ description: "2026年3月13日 Hacker News 热门话题汇总"
 
 链接: https://news.ycombinator.com/item?id=47356968
 
----
+
 
 ### 4. ATMs didn't kill bank teller jobs, but the iPhone did
 
@@ -38,7 +37,7 @@ description: "2026年3月13日 Hacker News 热门话题汇总"
 
 链接: https://news.ycombinator.com/item?id=47351371
 
----
+
 
 ### 5. "This is not the computer for you"
 
@@ -46,7 +45,7 @@ description: "2026年3月13日 Hacker News 热门话题汇总"
 
 链接: https://news.ycombinator.com/item?id=47359744
 
----
+
 
 ### 6. US private credit defaults hit record 9.2% in 2025, Fitch says
 
@@ -54,7 +53,7 @@ description: "2026年3月13日 Hacker News 热门话题汇总"
 
 链接: https://news.ycombinator.com/item?id=47349806
 
----
+
 
 ### 7. Reversing memory loss via gut-brain communication
 
@@ -62,7 +61,7 @@ description: "2026年3月13日 Hacker News 热门话题汇总"
 
 链接: https://news.ycombinator.com/item?id=47353533
 
----
+
 
 ### 8. Bubble Sorted Amen Break
 
@@ -70,7 +69,7 @@ description: "2026年3月13日 Hacker News 热门话题汇总"
 
 链接: https://news.ycombinator.com/item?id=47354098
 
----
+
 
 ### 9. The Met releases high-def 3D scans of 140 famous art objects
 
@@ -78,7 +77,7 @@ description: "2026年3月13日 Hacker News 热门话题汇总"
 
 链接: https://news.ycombinator.com/item?id=47352459
 
----
+
 
 ### 10. Big data on the cheapest MacBook
 
@@ -86,7 +85,7 @@ description: "2026年3月13日 Hacker News 热门话题汇总"
 
 链接: https://news.ycombinator.com/item?id=47349277
 
----
+
 
 ### 11. Vite 8.0 Is Out
 
@@ -94,7 +93,7 @@ Vite 8.0正式发布，这是最流行的前端构建工具之一的最新版本
 
 链接: https://news.ycombinator.com/item?id=47360730
 
----
+
 
 ### 12. Grief and the AI split
 
@@ -102,7 +101,7 @@ Vite 8.0正式发布，这是最流行的前端构建工具之一的最新版本
 
 链接: https://news.ycombinator.com/item?id=47358206
 
----
+
 
 ### 13. Willingness to look stupid
 
@@ -110,7 +109,7 @@ Vite 8.0正式发布，这是最流行的前端构建工具之一的最新版本
 
 链接: https://news.ycombinator.com/item?id=47307124
 
----
+
 
 ### 14. Document poisoning in RAG systems: How attackers corrupt AI's sources
 
@@ -118,7 +117,7 @@ Vite 8.0正式发布，这是最流行的前端构建工具之一的最新版本
 
 链接: https://news.ycombinator.com/item?id=47350407
 
----
+
 
 ### 15. Are LLM merge rates not getting better?
 
@@ -126,7 +125,7 @@ Vite 8.0正式发布，这是最流行的前端构建工具之一的最新版本
 
 链接: https://news.ycombinator.com/item?id=47349334
 
----
+
 
 ## 值得关注
 
@@ -134,6 +133,6 @@ Vite 8.0正式发布，这是最流行的前端构建工具之一的最新版本
 - **Innocent woman jailed after being misidentified using AI facial recognition** — AI误判导致无辜者被监禁，暴露了面部识别技术的严重问题和对司法系统的警示意义
 - **Reversing memory loss via gut-brain communication** — 斯坦福研究揭示肠道-大脑通讯可逆转认知衰退，为治疗老年痴呆带来新希望
 
----
+
 
 *来源：Hacker News (news.ycombinator.com)*
