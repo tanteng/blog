@@ -6,14 +6,14 @@
   header.cover.bg-top,
   header.cover.bg-center,
   header.cover {
-    background-image: url('https://tanteng.space/blog-cover.jpg') !important;
+    background-image: url('/images/blog-cover.jpg') !important;
     background-size: cover !important;
     background-position: -20px top !important;
   }
   
   /* 文章页面头部封面 */
   article header.cover {
-    background-image: url('https://tanteng.space/blog-cover.jpg') !important;
+    background-image: url('/images/blog-cover.jpg') !important;
     background-size: cover !important;
     background-position: -20px top !important;
   }
