@@ -1,17 +1,19 @@
 ---
-title: "从 Vercel 迁移 Hugo 博客到 CNB + EdgeOne Pages 完全指南"
+title: "将 Hugo 博客从 Vercel 迁移到 CNB + EdgeOne Pages 方案"
 date: 2026-01-04
 draft: false
 tags: ["hugo", "vercel", "cnb", "edgeone", "迁移", "静态网站"]
 categories: ["tech"]
-description: "详解如何将托管在 Vercel 的 Hugo 静态博客迁移到腾讯云 CNB + EdgeOne Pages，实现自动构建和全球 CDN 分发。"
+description: "详解如何将托管在 Vercel 的 Hugo 静态博客迁移到腾讯云 CNB + EdgeOne Pages 的完整方案，包含配置步骤和注意事项。"
 ---
 
 ## 背景
 
 之前我将博客托管在 Vercel，虽然体验不错，但国内访问速度一直是个问题。最近发现腾讯云推出了 CNB（Cloud Native Build）配合 EdgeOne Pages 的方案，经过研究后发现这简直是为国内用户量身定制的替代方案。
 
-本文记录完整的迁移过程，供有同样需求的朋友参考。
+<!--more-->
+
+本文记录完整的迁移方案，供有同样需求的朋友参考。
 
 ## 为什么选择 CNB + EdgeOne Pages
 
@@ -104,8 +106,8 @@ push:
 
 ## 总结
 
-如果你也在寻找 Vercel 的国内替代方案，CNB + EdgeOne Pages 是一个值得考虑的选项。它提供了类似的自动构建体验，同时解决了国内访问速度的问题。
+本文记录的是迁移方案，目前还未实际执行。如果你也在寻找 Vercel 的国内替代方案，CNB + EdgeOne Pages 是一个值得考虑的选项。它提供了类似的自动构建体验，同时解决了国内访问速度的问题。
 
 唯一的遗憾是 CNB 没有像 Vercel 那样的预览部署（PR 自动生成预览 URL）功能，但对于静态博客来说，这并不是刚需。
 
-希望这篇教程对你有帮助！如果有问题，欢迎留言交流。
+后续实际迁移时会更新实际体验。有问题欢迎留言交流。
