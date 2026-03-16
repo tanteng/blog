@@ -1,8 +1,18 @@
-/* 移动端封面图样式 */
+/* 移动端封面图样式 - 使用更通用的选择器 */
 @media screen and (max-width: 768px) {
-  header.cover,
+  /* 首页头部封面 */
+  body section header.cover,
+  body > header.cover,
   header.cover.bg-top,
-  header.cover.bg-center {
+  header.cover.bg-center,
+  header.cover {
+    background-image: url('https://tanteng.space/blog-cover.jpg') !important;
+    background-size: cover !important;
+    background-position: center top !important;
+  }
+  
+  /* 文章页面头部封面 */
+  article header.cover {
     background-image: url('https://tanteng.space/blog-cover.jpg') !important;
     background-size: cover !important;
     background-position: center top !important;
