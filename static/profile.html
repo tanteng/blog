@@ -3,211 +3,295 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>你好 👋</title>
+    <link rel="icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <title>我的个人介绍</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #fef3f2 0%, #fdf4f3 100%);
             min-height: 100vh;
             padding: 40px 20px;
         }
+
         .container {
-            max-width: 520px;
+            max-width: 600px;
             margin: 0 auto;
+        }
+
+        .card {
             background: white;
             border-radius: 24px;
-            box-shadow: 0 25px 80px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 32px rgba(239, 68, 68, 0.08);
             overflow: hidden;
+            margin-bottom: 20px;
         }
-        .hero {
-            position: relative;
-            height: 280px;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #ffd1ff 100%);
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
+
+        .header {
+            background: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%);
+            padding: 40px 32px;
+            text-align: center;
+            color: white;
         }
-        .hero-photo {
-            position: absolute;
-            bottom: -60px;
-            width: 140px;
-            height: 140px;
+
+        .avatar {
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            border: 5px solid white;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-            overflow: hidden;
-            background: #fff;
-        }
-        .hero-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .hero-photo .placeholder {
-            width: 100%;
-            height: 100%;
+            border: 4px solid white;
+            margin: 0 auto 16px;
+            background: #ffe4e6;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 48px;
-            background: linear-gradient(135deg, #ffe5e5 0%, #fff0f0 100%);
+            font-size: 40px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
         }
-        .content {
-            padding: 80px 32px 32px;
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .header .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .intro-section {
+            padding: 28px 24px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 16px;
             text-align: center;
         }
-        .name {
-            font-size: 26px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 6px;
+
+        .info-row {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
         }
-        .age-location {
-            color: #888;
-            font-size: 15px;
-            margin-bottom: 24px;
+
+        .info-chip {
+            background: #fef2f2;
+            color: #f43f5e;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
         }
+
         .intro-text {
             color: #555;
+            line-height: 1.8;
             font-size: 15px;
-            line-height: 1.9;
-            margin-bottom: 28px;
+            text-align: center;
         }
-        .divider {
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, #ff9a9e, #ffd1ff);
-            border-radius: 2px;
-            margin: 0 auto 28px;
-        }
-        .section {
-            margin-bottom: 24px;
-        }
-        .section-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: #ff9a9e;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 14px;
-        }
+
         .tags {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 8px;
+            margin-top: 16px;
         }
+
         .tag {
-            background: #fff5f5;
-            color: #666;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
+            background: #fce7f3;
+            color: #db2777;
+            padding: 6px 14px;
+            border-radius: 16px;
+            font-size: 13px;
         }
-        .photos-grid {
+
+        .photos-section {
+            padding: 24px;
+            background: #fffafa;
+        }
+
+        .photo-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-top: 8px;
+            gap: 12px;
         }
-        .photo-item {
-            aspect-ratio: 1;
-            border-radius: 12px;
-            overflow: hidden;
-            background: #f8f8f8;
-        }
-        .photo-item img {
+
+        .photo-img {
             width: 100%;
-            height: 100%;
+            aspect-ratio: 3/4;
             object-fit: cover;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-        .photo-item .placeholder {
-            width: 100%;
-            height: 100%;
+
+        /* 传送门 - 作为结尾 */
+        .links-section {
+            background: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%);
+            padding: 32px 24px;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(239, 68, 68, 0.25);
+        }
+
+        .links-section .section-title {
+            color: white;
+        }
+
+        .link-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .link-item {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: #ccc;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.2s;
         }
-        .footer {
-            padding: 24px 32px 32px;
-            text-align: center;
+
+        .link-item:hover {
+            background: white;
+            transform: translateX(4px);
         }
-        .footer-text {
-            color: #aaa;
-            font-size: 14px;
+
+        .link-item-icon {
+            width: 36px;
+            height: 36px;
+            flex-shrink: 0;
+            margin-right: 14px;
         }
-        .heart {
-            display: inline-block;
-            animation: pulse 1.5s ease-in-out infinite;
+
+        .link-item-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: #f43f5e;
         }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+
+        .link-item-text {
+            flex: 1;
         }
-        @media (max-width: 480px) {
-            .hero { height: 240px; }
-            .hero-photo { width: 110px; height: 110px; bottom: -50px; }
-            .content { padding: 70px 24px 24px; }
+
+        .link-item-label {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .link-item-url {
+            font-size: 12px;
+            color: #999;
+            margin-top: 2px;
+        }
+
+        .link-item-arrow {
+            font-size: 18px;
+            color: #f43f5e;
+            margin-left: 10px;
+        }
+
+        @media (max-width: 500px) {
+            .photo-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                padding: 32px 24px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="hero">
-            <!-- 主照片位置 -->
-            <div class="hero-photo">
-                <img src="avatar.jpg" alt="我" onerror="this.style.display='none';this.parentNode.innerHTML='<div class="placeholder">📷</div>'">
+        <div class="card">
+            <div class="header">
+                <div class="avatar">😊</div>
+                <h1>谈腾</h1>
             </div>
         </div>
-        
-        <div class="content">
-            <div class="name">Tony</div>
-            <div class="age-location">91年 · 湖北人 · 深圳</div>
-            
+
+        <div class="card intro-section">
+            <h2 class="section-title">关于我</h2>
+            <div class="info-row">
+                <span class="info-chip">🎂 89年</span>
+                <span class="info-chip">📍 深圳</span>
+                <span class="info-chip">📏 178cm</span>
+                <span class="info-chip">🎓 本科</span>
+            </div>
             <p class="intro-text">
-                互联网技术男，工作8年，平时喜欢打羽毛球、跑步、看书📚<br>
-                周末有时候爬山🏔️或者和朋友聚聚，性格随和好相处～
+                湖北黄石人，目前在深圳定居，在鹅厂从事后端开发。<br><br>
+                平时喜欢旅行，摄影，户外活动，爱喝咖啡，可爱的小猫。<br><br>
+                看起来很 I，熟悉后完全变 E 😄
             </p>
-            
-            <div class="divider"></div>
-            
-            <div class="section">
-                <div class="section-title">我的标签</div>
-                <div class="tags">
-                    <span class="tag">🏸 羽毛球</span>
-                    <span class="tag">📚 阅读</span>
-                    <span class="tag">🏃 跑步</span>
-                    <span class="tag">⛰️ 爬山</span>
-                    <span class="tag">🍳 做饭</span>
-                </div>
-            </div>
-            
-            <div class="section">
-                <div class="section-title">我的生活</div>
-                <div class="photos-grid">
-                    <!-- 照片位置 1-6 -->
-                    <div class="photo-item"><img src="photo1.jpg" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='<div class="placeholder">📷</div>'"></div>
-                    <div class="photo-item"><img src="photo2.jpg" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='<div class="placeholder">📷</div>'"></div>
-                    <div class="photo-item"><img src="photo3.jpg" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='<div class="placeholder">📷</div>'"></div>
-                    <div class="photo-item"><img src="photo4.jpg" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='<div class="placeholder">📷</div>'"></div>
-                    <div class="photo-item"><img src="photo5.jpg" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='<div class="placeholder">📷</div>'"></div>
-                    <div class="photo-item"><img src="photo6.jpg" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='<div class="placeholder">📷</div>'"></div>
-                </div>
+            <div class="tags">
+                <span class="tag">摄影</span>
+                <span class="tag">旅行</span>
+                <span class="tag">咖啡</span>
+                <span class="tag">看书</span>
             </div>
         </div>
-        
-        <div class="footer">
-            <p class="footer-text">
-                <span class="heart">💕</span> 期待认识你
-            </p>
+
+        <div class="card photos-section">
+            <div class="photo-grid">
+                <img src="/profile/photo1.jpg" alt="照片1" class="photo-img">
+                <img src="/profile/photo2.jpg" alt="照片2" class="photo-img">
+                <img src="/profile/photo3.jpg" alt="照片3" class="photo-img">
+            </div>
+        </div>
+
+        <!-- 传送门作为结尾 -->
+        <div class="links-section">
+            <h2 class="section-title">传送门</h2>
+            <div class="link-list">
+                <a href="https://blog.tanteng.space" target="_blank" class="link-item">
+                    <div class="link-item-icon">
+                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                    </div>
+                    <div class="link-item-text">
+                        <div class="link-item-label">个人博客</div>
+                        <div class="link-item-url">blog.tanteng.space</div>
+                    </div>
+                    <span class="link-item-arrow">→</span>
+                </a>
+
+                <a href="https://photos.tanteng.space" target="_blank" class="link-item">
+                    <div class="link-item-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    </div>
+                    <div class="link-item-text">
+                        <div class="link-item-label">摄影作品</div>
+                        <div class="link-item-url">photos.tanteng.space</div>
+                    </div>
+                    <span class="link-item-arrow">→</span>
+                </a>
+
+                <a href="mailto:tanteng@tanteng.space" class="link-item">
+                    <div class="link-item-icon">
+                        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    </div>
+                    <div class="link-item-text">
+                        <div class="link-item-label">邮箱</div>
+                        <div class="link-item-url">tanteng@tanteng.space</div>
+                    </div>
+                    <span class="link-item-arrow">→</span>
+                </a>
+            </div>
         </div>
     </div>
 </body>
