@@ -7,13 +7,13 @@ categories: ['tech']
 description: "借助 AI 编程工具，将基于 exif-photo-blog 的 Next.js 照片站点从 Vercel 全家桶迁移到腾讯云 Lighthouse 自托管的完整实践"
 ---
 
-本文记录了将基于 [exif-photo-blog](https://github.com/sambecker/exif-photo-blog) 的照片站点从 Vercel 全家桶迁移到腾讯云 Lighthouse（轻量应用服务器）自托管的完整过程。整个迁移过程中，我大量借助了 AI 编程工具——[OpenClaw](https://github.com/nicepkg/openclaw)（开源 AI 编程助手）和 [WorkBuddy](https://www.codebuddy.cn/)（IDE 内置的 AI 编程工具），从代码改造、脚本编写到问题排查，AI 极大地提升了迁移效率。
+本文记录了将基于 [exif-photo-blog](https://github.com/sambecker/exif-photo-blog) 的照片站点从 Vercel 全家桶迁移到腾讯云 Lighthouse（轻量应用服务器）自托管的完整过程。整个迁移中，我大量借助了 AI 编程工具，主力是 [WorkBuddy](https://www.codebuddy.cn/)（底层模型为 Claude Opus 4.6），同时也用了 [OpenClaw](https://github.com/nicepkg/openclaw) 做一些终端交互——从代码改造、脚本编写到问题排查，AI 让两天的迁移工作变得异常顺滑。
+
+<!--more-->
 
 ## 背景
 
 [exif-photo-blog](https://github.com/sambecker/exif-photo-blog) 是一个优秀的 Next.js 开源照片博客项目，它能自动提取照片的 EXIF 数据（相机型号、镜头、光圈、快门、ISO 等），以简洁优雅的方式展示摄影作品。
-
-<!--more-->
 
 我的站点 [photos.tanteng.space](https://photos.tanteng.space) 最初采用标准的 Vercel 部署方案：
 
@@ -81,22 +81,23 @@ description: "借助 AI 编程工具，将基于 exif-photo-blog 的 Next.js 照
 
 ## AI 编程工具：迁移的加速器
 
-在深入技术细节之前，先聊聊这次迁移中 AI 编程工具扮演的角色。
+在深入技术细节之前，先聊聊 AI 编程工具在这次迁移中扮演的角色。
 
-这次迁移涉及存储适配层编写、数据库迁移脚本、部署自动化、CDN 排障等多个环节。如果全部手写，光是阅读 exif-photo-blog 的源码理解存储抽象层就要花不少时间。实际操作中，我主要用了两个 AI 编程工具：
+迁移涉及存储适配层编写、数据库迁移、部署自动化、CDN 排障等多个环节，每个环节都需要不同领域的知识。如果全部手写手查，光是阅读 exif-photo-blog 的源码理解存储抽象层就要花不少时间。实际操作中，我主要用了两个 AI 编程工具：
 
-- **[OpenClaw](https://github.com/nicepkg/openclaw)**：一个开源的终端 AI 编程助手，类似 Claude Code，支持在命令行中与代码库交互。我用它来分析 exif-photo-blog 的存储抽象层、生成 COS 适配代码、编写部署脚本等
-- **[WorkBuddy](https://www.codebuddy.cn/)**：IDE 中的 AI 编程助手，在日常开发中用它来完成代码补全、重构和脚本编写。比如后面提到的图片优化版本批量生成脚本，就是在 WorkBuddy 中一轮对话完成的
+- **[WorkBuddy](https://www.codebuddy.cn/)**（主力）：IDE 中的 AI 编程助手，底层模型选择的是 **Claude Opus 4.6**。这次迁移的核心工作——COS 存储适配层编写、图片批处理脚本生成、部署脚本、CDN 问题排查——基本都在 WorkBuddy 中完成。Opus 4.6 对复杂代码库的理解能力很强，能准确把握 exif-photo-blog 的存储策略模式，生成的代码质量很高，大多数时候微调几个参数就能直接用
+- **[OpenClaw](https://github.com/nicepkg/openclaw)**：一个开源的终端 AI 编程助手，类似 Claude Code。我搭配的模型是 **MiniMax-2.5**，主要用于终端环境下的一些辅助交互。坦率地说，和 WorkBuddy + Opus 4.6 相比，MiniMax-2.5 在复杂代码理解和生成上还是有明显差距——不过用来做一些简单的命令行辅助还是不错的
 
-这两个工具在迁移过程中的典型使用场景：
+这两个工具在迁移过程中的使用分工：
 
-| 场景 | 工具 | 做了什么 |
-|------|------|---------|
-| 分析存储抽象层 | OpenClaw | 阅读源码，梳理 StorageType 策略模式，给出新增 COS 类型的方案 |
-| 编写 COS 适配代码 | OpenClaw | 生成完整的 tencent-cos 存储后端代码 |
-| 图片优化版本批量生成 | WorkBuddy | 编写 sharp 批处理脚本，处理 400+ 张老照片 |
-| 部署脚本 | OpenClaw | 生成零停机部署脚本，包含构建、替换、缓存清除 |
-| EdgeOne 缓存问题排查 | OpenClaw | 分析 RSC 响应头，定位 Vary 头缓存串问题 |
+| 场景 | 工具 | 模型 | 做了什么 |
+|------|------|------|---------|
+| 分析存储抽象层 | WorkBuddy | Claude Opus 4.6 | 阅读源码，梳理 StorageType 策略模式，给出新增 COS 类型的完整方案 |
+| 编写 COS 适配代码 | WorkBuddy | Claude Opus 4.6 | 生成完整的 tencent-cos 存储后端代码 |
+| 图片优化版本批量生成 | WorkBuddy | Claude Opus 4.6 | 编写 sharp 批处理脚本，一轮对话搞定 400+ 张照片 |
+| 部署脚本 | WorkBuddy | Claude Opus 4.6 | 生成零停机部署脚本，包含构建、替换、缓存清除 |
+| EdgeOne 缓存问题排查 | WorkBuddy | Claude Opus 4.6 | 分析 RSC 响应头，定位 Vary 头缓存串问题 |
+| 终端辅助 | OpenClaw | MiniMax-2.5 | 命令行环境下的一些快速交互 |
 
 下面进入具体的迁移步骤。
 
@@ -126,7 +127,7 @@ rclone copy r2:pics cos:photos-1303209934 \
 
 exif-photo-blog 原生支持 Vercel Blob、Cloudflare R2、AWS S3、MinIO 四种存储后端，采用策略模式通过 `StorageType` 联合类型切换。我需要新增一个 `tencent-cos` 类型。
 
-这部分工作交给了 OpenClaw——让它先阅读整个存储抽象层的代码，理解接口定义和各后端的实现方式，然后直接生成 COS 适配代码。关键点是 COS 的 S3 兼容 endpoint 格式为 `cos.<region>.myqcloud.com`，其他 put/copy/list/delete/presigned-url 操作与 AWS S3 几乎一致。
+这部分工作在 WorkBuddy 中完成——让它阅读整个存储抽象层的代码，理解接口定义和各后端的实现方式，然后直接生成 COS 适配代码。Opus 4.6 对这种「理解现有架构 → 按相同模式扩展」的任务非常拿手，生成的代码风格和现有后端保持一致，几乎不需要修改。关键点是 COS 的 S3 兼容 endpoint 格式为 `cos.<region>.myqcloud.com`，其他 put/copy/list/delete/presigned-url 操作与 AWS S3 几乎一致。
 
 ### 1.4 数据库 URL 批量更新
 
@@ -188,7 +189,7 @@ psql -U tanteng -d verceldb < dump.sql
 
 ## 三、部署方案：零停机部署脚本
 
-告别 Vercel 的一键部署后，需要自己搞定 CI/CD。这部分同样借助 OpenClaw 生成了部署脚本，核心设计：
+告别 Vercel 的一键部署后，需要自己搞定 CI/CD。这部分同样在 WorkBuddy 中完成——描述清楚「独立构建、原子替换、自动清 CDN 缓存」的需求，它就生成了一套完整的部署脚本。核心设计：
 
 - **独立构建目录**：在独立目录中构建，线上代码不受影响
 - **原子替换**：`mv` 操作是文件系统原子操作，不存在中间状态
@@ -204,7 +205,7 @@ psql -U tanteng -d verceldb < dump.sql
 
 排查发现是 **Next.js RSC (React Server Components) 的响应被 CDN 错误缓存**。Next.js 通过 `Vary: RSC, Next-Router-Prefetch` 响应头告诉 CDN 区分缓存，但 **EdgeOne 没有正确处理 `Vary` 头**——导致 HTML 请求可能命中 RSC 的 JSON 缓存，页面就显示一堆乱码。
 
-这个问题排查时也借助了 AI：我把 curl 抓到的响应头贴给 OpenClaw，它很快定位到 Vary 头和 CDN 缓存策略的冲突，并给出了解决方向。
+这个问题排查时，我把 curl 抓到的响应头贴给 WorkBuddy，Opus 4.6 很快就定位到 Vary 头和 CDN 缓存策略的冲突，并给出了解决方案。这种「贴一段日志让 AI 帮你分析」的场景，模型的推理能力越强效果越好。
 
 ### 4.2 解决方案：自定义 Cache Key
 
@@ -250,4 +251,4 @@ psql -U tanteng -d verceldb < dump.sql
 
 整个迁移花了约两天时间。最有价值的改变是 **把数据库搬到本地**——200ms 的查询延迟降到亚毫秒，对 Next.js 这种 SSR/SSG 密集查询的场景提升巨大。
 
-另一个感受是 AI 编程工具对这类迁移工作的加速效果非常明显。迁移涉及的技术面很广——存储 API 适配、图片批处理、部署脚本、CDN 缓存策略——每个环节都需要不同领域的知识。以前可能要查好几轮文档才能搞定的事，现在描述清楚需求让 AI 生成初版代码，自己 review 一遍微调参数就能用。像 [OpenClaw](https://github.com/nicepkg/openclaw) 这样的开源 AI 编程助手和 [WorkBuddy](https://www.codebuddy.cn/) 这类 IDE 内置工具，已经成了我日常开发中不可或缺的搭档。
+另一个深刻感受是 **AI 编程工具对这类迁移工作的加速效果非常明显**。这次迁移涉及的技术面很广——存储 API 适配、图片批处理、部署自动化、CDN 缓存策略——每个环节都需要不同领域的知识。以前可能要查好几轮文档才能搞定的事，现在在 WorkBuddy 里描述清楚需求，Opus 4.6 生成初版代码，自己 review 一遍微调参数就能用。模型能力的差异在实际工程中体现得很明显：同样的任务，Claude Opus 4.6 对复杂代码库的理解深度和生成质量，确实比我在 OpenClaw 中用的 MiniMax-2.5 高出一截。选对工具和模型，真的能让效率翻倍。
