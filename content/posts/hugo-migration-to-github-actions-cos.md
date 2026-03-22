@@ -1,7 +1,7 @@
 ---
 title: "将 Hugo 博客从 Vercel 迁移到 GitHub Actions + 腾讯云 COS"
 date: 2026-03-22
-description: "完整记录将 Hugo 博客从 Vercel 迁移到 GitHub Actions + 腾讯云 COS + EdgeOne 的实践：从最初的第三方 Action 踩坑，到最终实现 coscli sync 增量同步 + EdgeOne 精准缓存清理的自动化部署流水线。"
+description: "借助 WorkBuddy (Claude Opus 4.6) 完成从 Vercel 到 GitHub Actions + 腾讯云 COS + EdgeOne 的迁移实践：从最初的第三方 Action 踩坑，到最终实现 coscli sync 增量同步 + EdgeOne 精准缓存清理的自动化部署流水线。"
 categories:
   - 技术
 tags:
@@ -11,10 +11,11 @@ tags:
   - COS
   - EdgeOne
   - CI/CD
+  - ai-coding
   - 博客
 ---
 
-> 本文记录了将 Hugo 博客从 Vercel 迁移到 GitHub Actions + 腾讯云 COS + EdgeOne 的完整过程。从最初的简单 workflow 一步步演进到今天的方案——增量同步、并发保护、精准缓存清理，踩了不少坑，也沉淀了一些实用经验。
+> 本文记录了将 Hugo 博客从 Vercel 迁移到 GitHub Actions + 腾讯云 COS + EdgeOne 的完整过程。整个迁移中，我主要借助 [WorkBuddy](https://www.codebuddy.cn/)（底层模型为 Claude Opus 4.6）完成 workflow 编写和迭代优化，同时也用了 [OpenClaw](https://github.com/nicepkg/openclaw) 做一些终端辅助。从最初的简单 workflow 一步步演进到今天的方案——增量同步、并发保护、精准缓存清理，AI 工具让整个迭代过程高效了不少。
 
 ## 背景
 
@@ -32,7 +33,7 @@ tags:
 
 ## 部署方案演进
 
-整个迁移并不是一步到位的，而是经历了几个阶段的迭代。
+整个迁移并不是一步到位的，而是经历了几个阶段的迭代。值得一提的是，这个演进过程本身就是一次 **AI 驱动的渐进式改造**——每次遇到问题，我都在 WorkBuddy 里描述现象和需求，Opus 4.6 生成改进方案，review 后直接应用。从第一版到当前版本，workflow 前后改了十几个 commit，但每次迭代基本都是「描述问题 → AI 给方案 → 微调 → 提交」的循环，效率非常高。
 
 ### 第一版：第三方 Action + 基础上传
 
@@ -63,7 +64,7 @@ tags:
 
 ### 当前方案：直接下载 Hugo + coscli sync + EdgeOne 精准缓存清理
 
-经过多轮迭代，当前的 workflow 解决了上述所有问题。
+经过多轮迭代，当前的 workflow 解决了上述所有问题。这些改进并非一次性完成——比如从 `peaceiris/actions-hugo` 切换到直接下载二进制，是 WorkBuddy 在分析 Actions 日志中的 Node.js 20 deprecation warning 后建议的；`coscli sync --delete` 替换全量上传，也是在 WorkBuddy 中讨论「如何避免残留文件」时给出的方案。精准缓存清理的逻辑更复杂一些——涉及 git diff 检测变更、文件路径到 URL 的转换、JSON 数组拼接——这些 shell 脚本基本都是 Opus 4.6 一次生成的，我只调整了一些边界条件处理。
 
 ## 完整 Workflow 详解
 
@@ -144,7 +145,9 @@ concurrency:
 
 ### 5. 精准 EdgeOne 缓存清理
 
-这是整个 workflow 中最有意思的部分。
+这是整个 workflow 中最有意思的部分，也是 AI 工具发挥最大价值的环节。
+
+最初部署后我发现网站内容没更新，在 WorkBuddy 里问了一句「GitHub Actions 部署到 COS 后 EdgeOne CDN 缓存没更新怎么办」，Opus 4.6 给出了用 `tccli` 调用 EdgeOne API 清理缓存的方案。但第一版是 `purge_host` 全站清理，后来我觉得太粗暴了——又在 WorkBuddy 里提了「能不能只清理修改过的文章页面」，它就生成了下面这套 git diff + URL 转换 + 精准清理的完整逻辑。
 
 #### 检测变更文章
 
@@ -294,4 +297,25 @@ concurrency:
 - **并发安全**：concurrency 机制确保不会出现部署冲突
 - **零第三方依赖**：Hugo 安装、COS 上传、缓存清理全部用官方工具，不受第三方 Action 的维护状态影响
 
-整个流水线跑一次大约 **30-40 秒**（视文件变更量而定），push 到 main 后基本一分钟内网站就更新了。对于个人博客来说，这套方案够用且省心。
+整个流水线跑一次大约 **30-40 秒**（视文件变更量而定），push 到 main 后基本一分钟内网站就更新了。
+
+### AI 工具的使用体验
+
+这次迁移再次印证了一个感受：**AI 编程工具对 CI/CD 类工作的加速效果尤其明显**。
+
+CI/CD workflow 的特点是：迭代周期长（改一行 → commit → push → 等 Actions 跑完 → 看日志 → 再改），涉及的知识面杂（YAML 语法、shell 脚本、各种 CLI 工具的参数、云服务 API），且调试手段有限。传统做法是在文档和 Stack Overflow 之间反复横跳，而用 WorkBuddy 的体验则完全不同——把 Actions 日志贴进去，描述期望行为，Opus 4.6 就能精准定位问题并给出修复方案。
+
+具体来说，这次 workflow 从初版到当前版本经历了 **十几次迭代**，每次的模式都很类似：
+
+| 阶段 | 我做了什么 | WorkBuddy 做了什么 |
+|------|-----------|-------------------|
+| 初始搭建 | 描述需求：Hugo 博客部署到 COS | 生成完整的初版 workflow |
+| 工具替换 | 贴上 Node.js 20 warning 日志 | 建议直接下载 Hugo 二进制，生成下载脚本 |
+| 增量同步 | 问「怎么避免残留文件」 | 推荐 coscli sync --delete，给出完整配置 |
+| 缓存清理 v1 | 说「部署后页面没更新」 | 生成 tccli purge_host 全站清理方案 |
+| 缓存清理 v2 | 说「全站清理太粗暴了」 | 生成 git diff + URL 转换 + purge_url 精准清理的完整脚本 |
+| 稳定性优化 | 贴上 curl \| tar 偶发失败的日志 | 建议拆分下载和解压，加 retry 机制 |
+
+整个过程中我基本没有手写过完整的 shell 脚本——都是 Opus 4.6 生成初版，我 review 逻辑、调整参数、处理边界情况。这种「人负责决策和审查，AI 负责生成和迭代」的协作模式，对 CI/CD 场景来说特别合适。
+
+对于个人博客来说，这套方案够用且省心。
