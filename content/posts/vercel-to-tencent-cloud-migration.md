@@ -1,5 +1,5 @@
 ---
-title: "从 Vercel 迁移到腾讯云自托管"
+title: "从 Vercel 迁移到腾讯云：照片博客自托管实践"
 date: 2026-03-22T08:00:00+08:00
 draft: false
 tags: ['vercel', 'tencent-cloud', 'next.js', 'migration']
