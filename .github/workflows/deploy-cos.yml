@@ -49,7 +49,35 @@ jobs:
       - name: Install tccli
         run: pip install tccli
 
-      - name: Purge EdgeOne Cache
+      - name: Detect changed posts
+        id: changed-posts
+        run: |
+          # 获取本次修改的文章文件
+          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+          
+          # 提取 content/posts/ 下的 .md 文件（排除 index.md 等）
+          POSTS=$(echo "$CHANGED_FILES" | grep "^content/posts/.*\.md$" | grep -v "index.md" || true)
+          
+          if [ -n "$POSTS" ]; then
+            echo "检测到修改的文章:"
+            echo "$POSTS"
+            # 生成文章 URL 列表
+            ARTICLE_URLS=""
+            for file in $POSTS; do
+              # 从文件名提取 slug（去掉 .md 后缀）
+              slug=$(basename "$file" .md)
+              url="https://blog.tanteng.space/posts/${slug}/"
+              ARTICLE_URLS="${ARTICLE_URLS}\"${url}\","
+            done
+            # 去掉最后的逗号
+            ARTICLE_URLS=${ARTICLE_URLS%,}
+            echo "ARTICLE_URLS=[$ARTICLE_URLS]" >> $GITHUB_OUTPUT
+          else
+            echo "未检测到文章修改"
+            echo "ARTICLE_URLS=" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Purge EdgeOne Cache (common pages)
         env:
           TENCENTCLOUD_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
           TENCENTCLOUD_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
@@ -82,4 +110,21 @@ jobs:
             --Type purge_host \
             --Targets '["https://blog.tanteng.space/tags/"]'
           
-          echo "✅ EdgeOne cache purged successfully"
+          echo "✅ Common pages cache purged"
+
+      - name: Purge article cache
+        if: steps.changed-posts.outputs.ARTICLE_URLS != ''
+        env:
+          TENCENTCLOUD_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
+          TENCENTCLOUD_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
+        run: |
+          ARTICLE_URLS=${{ steps.changed-posts.outputs.ARTICLE_URLS }}
+          
+          # 清理修改的文章页面
+          tccli teo CreatePurgeTask \
+            --region ap-guangzhou \
+            --ZoneId "${{ secrets.EDGEONE_ZONE_ID }}" \
+            --Type purge_host \
+            --Targets "[${ARTICLE_URLS}]"
+          
+          echo "✅ Article pages cache purged"
