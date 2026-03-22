@@ -22,6 +22,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          fetch-depth: 2
 
       - name: Setup Hugo
         run: |
@@ -52,79 +53,70 @@ jobs:
       - name: Detect changed posts
         id: changed-posts
         run: |
-          # 获取本次修改的文章文件
-          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
-          
-          # 提取 content/posts/ 下的 .md 文件（排除 index.md 等）
-          POSTS=$(echo "$CHANGED_FILES" | grep "^content/posts/.*\.md$" | grep -v "index.md" || true)
-          
+          # 安全获取 diff：如果 HEAD~1 不存在（首次提交或 shallow clone 不足），
+          # 则回退到列出当前提交的所有文件
+          if git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
+            CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+          else
+            echo "⚠️ 无法获取上一次提交，列出当前提交所有文件"
+            CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD)
+          fi
+
+          # 提取 content/posts/ 下的 .md 文件
+          POSTS=$(echo "$CHANGED_FILES" | grep "^content/posts/.*\.md$" || true)
+
           if [ -n "$POSTS" ]; then
             echo "检测到修改的文章:"
             echo "$POSTS"
-            # 生成文章 URL 列表
-            ARTICLE_URLS=""
+
+            # 生成 JSON 数组格式的 URL 列表
+            URLS_JSON="["
+            FIRST=true
             for file in $POSTS; do
-              # 从文件名提取 slug（去掉 .md 后缀）
               slug=$(basename "$file" .md)
               url="https://blog.tanteng.space/posts/${slug}/"
-              ARTICLE_URLS="${ARTICLE_URLS}\"${url}\","
+              if [ "$FIRST" = true ]; then
+                URLS_JSON="${URLS_JSON}\"${url}\""
+                FIRST=false
+              else
+                URLS_JSON="${URLS_JSON},\"${url}\""
+              fi
             done
-            # 去掉最后的逗号
-            ARTICLE_URLS=${ARTICLE_URLS%,}
-            echo "ARTICLE_URLS=[$ARTICLE_URLS]" >> $GITHUB_OUTPUT
+            URLS_JSON="${URLS_JSON}]"
+
+            echo "article_urls=${URLS_JSON}" >> "$GITHUB_OUTPUT"
+            echo "has_articles=true" >> "$GITHUB_OUTPUT"
           else
             echo "未检测到文章修改"
-            echo "ARTICLE_URLS=" >> $GITHUB_OUTPUT
+            echo "has_articles=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Purge EdgeOne Cache (common pages)
+      - name: Purge EdgeOne Cache
         env:
           TENCENTCLOUD_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
           TENCENTCLOUD_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
         run: |
-          # 清理首页
+          # 清理全站缓存（首页、列表页、分类、标签等一次性全部清除）
+          # purge_host 的 Targets 必须是纯域名，不带协议前缀
           tccli teo CreatePurgeTask \
             --region ap-guangzhou \
             --ZoneId "${{ secrets.EDGEONE_ZONE_ID }}" \
             --Type purge_host \
-            --Targets '["https://blog.tanteng.space/"]'
-          
-          # 清理文章列表页
-          tccli teo CreatePurgeTask \
-            --region ap-guangzhou \
-            --ZoneId "${{ secrets.EDGEONE_ZONE_ID }}" \
-            --Type purge_host \
-            --Targets '["https://blog.tanteng.space/posts/"]'
-          
-          # 清理分类页面
-          tccli teo CreatePurgeTask \
-            --region ap-guangzhou \
-            --ZoneId "${{ secrets.EDGEONE_ZONE_ID }}" \
-            --Type purge_host \
-            --Targets '["https://blog.tanteng.space/categories/"]'
-          
-          # 清理标签页面
-          tccli teo CreatePurgeTask \
-            --region ap-guangzhou \
-            --ZoneId "${{ secrets.EDGEONE_ZONE_ID }}" \
-            --Type purge_host \
-            --Targets '["https://blog.tanteng.space/tags/"]'
-          
-          echo "✅ Common pages cache purged"
+            --Targets '["blog.tanteng.space"]'
+          echo "✅ EdgeOne host cache purged"
 
-      - name: Purge article cache
-        if: steps.changed-posts.outputs.ARTICLE_URLS != ''
+      - name: Purge article page cache
+        if: steps.changed-posts.outputs.has_articles == 'true'
         env:
           TENCENTCLOUD_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
           TENCENTCLOUD_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
         run: |
-          ARTICLE_URLS=${{ steps.changed-posts.outputs.ARTICLE_URLS }}
-          
-          # 清理修改的文章页面
+          # 用 purge_url 精准清理修改的文章页面缓存
+          ARTICLE_URLS='${{ steps.changed-posts.outputs.article_urls }}'
+          echo "清理文章页面缓存: ${ARTICLE_URLS}"
           tccli teo CreatePurgeTask \
             --region ap-guangzhou \
             --ZoneId "${{ secrets.EDGEONE_ZONE_ID }}" \
-            --Type purge_host \
-            --Targets "[${ARTICLE_URLS}]"
-          
+            --Type purge_url \
+            --Targets "${ARTICLE_URLS}"
           echo "✅ Article pages cache purged"
