@@ -1,5 +1,5 @@
 ---
-title: "从 Vercel 到腾讯云：一个照片博客的完整自托管迁移实录"
+title: "从 Vercel 迁移到腾讯云自托管"
 date: 2026-03-22T08:00:00+08:00
 draft: false
 tags: ['vercel', 'tencent-cloud', 'next.js', 'migration']
@@ -224,5 +224,3 @@ psql -U tanteng -d verceldb < dump.sql
 ## 结语
 
 整个迁移花了约两天时间。大部分工作在数据搬迁和代码适配上。最有价值的改变是 **把数据库搬到本地**——200ms 的查询延迟降到亚毫秒，对 Next.js 这种 SSR/SSG 密集查询的场景提升巨大。
-
-代码改动已经推送到 [GitHub 仓库](https://github.com/tanteng/exif-photo-blog-v2)，其中腾讯云 COS 存储支持是对原项目的功能扩展，有兴趣的朋友可以参考。
