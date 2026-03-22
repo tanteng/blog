@@ -55,5 +55,5 @@ jobs:
             --region ap-guangzhou \
             --ZoneId "${{ secrets.EDGEONE_ZONE_ID }}" \
             --Type purge_host \
-            --Targets '["https://blog.tanteng.space/"]'
+            --Targets '["blog.tanteng.space"]'
           echo "✅ EdgeOne cache purged successfully"
