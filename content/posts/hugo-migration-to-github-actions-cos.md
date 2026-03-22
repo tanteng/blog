@@ -1,6 +1,8 @@
 ---
 title: "将 Hugo 博客从 Vercel 迁移到 GitHub Actions + 腾讯云 COS"
 date: 2026-03-03
+lastmod: 2026-03-22
+description: "完整记录将 Hugo 博客从 Vercel 迁移到 GitHub Actions + 腾讯云 COS + EdgeOne 的实践：从最初的第三方 Action 踩坑，到最终实现 coscli sync 增量同步 + EdgeOne 精准缓存清理的自动化部署流水线。"
 categories:
   - 技术
 tags:
@@ -8,87 +10,226 @@ tags:
   - GitHub Actions
   - 腾讯云
   - COS
+  - EdgeOne
+  - CI/CD
   - 博客
 ---
 
-> 本文记录了将 Hugo 博客从 Vercel 构建迁移到 GitHub Actions + 腾讯云 COS 的完整过程，包括遇到的问题和解决方案。
+> 本文记录了将 Hugo 博客从 Vercel 迁移到 GitHub Actions + 腾讯云 COS + EdgeOne 的完整过程。从最初的简单 workflow 一步步演进到今天的方案——增量同步、并发保护、精准缓存清理，踩了不少坑，也沉淀了一些实用经验。
 
 ## 背景
 
-之前博客托管在 Vercel 上，使用 Vercel 的自动构建功能。出于以下原因考虑，决定迁移到 GitHub Actions + 腾讯云 COS：
+之前博客托管在 Vercel 上，使用 Vercel 的自动构建功能。出于以下原因，决定迁移到 GitHub Actions + 腾讯云 COS：
 
-1. **国内访问更快** - COS + CDN 国内节点访问速度更好
-2. **成本控制** - 腾讯云 COS 存储成本较低
-3. **完全掌控** - 构建流程完全可控
+1. **国内访问速度** — COS + EdgeOne CDN 在国内有充足节点，访问体验好得多
+2. **成本可控** — COS 存储 + EdgeOne 流量的组合成本远低于其他方案
+3. **流程可控** — 构建、部署、缓存清理全部可编排，出了问题能快速定位
 
 <!--more-->
 
-## 迁移过程
+下图展示了当前部署的完整流程：
 
-### 1. 创建 GitHub Actions Workflow
+<!-- TODO: 插入图片 - Deploy 整体流程图 -->
+<!-- ![Deploy 整体流程](/images/hugo-deploy-workflow.png) -->
 
-在仓库的 `.github/workflows/` 目录下创建部署配置：
+## 部署方案演进
+
+整个迁移并不是一步到位的，而是经历了几个阶段的迭代。
+
+### 第一版：第三方 Action + 基础上传
+
+最初的方案很简单——用 `peaceiris/actions-hugo` 安装 Hugo，用 `zkqiang/tencent-cos-action` 上传到 COS：
+
+```yaml
+- name: Setup Hugo
+  uses: peaceiris/actions-hugo@v2
+  with:
+    hugo-version: '0.146.4'
+    extended: true
+
+- name: Build
+  run: hugo
+
+- name: Upload to COS
+  uses: zkqiang/tencent-cos-action@v0.1.0
+  with:
+    args: upload -r ./public/ /
+```
+
+这个方案能跑，但有几个明显的问题：
+
+- **全量上传**：每次都把整个 `public/` 目录上传一遍，没有增量同步
+- **残留文件**：删除或重命名文章后，COS 上的旧文件不会被清理
+- **依赖第三方 Action**：`peaceiris/actions-hugo` 后来因为 Node.js 20 deprecation 问题开始报 warning
+- **没有缓存清理**：部署完成后 EdgeOne CDN 还在返回旧内容
+
+### 当前方案：直接下载 Hugo + coscli sync + EdgeOne 精准缓存清理
+
+经过多轮迭代，当前的 workflow 解决了上述所有问题。
+
+## 完整 Workflow 详解
+
+### 1. 触发条件与并发控制
 
 ```yaml
 name: Deploy to COS
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
+  workflow_dispatch:
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: '0.146.4'
-          extended: true
-
-      - name: Build
-        run: hugo
-
-      - name: Upload to COS
-        uses: zkqiang/tencent-cos-action@v0.1.0
-        with:
-          args: upload -r ./public/ /
-          secret_id: ${{ secrets.TENCENT_SECRET_ID }}
-          secret_key: ${{ secrets.TENCENT_SECRET_KEY }}
-          bucket: ${{ secrets.TENCENT_BUCKET }}
-          region: ${{ secrets.TENCENT_REGION }}
+concurrency:
+  group: deploy-cos
+  cancel-in-progress: true
 ```
 
-### 2. 配置腾讯云 Secrets
+- **push to main**：推送到 main 分支时自动触发
+- **workflow_dispatch**：支持在 GitHub 界面手动触发，方便调试
+- **concurrency**：同一时间只允许一个部署任务运行。如果正在部署时又有新 push 进来，会取消正在进行的任务、执行最新的——避免并发部署导致文件状态混乱
 
-在 GitHub 仓库的 Settings → Secrets 中配置：
+### 2. Checkout 与 Hugo 安装
 
-- `TENCENT_SECRET_ID` - 腾讯云 API 密钥 ID
-- `TENCENT_SECRET_KEY` - 腾讯云 API 密钥 Key
-- `TENCENT_BUCKET` - COS 存储桶名称
-- `TENCENT_REGION` - 存储桶区域（如 ap-guangzhou）
+```yaml
+- name: Checkout
+  uses: actions/checkout@v4
+  with:
+    submodules: recursive
+    fetch-depth: 2
 
-### 3. 配置 COS 静态网站
+- name: Setup Hugo
+  run: |
+    HUGO_URL="https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
+    curl -fsSL --retry 3 --retry-delay 5 -o /tmp/hugo.tar.gz "$HUGO_URL"
+    tar -xzf /tmp/hugo.tar.gz -C /usr/local/bin hugo
+    hugo version
+```
 
-1. 创建 COS 存储桶
-2. 设置访问权限为「公有读私有写」
-3. 开启「静态网站」功能
-4. 配置自定义域名（如 blog.tanteng.space）
-5. 可选：配置 EdgeOne CDN 加速
+几个值得注意的细节：
 
-## 遇到的问题及解决方案
+- **`fetch-depth: 2`**：只拉取最近 2 次提交，既节省时间，又能让后面的 `git diff HEAD~1 HEAD` 检测到文件变更
+- **直接下载 Hugo 二进制**：放弃 `peaceiris/actions-hugo`，直接从 GitHub Releases 下载。加了 `--retry 3` 重试机制，避免 GitHub CDN 偶发的网络抖动导致下载失败
+- **先下载再解压**：之前用管道 `curl | tar` 的写法，遇到网络中断时 tar 会报错且错误信息不直观，拆开两步更稳健
 
-### 问题 1：schema.html 缺失
+### 3. 构建
+
+```yaml
+- name: Build
+  run: hugo --minify
+```
+
+使用 `--minify` 压缩输出的 HTML/CSS/JS。早期遇到过 minify 导致 ASCII 图表渲染异常的问题，升级 Hugo 版本后已解决。
+
+### 4. 使用 coscli 增量同步
+
+```yaml
+- name: Install coscli
+  run: |
+    curl -fsSL https://cosbrowser.cloud.tencent.com/software/coscli/coscli-linux-amd64 -o /usr/local/bin/coscli
+    chmod +x /usr/local/bin/coscli
+
+- name: Upload to COS
+  run: |
+    coscli sync ./public/ cos://${{ secrets.TENCENT_BUCKET }}/ \
+      -r \
+      -e cos.${{ secrets.TENCENT_REGION }}.myqcloud.com \
+      -i ${{ secrets.TENCENT_SECRET_ID }} \
+      -k ${{ secrets.TENCENT_SECRET_KEY }} \
+      --delete
+```
+
+这是相比初版最大的改进之一：
+
+- **`sync` 命令**：只上传有变化的文件，未修改的文件跳过，大幅减少上传量和时间
+- **`--delete` 参数**：自动删除 COS 上有、但本地 `public/` 中没有的文件——相当于保持 COS 和构建产物完全一致
+- **coscli vs coscmd**：早期尝试过 Python 版的 coscmd，但它不支持 `sync` 命令。coscli 是腾讯云官方的 Go 实现，功能更完善、速度也更快
+
+### 5. 精准 EdgeOne 缓存清理
+
+这是整个 workflow 中最有意思的部分。
+
+#### 检测变更文章
+
+```yaml
+- name: Detect changed posts
+  id: changed-posts
+  run: |
+    if git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
+      CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+    else
+      CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD)
+    fi
+
+    POSTS=$(echo "$CHANGED_FILES" | grep "^content/posts/.*\.md$" || true)
+
+    if [ -n "$POSTS" ]; then
+      # 将变更的文章路径转为博客 URL
+      URLS_JSON="["
+      FIRST=true
+      for file in $POSTS; do
+        slug=$(basename "$file" .md)
+        url="https://blog.tanteng.space/posts/${slug}/"
+        if [ "$FIRST" = true ]; then
+          URLS_JSON="${URLS_JSON}\"${url}\""
+          FIRST=false
+        else
+          URLS_JSON="${URLS_JSON},\"${url}\""
+        fi
+      done
+      URLS_JSON="${URLS_JSON}]"
+
+      echo "article_urls=${URLS_JSON}" >> "$GITHUB_OUTPUT"
+      echo "has_articles=true" >> "$GITHUB_OUTPUT"
+    else
+      echo "has_articles=false" >> "$GITHUB_OUTPUT"
+    fi
+```
+
+通过 `git diff HEAD~1 HEAD` 比较最近两次提交的差异，精确找出哪些文章被修改了，然后把文件路径（如 `content/posts/my-post.md`）转换成对应的博客 URL（如 `https://blog.tanteng.space/posts/my-post/`）。
+
+#### 按需清理缓存
+
+```yaml
+- name: Purge EdgeOne Cache
+  run: |
+    # 每次部署都清理的公共页面
+    COMMON_URLS='["https://blog.tanteng.space/","https://blog.tanteng.space/posts/","https://blog.tanteng.space/categories/","https://blog.tanteng.space/tags/"]'
+
+    # 如果有文章变更，追加到清理列表
+    if [ "$HAS_ARTICLES" = "true" ]; then
+      # 合并公共 URL 和文章 URL
+      ALL_URLS="[${COMMON_INNER},${ARTICLE_INNER}]"
+    else
+      ALL_URLS="$COMMON_URLS"
+    fi
+
+    tccli teo CreatePurgeTask \
+      --region ap-guangzhou \
+      --ZoneId "$ZONE_ID" \
+      --Type purge_url \
+      --Targets "$ALL_URLS"
+```
+
+<!-- TODO: 插入图片 - 精准 EdgeOne 缓存失效示意图 -->
+<!-- ![精准 EdgeOne 缓存失效](/images/edgeone-precise-cache-purge.png) -->
+
+缓存清理策略分两层：
+
+- **公共页面**（首页、文章列表、分类页、标签页）：每次部署都清理，因为新增或修改文章都会影响这些页面的内容
+- **文章页面**：只清理实际被修改的文章对应的 URL
+
+使用 `purge_url`（精准 URL 模式）而非 `purge_host`（全站清理），好处是：
+- **避免缓存雪崩**：全站清理意味着所有页面瞬间回源，对 COS 源站产生压力突增
+- **CDN 命中率更高**：未修改的文章继续享受缓存加速，用户体验不受影响
+- **清理速度更快**：只清理几个 URL，EdgeOne 几乎秒级生效
+
+## 踩坑记录
+
+### 坑 1：schema.html 缺失
 
 **现象**：构建时报错 `partial "schema.html" not found`
 
-**解决**：在项目的 `layouts/partials/` 目录下创建 `schema.html`：
+**解决**：主题需要但未提供的模板文件，在项目的 `layouts/partials/` 目录下补上即可：
 
 ```html
 {{- $title := .Site.Title -}}
@@ -103,11 +244,11 @@ jobs:
 </script>
 ```
 
-### 问题 2：大文件上传超时
+### 坑 2：mermaid.min.js 上传失败
 
-**现象**：`mermaid.min.js`（3.3MB）上传失败，报 `UserNetworkTooSlow` 错误
+**现象**：`mermaid.min.js`（3.3MB）上传 COS 时报 `UserNetworkTooSlow` 错误
 
-**解决**：将 mermaid 改为 CDN 加载：
+**解决**：将 mermaid 改为 CDN 加载，不再打包到构建产物中：
 
 ```html
 <script type="module">
@@ -116,59 +257,44 @@ jobs:
 </script>
 ```
 
-### 问题 3：ASCII 图表渲染异常
+### 坑 3：peaceiris/actions-hugo 的 Node.js 20 问题
 
-**现象**：文章中的 ASCII 图表被转成 SVG 后显示异常
+**现象**：GitHub Actions 日志中出现 Node.js 20 deprecation warning
 
-**解决**：Hugo 0.146.4 与 `--minify` 参数有兼容性问题，去掉 minify 后正常
+**解决**：直接从 GitHub Releases 下载 Hugo 二进制，彻底绕开第三方 Action 的维护依赖。
 
-### 问题 4：coscmd 不支持 sync 命令
+### 坑 4：curl | tar 管道下载不稳定
 
-**现象**：尝试使用 `sync` 命令时报错
+**现象**：偶发 `curl | tar` 管道执行失败，错误信息是 tar 报错，实际是网络中断
 
-**解决**：改用 `upload` 命令，删除操作单独执行
+**解决**：拆成两步——先 `curl` 下载到 `/tmp/hugo.tar.gz`，再 `tar` 解压。加上 `--retry 3 --retry-delay 5` 重试机制。
 
-## 最终配置
+### 坑 5：git diff 在 shallow clone 下失败
 
-```yaml
-name: Deploy to COS
+**现象**：`git diff HEAD~1 HEAD` 报错，因为 GitHub Actions 默认 `fetch-depth: 1` 只拉取当前提交
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+**解决**：设置 `fetch-depth: 2`，并加上 fallback 逻辑——如果 `HEAD~1` 不存在（首次提交），则用 `git diff-tree` 列出当前提交的所有文件。
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
+## 需要配置的 GitHub Secrets
 
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: '0.146.4'
-          extended: true
+在仓库的 **Settings → Secrets and variables → Actions** 中配置：
 
-      - name: Build
-        run: hugo
-
-      - name: Upload to COS
-        uses: zkqiang/tencent-cos-action@v0.1.0
-        with:
-          args: upload -r ./public/ /
-          secret_id: ${{ secrets.TENCENT_SECRET_ID }}
-          secret_key: ${{ secrets.TENCENT_SECRET_KEY }}
-          bucket: ${{ secrets.TENCENT_BUCKET }}
-          region: ${{ secrets.TENCENT_REGION }}
-```
+| Secret 名称 | 用途 |
+|---|---|
+| `TENCENT_SECRET_ID` | 腾讯云 API 密钥 ID |
+| `TENCENT_SECRET_KEY` | 腾讯云 API 密钥 Key |
+| `TENCENT_BUCKET` | COS 存储桶名称 |
+| `TENCENT_REGION` | 存储桶区域（如 `ap-guangzhou`） |
+| `EDGEONE_ZONE_ID` | EdgeOne 站点 ID |
 
 ## 总结
 
-迁移过程整体顺利，主要工作量在解决各种兼容性问题。GitHub Actions 构建比 Vercel 慢一些（主要慢在上传环节），但在国内访问速度更快，体验更好。
+从最初的「Vercel 一键部署」到现在的 GitHub Actions + COS + EdgeOne 方案，表面上看复杂度增加了，但换来的是：
 
-如果对访问速度有更高要求，建议配合腾讯云 EdgeOne CDN 使用，效果更佳。
+- **部署可控**：每个环节都能看到日志，出问题能快速定位
+- **增量同步**：coscli sync 只上传变更文件，部署速度快
+- **精准缓存**：不再粗暴地清全站缓存，只清理真正变化的页面
+- **并发安全**：concurrency 机制确保不会出现部署冲突
+- **零第三方依赖**：Hugo 安装、COS 上传、缓存清理全部用官方工具，不受第三方 Action 的维护状态影响
+
+整个流水线跑一次大约 **30-40 秒**（视文件变更量而定），push 到 main 后基本一分钟内网站就更新了。对于个人博客来说，这套方案够用且省心。
