@@ -1,7 +1,6 @@
 ---
 title: "将 Hugo 博客从 Vercel 迁移到 GitHub Actions + 腾讯云 COS"
-date: 2026-03-03
-lastmod: 2026-03-22
+date: 2026-03-22
 description: "完整记录将 Hugo 博客从 Vercel 迁移到 GitHub Actions + 腾讯云 COS + EdgeOne 的实践：从最初的第三方 Action 踩坑，到最终实现 coscli sync 增量同步 + EdgeOne 精准缓存清理的自动化部署流水线。"
 categories:
   - 技术
@@ -29,8 +28,7 @@ tags:
 
 下图展示了当前部署的完整流程：
 
-<!-- TODO: 插入图片 - Deploy 整体流程图 -->
-<!-- ![Deploy 整体流程](/images/hugo-deploy-workflow.png) -->
+![Deploy 整体流程](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/fe7c0de03cf6d0a1473df227375bc667.png)
 
 ## 部署方案演进
 
@@ -210,8 +208,7 @@ concurrency:
       --Targets "$ALL_URLS"
 ```
 
-<!-- TODO: 插入图片 - 精准 EdgeOne 缓存失效示意图 -->
-<!-- ![精准 EdgeOne 缓存失效](/images/edgeone-precise-cache-purge.png) -->
+![精准 EdgeOne 缓存失效](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/4a89968718c94dc5c0b8e326339c38e9.png)
 
 缓存清理策略分两层：
 
