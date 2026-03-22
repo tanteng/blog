@@ -81,6 +81,11 @@ username = "tanteng001"
 [params.ananke.social.linkedin]
 username = "tanteng"
 
+[minify]
+  [minify.tdewolff]
+    [minify.tdewolff.js]
+      keepWhitespace = true
+
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
