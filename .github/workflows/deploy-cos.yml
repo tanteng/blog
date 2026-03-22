@@ -26,8 +26,12 @@ jobs:
 
       - name: Setup Hugo
         run: |
-          curl -fsSL "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz" \
-            | tar -xz -C /usr/local/bin hugo
+          HUGO_URL="https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
+          echo "Downloading Hugo ${HUGO_VERSION} from ${HUGO_URL}"
+          # 先下载再解压，带 3 次重试，避免网络抖动导致管道失败
+          curl -fsSL --retry 3 --retry-delay 5 -o /tmp/hugo.tar.gz "$HUGO_URL"
+          tar -xzf /tmp/hugo.tar.gz -C /usr/local/bin hugo
+          rm -f /tmp/hugo.tar.gz
           hugo version
 
       - name: Build
