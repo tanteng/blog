@@ -46,25 +46,5 @@
     </section>
   </div>
   
-  {{ if gt .Paginator.TotalPages 1 }}
-  <nav class="flex justify-center pt4 pb3" role="navigation" aria-label="Pagination">
-    <ul class="list pl0 tr">
-      {{ if .Paginator.HasPrev }}
-      <li class="dib mr2">
-        <a href="{{ .Paginator.Prev.URL }}" class="f6 link bg-black-10 hover-bg-black-20 bg-animate black-80 b--black-10 dib pa2 br2">← 上一页</a>
-      </li>
-      {{ end }}
-      
-      <li class="dib mr2">
-        <span class="f6 black-50 pa2">{{ .Paginator.PageNumber }} / {{ .Paginator.TotalPages }}</span>
-      </li>
-      
-      {{ if .Paginator.HasNext }}
-      <li class="dib">
-        <a href="{{ .Paginator.Next.URL }}" class="f6 link bg-black-10 hover-bg-black-20 bg-animate black-80 b--black-10 dib pa2 br2">下一页 →</a>
-      </li>
-      {{ end }}
-    </ul>
-  </nav>
-  {{ end }}
+  {{ partial "pagination.html" . }}
 {{ end }}

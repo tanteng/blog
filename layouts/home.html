@@ -25,28 +25,8 @@
         {{ end }}
       </section>
 
-      {{/* 分页导航 - 使用主题样式 */}}
-      {{ if gt $paginator.TotalPages 1 }}
-      <nav class="flex justify-center pt4 pb3" role="navigation" aria-label="Pagination">
-        <ul class="list pl0 tr">
-          {{ if $paginator.HasPrev }}
-          <li class="dib mr2">
-            <a href="{{ $paginator.Prev.URL }}" class="f6 link bg-black-10 hover-bg-black-20 bg-animate black-80 b--black-10 dib pa2 br2">← 上一页</a>
-          </li>
-          {{ end }}
-          
-          <li class="dib mr2">
-            <span class="f6 black-50 pa2">{{ $paginator.PageNumber }} / {{ $paginator.TotalPages }}</span>
-          </li>
-          
-          {{ if $paginator.HasNext }}
-          <li class="dib">
-            <a href="{{ $paginator.Next.URL }}" class="f6 link bg-black-10 hover-bg-black-20 bg-animate black-80 b--black-10 dib pa2 br2">下一页 →</a>
-          </li>
-          {{ end }}
-        </ul>
-      </nav>
-      {{ end }}
+      {{/* 分页导航 - 数字页码 */}}
+      {{ partial "pagination.html" . }}
     </div>
   {{ end }}
 {{ end }}
