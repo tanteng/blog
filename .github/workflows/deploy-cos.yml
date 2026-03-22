@@ -96,27 +96,28 @@ jobs:
           TENCENTCLOUD_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
           TENCENTCLOUD_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
         run: |
-          # 清理全站缓存（首页、列表页、分类、标签等一次性全部清除）
-          # purge_host 的 Targets 必须是纯域名，不带协议前缀
-          tccli teo CreatePurgeTask \
-            --region ap-guangzhou \
-            --ZoneId "${{ secrets.EDGEONE_ZONE_ID }}" \
-            --Type purge_host \
-            --Targets '["blog.tanteng.space"]'
-          echo "✅ EdgeOne host cache purged"
+          ZONE_ID="${{ secrets.EDGEONE_ZONE_ID }}"
 
-      - name: Purge article page cache
-        if: steps.changed-posts.outputs.has_articles == 'true'
-        env:
-          TENCENTCLOUD_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
-          TENCENTCLOUD_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
-        run: |
-          # 用 purge_url 精准清理修改的文章页面缓存
-          ARTICLE_URLS='${{ steps.changed-posts.outputs.article_urls }}'
-          echo "清理文章页面缓存: ${ARTICLE_URLS}"
+          # 构建需要清理的 URL 列表：首页 + 文章列表 + 分类 + 标签
+          COMMON_URLS='["https://blog.tanteng.space/","https://blog.tanteng.space/posts/","https://blog.tanteng.space/categories/","https://blog.tanteng.space/tags/"]'
+
+          # 如果有修改的文章，追加到列表中
+          HAS_ARTICLES="${{ steps.changed-posts.outputs.has_articles }}"
+          if [ "$HAS_ARTICLES" = "true" ]; then
+            ARTICLE_URLS='${{ steps.changed-posts.outputs.article_urls }}'
+            # 合并两个 JSON 数组：去掉各自的 [] 再拼起来
+            COMMON_INNER=$(echo "$COMMON_URLS" | sed 's/^\[//;s/\]$//')
+            ARTICLE_INNER=$(echo "$ARTICLE_URLS" | sed 's/^\[//;s/\]$//')
+            ALL_URLS="[${COMMON_INNER},${ARTICLE_INNER}]"
+            echo "清理页面缓存（含文章）: ${ALL_URLS}"
+          else
+            ALL_URLS="$COMMON_URLS"
+            echo "清理公共页面缓存: ${ALL_URLS}"
+          fi
+
           tccli teo CreatePurgeTask \
             --region ap-guangzhou \
-            --ZoneId "${{ secrets.EDGEONE_ZONE_ID }}" \
+            --ZoneId "$ZONE_ID" \
             --Type purge_url \
-            --Targets "${ARTICLE_URLS}"
-          echo "✅ Article pages cache purged"
+            --Targets "$ALL_URLS"
+          echo "✅ EdgeOne cache purged"
