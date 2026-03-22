@@ -54,9 +54,32 @@ jobs:
           TENCENTCLOUD_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
           TENCENTCLOUD_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
         run: |
+          # 清理首页
           tccli teo CreatePurgeTask \
             --region ap-guangzhou \
             --ZoneId "${{ secrets.EDGEONE_ZONE_ID }}" \
             --Type purge_host \
-            --Targets '["blog.tanteng.space"]'
+            --Targets '["https://blog.tanteng.space/"]'
+          
+          # 清理文章列表页
+          tccli teo CreatePurgeTask \
+            --region ap-guangzhou \
+            --ZoneId "${{ secrets.EDGEONE_ZONE_ID }}" \
+            --Type purge_host \
+            --Targets '["https://blog.tanteng.space/posts/"]'
+          
+          # 清理分类页面
+          tccli teo CreatePurgeTask \
+            --region ap-guangzhou \
+            --ZoneId "${{ secrets.EDGEONE_ZONE_ID }}" \
+            --Type purge_host \
+            --Targets '["https://blog.tanteng.space/categories/"]'
+          
+          # 清理标签页面
+          tccli teo CreatePurgeTask \
+            --region ap-guangzhou \
+            --ZoneId "${{ secrets.EDGEONE_ZONE_ID }}" \
+            --Type purge_host \
+            --Targets '["https://blog.tanteng.space/tags/"]'
+          
           echo "✅ EdgeOne cache purged successfully"
