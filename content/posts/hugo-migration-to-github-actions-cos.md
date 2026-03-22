@@ -15,7 +15,9 @@ tags:
   - 博客
 ---
 
-> 本文记录了将 Hugo 博客从 Vercel 迁移到 GitHub Actions + 腾讯云 COS + EdgeOne 的完整过程。整个迁移中，我主要借助 [WorkBuddy](https://www.codebuddy.cn/)（底层模型为 Claude Opus 4.6）完成 workflow 编写和迭代优化，同时也用了 [OpenClaw](https://github.com/nicepkg/openclaw) 做一些终端辅助。从最初的简单 workflow 一步步演进到今天的方案——增量同步、并发保护、精准缓存清理，AI 工具让整个迭代过程高效了不少。
+本文记录了将 Hugo 博客从 Vercel 迁移到 GitHub Actions + 腾讯云 COS + EdgeOne 的完整过程。整个迁移中，我主要借助 [WorkBuddy](https://www.codebuddy.cn/)（底层模型为 Claude Opus 4.6）完成 workflow 编写和迭代优化，同时也用了 [OpenClaw](https://github.com/nicepkg/openclaw) 做一些终端辅助。从最初的简单 workflow 一步步演进到今天的方案——增量同步、并发保护、精准缓存清理，AI 工具让整个迭代过程高效了不少。
+
+<!--more-->
 
 ## 背景
 
@@ -24,8 +26,6 @@ tags:
 1. **国内访问速度** — COS + EdgeOne CDN 在国内有充足节点，访问体验好得多
 2. **成本可控** — COS 存储 + EdgeOne 流量的组合成本远低于其他方案
 3. **流程可控** — 构建、部署、缓存清理全部可编排，出了问题能快速定位
-
-<!--more-->
 
 下图展示了当前部署的完整流程：
 
