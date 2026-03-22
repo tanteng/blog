@@ -32,3 +32,17 @@ jobs:
           secret_key: ${{ secrets.TENCENT_SECRET_KEY }}
           bucket: ${{ secrets.TENCENT_BUCKET }}
           region: ${{ secrets.TENCENT_REGION }}
+
+      - name: Setup Tencent CLI
+        if: success()
+        uses: TencentCloud/tencentcloud-cli-action@v1.0
+
+      - name: Purge EdgeOne Cache
+        if: success()
+        run: |
+          # 清除 EdgeOne 缓存
+          tccli edgeone PurgeHosts --Hosts '["blog.tanteng.space"]' --FlushType flush
+        env:
+          TENCENT_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
+          TENCENT_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
+          TENCENT_REGION: ap-guangzhou
