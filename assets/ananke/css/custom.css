@@ -79,6 +79,12 @@ code {
   font-size: 0.9em !important;
 }
 
+/* 分页导航居中 */
+nav[aria-label="Pagination"] {
+  justify-content: center;
+  width: 100%;
+}
+
 /* 图片样式优化 */
 img {
   max-width: 100% !important;
