@@ -3,9 +3,9 @@ title: "Golang 使用接口实现类似泛型的排序功能"
 type: post
 date: 2017-08-11T10:14:10+00:00
 url: /2017/08/golang-generic-interface/
-categories:
- - Develop
- - Go
+categories: ['tech']
+tags:
+  - Go
 
 ---
 Golang 不支持 Java 那样的泛型，但没有泛型也可以实现类似功能，而且代码更简单直接。

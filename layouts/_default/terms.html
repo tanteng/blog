@@ -1,6 +1,10 @@
 {{ define "header" }}
 {{ $termName := .Title }}
-{{ $translated := i18n (printf "category.%s" $termName) }}
+{{ $lowerName := lower .Title }}
+{{ $translated := i18n (printf "category.%s" $lowerName) }}
+{{ if not $translated }}
+  {{ $translated = i18n (printf "tag.%s" $lowerName) }}
+{{ end }}
 {{ if $translated }}
   {{ $termName = $translated }}
 {{ end }}
@@ -23,7 +27,11 @@
       {{ range $term := .Data.Pages }}
         <h2 class="f1">
           {{ $termName := $term.LinkTitle }}
-          {{ $translated := i18n (printf "category.%s" $termName) }}
+          {{ $lowerName := lower $term.LinkTitle }}
+          {{ $translated := i18n (printf "category.%s" $lowerName) }}
+          {{ if not $translated }}
+            {{ $translated = i18n (printf "tag.%s" $lowerName) }}
+          {{ end }}
           {{ if $translated }}
             {{ $termName = $translated }}
           {{ end }}

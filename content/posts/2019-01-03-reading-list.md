@@ -2,10 +2,7 @@
 title: 本周阅读清单20190103
 date: 2019-01-23T04:14:50+00:00
 url: /2019/01/reading-list-20190103/
-categories:
- - MySQL
- - Logstash
- - Laravel
+categories: ['tech']
 tags:
  - 阅读清单
 ---

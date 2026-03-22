@@ -2,7 +2,7 @@
 title: "PHP进程管理：pcntl_fork的原理与实战"
 date: 2014-09-03 00:00:00
 tags: ["PHP", "progression", "pcntl"]
-categories: ["技术"]
+categories: ["tech"]
 ---
 
 在PHP中，除了传统的同步执行方式，我们还可以通过fork（分叉）进程来实现并行处理。本文将详细介绍PHP中进程管理的基础知识，特别是`pcntl_fork`函数的用法与背后的原理。

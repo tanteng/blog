@@ -2,9 +2,7 @@
 title: Laravel 中为何不使用 blpop 取队列？
 date: 2018-07-31T17:18:21+00:00
 url: /2018/07/laravel-queue-blpop/
-categories:
- - Laravel
- - Redis
+categories: ['tech']
 tags:
  - Laravel
  - Redis

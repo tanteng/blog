@@ -2,9 +2,7 @@
 title: 本周阅读清单20180730
 date: 2018-08-06T11:04:09+00:00
 url: /2018/08/reading-list-20180730/
-categories:
- - Redis
- - Laravel
+categories: ['tech']
 tags:
  - 阅读清单
 ---

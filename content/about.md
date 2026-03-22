@@ -3,7 +3,7 @@ title: '关于我'
 date: 1949-10-01T00:00:00+08:00
 draft: false
 tags: ['自我介绍', '个人', '谈腾']
-categories: ['随笔']
+categories: ['life']
 description: '我是谈腾，现居深圳，腾讯后端开发工程师。热爱摄影、旅行、技术。'
 ---
 

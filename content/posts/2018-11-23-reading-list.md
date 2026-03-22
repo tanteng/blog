@@ -2,9 +2,7 @@
 title: 本周阅读清单20181123
 date: 2018-12-09T05:05:42+00:00
 url: /2018/11/reading-list-20181123/
-categories:
- - Golang
- - MySQL
+categories: ['tech']
 tags:
  - 阅读清单
 ---

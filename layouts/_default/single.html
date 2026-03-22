@@ -55,7 +55,7 @@
       </time>
       {{end}}
 
-      {{ $catMap := dict "tech" "技术" "photo" "摄影" "ai" "AI" "investment" "投资" "tech-news" "科技资讯" "science" "科学" "art" "艺术" }}
+      {{ $catMap := dict "tech" "技术" "photo" "摄影" "ai" "AI" "investment" "投资" "tech-news" "科技资讯" "technews" "科技资讯" "science" "科学" "art" "艺术" "life" "生活" "reading-notes" "读书笔记" }}
       {{ if and .Params.categories (eq .Section "posts") }}
       <span class="f6 mv4 dib tracked"> | 
         {{ range $index, $cat := .Params.categories }}

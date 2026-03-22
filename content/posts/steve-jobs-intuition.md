@@ -3,7 +3,7 @@ title: "内心平静下来——找到直觉"
 date: 2012-08-14T05:19:53+08:00
 draft: false
 tags: ['stevejobs']
-categories: ["读书笔记"]
+categories: ["reading-notes"]
 description: "回到美国对我来说是更大的文化冲击。印度农村的人不像我们使用理性，他们使用直觉，而他们的直觉比世界上其他地方的人发达得多。直觉是非常强大的东西，比理性更强大。"
 ---
 

@@ -2,8 +2,7 @@
 title: 本周阅读清单20181210
 date: 2019-01-02T06:14:06+00:00
 url: /2018/12/reading-list-20181210/
-categories:
- - Golang
+categories: ['tech']
 tags:
  - 阅读清单
 ---

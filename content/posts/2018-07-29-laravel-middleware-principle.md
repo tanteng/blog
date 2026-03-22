@@ -2,9 +2,7 @@
 title: Laravel 中间件原理
 date: 2018-07-29T16:25:08+00:00
 url: /2018/07/laravel-middleware-principle/
-categories:
- - Laravel
- - PHP
+categories: ['tech']
 tags:
  - Laravel
  - 原理

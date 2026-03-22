@@ -2,12 +2,7 @@
 title: 本周阅读清单20180723
 date: 2018-07-26T05:04:16+00:00
 url: /2018/07/reading-list-20180723/
-categories:
- - Golang
- - Nginx
- - PHP
- - Laravel
- - Redis
+categories: ['tech']
 tags:
  - 阅读清单
 ---

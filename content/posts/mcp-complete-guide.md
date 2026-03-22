@@ -1,8 +1,7 @@
 ---
 title: "MCP 完全指南：从协议原理到 Go 服务开发实战"
 date: 2025-12-28
-categories:
-  - 技术
+categories: ['tech']
 tags:
   - MCP
   - Go

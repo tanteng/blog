@@ -2,11 +2,7 @@
 title: 本周阅读清单20180507
 date: 2018-05-13T10:43:32+00:00
 url: /2018/05/reading-list-20180507/
-categories:
- - 区块链
- - Golang
- - HTTP/2
- - Linux
+categories: ['tech']
 tags:
  - 阅读清单
 ---

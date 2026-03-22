@@ -3,7 +3,7 @@ title: "记住自己即将死去——追随内心"
 date: 2012-08-14T05:10:00+08:00
 draft: false
 tags: ['stevejobs']
-categories: ["读书笔记"]
+categories: ["reading-notes"]
 featured_image: "https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/0693a1ca550cc5748ec1c185f56d0fd6.png"
 description: "记住你即将死去——这是我已知的最有帮助的工具，它帮助我做出人生中的重大选择。因为几乎所有的一切——所有外在的期待、所有的骄傲、所有对尴尬或失败的恐惧——在死亡面前都会烟消云散，只留下真正重要的东西。"
 ---

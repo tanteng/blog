@@ -2,9 +2,7 @@
 title: 本周阅读清单20190305
 date: 2019-03-05T19:02:39+08:00
 url: /2019/03/reading-list-20190305/
-categories:
- - Golang
- - PHP
+categories: ['tech']
 tags:
  - 阅读清单
 ---

@@ -2,11 +2,7 @@
 title: 本周阅读清单20190128
 date: 2019-02-03T15:30:05+00:00
 url: /2019/01/reading-list-20190128/
-categories:
- - Golang
- - Hive
- - Linux
- - MySQL
+categories: ['tech']
 tags:
  - 阅读清单
 ---

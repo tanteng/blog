@@ -2,10 +2,7 @@
 title: 本周阅读清单20180430
 date: 2018-05-06T04:39:53+00:00
 url: /2018/05/reading-list-20180430/
-categories:
- - ELK
- - WebSocket
- - PHP
+categories: ['tech']
 tags:
  - 阅读清单
 ---

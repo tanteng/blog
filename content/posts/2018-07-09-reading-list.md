@@ -2,10 +2,7 @@
 title: 本周阅读清单20180709
 date: 2018-07-13T06:15:38+00:00
 url: /2018/07/reading-list-20180709/
-categories:
- - TCP
- - MySQL
- - Swoole
+categories: ['tech']
 tags:
  - 阅读清单
 ---

@@ -2,9 +2,7 @@
 title: 本周阅读清单20190225
 date: 2019-02-25T19:02:39+08:00
 url: /2019/02/reading-list-20190225/
-categories:
- - Golang
- - MySQL
+categories: ['tech']
 tags:
  - 阅读清单
 ---
