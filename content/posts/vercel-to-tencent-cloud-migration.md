@@ -86,30 +86,6 @@ description: "借助 AI 编程工具，将基于 exif-photo-blog 的 Next.js 照
 
 ---
 
-## AI 编程工具：迁移的加速器
-
-在深入技术细节之前，先聊聊 AI 编程工具在这次迁移中扮演的角色。
-
-迁移涉及存储适配层编写、数据库迁移、部署自动化、CDN 排障等多个环节，每个环节都需要不同领域的知识。如果全部手写手查，光是阅读 exif-photo-blog 的源码理解存储抽象层就要花不少时间。实际操作中，我主要用了两个 AI 编程工具：
-
-- **WorkBuddy**（主力）：IDE 中的 AI 编程助手，底层模型选择的是 **Claude Opus 4.6**。这次迁移的核心工作——COS 存储适配层编写、图片批处理脚本生成、部署脚本、CDN 问题排查——基本都在 WorkBuddy 中完成。Opus 4.6 对复杂代码库的理解能力很强，能准确把握 exif-photo-blog 的存储策略模式，生成的代码质量很高，大多数时候微调几个参数就能直接用
-- **OpenClaw**：一个开源的终端 AI 编程助手，类似 Claude Code。我搭配的模型是 **MiniMax-2.5**，主要用于终端环境下的一些辅助交互。坦率地说，和 WorkBuddy + Opus 4.6 相比，MiniMax-2.5 在复杂代码理解和生成上还是有明显差距——不过用来做一些简单的命令行辅助还是不错的
-
-这两个工具在迁移过程中的使用分工：
-
-| 场景 | 工具 | 模型 | 做了什么 |
-|------|------|------|---------|
-| 分析存储抽象层 | WorkBuddy | Claude Opus 4.6 | 阅读源码，梳理 StorageType 策略模式，给出新增 COS 类型的完整方案 |
-| 编写 COS 适配代码 | WorkBuddy | Claude Opus 4.6 | 生成完整的 tencent-cos 存储后端代码 |
-| 图片优化版本批量生成 | WorkBuddy | Claude Opus 4.6 | 编写 sharp 批处理脚本，一轮对话搞定 400+ 张照片 |
-| 部署脚本 | WorkBuddy | Claude Opus 4.6 | 生成零停机部署脚本，包含构建、替换、缓存清除 |
-| EdgeOne 缓存问题排查 | WorkBuddy | Claude Opus 4.6 | 分析 RSC 响应头，定位 Vary 头缓存串问题 |
-| 终端辅助 | OpenClaw | MiniMax-2.5 | 命令行环境下的一些快速交互 |
-
-下面进入具体的迁移步骤。
-
----
-
 ## 一、图片存储迁移：R2 → 腾讯云 COS
 
 ### 1.1 为什么选 COS
