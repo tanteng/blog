@@ -22,7 +22,7 @@ description: "借助 AI 编程工具，将基于 exif-photo-blog 的 Next.js 照
 | 数据库 | Neon PostgreSQL (us-east-1) |
 | CDN | Vercel Edge Network |
 
-Vercel 支持一键部署，整个站点几分钟内就能上线运行，非常方便。但使用过程中一些问题逐渐浮现：
+Vercel 的一键部署确实方便，但使用过程中一些问题逐渐浮现：
 
 1. **跨洋延迟**：Neon PostgreSQL 部署在 us-east-1，每次查询跨太平洋往返，构建和加载都很慢
 2. **访问体验**：Vercel Edge Network 在国内没有节点，访问速度受限
