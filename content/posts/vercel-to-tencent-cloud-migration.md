@@ -13,8 +13,6 @@ description: "借助 AI 编程工具，将基于 exif-photo-blog 的 Next.js 照
 
 ## 背景
 
-[exif-photo-blog](https://github.com/sambecker/exif-photo-blog) 是一个优秀的 Next.js 开源照片博客项目，它能自动提取照片的 EXIF 数据（相机型号、镜头、光圈、快门、ISO 等），以简洁优雅的方式展示摄影作品。
-
 我的站点 [photos.tanteng.space](https://photos.tanteng.space) 最初采用标准的 Vercel 部署方案：
 
 | 组件 | 原方案 |
@@ -24,7 +22,7 @@ description: "借助 AI 编程工具，将基于 exif-photo-blog 的 Next.js 照
 | 数据库 | Neon PostgreSQL (us-east-1) |
 | CDN | Vercel Edge Network |
 
-这套方案开箱即用，但使用过程中一些问题逐渐浮现：
+Vercel 支持一键部署，整个站点几分钟内就能上线运行，非常方便。但使用过程中一些问题逐渐浮现：
 
 1. **跨洋延迟**：Neon PostgreSQL 部署在 us-east-1，每次查询跨太平洋往返，构建和加载都很慢
 2. **访问体验**：Vercel Edge Network 在国内没有节点，访问速度受限
