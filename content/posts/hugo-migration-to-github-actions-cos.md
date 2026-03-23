@@ -14,7 +14,7 @@ tags:
   - 博客
 ---
 
-本文记录了将 Hugo 博客从 Vercel 迁移到 GitHub Actions + 腾讯云 COS + EdgeOne 的完整过程。整个迁移中，我主要借助 WorkBuddy（底层模型为 Claude Opus 4.6）完成 workflow 编写和迭代优化，同时也用了 OpenClaw 做一些终端辅助。从最初的简单 workflow 一步步演进到今天的方案——增量同步、并发保护、精准缓存清理，AI 工具让整个迭代过程高效了不少。
+本文记录了将 Hugo 博客从 Vercel 迁移到 GitHub Actions + 腾讯云 COS + EdgeOne 的完整过程。整个迁移中，我主要借助 WorkBuddy（底层模型为 Claude Opus 4.6）完成 workflow 编写和迭代优化，同时也用了 OpenClaw 做一些终端辅助和博客内容的修改润色。从最初的简单 workflow 一步步演进到今天的方案——增量同步、并发保护、精准缓存清理，AI 工具让整个迭代过程高效了不少。
 
 <!--more-->
 
@@ -28,51 +28,44 @@ tags:
 
 下图展示了当前部署的完整流程：
 
-{{< mermaid >}}flowchart LR
-    A[Git Push to main] --> B[GitHub Actions<br/>并发控制]
-    B --> C[Checkout<br/>fetch-depth: 2]
-    C --> D[下载 Hugo 二进制]
-    D --> E[hugo --minify<br/>构建]
-    E --> F[coscli sync --delete<br/>增量同步到 COS]
-    F --> G{git diff<br/>检测变更文章}
-    G -->|有文章变更| H[purge_url<br/>公共页面 + 变更文章]
-    G -->|无文章变更| I[purge_url<br/>仅公共页面]
+{{< mermaid >}}flowchart TD
+    A([🚀 Git Push to main]):::trigger --> B[⚙️ GitHub Actions<br/>并发控制]:::ci
+    B --> C[📥 Checkout<br/>fetch-depth: 2]:::step
+    C --> D[🔧 安装 Hugo 二进制]:::step
+    D --> E[🏗️ hugo --minify 构建]:::build
+    E --> F[☁️ coscli sync --delete<br/>增量同步到 COS]:::deploy
+    F --> G{📋 git diff<br/>检测变更文章}:::check
+    G -->|有文章变更| H[🔄 purge_url<br/>公共页面 + 变更文章]:::purge
+    G -->|无文章变更| I[🔄 purge_url<br/>仅公共页面]:::purge
+    H --> J([✅ 部署完成]):::done
+    I --> J
+
+    classDef trigger fill:#667eea,stroke:#5a67d8,color:#fff,stroke-width:2px
+    classDef ci fill:#4a5568,stroke:#2d3748,color:#fff,stroke-width:2px
+    classDef step fill:#edf2f7,stroke:#a0aec0,color:#2d3748,stroke-width:1px
+    classDef build fill:#f6ad55,stroke:#dd6b20,color:#fff,stroke-width:2px
+    classDef deploy fill:#4299e1,stroke:#2b6cb0,color:#fff,stroke-width:2px
+    classDef check fill:#fefcbf,stroke:#d69e2e,color:#744210,stroke-width:2px
+    classDef purge fill:#68d391,stroke:#38a169,color:#fff,stroke-width:2px
+    classDef done fill:#48bb78,stroke:#2f855a,color:#fff,stroke-width:2px
 {{< /mermaid >}}
 
 ## 部署方案演进
 
-整个迁移并不是一步到位的，而是经历了几个阶段的迭代。值得一提的是，这个演进过程本身就是一次 **AI 驱动的渐进式改造**——每次遇到问题，我都在 WorkBuddy 里描述现象和需求，Opus 4.6 生成改进方案，review 后直接应用。从第一版到当前版本，workflow 前后改了十几个 commit，但每次迭代基本都是「描述问题 → AI 给方案 → 微调 → 提交」的循环，效率非常高。
+迁移经历了两个阶段，每次遇到问题都在 WorkBuddy 里描述现象，Opus 4.6 给出改进方案，review 后直接应用。
 
-### 第一版：第三方 Action + 基础上传
+**初版**用 `peaceiris/actions-hugo` + `zkqiang/tencent-cos-action`，主要问题：
 
-最初的方案很简单——用 `peaceiris/actions-hugo` 安装 Hugo，用 `zkqiang/tencent-cos-action` 上传到 COS：
+- 全量上传，无增量同步
+- COS 残留旧文件
+- 第三方 Action 的 Node.js 20 deprecation warning
+- 部署后 CDN 缓存不刷新
 
-```yaml
-- name: Setup Hugo
-  uses: peaceiris/actions-hugo@v2
-  with:
-    hugo-version: '0.146.4'
-    extended: true
+**当前方案**解决了上述所有问题——直接下载 Hugo 二进制（不依赖第三方 Action）、`coscli sync --delete` 增量同步（自动清理残留）、git diff 检测变更 + `purge_url` 精准缓存清理。这些改进都是在 WorkBuddy 中逐步迭代出来的。
 
-- name: Build
-  run: hugo
+下面是 GitHub Actions 的部署页面，每次 push 后会自动触发：
 
-- name: Upload to COS
-  uses: zkqiang/tencent-cos-action@v0.1.0
-  with:
-    args: upload -r ./public/ /
-```
-
-这个方案能跑，但有几个明显的问题：
-
-- **全量上传**：每次都把整个 `public/` 目录上传一遍，没有增量同步
-- **残留文件**：删除或重命名文章后，COS 上的旧文件不会被清理
-- **依赖第三方 Action**：`peaceiris/actions-hugo` 后来因为 Node.js 20 deprecation 问题开始报 warning
-- **没有缓存清理**：部署完成后 EdgeOne CDN 还在返回旧内容
-
-### 当前方案：直接下载 Hugo + coscli sync + EdgeOne 精准缓存清理
-
-经过多轮迭代，当前的 workflow 解决了上述所有问题。这些改进并非一次性完成——比如从 `peaceiris/actions-hugo` 切换到直接下载二进制，是 WorkBuddy 在分析 Actions 日志中的 Node.js 20 deprecation warning 后建议的；`coscli sync --delete` 替换全量上传，也是在 WorkBuddy 中讨论「如何避免残留文件」时给出的方案。精准缓存清理的逻辑更复杂一些——涉及 git diff 检测变更、文件路径到 URL 的转换、JSON 数组拼接——这些 shell 脚本基本都是 Opus 4.6 一次生成的，我只调整了一些边界条件处理。
+![GitHub Actions Deploy](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/fe7c0de03cf6d0a1473df227375bc667.png)
 
 ## 完整 Workflow 详解
 
@@ -104,6 +97,7 @@ concurrency:
     submodules: recursive
     fetch-depth: 2
 
+# env 中定义了 HUGO_VERSION: '0.146.4'
 - name: Setup Hugo
   run: |
     HUGO_URL="https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
@@ -200,6 +194,8 @@ concurrency:
 
 ```yaml
 - name: Purge EdgeOne Cache
+  # HAS_ARTICLES / ARTICLE_INNER 等变量来自上一步 changed-posts 的 output
+  # 此处省略了从 JSON 数组中提取内部元素的拼接逻辑
   run: |
     # 每次部署都清理的公共页面
     COMMON_URLS='["https://blog.tanteng.space/","https://blog.tanteng.space/posts/","https://blog.tanteng.space/categories/","https://blog.tanteng.space/tags/"]'
