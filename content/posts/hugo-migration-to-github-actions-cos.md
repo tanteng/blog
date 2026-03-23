@@ -31,17 +31,8 @@ tags:
 {{< mermaid >}}flowchart LR
     A[Git Push] --> B[GitHub Actions]
     B --> C[Hugo Build]
-    C --> D[coscli sync]
-    D --> E[COS]
-    D --> F[EdgeOne Cache Purge]
-    
-    subgraph "缓存清理"
-    F --> F1[首页]
-    F --> F2[文章列表]
-    F --> F3[分类页]
-    F --> F4[标签页]
-    F --> F5[修改的文章]
-    end
+    C --> D[coscli sync to COS]
+    D --> E[EdgeOne Cache Purge]
 {{< /mermaid >}}
 
 ## 部署方案演进
