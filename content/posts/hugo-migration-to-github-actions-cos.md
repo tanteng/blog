@@ -29,10 +29,14 @@ tags:
 下图展示了当前部署的完整流程：
 
 {{< mermaid >}}flowchart LR
-    A[Git Push] --> B[GitHub Actions]
-    B --> C[Hugo Build]
-    C --> D[coscli sync to COS]
-    D --> E[EdgeOne Cache Purge]
+    A[Git Push to main] --> B[GitHub Actions<br/>并发控制]
+    B --> C[Checkout<br/>fetch-depth: 2]
+    C --> D[下载 Hugo 二进制]
+    D --> E[hugo --minify<br/>构建]
+    E --> F[coscli sync --delete<br/>增量同步到 COS]
+    F --> G{git diff<br/>检测变更文章}
+    G -->|有文章变更| H[purge_url<br/>公共页面 + 变更文章]
+    G -->|无文章变更| I[purge_url<br/>仅公共页面]
 {{< /mermaid >}}
 
 ## 部署方案演进
