@@ -1,20 +1,27 @@
+/* 全局防水平溢出 - 修复 iOS Safari 左右滑动 */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+
+/* 表格容器：让表格在容器内横向滚动，而不是撑开页面 */
+.table-wrapper {
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100% !important;
+  margin: 1.5rem 0 !important;
+}
+
 /* 自定义表格样式 - 增强可见性 */
 table {
   width: 100% !important;
   border-collapse: collapse !important;
   margin: 1.5rem 0 !important;
   font-size: 0.9rem !important;
-  overflow-x: auto !important;
-  display: block !important;
   border: 2px solid #2c3e50 !important;
   border-radius: 8px !important;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
-}
-
-@media (min-width: 768px) {
-  table {
-    display: table !important;
-  }
+  display: table !important;
 }
 
 tbody {
@@ -90,5 +97,48 @@ img {
   max-width: 100% !important;
   height: auto !important;
   border-radius: 4px !important;
+}
+
+/* 移动端防溢出 */
+.entry-content, .nested-copy-line-height, article, main, .content {
+  overflow-x: hidden;
+  max-width: 100% !important;
+}
+
+pre {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+pre code {
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 767px) {
+  pre {
+    font-size: 0.75rem !important;
+    padding: 0.75rem !important;
+  }
+
+  th, td {
+    padding: 6px 8px !important;
+    font-size: 0.75rem !important;
+    word-break: break-word;
+  }
+
+  table {
+    font-size: 0.8rem !important;
+    min-width: 0 !important;
+  }
+
+  .mermaid {
+    padding: 10px !important;
+  }
+
+  .mermaid svg {
+    max-width: 100% !important;
+    height: auto !important;
+  }
 }
 

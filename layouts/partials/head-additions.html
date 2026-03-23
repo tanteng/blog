@@ -13,6 +13,16 @@
     graphs.forEach(function(graph) {
       mermaid.run([graph]);
     });
+
+    // 给所有 table 包裹 .table-wrapper，防止移动端溢出
+    document.querySelectorAll('article table, .entry-content table').forEach(function(table) {
+      if (!table.parentElement.classList.contains('table-wrapper')) {
+        var wrapper = document.createElement('div');
+        wrapper.className = 'table-wrapper';
+        table.parentNode.insertBefore(wrapper, table);
+        wrapper.appendChild(table);
+      }
+    });
   });
 </script>
 
@@ -25,8 +35,14 @@
     text-align: center;
     display: flex;
     justify-content: center;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
   }
   .mermaid svg {
     margin: 0 auto;
+    max-width: 100%;
+    height: auto !important;
   }
 </style>
