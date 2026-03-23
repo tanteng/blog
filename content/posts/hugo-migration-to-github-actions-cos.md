@@ -20,10 +20,12 @@ tags:
 
 ## 背景
 
-之前博客托管在 Vercel 上，使用 Vercel 的自动构建功能。出于以下原因，决定迁移到 GitHub Actions + 腾讯云 COS：
+之前博客托管在 Vercel 上，使用 Vercel 的自动构建功能。迁移前也预研过腾讯云 CloudBase 和 EdgeOne Pages，但这两个平台主要面向 Node.js 生态（Next.js、Nuxt 等），而 Hugo 是 Go 语言实现的静态站点生成器，构建产物就是纯静态文件，不需要 Node 运行时——用 COS 托管静态文件 + EdgeOne 做 CDN 加速反而是更轻量直接的方案。
+
+最终选择 GitHub Actions + COS + EdgeOne，主要基于：
 
 1. **国内访问速度** — COS + EdgeOne CDN 在国内有充足节点，访问体验好得多
-2. **成本可控** — COS 存储 + EdgeOne 流量的组合成本远低于其他方案
+2. **成本可控** — COS 存储 + EdgeOne 流量的组合成本很低
 3. **流程可控** — 构建、部署、缓存清理全部可编排，出了问题能快速定位
 
 下图展示了当前部署的完整流程：
