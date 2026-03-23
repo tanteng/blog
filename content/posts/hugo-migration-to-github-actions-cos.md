@@ -261,32 +261,12 @@ concurrency:
 </script>
 ```
 
-### 坑 3：peaceiris/actions-hugo 的 Node.js 20 问题
-
-**现象**：GitHub Actions 日志中出现 Node.js 20 deprecation warning
-
-**解决**：直接从 GitHub Releases 下载 Hugo 二进制，彻底绕开第三方 Action 的维护依赖。
-
-### 坑 4：curl | tar 管道下载不稳定
+### 坑 3：curl | tar 管道下载不稳定
 
 **现象**：偶发 `curl | tar` 管道执行失败，错误信息是 tar 报错，实际是网络中断
 
 **解决**：拆成两步——先 `curl` 下载到 `/tmp/hugo.tar.gz`，再 `tar` 解压。加上 `--retry 3 --retry-delay 5` 重试机制。
 
-### 坑 5：git diff 在 shallow clone 下失败
-
-**现象**：`git diff HEAD~1 HEAD` 报错，因为 GitHub Actions 默认 `fetch-depth: 1` 只拉取当前提交
-
-**解决**：设置 `fetch-depth: 2`，并加上 fallback 逻辑——如果 `HEAD~1` 不存在（首次提交），则用 `git diff-tree` 列出当前提交的所有文件。
-
 ## 总结
 
-从最初的「Vercel 一键部署」到现在的 GitHub Actions + COS + EdgeOne 方案，表面上看复杂度增加了，但换来的是：
-
-- **部署可控**：每个环节都能看到日志，出问题能快速定位
-- **增量同步**：coscli sync 只上传变更文件，部署速度快
-- **精准缓存**：不再粗暴地清全站缓存，只清理真正变化的页面
-- **并发安全**：concurrency 机制确保不会出现部署冲突
-- **零第三方依赖**：Hugo 安装、COS 上传、缓存清理全部用官方工具，不受第三方 Action 的维护状态影响
-
-整个流水线跑一次大约 **30-40 秒**，push 到 main 后基本一分钟内网站就更新了。对于个人博客来说，这套方案在可控性、部署速度和缓存精度之间取得了不错的平衡，够用且省心。
+从 Vercel 一键部署到 GitHub Actions + COS + EdgeOne，复杂度增加了一些，但换来了部署可控、增量同步、精准缓存清理和零第三方依赖。整个流水线跑一次大约 **30-40 秒**，push 后基本一分钟内网站就更新了，够用且省心。
