@@ -37,7 +37,7 @@ tags:
     D --> E[🏗️ hugo --minify 构建]:::build
     E --> F[☁️ coscli sync --delete<br/>增量同步到 COS]:::deploy
     F --> G{📋 git diff<br/>检测变更文章}:::check
-    G -->|有文章变更| H[🔄 purge_url<br/>公共页面 + 变更文章]:::purge
+    G -->|有变更文章| H[🔄 purge_url<br/>公共页面 + 变更文章]:::purge
     G -->|无文章变更| I[🔄 purge_url<br/>仅公共页面]:::purge
     H --> J([✅ 部署完成]):::done
     I --> J
@@ -188,7 +188,7 @@ concurrency:
     fi
 ```
 
-通过 `git diff HEAD~1 HEAD` 比较最近两次提交的差异，精确找出哪些文章被修改了，然后把文件路径（如 `content/posts/my-post.md`）转换成对应的博客 URL（如 `https://blog.tanteng.space/posts/my-post/`）。
+通过 diff 比较最近两次提交的差异，找出被修改的文章，将文件路径转换成对应的博客 URL。
 
 #### 按需清理缓存
 
