@@ -73,7 +73,7 @@
 
   <body class="{{ delimit $body_classes " " }}">
     {{ block "header" . }}{{ partials.Include "site-header.html" .}}{{ end }}
-    <main class="pb4" role="main">
+    <main class="pb5" role="main">
       {{ block "main" . }}{{ end }}
     </main>
     {{ block "footer" . }}{{ partials.IncludeCached "site-footer.html" . }}{{ end }}
