@@ -1,6 +1,6 @@
 ---
 title: '从 Vibe Coding 到规范驱动开发：AI 编程的工业级进化'
-date: 2026-03-01T13:10:00+08:00
+date: 2026-03-10T13:10:00+08:00
 draft: false
 tags: ['ai-programming', 'openspec', 'sdd', 'vibe-coding', 'methodology', 'tdd', 'codebuddy']
 categories: ['tech']
