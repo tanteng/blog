@@ -14,7 +14,7 @@ tags:
   - 博客
 ---
 
-本文记录了将 Hugo 博客从 Vercel 迁移到 GitHub Actions + 腾讯云 COS + EdgeOne 的完整过程。整个迁移中，我主要借助 [WorkBuddy](https://www.codebuddy.cn/)（底层模型为 Claude Opus 4.6）完成 workflow 编写和迭代优化，同时也用了 [OpenClaw](https://github.com/nicepkg/openclaw) 做一些终端辅助。从最初的简单 workflow 一步步演进到今天的方案——增量同步、并发保护、精准缓存清理，AI 工具让整个迭代过程高效了不少。
+本文记录了将 Hugo 博客从 Vercel 迁移到 GitHub Actions + 腾讯云 COS + EdgeOne 的完整过程。整个迁移中，我主要借助 WorkBuddy（底层模型为 Claude Opus 4.6）完成 workflow 编写和迭代优化，同时也用了 OpenClaw 做一些终端辅助。从最初的简单 workflow 一步步演进到今天的方案——增量同步、并发保护、精准缓存清理，AI 工具让整个迭代过程高效了不少。
 
 <!--more-->
 
@@ -28,7 +28,21 @@ tags:
 
 下图展示了当前部署的完整流程：
 
-![Deploy 整体流程](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/fe7c0de03cf6d0a1473df227375bc667.png)
+{{< mermaid >}}flowchart LR
+    A[Git Push] --> B[GitHub Actions]
+    B --> C[Hugo Build]
+    C --> D[coscli sync]
+    D --> E[COS]
+    D --> F[EdgeOne Cache Purge]
+    
+    subgraph "缓存清理"
+    F --> F1[首页]
+    F --> F2[文章列表]
+    F --> F3[分类页]
+    F --> F4[标签页]
+    F --> F5[修改的文章]
+    end
+{{< /mermaid >}}
 
 ## 部署方案演进
 
