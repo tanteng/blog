@@ -7,13 +7,13 @@ categories: ['tech']
 description: "借助 AI 编程工具，将基于 exif-photo-blog 的 Next.js 照片站点从 Vercel 全家桶迁移到腾讯云 Lighthouse 自托管的完整实践"
 ---
 
-本文记录了将基于 [exif-photo-blog](https://github.com/sambecker/exif-photo-blog) 的照片站点从 Vercel 全家桶迁移到腾讯云 Lighthouse（轻量应用服务器）自托管的完整过程。整个迁移中，我大量借助了 AI 编程工具，主力是 [WorkBuddy](https://www.codebuddy.cn/)（底层模型为 Claude Opus 4.6），同时也用了 [OpenClaw](https://github.com/nicepkg/openclaw) 做一些终端交互——从代码改造、脚本编写到问题排查，AI 让两天的迁移工作变得异常顺滑。
+本文记录了将基于 exif-photo-blog 的照片站点从 Vercel 全家桶迁移到腾讯云 Lighthouse（轻量应用服务器）自托管的完整过程。整个迁移中，我大量借助了 AI 编程工具，主力是 WorkBuddy（底层模型为 Claude Opus 4.6），同时也用了 OpenClaw 做一些终端交互——从代码改造、脚本编写到问题排查，AI 让两天的迁移工作变得异常顺滑。
 
 <!--more-->
 
 ## 背景
 
-[exif-photo-blog](https://github.com/sambecker/exif-photo-blog) 是一个优秀的 Next.js 开源照片博客项目，它能自动提取照片的 EXIF 数据（相机型号、镜头、光圈、快门、ISO 等），以简洁优雅的方式展示摄影作品。
+exif-photo-blog 是一个优秀的 Next.js 开源照片博客项目，它能自动提取照片的 EXIF 数据（相机型号、镜头、光圈、快门、ISO 等），以简洁优雅的方式展示摄影作品。
 
 我的站点 [photos.tanteng.space](https://photos.tanteng.space) 最初采用标准的 Vercel 部署方案：
 
@@ -85,8 +85,8 @@ description: "借助 AI 编程工具，将基于 exif-photo-blog 的 Next.js 照
 
 迁移涉及存储适配层编写、数据库迁移、部署自动化、CDN 排障等多个环节，每个环节都需要不同领域的知识。如果全部手写手查，光是阅读 exif-photo-blog 的源码理解存储抽象层就要花不少时间。实际操作中，我主要用了两个 AI 编程工具：
 
-- **[WorkBuddy](https://www.codebuddy.cn/)**（主力）：IDE 中的 AI 编程助手，底层模型选择的是 **Claude Opus 4.6**。这次迁移的核心工作——COS 存储适配层编写、图片批处理脚本生成、部署脚本、CDN 问题排查——基本都在 WorkBuddy 中完成。Opus 4.6 对复杂代码库的理解能力很强，能准确把握 exif-photo-blog 的存储策略模式，生成的代码质量很高，大多数时候微调几个参数就能直接用
-- **[OpenClaw](https://github.com/nicepkg/openclaw)**：一个开源的终端 AI 编程助手，类似 Claude Code。我搭配的模型是 **MiniMax-2.5**，主要用于终端环境下的一些辅助交互。坦率地说，和 WorkBuddy + Opus 4.6 相比，MiniMax-2.5 在复杂代码理解和生成上还是有明显差距——不过用来做一些简单的命令行辅助还是不错的
+- **WorkBuddy**（主力）：IDE 中的 AI 编程助手，底层模型选择的是 **Claude Opus 4.6**。这次迁移的核心工作——COS 存储适配层编写、图片批处理脚本生成、部署脚本、CDN 问题排查——基本都在 WorkBuddy 中完成。Opus 4.6 对复杂代码库的理解能力很强，能准确把握 exif-photo-blog 的存储策略模式，生成的代码质量很高，大多数时候微调几个参数就能直接用
+- **OpenClaw**：一个开源的终端 AI 编程助手，类似 Claude Code。我搭配的模型是 **MiniMax-2.5**，主要用于终端环境下的一些辅助交互。坦率地说，和 WorkBuddy + Opus 4.6 相比，MiniMax-2.5 在复杂代码理解和生成上还是有明显差距——不过用来做一些简单的命令行辅助还是不错的
 
 这两个工具在迁移过程中的使用分工：
 
