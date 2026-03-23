@@ -2,7 +2,7 @@
 title: "将 Next.js 照片博客从 Vercel 迁移到腾讯云 Lighthouse"
 date: 2026-03-22T08:00:00+08:00
 draft: false
-tags: ['vercel', 'tencent-cloud', 'next.js', 'migration', 'lighthouse', 'ai-coding']
+tags: ['next.js', 'tencent-cloud', 'migration', 'ai-coding']
 categories: ['tech']
 description: "借助 AI 编程工具，将基于 exif-photo-blog 的 Next.js 照片站点从 Vercel 全家桶迁移到腾讯云 Lighthouse 自托管的完整实践"
 ---

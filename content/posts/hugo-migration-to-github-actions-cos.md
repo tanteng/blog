@@ -3,15 +3,7 @@ title: "将 Hugo 博客从 Vercel 迁移到 GitHub Actions + 腾讯云 COS"
 date: 2026-03-22
 description: "借助 WorkBuddy (Claude Opus 4.6) 完成从 Vercel 到 GitHub Actions + 腾讯云 COS + EdgeOne 的迁移实践：从最初的第三方 Action 踩坑，到最终实现 coscli sync 增量同步 + EdgeOne 精准缓存清理的自动化部署流水线。"
 categories: ['tech']
-tags:
-  - Hugo
-  - GitHub Actions
-  - 腾讯云
-  - COS
-  - EdgeOne
-  - CI/CD
-  - ai-coding
-  - 博客
+tags: ['hugo', 'ci-cd', 'tencent-cloud', 'ai-coding']
 ---
 
 本文记录了将 Hugo 博客从 Vercel 迁移到 GitHub Actions + 腾讯云 COS + EdgeOne 的过程，最终实现了增量同步、并发保护、精准缓存清理的自动化部署流水线。整个 workflow 的编写和迭代主要借助 WorkBuddy（Claude Opus 4.6）完成，OpenClaw 做一些终端辅助。
