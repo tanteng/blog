@@ -279,18 +279,6 @@ concurrency:
 
 **解决**：设置 `fetch-depth: 2`，并加上 fallback 逻辑——如果 `HEAD~1` 不存在（首次提交），则用 `git diff-tree` 列出当前提交的所有文件。
 
-## 需要配置的 GitHub Secrets
-
-在仓库的 **Settings → Secrets and variables → Actions** 中配置：
-
-| Secret 名称 | 用途 |
-|---|---|
-| `TENCENT_SECRET_ID` | 腾讯云 API 密钥 ID |
-| `TENCENT_SECRET_KEY` | 腾讯云 API 密钥 Key |
-| `TENCENT_BUCKET` | COS 存储桶名称 |
-| `TENCENT_REGION` | 存储桶区域（如 `ap-guangzhou`） |
-| `EDGEONE_ZONE_ID` | EdgeOne 站点 ID |
-
 ## 总结
 
 从最初的「Vercel 一键部署」到现在的 GitHub Actions + COS + EdgeOne 方案，表面上看复杂度增加了，但换来的是：
