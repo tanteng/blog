@@ -4,7 +4,7 @@ date: 2019-01-02T06:14:06+00:00
 url: /2018/12/reading-list-20181210/
 categories: ['tech']
 tags:
- - 阅读清单
+ - reading-list
 ---
 
 1.go 指针和内存分配详解

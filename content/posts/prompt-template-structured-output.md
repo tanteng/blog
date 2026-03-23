@@ -1,7 +1,7 @@
 ---
 title: "Prompt Template 与结构化输出实战"
 date: 2023-12-25
-tags: ["AI", "Prompt", "DeepSeek", "结构化输出"]
+tags: ["ai", "prompt", "deepseek", "structured-output"]
 categories: ["tech"]
 ---
 

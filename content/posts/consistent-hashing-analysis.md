@@ -2,7 +2,7 @@
 title: "一致性哈希原理与应用"
 date: 2018-03-01T11:03:26+08:00
 draft: false
-tags: ['算法']
+tags: ['algorithm']
 categories: ['tech']
 description: "一致性哈希算法及其在分布式系统中的应用"
 ---

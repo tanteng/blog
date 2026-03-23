@@ -3,8 +3,8 @@ title: "MCP 完全指南：从协议原理到 Go 服务开发实战"
 date: 2025-12-28
 categories: ['tech']
 tags:
-  - MCP
-  - Go
+  - mcp
+  - go
 ---
 
 > MCP（Model Context Protocol）是 AI 与大模型交互的桥梁，让 AI 能够调用外部工具和资源。本文详细介绍 MCP 的核心概念、三种传输模式的区别，以及如何用 Go 开发自己的 MCP 服务。

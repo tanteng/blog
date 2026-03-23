@@ -4,7 +4,7 @@ date: 2018-07-19T03:07:22+00:00
 url: /2018/07/reading-list-20180716/
 categories: ['tech']
 tags:
- - 阅读清单
+ - reading-list
 ---
 
 1.初探 Go 的编译命令执行过程

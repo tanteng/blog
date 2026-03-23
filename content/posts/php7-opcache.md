@@ -2,7 +2,7 @@
 title: "PHP 7 安装和开启 OPcache"
 date: 2016-06-02T16:20:20+08:00
 draft: false
-tags: ['php', 'opcache', '性能优化']
+tags: ['php', 'opcache', 'performance-optimization']
 categories: ['tech']
 description: "PHP 7 安装和开启 OPcache 性能优化"
 ---

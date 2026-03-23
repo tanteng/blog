@@ -2,7 +2,7 @@
 title: "本周阅读清单 20190830"
 date: 2019-08-30T15:10:10+08:00
 draft: false
-tags: ['阅读']
+tags: ['reading']
 categories: ['tech']
 description: "本周阅读清单20190830"
 ---

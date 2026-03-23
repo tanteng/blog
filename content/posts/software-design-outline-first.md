@@ -2,7 +2,7 @@
 title: "软件设计：先整体后细节"
 date: 2017-12-23T15:56:30+08:00
 draft: false
-tags: ['架构']
+tags: ['architecture']
 categories: ['tech']
 description: "软件设计思想：先整体轮廓，再完善细节"
 ---

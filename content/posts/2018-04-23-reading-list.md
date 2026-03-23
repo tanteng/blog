@@ -4,7 +4,7 @@ date: 2018-04-28T16:34:44+00:00
 url: /2018/04/reading-list-20180423/
 categories: ['tech']
 tags:
- - 阅读清单
+ - reading-list
 ---
 
 1.Redis 事务与关系型数据库比较

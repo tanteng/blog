@@ -3,7 +3,7 @@ title: "PHP-FPM、Nginx、FastCGI 之间的关系与配置详解"
 type: post
 date: 2017-11-09T08:44:27+08:00
 draft: false
-tags: ['php', 'nginx', '服务器架构']
+tags: ['php', 'nginx', 'server-architecture']
 categories: ['tech']
 description: "详解 PHP-FPM、Nginx、FastCGI 三者之间的关系，以及 Nginx 反向代理和负载均衡的配置"
 ---

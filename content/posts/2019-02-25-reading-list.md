@@ -4,7 +4,7 @@ date: 2019-02-25T19:02:39+08:00
 url: /2019/02/reading-list-20190225/
 categories: ['tech']
 tags:
- - 阅读清单
+ - reading-list
 ---
 
 1.前缀索引，一种优化索引大小的解决方案

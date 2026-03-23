@@ -4,7 +4,7 @@ date: 2018-05-26T15:08:32+00:00
 url: /2018/05/reading-list-20180514/
 categories: ['tech']
 tags:
- - 阅读清单
+ - reading-list
 ---
 
 1.Go语言中的错误处理

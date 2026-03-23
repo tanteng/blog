@@ -4,7 +4,7 @@ date: 2019-01-23T04:14:50+00:00
 url: /2019/01/reading-list-20190103/
 categories: ['tech']
 tags:
- - 阅读清单
+ - reading-list
 ---
 
 1.TDSQL 特有的 MySQL 内核功能介绍

@@ -4,7 +4,7 @@ date: 2018-07-26T05:04:16+00:00
 url: /2018/07/reading-list-20180723/
 categories: ['tech']
 tags:
- - 阅读清单
+ - reading-list
 ---
 
 1.GoLang: When to use string pointers

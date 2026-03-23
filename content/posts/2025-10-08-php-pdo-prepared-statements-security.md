@@ -2,7 +2,7 @@
 title: "PHP PDO prepare 预处理详解：如何安全地防止 SQL 注入"
 date: 2012-09-30T04:03:39+08:00
 draft: false
-tags: ['php', 'pdo', 'sql安全', '索引优化']
+tags: ['php', 'pdo', 'sql-security', 'index-optimization']
 categories: ['tech']
 description: "详解 PHP PDO prepare 预处理语句的正确使用方式，以及如何真正防止 SQL 注入"
 ---

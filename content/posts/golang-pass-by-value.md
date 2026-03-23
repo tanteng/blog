@@ -3,7 +3,7 @@ title: "Golang 值传递与引用传递深度解析"
 type: post
 date: 2017-11-19T12:22:01+08:00
 draft: false
-tags: ['golang', 'go', '性能优化']
+tags: ['golang', 'go', 'performance-optimization']
 categories: ['tech']
 description: "深入理解 Golang 的参数传递机制：都是值传递，包括切片、映射、通道等引用类型"
 ---

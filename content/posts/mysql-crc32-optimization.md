@@ -2,7 +2,7 @@
 title: "MySQL 使用 CRC32 做索引优化查询"
 date: 2016-02-01T01:29:07+08:00
 draft: false
-tags: ['mysql', '索引优化']
+tags: ['mysql', 'index-optimization']
 categories: ['tech']
 description: "MySQL 字符串字段通过 CRC32 转换建索引提高查询效率"
 ---

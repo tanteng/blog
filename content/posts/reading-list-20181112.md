@@ -2,7 +2,7 @@
 title: "本周阅读清单 20181112"
 date: 2018-11-22T03:08:23+08:00
 draft: false
-tags: ['阅读']
+tags: ['reading']
 categories: ['tech']
 description: "本周阅读清单20181112"
 ---

@@ -1,7 +1,7 @@
 ---
 title: "PHP进程管理：pcntl_fork的原理与实战"
 date: 2014-09-03 00:00:00
-tags: ["PHP", "progression", "pcntl"]
+tags: ["php", "progression", "pcntl"]
 categories: ["tech"]
 ---
 

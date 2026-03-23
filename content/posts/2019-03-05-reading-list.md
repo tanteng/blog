@@ -4,7 +4,7 @@ date: 2019-03-05T19:02:39+08:00
 url: /2019/03/reading-list-20190305/
 categories: ['tech']
 tags:
- - 阅读清单
+ - reading-list
 ---
 
 1.探索 Golang 一致性原语

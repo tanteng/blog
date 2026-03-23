@@ -4,7 +4,7 @@ date: 2018-05-06T04:39:53+00:00
 url: /2018/05/reading-list-20180430/
 categories: ['tech']
 tags:
- - 阅读清单
+ - reading-list
 ---
 
 1.Learning Elasticsearch with Laravel

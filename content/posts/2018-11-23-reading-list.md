@@ -4,7 +4,7 @@ date: 2018-12-09T05:05:42+00:00
 url: /2018/11/reading-list-20181123/
 categories: ['tech']
 tags:
- - 阅读清单
+ - reading-list
 ---
 
 1.MySQL的异步复制和半同步复制

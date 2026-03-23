@@ -3,7 +3,7 @@ title: "计算机概念在生活中的类比"
 type: post
 date: 2017-10-08T06:14:13+08:00
 draft: false
-tags: ['思考', '计算机基础']
+tags: ['thinking', 'computer-basics']
 categories: ['tech']
 description: "将计算机中的抽象概念与生活场景类比，帮助理解核心原理"
 ---

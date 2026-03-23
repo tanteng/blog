@@ -4,7 +4,7 @@ date: 2018-05-13T10:43:32+00:00
 url: /2018/05/reading-list-20180507/
 categories: ['tech']
 tags:
- - 阅读清单
+ - reading-list
 ---
 
 1.Golang CSP 并发模型

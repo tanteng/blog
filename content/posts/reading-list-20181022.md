@@ -2,7 +2,7 @@
 title: "本周阅读清单 20181022"
 date: 2018-10-28T14:40:15+08:00
 draft: false
-tags: ['阅读']
+tags: ['reading']
 categories: ['tech']
 description: "本周阅读清单20181022"
 ---

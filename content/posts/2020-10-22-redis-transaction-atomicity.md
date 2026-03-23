@@ -4,9 +4,9 @@ date: 2020-10-22T02:00:00+00:00
 url: /2020/10/redis-transaction-atomicity/
 categories: ['tech']
 tags:
- - Redis
- - 事务
- - 原子性
+ - redis
+ - transaction
+ - atomicity
 
 ---
 
