@@ -7,13 +7,13 @@ categories: ['tech']
 description: "借助 AI 编程工具，将基于 exif-photo-blog 的 Next.js 照片站点从 Vercel 全家桶迁移到腾讯云 Lighthouse 自托管的完整实践"
 ---
 
-本文记录了将基于 exif-photo-blog 的照片站点从 Vercel 全家桶迁移到腾讯云 Lighthouse（轻量应用服务器）自托管的完整过程。整个迁移中，我大量借助了 AI 编程工具，主力是 WorkBuddy（底层模型为 Claude Opus 4.6），同时也用了 OpenClaw 做一些终端交互——从代码改造、脚本编写到问题排查，AI 让两天的迁移工作变得异常顺滑。
+本文记录了将基于 [exif-photo-blog](https://github.com/sambecker/exif-photo-blog) 的照片站点从 Vercel 全家桶迁移到腾讯云 Lighthouse（轻量应用服务器）自托管的完整过程。整个迁移中，我大量借助了 AI 编程工具，主力是 WorkBuddy（底层模型为 Claude Opus 4.6），同时也用了 OpenClaw 做一些终端交互——从代码改造、脚本编写到问题排查，AI 让两天的迁移工作变得异常顺滑。
 
 <!--more-->
 
 ## 背景
 
-exif-photo-blog 是一个优秀的 Next.js 开源照片博客项目，它能自动提取照片的 EXIF 数据（相机型号、镜头、光圈、快门、ISO 等），以简洁优雅的方式展示摄影作品。
+[exif-photo-blog](https://github.com/sambecker/exif-photo-blog) 是一个优秀的 Next.js 开源照片博客项目，它能自动提取照片的 EXIF 数据（相机型号、镜头、光圈、快门、ISO 等），以简洁优雅的方式展示摄影作品。
 
 我的站点 [photos.tanteng.space](https://photos.tanteng.space) 最初采用标准的 Vercel 部署方案：
 
