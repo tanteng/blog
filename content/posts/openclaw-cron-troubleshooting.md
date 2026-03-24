@@ -1,19 +1,26 @@
 ---
-title: 'OpenClaw Cron 故障排查实录：WebSocket 握手超时与跨通道投递错乱'
+title: 'OpenClaw Cron 故障排查实录'
 date: 2026-03-15T10:00:00+08:00
 draft: false
-tags: ['openclaw', 'troubleshooting', 'nodejs', 'websocket', 'cron', 'tencent-cloud']
+tags: ['openclaw', 'troubleshooting', 'nodejs', 'websocket', 'cron', 'tencent-cloud', 'workbuddy']
 categories: ['tech']
-description: '在腾讯云轻量服务器上部署 OpenClaw 后，cron 定时任务全面报错。本文记录了完整的排查过程——从 WebSocket 握手超时的根因定位与源码级修复，到发现 Discord channel ID 被当作 Telegram chat_id 投递的跨通道路由 Bug。'
+description: '用 WorkBuddy 龙虾远程排查 OpenClaw 龙虾的 cron 故障——龙虾帮龙虾，从 WebSocket 握手超时到跨通道投递错乱的完整排查记录。'
 ---
 
-在腾讯云轻量服务器上部署 [OpenClaw](https://openclaw.com) 后，cron 定时任务全面报错。本文记录了完整的排查和修复过程——从 CLI 连不上 Gateway 的间歇性故障，到深入源码定位 WebSocket 双端超时瓶颈，再到发现 Discord channel ID 被错误当作 Telegram chat_id 投递的跨通道路由 Bug。
+在腾讯云轻量服务器上部署 [OpenClaw](https://openclaw.com) 后，cron 定时任务全面报错。这次排查有点意思——我用一只龙虾去修另一只龙虾。
 
 <!--more-->
 
 ## 背景
 
-OpenClaw 是一个可以跑在树莓派上的自动化工具，支持通过 cron 定时任务执行信息聚合并推送到 Telegram、Discord 等通道。我在一台腾讯云 Lighthouse 服务器（2 核 CPU / 3.6GB 内存，OpenCloudOS）上部署了 OpenClaw 2026.3.13，配置了 7 个定时任务：每日天气推送、AI 趋势汇总、Hacker News 热门、英语词汇学习等，结果全部投递到 Telegram。
+先介绍一下这次排查的"工具链"：
+
+- **WorkBuddy**（🦞 龙虾 A）：腾讯出品的 AI 编程助手，底层用的 Claude Opus 模型。它可以通过 SSH 直接操作远程服务器，执行命令、读日志、改文件，是这次排查的主力。
+- **OpenClaw**（🦞 龙虾 B）：部署在我腾讯云 Lighthouse 服务器上的自动化工具，底层用的 MiniMax-2.5 模型，负责跑 cron 定时任务并推送到 Telegram/Discord。
+
+排查方式很简单：在本机打开 WorkBuddy，通过 SSH 免密登录连到腾讯云服务器，让 WorkBuddy 直接在远程机器上执行各种诊断命令——查进程、看日志、读配置、改源码、重启服务。整个过程不需要我手动敲一行命令，全程由 WorkBuddy 自主完成，龙虾帮龙虾。
+
+OpenClaw 是一个可以跑在树莓派上的自动化工具，支持通过 cron 定时任务执行信息聚合并推送到 Telegram、Discord 等通道。我在一台腾讯云 Lighthouse（2 核 CPU / 3.6GB 内存，OpenCloudOS）上部署了 OpenClaw 2026.3.13，配置了多个定时任务（AI 趋势汇总、Hacker News 热门、Polymarket 热门事件等），结果全部投递到 Telegram。
 
 一切看起来很美好，直到我执行 `openclaw cron list` 查看任务状态——
 
@@ -133,16 +140,13 @@ sed -i 's/rawConnectDelayMs)) : 2e3;/rawConnectDelayMs)) : 15e3;/' \
 ```
   Task                      Status    Next Run
   ─────────────────────────────────────────────
-  每日天气和去处建议          error     20h
   AI发展趋势汇总             error     3m
   每日Hacker News热门        error     1h
-  每日英语四级词汇            error     6h
-  每日OpenClaw新功能汇总      error     2h
   Polymarket热门事件          ok        22h
-  每日名人名言                ok        23h
+  ...
 ```
 
-7 个任务里 5 个 error，只有 2 个正常。
+多个任务 error，只有少数正常。
 
 ### 排查过程
 
