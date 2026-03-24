@@ -3,29 +3,34 @@
 <link rel="apple-touch-icon" href="/favicon.png">
 <link rel="stylesheet" href="/css/custom.css">
 {{ if .Page.HasShortcode "mermaid" }}
-<script defer src="/js/mermaid.min.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    mermaid.initialize({
-      startOnLoad: true,
-      theme: 'default',
-      securityLevel: 'loose',
-      flowchart: { useMaxWidth: false }
-    });
-  });
-</script>
 <style>
+  /* 渲染前隐藏纯文本，避免闪烁 */
   .mermaid {
+    visibility: hidden;
     background: #f8f9fa;
     padding: 20px;
     border-radius: 8px;
     margin: 20px 0;
     text-align: center;
     overflow-x: auto;
+    min-height: 100px;
+  }
+  /* mermaid 渲染完成后会给容器加上 data-processed 属性 */
+  .mermaid[data-processed="true"],
+  .mermaid svg {
+    visibility: visible;
   }
   .mermaid svg {
     display: inline-block;
     max-width: 100%;
   }
 </style>
+<script defer src="/js/mermaid.min.js" onload="
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'default',
+    securityLevel: 'loose',
+    flowchart: { useMaxWidth: false }
+  });
+"></script>
 {{ end }}
