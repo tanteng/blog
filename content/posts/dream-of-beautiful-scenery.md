@@ -4,6 +4,7 @@ date: 2015-03-14T04:07:15+08:00
 draft: false
 tags: ['life']
 categories: ["life"]
+slug: "dream-of-beautiful-scenery"
 description: "昨夜做了一个梦，梦见了非常壮观的美景。"
 ---
 
@@ -12,6 +13,10 @@ description: "昨夜做了一个梦，梦见了非常壮观的美景。"
 记得我来到武汉天河机场，当时是夜晚，在一个平台上，往外边望去是一望无际的海，突然万只飞行动物在海面上飞行，天边还有晚霞，这景色非常壮观，我还赶紧拿出手机拍小视频。
 
 <!--more-->
+
+![梦中的美景——武汉天河机场夜景](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/46ea5009e2dd231c97e5418105b7bc35.png)
+
+*配图由 Gemini 生成*
 
 另外还梦见了几只孔雀开屏。
 
