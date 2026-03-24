@@ -1,24 +1,22 @@
 ---
-title: '龙虾帮龙虾：WorkBuddy 能帮 OpenClaw 做什么'
+title: '龙虾帮龙虾：用一只 AI 修另一只 AI'
 date: 2026-03-15T10:00:00+08:00
 draft: false
 tags: ['openclaw', 'workbuddy', 'troubleshooting', 'cron', 'performance']
 categories: ['tech']
-description: '用 WorkBuddy 龙虾远程管理 OpenClaw 龙虾——排查 cron 故障、诊断配置问题、优化服务器性能，全程不需要手动敲命令。'
+description: '用一只 AI 远程给另一只 AI 看病——排查 cron 故障、诊断配置问题、优化服务器性能，全程不需要手动敲命令。'
 ---
 
-在腾讯云轻量服务器上部署 OpenClaw 后，先是 cron 全面报错，后来又发现配置混乱、内存虚高、磁盘浪费。这些问题我都没手动敲一行命令——全交给了另一只龙虾。
-
-## 背景
+在腾讯云轻量服务器上部署 OpenClaw 后，cron 全面报错、配置混乱、内存虚高。让 OpenClaw 自己查了几轮没什么进展，于是换 WorkBuddy 上的 Claude Opus 接手——全程没手动敲一行命令。
 
 两位主角都是龙虾（🦞）：
 
 - **OpenClaw**（🦞 患者）：部署在腾讯云 Lighthouse 上的自动化工具，底层 MiniMax-2.5 模型，负责跑 cron 定时任务推送到 Telegram/Discord。
 - **WorkBuddy**（🦞 医生）：腾讯出品的 AI 编程助手，底层 Claude Opus 模型。
 
-OpenClaw 自带的模型在系统级排查上不太给力，查日志、分析源码、定位 Bug 这些活需要更强的推理能力。而 WorkBuddy 可以通过 SSH 免密登录直接连到远程服务器，查进程、读日志、改配置、重启服务。它不只是能排查故障，还能做全面的服务器诊断和性能优化——龙虾帮龙虾，能做的事情比想象中多。
-
 <!--more-->
+
+WorkBuddy 可以通过 SSH 免密登录直接连到远程服务器，查进程、读日志、改配置、重启服务。它不只是能排查故障，还能做全面的服务器诊断和性能优化——龙虾帮龙虾，能做的事情比想象中多。
 
 ## 一、排查故障
 
