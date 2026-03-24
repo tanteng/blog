@@ -6,7 +6,7 @@
       startOnLoad: true,
       theme: 'default',
       securityLevel: 'loose',
-      flowchart: { useMaxWidth: true }
+      flowchart: { useMaxWidth: false }
     });
 
     var graphs = document.querySelectorAll('pre code.language-mermaid, pre.mermaid, div.mermaid');
@@ -23,10 +23,10 @@
     border-radius: 8px;
     margin: 20px 0;
     text-align: center;
-    display: flex;
-    justify-content: center;
+    overflow-x: auto;
   }
   .mermaid svg {
-    margin: 0 auto;
+    display: inline-block;
+    max-width: 100%;
   }
 </style>
