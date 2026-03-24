@@ -2,7 +2,34 @@
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="apple-touch-icon" href="/favicon.png">
 <link rel="stylesheet" href="/css/custom.css">
-<script type="module">
-  import mermaid from 'https://cdn.jsdmirror.com/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-  mermaid.initialize({ startOnLoad: true, theme: 'default' });
+<script src="https://cdn.bootcdn.net/ajax/libs/mermaid/10.9.0/mermaid.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'default',
+      securityLevel: 'loose',
+      flowchart: { useMaxWidth: false }
+    });
+
+    var graphs = document.querySelectorAll('pre code.language-mermaid, pre.mermaid, div.mermaid');
+    graphs.forEach(function(graph) {
+      mermaid.run([graph]);
+    });
+  });
 </script>
+
+<style>
+  .mermaid {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    text-align: center;
+    overflow-x: auto;
+  }
+  .mermaid svg {
+    display: inline-block;
+    max-width: 100%;
+  }
+</style>
