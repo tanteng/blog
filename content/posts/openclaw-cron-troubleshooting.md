@@ -1,13 +1,13 @@
 ---
-title: '龙虾帮龙虾：用 WorkBuddy 远程排查 OpenClaw Cron 故障'
+title: '龙虾帮龙虾：WorkBuddy 能帮 OpenClaw 做什么'
 date: 2026-03-15T10:00:00+08:00
 draft: false
-tags: ['openclaw', 'workbuddy', 'troubleshooting', 'cron']
+tags: ['openclaw', 'workbuddy', 'troubleshooting', 'cron', 'performance']
 categories: ['tech']
-description: '用 WorkBuddy 龙虾通过 SSH 远程排查 OpenClaw 龙虾的 cron 故障——从 WebSocket 握手超时到跨通道投递错乱的完整排查记录。'
+description: '用 WorkBuddy 龙虾远程管理 OpenClaw 龙虾——排查 cron 故障、诊断配置问题、优化服务器性能，全程不需要手动敲命令。'
 ---
 
-在腾讯云轻量服务器上部署 [OpenClaw](https://openclaw.com) 后，cron 定时任务全面报错——CLI 连不上 Gateway，连上之后又发现大面积投递失败。这次排查有点意思：我用一只龙虾去修另一只龙虾。
+在腾讯云轻量服务器上部署 OpenClaw 后，先是 cron 全面报错，后来又发现配置混乱、内存虚高、磁盘浪费。这些问题我都没手动敲一行命令——全交给了另一只龙虾。
 
 ## 背景
 
@@ -16,11 +16,13 @@ description: '用 WorkBuddy 龙虾通过 SSH 远程排查 OpenClaw 龙虾的 cro
 - **OpenClaw**（🦞 患者）：部署在腾讯云 Lighthouse 上的自动化工具，底层 MiniMax-2.5 模型，负责跑 cron 定时任务推送到 Telegram/Discord。
 - **WorkBuddy**（🦞 医生）：腾讯出品的 AI 编程助手，底层 Claude Opus 模型。
 
-OpenClaw 自带的模型在系统级排查上不太给力，查日志、分析源码、定位 Bug 这些活需要更强的推理能力。所以我在本机打开 WorkBuddy，通过 SSH 免密登录连到腾讯云服务器，让它直接在远程机器上查进程、读日志、改源码、重启服务——全程不需要我手动敲命令，龙虾帮龙虾。
+OpenClaw 自带的模型在系统级排查上不太给力，查日志、分析源码、定位 Bug 这些活需要更强的推理能力。而 WorkBuddy 可以通过 SSH 免密登录直接连到远程服务器，查进程、读日志、改配置、重启服务。它不只是能排查故障，还能做全面的服务器诊断和性能优化——龙虾帮龙虾，能做的事情比想象中多。
 
 <!--more-->
 
-## 问题一：Gateway 连接失败
+## 一、排查故障
+
+### 问题一：Gateway 连接失败
 
 ```bash
 [root@VM-0-4-opencloudos ~]# openclaw cron list
@@ -129,7 +131,7 @@ sed -i 's/rawConnectDelayMs)) : 2e3;/rawConnectDelayMs)) : 15e3;/' \
 
 > ⚠️ 这些 patch 会在 OpenClaw 更新时被覆盖，需要重新打。
 
-## 问题二：Cron 任务大面积 Error
+### 问题二：Cron 任务大面积 Error
 
 解决了连接问题后，成功执行 `openclaw cron list`，看到了更大的问题：
 
@@ -163,7 +165,7 @@ $ cat /root/.openclaw/cron/jobs.json | jq '.jobs[] | select(.state.lastStatus ==
 找到了错误信息：
 
 ```
-Telegram API: Bad Request: chat not found (chat_id=1482401304214110333)
+Telegram API: Bad Request: chat not found (chat_id=14824013xxxxxxxxxx)
 ```
 
 任务执行成功了，但投递结果时失败——它在往一个不存在的 Telegram chat 发消息。
@@ -173,15 +175,15 @@ Telegram API: Bad Request: chat not found (chat_id=1482401304214110333)
 正常的任务 delivery 配置：
 
 ```json
-{ "channel": "telegram", "to": "737403082" }
+{ "channel": "telegram", "to": "7374xxxxx" }
 ```
 
-出错的任务也是完全相同的配置。delivery 里 `to` 是正确的 Telegram ID，但实际投递时却用了 `1482401304214110333`。
+出错的任务也是完全相同的配置。delivery 里 `to` 是正确的 Telegram ID，但实际投递时却用了 `14824013xxxxxxxxxx`。
 
 这个数字从哪来的？
 
 ```bash
-$ grep -r "1482401304214110333" /root/.openclaw/
+$ grep -r "14824013xxxxxxxxxx" /root/.openclaw/
 ```
 
 在 Discord 的日志和 session 数据中找到了——这是一个 **Discord 的 #cron 频道 ID**。
@@ -216,6 +218,51 @@ fs.writeFileSync("/root/.openclaw/cron/jobs.json", JSON.stringify(data, null, 2)
 
 重启 Gateway 后，7 个任务全部恢复 `ok` 状态，后续投递全部正确到达 Telegram。
 
+## 二、优化性能
+
+排查完故障之后，我又让 WorkBuddy 对整台服务器做了一次全面体检。它通过 SSH 检查了系统负载、进程列表、配置文件、日志错误频率——然后给出了诊断报告，并逐一修复。
+
+### 问题清单
+
+| # | 问题 | 严重程度 |
+|---|------|---------|
+| 1 | Telegram bot 409 冲突，1 小时内 14 次 | 高 |
+| 2 | MiniMax 备用模型 OAuth 失效（401） | 高 |
+| 3 | Gateway 内存 545MB（峰值 937MB），小机器上偏高 | 中 |
+
+### 修复过程
+
+**1. Telegram 409 冲突**
+
+日志里反复出现 `409 Conflict`——同一个 bot token 被多个实例同时 `getUpdates`。排查后确认服务器上只有一个 Gateway 进程，webhook 也没设置。原因可能是上次 Gateway 异常退出后，旧的 long-polling session 没有完全断开。
+
+修复：重启 Gateway + `deleteWebhook?drop_pending_updates=true`，重启后持续观察，冲突消失。
+
+**2. 备用模型 OAuth 失效**
+
+主模型 `minimax-cn` 在 24 小时内被限流 28 次，正常情况下应该回退到 `minimax-portal`，但后者的 OAuth token 已过期（401）。这个需要人工重新授权，AI 帮不了——但至少它帮我发现了这个问题。
+
+**3. 关闭不用的 Channel**
+
+Gateway 同时加载了 Telegram、Discord、元宝（yuanbao）、LightClaw 四个通道。后两个基本没用过，但每个都要维护连接和内存。直接在配置里禁用：
+
+```python
+config["channels"]["lightclawbot"]["enabled"] = False
+config["channels"]["yuanbao"]["enabled"] = False
+```
+
+### 优化效果
+
+全部修复后重启 Gateway：
+
+| 指标 | 优化前 | 优化后 |
+|------|--------|--------|
+| 系统内存占用 | 1.6GB | 1.2GB |
+| 可用内存 | 2.0GB | 2.4GB |
+| Telegram 409 冲突 | 14 次/小时 | 0 |
+
+在一台 2 核 / 3.6GB 的小机器上，释放 400MB 内存不是小事。
+
 ## 经验总结
 
 ### 1. Node.js 单线程的"微观延迟"不等于"CPU 不够"
@@ -230,7 +277,11 @@ fs.writeFileSync("/root/.openclaw/cron/jobs.json", JSON.stringify(data, null, 2)
 
 `openclaw cron list` 显示 error 不意味着任务没跑。排查时要区分**执行阶段**和**投递阶段**——执行生成内容、投递发送内容，两个阶段独立失败。
 
-### 4. 打了 dist 文件的 patch 要做好记录
+### 4. 让 AI 做全面体检
+
+手动排查往往是「哪疼治哪」，容易漏掉配置错误、ID 填错、废弃进程这些不起眼但一直在消耗资源的问题。让 AI 系统性地过一遍服务器状态，能发现很多自己不会主动去查的角落。
+
+### 5. 打了 dist 文件的 patch 要做好记录
 
 直接改 `node_modules` 下的 dist 文件是最快的修复方式，但每次 `npm update` 都会被覆盖。建议：
 - 备份原文件（`.bak`）
