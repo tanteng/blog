@@ -1,26 +1,28 @@
 ---
-title: 'OpenClaw Cron 故障排查实录'
+title: '龙虾帮龙虾：用 WorkBuddy 远程排查 OpenClaw Cron 故障'
 date: 2026-03-15T10:00:00+08:00
 draft: false
-tags: ['openclaw', 'troubleshooting', 'nodejs', 'websocket', 'cron', 'tencent-cloud', 'workbuddy']
+tags: ['openclaw', 'workbuddy', 'troubleshooting', 'cron']
 categories: ['tech']
-description: '用 WorkBuddy 龙虾远程排查 OpenClaw 龙虾的 cron 故障——龙虾帮龙虾，从 WebSocket 握手超时到跨通道投递错乱的完整排查记录。'
+description: '用 WorkBuddy 龙虾通过 SSH 远程排查 OpenClaw 龙虾的 cron 故障——从 WebSocket 握手超时到跨通道投递错乱的完整排查记录。'
 ---
 
 在腾讯云轻量服务器上部署 [OpenClaw](https://openclaw.com) 后，cron 定时任务全面报错。这次排查有点意思——我用一只龙虾去修另一只龙虾。
 
-<!--more-->
-
 ## 背景
 
-先介绍一下这次排查的"工具链"：
+先介绍一下这次排查的两位主角，它们都是龙虾（🦞）：
 
-- **WorkBuddy**（🦞 龙虾 A）：腾讯出品的 AI 编程助手，底层用的 Claude Opus 模型。它可以通过 SSH 直接操作远程服务器，执行命令、读日志、改文件，是这次排查的主力。
-- **OpenClaw**（🦞 龙虾 B）：部署在我腾讯云 Lighthouse 服务器上的自动化工具，底层用的 MiniMax-2.5 模型，负责跑 cron 定时任务并推送到 Telegram/Discord。
+- **OpenClaw**（🦞 龙虾 A）：部署在我腾讯云 Lighthouse 服务器上的自动化工具，底层用的 MiniMax-2.5 模型，负责跑 cron 定时任务并推送到 Telegram/Discord。它是"患者"。
+- **WorkBuddy**（🦞 龙虾 B）：腾讯出品的 AI 编程助手，底层用的 Claude Opus 模型。它是"医生"。
+
+为什么需要龙虾 B 来帮龙虾 A？因为 OpenClaw 虽然能跑 cron 任务、聊天对话，但它的 MiniMax-2.5 模型在系统级排查这件事上力不从心——查进程、读日志、分析源码、定位 Bug 这类深度诊断工作，需要更强的推理能力。而 WorkBuddy 背后的 Claude Opus 模型擅长这个，再加上它可以通过 SSH 直接操作远程服务器，正好能弥补 OpenClaw 自身排查不了自身问题的尴尬。
+
+<!--more-->
 
 排查方式很简单：在本机打开 WorkBuddy，通过 SSH 免密登录连到腾讯云服务器，让 WorkBuddy 直接在远程机器上执行各种诊断命令——查进程、看日志、读配置、改源码、重启服务。整个过程不需要我手动敲一行命令，全程由 WorkBuddy 自主完成，龙虾帮龙虾。
 
-OpenClaw 是一个可以跑在树莓派上的自动化工具，支持通过 cron 定时任务执行信息聚合并推送到 Telegram、Discord 等通道。我在一台腾讯云 Lighthouse（2 核 CPU / 3.6GB 内存，OpenCloudOS）上部署了 OpenClaw 2026.3.13，配置了多个定时任务（AI 趋势汇总、Hacker News 热门、Polymarket 热门事件等），结果全部投递到 Telegram。
+OpenClaw 支持通过 cron 定时任务执行信息聚合并推送到 Telegram、Discord 等通道。我在一台腾讯云 Lighthouse（2 核 CPU / 3.6GB 内存，OpenCloudOS）上部署了 OpenClaw 2026.3.13，配置了多个定时任务（AI 趋势汇总、Hacker News 热门、Polymarket 热门事件等），结果全部投递到 Telegram。
 
 一切看起来很美好，直到我执行 `openclaw cron list` 查看任务状态——
 
