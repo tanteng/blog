@@ -54,8 +54,8 @@ jobs:
       - name: Install tccli
         run: pip install tccli
 
-      - name: Detect changed posts
-        id: changed-posts
+      - name: Detect changes
+        id: detect-changes
         run: |
           # 安全获取 diff：如果 HEAD~1 不存在（首次提交或 shallow clone 不足），
           # 则回退到列出当前提交的所有文件
@@ -64,6 +64,20 @@ jobs:
           else
             echo "⚠️ 无法获取上一次提交，列出当前提交所有文件"
             CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD)
+          fi
+
+          echo "变更文件列表:"
+          echo "$CHANGED_FILES"
+
+          # 检测是否有全局文件变更（模板、样式、配置等）
+          # 这些文件影响所有页面，需要清理全站缓存
+          GLOBAL_CHANGES=$(echo "$CHANGED_FILES" | grep -E "^(layouts/|static/|config\.|themes/|assets/|i18n/|\.github/)" || true)
+          if [ -n "$GLOBAL_CHANGES" ]; then
+            echo "🔄 检测到全局文件变更（模板/样式/配置），需清理全站缓存"
+            echo "$GLOBAL_CHANGES"
+            echo "purge_all=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "purge_all=false" >> "$GITHUB_OUTPUT"
           fi
 
           # 提取 content/posts/ 下的 .md 文件
@@ -101,27 +115,37 @@ jobs:
           TENCENTCLOUD_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
         run: |
           ZONE_ID="${{ secrets.EDGEONE_ZONE_ID }}"
+          PURGE_ALL="${{ steps.detect-changes.outputs.purge_all }}"
 
-          # 构建需要清理的 URL 列表：首页 + 文章列表 + 分类 + 标签
-          COMMON_URLS='["https://blog.tanteng.space/","https://blog.tanteng.space/posts/","https://blog.tanteng.space/categories/","https://blog.tanteng.space/tags/"]'
-
-          # 如果有修改的文章，追加到列表中
-          HAS_ARTICLES="${{ steps.changed-posts.outputs.has_articles }}"
-          if [ "$HAS_ARTICLES" = "true" ]; then
-            ARTICLE_URLS='${{ steps.changed-posts.outputs.article_urls }}'
-            # 合并两个 JSON 数组：去掉各自的 [] 再拼起来
-            COMMON_INNER=$(echo "$COMMON_URLS" | sed 's/^\[//;s/\]$//')
-            ARTICLE_INNER=$(echo "$ARTICLE_URLS" | sed 's/^\[//;s/\]$//')
-            ALL_URLS="[${COMMON_INNER},${ARTICLE_INNER}]"
-            echo "清理页面缓存（含文章）: ${ALL_URLS}"
+          if [ "$PURGE_ALL" = "true" ]; then
+            # 全局文件变更（layouts/static/config 等），清理全站缓存
+            echo "🧹 全局变更，使用前缀清理全站缓存"
+            tccli teo CreatePurgeTask \
+              --region ap-guangzhou \
+              --ZoneId "$ZONE_ID" \
+              --Type purge_prefix \
+              --Targets '["https://blog.tanteng.space/"]'
+            echo "✅ EdgeOne 全站缓存已清理"
           else
-            ALL_URLS="$COMMON_URLS"
-            echo "清理公共页面缓存: ${ALL_URLS}"
-          fi
+            # 仅文章变更，精准清理
+            COMMON_URLS='["https://blog.tanteng.space/","https://blog.tanteng.space/posts/","https://blog.tanteng.space/categories/","https://blog.tanteng.space/tags/"]'
 
-          tccli teo CreatePurgeTask \
-            --region ap-guangzhou \
-            --ZoneId "$ZONE_ID" \
-            --Type purge_url \
-            --Targets "$ALL_URLS"
-          echo "✅ EdgeOne cache purged"
+            HAS_ARTICLES="${{ steps.detect-changes.outputs.has_articles }}"
+            if [ "$HAS_ARTICLES" = "true" ]; then
+              ARTICLE_URLS='${{ steps.detect-changes.outputs.article_urls }}'
+              COMMON_INNER=$(echo "$COMMON_URLS" | sed 's/^\[//;s/\]$//')
+              ARTICLE_INNER=$(echo "$ARTICLE_URLS" | sed 's/^\[//;s/\]$//')
+              ALL_URLS="[${COMMON_INNER},${ARTICLE_INNER}]"
+              echo "清理页面缓存（含文章）: ${ALL_URLS}"
+            else
+              ALL_URLS="$COMMON_URLS"
+              echo "清理公共页面缓存: ${ALL_URLS}"
+            fi
+
+            tccli teo CreatePurgeTask \
+              --region ap-guangzhou \
+              --ZoneId "$ZONE_ID" \
+              --Type purge_url \
+              --Targets "$ALL_URLS"
+            echo "✅ EdgeOne 缓存已清理"
+          fi
