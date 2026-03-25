@@ -10,12 +10,12 @@ featured_image: 'https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/
 
 在腾讯云轻量服务器上部署 OpenClaw 后，cron 全面报错、配置混乱、内存虚高。让 OpenClaw 自己查了几轮没什么进展，于是换 WorkBuddy 上的 Claude Opus 接手——全程没手动敲一行命令。
 
+<!--more-->
+
 两位主角都是龙虾（🦞）：
 
 - **OpenClaw**（🦞 患者）：部署在腾讯云 Lighthouse 上的自动化工具，底层 MiniMax-2.5 模型，负责跑 cron 定时任务推送到 Telegram/Discord。
 - **WorkBuddy**（🦞 医生）：腾讯出品的 AI 编程助手，底层 Claude Opus 模型。
-
-<!--more-->
 
 WorkBuddy 可以通过 SSH 免密登录直接连到远程服务器，查进程、读日志、改配置、重启服务。它不只是能排查故障，还能做全面的服务器诊断和性能优化——龙虾帮龙虾，能做的事情比想象中多。
 
