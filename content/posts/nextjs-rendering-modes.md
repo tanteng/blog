@@ -2,7 +2,7 @@
 title: "Next.js 核心渲染模式解析：SSG、ISR、SSR、CSR"
 date: 2025-10-20
 draft: false
-tags: ["nextjs", "SSG", "SSR"]
+tags: ["nextjs", "ssg", "ssr"]
 categories: ["tech"]
 description: "深入理解 Next.js 的四种渲染模式：静态生成(SSG)、增量静态再生成(ISR)、服务端渲染(SSR)和客户端渲染(CSR)，以及它们各自的适用场景。"
 ---
