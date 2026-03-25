@@ -4,6 +4,7 @@ date: 2026-03-07
 draft: false
 tags: ["investment", "stock", "reading-notes", "thinking"]
 categories: ["investment"]
+featured_image: 'https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/03b114fb043d99f7d1981260e7abeda6.png'
 ---
 
 《股票大作手回忆录》是华尔街百年经典，记载了传奇投机客杰西·利弗莫尔（Jesse Livermore）四起四落的投机生涯。这本书被彼得·林奇、巴菲特、索罗斯等投资大师反复研读。即使过了近百年，其中的交易智慧依然闪烁着光芒。

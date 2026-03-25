@@ -5,6 +5,7 @@ draft: false
 tags: ['ai-programming', 'sdd', 'vibe-coding', 'codebuddy']
 categories: ['tech']
 description: '从 Vibe Coding 到 SDD（规范驱动开发），以 OpenSpec 框架和 CodeBuddy 的 Craft Spec、Skill/Rule 体系为例，看 AI 编程如何从"靠运气"走向"工业级可靠"。'
+featured_image: 'https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/f6957061444057aefcf7e8bf708061af.png'
 ---
 
 在 AI 辅助开发的浪潮中，"Vibe Coding" 虽然听起来很酷，但本质是依靠直觉和 AI 的模糊理解——你在和 AI "对暗号"，能不能跑通全靠运气。

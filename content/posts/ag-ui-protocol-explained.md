@@ -3,6 +3,7 @@ title: "一文读懂 AG-UI 协议：AI Agent 与前端交互的新标准"
 date: 2026-03-09
 tags: ["ai", "ag-ui", "protocol", "tech"]
 categories: ["tech"]
+featured_image: 'https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/2d34e27c6e4d4db16718d39c6bc6cd5d.png'
 ---
 
 在 AI Agent 应用开发中，如何让前端与后端 Agent 高效通信一直是个难题。AG-UI 协议的出现就是为了解决这个核心问题。本文将详细介绍 AG-UI 是什么、为什么这样设计，以及它与以往流式输出的区别。
