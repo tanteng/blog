@@ -1,6 +1,6 @@
 {{- $featured_image := partial "func/GetFeaturedImage.html" . -}}
-{{- with .Param "twitter:image" -}}
-<meta name="twitter:image" content="{{ . | absURL }}" />
+{{- if .Param "twitter:image" -}}
+<meta name="twitter:image" content="{{ .Param "twitter:image" | absURL }}" />
 {{- else if $featured_image -}}
 <meta name="twitter:image" content="{{ $featured_image }}" />
 {{- else -}}
