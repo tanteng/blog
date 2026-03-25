@@ -49,7 +49,8 @@ jobs:
             -e cos.${{ secrets.TENCENT_REGION }}.myqcloud.com \
             -i ${{ secrets.TENCENT_SECRET_ID }} \
             -k ${{ secrets.TENCENT_SECRET_KEY }} \
-            --delete
+            --delete \
+            -y
 
       - name: Install tccli
         run: pip install tccli
