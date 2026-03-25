@@ -5,6 +5,7 @@ draft: false
 tags: ['openclaw', 'workbuddy', 'troubleshooting', 'cron', 'performance']
 categories: ['tech']
 description: '用一只 AI 远程给另一只 AI 看病——排查 cron 故障、诊断配置问题、优化服务器性能，全程不需要手动敲命令。'
+featured_image: 'https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/26bd9117d173eca0578ac48c82b00b9d.png'
 ---
 
 在腾讯云轻量服务器上部署 OpenClaw 后，cron 全面报错、配置混乱、内存虚高。让 OpenClaw 自己查了几轮没什么进展，于是换 WorkBuddy 上的 Claude Opus 接手——全程没手动敲一行命令。
