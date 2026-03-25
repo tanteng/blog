@@ -312,8 +312,4 @@ other = "读书笔记"
 [category.life]
 other = "生活"
 
-[tag.ssg]
-other = "SSG"
 
-[tag.ssr]
-other = "SSR"
