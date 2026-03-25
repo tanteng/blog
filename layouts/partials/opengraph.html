@@ -1,5 +1,8 @@
+{{- $featured_image := partial "func/GetFeaturedImage.html" . -}}
 {{- with .Param "og:image" -}}
 <meta property="og:image" content="{{ . | absURL }}" />
+{{- else if $featured_image -}}
+<meta property="og:image" content="{{ $featured_image }}" />
 {{- else -}}
 <meta property="og:image" content="{{ .Site.Params.open_graph_image | absURL }}" />
 {{- end -}}

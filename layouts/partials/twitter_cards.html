@@ -1,1 +1,10 @@
-{{/* Twitter Cards - placeholder for theme compatibility */}}
+{{- $featured_image := partial "func/GetFeaturedImage.html" . -}}
+{{- with .Param "twitter:image" -}}
+<meta name="twitter:image" content="{{ . | absURL }}" />
+{{- else if $featured_image -}}
+<meta name="twitter:image" content="{{ $featured_image }}" />
+{{- else -}}
+<meta name="twitter:image" content="{{ .Site.Params.open_graph_image | absURL }}" />
+{{- end -}}
+<meta name="twitter:title" content="{{ .Title }}" />
+<meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Summary | plainify }}{{ end }}" />
