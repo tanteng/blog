@@ -5,6 +5,7 @@ draft: false
 tags: ['next.js', 'tencent-cloud', 'migration', 'ai-coding']
 categories: ['tech']
 description: "借助 AI 编程工具，将基于 exif-photo-blog 的 Next.js 照片站点从 Vercel 全家桶迁移到腾讯云 Lighthouse 自托管的完整实践"
+featured_image: 'https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/6f7afe43432ec45cb352d6196738e34e.png'
 ---
 
 本文记录了将基于 [exif-photo-blog](https://github.com/sambecker/exif-photo-blog) 的照片站点从 Vercel 全家桶迁移到腾讯云 Lighthouse 自托管的过程，迁移中借助 WorkBuddy（Claude Opus 4.6）和 OpenClaw（MiniMax-2.5）完成代码改造、脚本编写和问题排查。
