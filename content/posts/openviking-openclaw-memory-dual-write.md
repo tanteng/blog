@@ -7,6 +7,8 @@ tags: ['openclaw', 'openviking', 'ai', 'memory', 'context-engineering']
 cover: "https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/0011f1b2f3102c5e3b03382d0b494545.png"
 ---
 
+最近给 OpenClaw 装上了 OpenViking，顺便配了套记忆"双写"机制，记录一下折腾过程和使用心得。
+
 ## OpenClaw 的记忆机制
 
 OpenClaw 是个很强的 Agent 框架，能"看见"屏幕、能操作电脑，复杂任务自动化不在话下。但它有个致命短板——**健忘**。
