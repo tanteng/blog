@@ -4,7 +4,7 @@ date: 2026-03-26
 description: "介绍字节跳动的 OpenViking 项目，如何与 OpenClaw 集成实现长程记忆，以及为记忆系统加装的「双写」保险机制。"
 categories: ['tech']
 tags: ['openclaw', 'openviking', 'ai', 'memory', 'context-engineering']
-cover: "https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/0011f1b2f3102c5e3b03382d0b494545.png"
+featured_image: "https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/0011f1b2f3102c5e3b03382d0b494545.png"
 ---
 
 最近给 OpenClaw 装上了 OpenViking，顺便配了套记忆"双写"机制，记录一下折腾过程和使用心得。
