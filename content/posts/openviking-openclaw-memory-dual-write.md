@@ -12,18 +12,54 @@ tags: ['openclaw', 'openviking', 'ai', 'memory', 'context-engineering']
 
 OpenClaw 是个很强的 Agent 框架，能"看见"屏幕、能操作电脑，复杂任务自动化不在话下。但它有个致命短板——**健忘**。
 
-OpenClaw 原生的记忆系统靠 `memory-core` 模块，核心依赖**上下文窗口**：每次对话结束时把重要信息压缩存到 `MEMORY.md`，下次对话开始时加载。机制简单，但有几个问题：
+OpenClaw 的核心理念是：**Memory = 文件**。所有记忆都以 Markdown 格式存在本地磁盘上，不依赖任何云服务。
 
-- 对话轮次多了容易"失忆"，回复跑偏
-- 平铺式存储，检索效率低
-- 历史信息全塞上下文窗口，Token 成本高
-- 多 Agent 间记忆孤岛，无法流转
+### 双层记忆架构
 
-社区里有人吐槽：*"刚告诉它我的 API 密钥，下次对话它就忘了。"*
+OpenClaw 将记忆分为两层：
+
+- **Layer 1：每日日志**（`memory/YYYY-MM-DD.md`）—— 当天的原始记录，类似工作笔记
+- **Layer 2：长期记忆**（`MEMORY.md`）—— 提炼出的重要信息，沉淀为常识
+
+### SQLite 向量索引
+
+文件保存后，后台进程会监控文件变化（Chokidar，1.5 秒防抖），然后：
+
+1. **分块**：切成 ~400 token 的块，80 token 重叠（保证跨边界语义完整）
+2. **Embedding**：通过 OpenAI/Gemini/本地模型转成向量
+3. **存储**：存入 `~/.clawdbot/memory/<agentId>.sqlite`
+
+SQLite 里包含三张表：
+- `chunks_vec` — sqlite-vec 向量相似搜索
+- `chunks_fts` — FTS5 全文搜索（BM25 关键词匹配）
+- `embedding_cache` — 向量缓存，避免重复计算
+
+### 搜索机制
+
+OpenClaw 遵循 **"搜索优于注入"** 原则——从不一股脑把记忆塞进上下文，而是先用后取。
+
+混合搜索公式：`finalScore = 0.7 * semantic + 0.3 * keyword`
+
+### 上下文压缩与强制刷新
+
+当上下文快满时，OpenClaw 会先执行一次**静默记忆刷新**——在压缩之前，把重要信息写入 Markdown 文件。这步很关键：保证压缩不会丢失关键决策。
+
+### 多 Agent 隔离
+
+每个 Agent 有独立的工作区、记忆和索引，互不干扰。
 
 ---
 
 ## 为什么需要 OpenViking
+
+OpenClaw 原生的 memory-core 模块存在这几个问题：
+
+| 问题 | 影响 |
+|------|------|
+| 任务完成率低 | 对话轮次多了容易"失忆"，回复跑偏 |
+| 记忆碎片化 | 平铺式存储，检索效率低 |
+| Token 成本激增 | 历史信息全塞上下文窗口，贵得离谱 |
+| 跨场景协作难 | 多 Agent 间记忆孤岛，无法流转 |
 
 [OpenViking](https://github.com/volcengine/OpenViking) 是字节跳动 Viking 团队开源的**面向 AI Agent 的上下文数据库**，发布一个月斩获 4.5k GitHub Star。
 
@@ -81,57 +117,11 @@ OpenViking HTTP API 监听 **1933** 端口，AGFS 监听 **1833** 端口。
 
 ## 双写机制：给记忆上保险
 
-集成 OpenViking 之后，我又给它加了一层**双写保险**。
+集成 OpenViking 之后，我又给它加了一层**双写保险**——同时写入两个地方：**本地文件**（`MEMORY.md` + `memory/YYYY-MM-DD.md`）和 **OpenViking 向量库**。向量库检索强但可能漏召或服务抖动，文件系统稳定可读但语义搜索弱——两者互补，才是真正的保险。我在 `AGENTS.md` 里固化了这个规则：存入记忆时必须同时写文件和存向量库。
 
-![双写机制对话截图](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/eb6d19b39f7ee711d844c30182dd8421.png)
+![配置双写机制](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/c33867c3fca51998b201a132593d168b.png)
 
-### 什么是双写
-
-双写 = **同时写入两个地方**：
-
-1. **本地文件**（`MEMORY.md` + `memory/YYYY-MM-DD.md`）
-2. **OpenViking 向量库**（语义检索）
-
-### 为什么要双写
-
-向量数据库虽好，但：
-- 服务可能重启
-- 数据可能损坏
-- 检索可能漏召回
-
-文件系统虽然慢，但**稳定、可读、永远能打开看**。
-
-两者互补，才是真正的保险。
-
-### 双写实现
-
-```python
-# 存入记忆时执行两步：
-# 1. 写文件
-write_to_file(text, "MEMORY.md")
-
-# 2. 存向量库
-memory_store(text=text, role="user")
-```
-
-我写了个 skill 来自动化这个流程：
-
-```
-skills/memory-dual-write/
-├── SKILL.md        # 双写机制说明
-└── dual_write.py  # Python 工具脚本
-```
-
-并在 `AGENTS.md` 里固化了这个规则：**存入记忆时必须同时写文件和存向量库**。
-
----
-
-## 双写的好处
-
-1. **不怕单点故障**：文件挂了有向量库，向量库挂了有文件
-2. **可读性强**：文件随时能打开看，向量库的检索结果黑箱化
-3. **检索互补**：文件搜索精确，向量库搜索语义相近
-4. **审计方便**：文件即日志，回溯清晰
+双写的好处：**不怕单点故障**、**可读性强**（文件随时能打开看）、**检索互补**（文件精确匹配，向量库语义相似）、**审计方便**（文件即日志）。
 
 ---
 
