@@ -4,15 +4,16 @@ date: 2026-03-26
 description: "介绍字节跳动的 OpenViking 项目，如何与 OpenClaw 集成实现长程记忆，以及为记忆系统加装的「双写」保险机制。"
 categories: ['tech']
 tags: ['openclaw', 'openviking', 'ai', 'memory', 'context-engineering']
+cover: "https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/0011f1b2f3102c5e3b03382d0b494545.png"
 ---
-
-<!--more-->
 
 ## OpenClaw 的记忆机制
 
 OpenClaw 是个很强的 Agent 框架，能"看见"屏幕、能操作电脑，复杂任务自动化不在话下。但它有个致命短板——**健忘**。
 
 OpenClaw 的核心理念是：**Memory = 文件**。所有记忆都以 Markdown 格式存在本地磁盘上，不依赖任何云服务。
+
+<!--more-->
 
 ### 双层记忆架构
 
