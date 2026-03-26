@@ -1,23 +1,23 @@
 ---
-title: "将 Hugo 博客从 Vercel 迁移到 GitHub Actions + 腾讯云 COS"
+title: "Hugo 博客迁移：GitHub Actions + 腾讯云 COS + EdgeOne CDN"
 date: 2026-03-22
-description: "借助 WorkBuddy (Claude Opus 4.6) 完成从 Vercel 到 GitHub Actions + 腾讯云 COS + EdgeOne 的迁移实践：从最初的第三方 Action 踩坑，到最终实现 coscli sync 增量同步 + EdgeOne 精准缓存清理的自动化部署流水线。"
+description: "借助 WorkBuddy (Claude Opus 4.6) 完成从 Vercel 到 GitHub Actions + 腾讯云 COS + EdgeOne CDN 的迁移实践：coscli sync 增量同步 + 精准缓存清理的自动化部署流水线。"
 categories: ['tech']
 tags: ['hugo', 'ci-cd', 'tencent-cloud', 'ai-coding']
 ---
 
-本文记录了将 Hugo 博客从 Vercel 迁移到 GitHub Actions + 腾讯云 COS + EdgeOne 的过程，最终实现了增量同步、并发保护、精准缓存清理的自动化部署流水线。整个 workflow 的编写和迭代主要借助 WorkBuddy（Claude Opus 4.6）完成，OpenClaw 做一些终端辅助。
+本文记录了将 Hugo 博客从 Vercel 迁移到 GitHub Actions + 腾讯云 COS + EdgeOne CDN 的过程，最终实现了增量同步、并发保护、精准缓存清理的自动化部署流水线。整个 workflow 的编写和迭代主要借助 WorkBuddy（Claude Opus 4.6）完成，OpenClaw 做一些终端辅助。
 
 <!--more-->
 
 ## 背景
 
-之前博客托管在 Vercel 上，使用 Vercel 的自动构建功能。迁移前也预研过腾讯云 CloudBase 和 EdgeOne Pages，但这两个平台主要面向 Node.js 生态（Next.js、Nuxt 等），而 Hugo 是 Go 语言实现的静态站点生成器，构建产物就是纯静态文件，不需要 Node 运行时——用 COS 托管静态文件 + EdgeOne 做 CDN 加速反而是更轻量直接的方案。
+之前博客托管在 Vercel 上，使用 Vercel 的自动构建功能。迁移前也预研过腾讯云 CloudBase 和 EdgeOne Pages，但这两个平台主要面向 Node.js 生态（Next.js、Nuxt 等），而 Hugo 是 Go 语言实现的静态站点生成器，构建产物就是纯静态文件，不需要 Node 运行时——用 COS 托管静态文件 + EdgeOne CDN 做加速反而是更轻量直接的方案。
 
-最终选择 GitHub Actions + COS + EdgeOne，主要基于：
+最终选择 GitHub Actions + COS + EdgeOne CDN，主要基于：
 
 1. **国内访问速度** — COS + EdgeOne CDN 在国内有充足节点，访问体验好得多
-2. **成本可控** — COS 存储 + EdgeOne 流量的组合成本很低
+2. **成本可控** — COS 存储 + EdgeOne CDN 流量的组合成本很低
 3. **流程可控** — 构建、部署、缓存清理全部可编排，出了问题能快速定位
 
 下图展示了当前部署的完整流程：
@@ -139,7 +139,7 @@ concurrency:
 - **`--delete` 参数**：自动删除 COS 上有、但本地 `public/` 中没有的文件——相当于保持 COS 和构建产物完全一致
 - **coscli vs coscmd**：早期尝试过 Python 版的 coscmd，但它不支持 `sync` 命令。coscli 是腾讯云官方的 Go 实现，功能更完善、速度也更快
 
-### 5. 精准 EdgeOne 缓存清理
+### 5. 精准 EdgeOne CDN 缓存清理
 
 这是整个 workflow 中最有意思的部分——精准清理变更页面的缓存，而不是粗暴地清全站。
 
@@ -207,7 +207,7 @@ concurrency:
       --Targets "$ALL_URLS"
 ```
 
-![精准 EdgeOne 缓存失效](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/4a89968718c94dc5c0b8e326339c38e9.png)
+![精准 EdgeOne CDN 缓存失效](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/4a89968718c94dc5c0b8e326339c38e9.png)
 
 缓存清理策略分两层：
 
@@ -217,7 +217,7 @@ concurrency:
 使用 `purge_url`（精准 URL 模式）而非 `purge_host`（全站清理），好处是：
 - **避免缓存雪崩**：全站清理意味着所有页面瞬间回源，对 COS 源站产生压力突增
 - **CDN 命中率更高**：未修改的文章继续享受缓存加速，用户体验不受影响
-- **清理速度更快**：只清理几个 URL，EdgeOne 几乎秒级生效
+- **清理速度更快**：只清理几个 URL，EdgeOne CDN 几乎秒级生效
 
 ## 踩坑记录
 
@@ -261,4 +261,4 @@ concurrency:
 
 ## 总结
 
-从 Vercel 一键部署到 GitHub Actions + COS + EdgeOne，复杂度增加了一些，但换来了部署可控、增量同步、精准缓存清理和零第三方依赖。整个流水线跑一次大约 **30-40 秒**，push 后基本一分钟内网站就更新了，够用且省心。
+从 Vercel 一键部署到 GitHub Actions + COS + EdgeOne CDN，复杂度增加了一些，但换来了部署可控、增量同步、精准缓存清理和零第三方依赖。整个流水线跑一次大约 **30-40 秒**，push 后基本一分钟内网站就更新了，够用且省心。
