@@ -7,7 +7,7 @@ tags: ['openclaw', 'openviking', 'ai', 'memory', 'context-engineering']
 featured_image: "https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/0011f1b2f3102c5e3b03382d0b494545.png"
 ---
 
-最近给 OpenClaw 装上了 OpenViking，顺便配了套记忆"双写"机制，记录一下折腾过程和使用心得。整个系统跑在腾讯云 Lighthouse 上，OpenViking 的 HTTP API 监听 1933 端口，AGFS 监听 1833 端口，向量存在本地，Embedding 用的是豆包模型。
+最近给 OpenClaw 装上了 OpenViking，顺手配了套记忆"双写"机制。折腾了一阵，记录下过程和使用心得，也顺便梳理一下这套系统的工作原理。
 
 <!--more-->
 
