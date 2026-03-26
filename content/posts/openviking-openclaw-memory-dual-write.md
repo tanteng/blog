@@ -7,62 +7,17 @@ tags: ['openclaw', 'openviking', 'ai', 'memory', 'context-engineering']
 featured_image: "https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/0011f1b2f3102c5e3b03382d0b494545.png"
 ---
 
-最近给 OpenClaw 装上了 OpenViking，顺便配了套记忆"双写"机制，记录一下折腾过程和使用心得。
+最近给 OpenClaw 装上了 OpenViking，顺便配了套记忆"双写"机制，记录一下折腾过程和使用心得。整个系统跑在腾讯云 Lighthouse 上，OpenViking 的 HTTP API 监听 1933 端口，AGFS 监听 1833 端口，向量存在本地，Embedding 用的是豆包模型。
+
+<!--more-->
 
 ## OpenClaw 的记忆机制
 
 OpenClaw 是个很强的 Agent 框架，能"看见"屏幕、能操作电脑，复杂任务自动化不在话下。但它有个致命短板——**健忘**。
 
-OpenClaw 的核心理念是：**Memory = 文件**。所有记忆都以 Markdown 格式存在本地磁盘上，不依赖任何云服务。
-
-<!--more-->
-
-### 双层记忆架构
-
-OpenClaw 将记忆分为两层：
-
-- **Layer 1：每日日志**（`memory/YYYY-MM-DD.md`）—— 当天的原始记录，类似工作笔记
-- **Layer 2：长期记忆**（`MEMORY.md`）—— 提炼出的重要信息，沉淀为常识
-
-### SQLite 向量索引
-
-文件保存后，后台进程会监控文件变化（Chokidar，1.5 秒防抖），然后：
-
-1. **分块**：切成 ~400 token 的块，80 token 重叠（保证跨边界语义完整）
-2. **Embedding**：通过 OpenAI/Gemini/本地模型转成向量
-3. **存储**：存入 `~/.clawdbot/memory/<agentId>.sqlite`
-
-SQLite 里包含三张表：
-- `chunks_vec` — sqlite-vec 向量相似搜索
-- `chunks_fts` — FTS5 全文搜索（BM25 关键词匹配）
-- `embedding_cache` — 向量缓存，避免重复计算
-
-### 搜索机制
-
-OpenClaw 遵循 **"搜索优于注入"** 原则——从不一股脑把记忆塞进上下文，而是先用后取。
-
-混合搜索公式：`finalScore = 0.7 * semantic + 0.3 * keyword`
-
-### 上下文压缩与强制刷新
-
-当上下文快满时，OpenClaw 会先执行一次**静默记忆刷新**——在压缩之前，把重要信息写入 Markdown 文件。这步很关键：保证压缩不会丢失关键决策。
-
-### 多 Agent 隔离
-
-每个 Agent 有独立的工作区、记忆和索引，互不干扰。
-
----
+OpenClaw 的核心理念是：**Memory = 文件**。所有记忆都以 Markdown 格式存在本地磁盘上，不依赖任何云服务。记忆分为两层：每日日志（`memory/YYYY-MM-DD.md`）记录当天对话原始内容，长期记忆（`MEMORY.md`）沉淀重要决策和偏好。文件保存后，后台会自动切片构建向量索引，支持语义搜索和关键词搜索，下次对话时按需召回，而不是一股脑塞进上下文。
 
 ## 为什么需要 OpenViking
-
-OpenClaw 原生的 memory-core 模块存在这几个问题：
-
-| 问题 | 影响 |
-|------|------|
-| 任务完成率低 | 对话轮次多了容易"失忆"，回复跑偏 |
-| 记忆碎片化 | 平铺式存储，检索效率低 |
-| Token 成本激增 | 历史信息全塞上下文窗口，贵得离谱 |
-| 跨场景协作难 | 多 Agent 间记忆孤岛，无法流转 |
 
 [OpenViking](https://github.com/volcengine/OpenViking) 是字节跳动 Viking 团队开源的**面向 AI Agent 的上下文数据库**，发布一个月斩获 4.5k GitHub Star。
 
@@ -113,8 +68,6 @@ embedding:
     model: "doubao-embedding-vision-251215"
     dimension: 1024
 ```
-
-OpenViking HTTP API 监听 **1933** 端口，AGFS 监听 **1833** 端口。
 
 ---
 
