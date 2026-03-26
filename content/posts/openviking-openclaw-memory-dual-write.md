@@ -1,5 +1,5 @@
 ---
-title: "OpenViking × OpenClaw：给 AI Agent 装上「长期记忆」，顺便开启双写保险机制"
+title: "OpenViking × OpenClaw：给 AI Agent 装上长期记忆"
 date: 2026-03-26
 description: "介绍字节跳动的 OpenViking 项目，如何与 OpenClaw 集成实现长程记忆，以及为记忆系统加装的「双写」保险机制。"
 categories: ['tech']
@@ -8,38 +8,22 @@ tags: ['openclaw', 'openviking', 'ai', 'memory', 'context-engineering']
 
 <!--more-->
 
-## 先说结论
+## OpenClaw 的记忆机制
 
-给 OpenClaw 接上 OpenViking 之后：
-- **任务完成率提升 43%**
-- **Token 成本降低 91%**
+OpenClaw 是个很强的 Agent 框架，能"看见"屏幕、能操作电脑，复杂任务自动化不在话下。但它有个致命短板——**健忘**。
 
-这不是我说的，是火山引擎的官方测试数据。
+OpenClaw 原生的记忆系统靠 `memory-core` 模块，核心依赖**上下文窗口**：每次对话结束时把重要信息压缩存到 `MEMORY.md`，下次对话开始时加载。机制简单，但有几个问题：
+
+- 对话轮次多了容易"失忆"，回复跑偏
+- 平铺式存储，检索效率低
+- 历史信息全塞上下文窗口，Token 成本高
+- 多 Agent 间记忆孤岛，无法流转
+
+社区里有人吐槽：*"刚告诉它我的 API 密钥，下次对话它就忘了。"*
 
 ---
 
 ## 为什么需要 OpenViking
-
-OpenClaw 是个很强的 Agent 框架，能"看见"屏幕、能操作电脑，复杂任务自动化不在话下。但它有个致命短板——**健忘**。
-
-社区里有人吐槽：*"刚告诉它我的 API 密钥，下次对话它就忘了。"*
-
-这不是 bug，是设计取舍。单次对话内上下文窗口有限，跨会话的记忆管理需要额外组件。
-
-原生 OpenClaw 的 memory-core 模块存在这几个问题：
-
-| 问题 | 影响 |
-|------|------|
-| 任务完成率低 | 对话轮次多了容易"失忆"，回复跑偏 |
-| 记忆碎片化 | 平铺式存储，检索效率低 |
-| Token 成本激增 | 历史信息全塞上下文窗口，贵得离谱 |
-| 跨场景协作难 | 多 Agent 间记忆孤岛，无法流转 |
-
-OpenViking 就是来解决这个的。
-
----
-
-## OpenViking 是什么
 
 [OpenViking](https://github.com/volcengine/OpenViking) 是字节跳动 Viking 团队开源的**面向 AI Agent 的上下文数据库**，发布一个月斩获 4.5k GitHub Star。
 
@@ -53,19 +37,16 @@ OpenViking 就是来解决这个的。
 
 ---
 
-## OpenClaw 集成 OpenViking：效果数据
+## 效果数据
 
 火山引擎的测试（LoCoMo10 数据集，1540 条测试用例）：
 
 | 实验组 | 任务完成率 | 输入 Token 总计 |
 |--------|-----------|-----------------|
 | OpenClaw (原生 memory-core) | 35.65% | 24,611,530 |
-| OpenClaw + OpenViking Plugin (-memory-core) | 52.08% | 4,264,396 |
-| OpenClaw + OpenViking Plugin (+memory-core) | 51.23% | 2,099,622 |
+| OpenClaw + OpenViking Plugin | 51.23% | 2,099,622 |
 
-结论：
-- 任务完成率提升 **43%**
-- Token 成本降低 **91%**
+接入 OpenViking 后：**任务完成率提升 43%，Token 成本降低 91%**。
 
 ---
 
@@ -85,7 +66,7 @@ server:
 storage:
   workspace: "/root/.openviking/data"
   vectordb:
-    backend: "local"  # 本地向量库
+    backend: "local"
 
 embedding:
   dense:
@@ -101,6 +82,8 @@ OpenViking HTTP API 监听 **1933** 端口，AGFS 监听 **1833** 端口。
 ## 双写机制：给记忆上保险
 
 集成 OpenViking 之后，我又给它加了一层**双写保险**。
+
+![双写机制对话截图](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/eb6d19b39f7ee711d844c30182dd8421.png)
 
 ### 什么是双写
 
@@ -131,7 +114,7 @@ write_to_file(text, "MEMORY.md")
 memory_store(text=text, role="user")
 ```
 
-我写了个 [skill](https://github.com/tanteng/blog) 来自动化这个流程：
+我写了个 skill 来自动化这个流程：
 
 ```
 skills/memory-dual-write/
