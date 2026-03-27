@@ -70,31 +70,9 @@ Proposal → Planning → Implementation → Archive
 
 痛点：AI 容易自己脑补细节，结果做出来的东西不符合预期。OpenSpec 的做法是强制在代码之前先生成 proposal/specs/design/tasks 文档，人审阅同意了才让动手。
 
-## 关键区别
+## OpenSpec 与 Harness Engineering 的关系
 
-| | OpenSpec | Harness Engineering |
-|---|---|---|
-| **解决的问题** | AI 和人对需求的理解不一致 | AI 写代码时不稳定、不可靠 |
-| **介入时机** | 写代码之前（规划阶段） | 写代码过程（执行阶段） |
-| **核心流程** | Proposal → Specs → Design → Tasks → Implement → Archive | Context Engineering → Constraints → Entropy Management |
-| **人的角色** | 每个阶段都要审阅批准 | 早期设计 Harness，后期旁观 |
-
-## 两者是互补的
-
-OpenSpec 和 Harness Engineering 不是竞争关系，是互补的：
-
-```
-OpenSpec（规划层）              Harness Engineering（执行层）
-      ↓                              ↓
- 人和AI对齐需求                 AI稳定地实现代码
-      ↓                              ↓
-   Spec文档  ──────────────→    AGENTS.md
-                               ＋ Linter
-                               ＋ 测试覆盖率
-                               ＋ GC Agent
-```
-
-OpenSpec 的 AGENTS.md 更新机制，其实就是在做 Harness 的"上下文工程"那部分。
+OpenSpec 和 Harness Engineering 解决的是不同层次的问题：**OpenSpec 解决的是"人和 AI 对需求的理解不一致"——AI 容易自己脑补细节，做出来的东西不符合预期，所以 OpenSpec 强制在写代码之前先生成 proposal/specs/design/tasks 文档，人审阅同意了才让动手；Harness Engineering 解决的是"AI 写代码时不稳定、不可靠"——AI 会犯重复错误、谎报完成、架构随时间漂移，所以 Harness 通过约束、验证、反馈回路让 AI 的产出保持稳定。两者并非竞争关系，而是互补的：OpenSpec 覆盖了 Harness Engineering 的第一支柱——上下文工程（通过 AGENTS.md 让 AI 知道项目规范是什么），但架构约束和熵管理这些部分还需要 Linter、测试覆盖率、GC Agent 等独立去补充。
 
 ## 最小可行示例
 
