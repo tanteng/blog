@@ -100,6 +100,4 @@ def check_coverage() -> bool:
 
 现在 AI 写代码的能力已经不是瓶颈，真正的瓶颈是如何建立一套工程体系，让 AI 在复杂长时任务中稳定产出。这个领域还非常新，值得深入研究。
 
----
 
-*相关论文：arXiv:2603.05344 - Building Effective AI Coding Agents for the Terminal*
