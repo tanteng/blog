@@ -64,20 +64,6 @@ td:first-child {
   color: #333 !important;
 }
 
-/* 代码块样式优化 */
-pre {
-  background-color: #f6f8fa !important;
-  border-radius: 6px !important;
-  padding: 1rem !important;
-  overflow-x: auto !important;
-  font-size: 0.85rem !important;
-  line-height: 1.5 !important;
-}
-
-code {
-  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace !important;
-  font-size: 0.9em !important;
-}
 
 /* 分页导航居中 */
 nav[aria-label="Pagination"] {
