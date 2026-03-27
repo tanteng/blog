@@ -2,7 +2,7 @@
 {{- if .Param "twitter:image" -}}
 <meta name="twitter:image" content="{{ .Param "twitter:image" | absURL }}" />
 {{- else if $featured_image -}}
-<meta name="twitter:image" content="{{ $featured_image }}" />
+<meta name="twitter:image" content="{{ $featured_image | absURL }}" />
 {{- else -}}
 <meta name="twitter:image" content="{{ .Site.Params.open_graph_image | absURL }}" />
 {{- end -}}

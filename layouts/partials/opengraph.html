@@ -2,7 +2,7 @@
 {{- if .Param "og:image" -}}
 <meta property="og:image" content="{{ .Param "og:image" | absURL }}" />
 {{- else if $featured_image -}}
-<meta property="og:image" content="{{ $featured_image }}" />
+<meta property="og:image" content="{{ $featured_image | absURL }}" />
 {{- else -}}
 <meta property="og:image" content="{{ .Site.Params.open_graph_image | absURL }}" />
 {{- end -}}
