@@ -7,28 +7,14 @@ tags:
  - reading-list
 ---
 
-1.GoLang: When to use string pointers
- 
-<a href="https://dhdersch.github.io/golang/2016/01/23/golang-when-to-use-string-pointers.html" target="_blank" rel="noopener nofollow">https://dhdersch.github.io/golang/2016/01/23/golang-when-to-use-string-pointers.html</a>
+1. [GoLang: When to use string pointers](https://dhdersch.github.io/golang/2016/01/23/golang-when-to-use-string-pointers.html)
 
-2.PHP 7.3 中的 JSON 错误处理
- 
-<a href="https://laravel-china.org/topics/14668/json-error-handling-in-php-73" target="_blank" rel="noopener nofollow">https://laravel-china.org/topics/14668/json-error-handling-in-php-73</a>
+2. [PHP 7.3 中的 JSON 错误处理](https://laravel-china.org/topics/14668/json-error-handling-in-php-73)
 
-3.如何设计、开发和部署微服务（Nginx 官方文章翻译）
- 
-<a href="https://www.cnblogs.com/ajianbeyourself/p/5976664.html" target="_blank" rel="noopener nofollow">https://www.cnblogs.com/ajianbeyourself/p/5976664.html</a>
+3. [如何设计、开发和部署微服务（Nginx 官方文章翻译）](https://www.cnblogs.com/ajianbeyourself/p/5976664.html)
 
-4.理解 Laravel 中的 pipeline
- 
-① <a href="https://www.insp.top/article/realization-of-pipeline-component-for-laravel" target="_blank" rel="noopener nofollow">https://www.insp.top/article/realization-of-pipeline-component-for-laravel</a>
- 
-② <a href="https://www.jianshu.com/p/3c2791a525d0" target="_blank" rel="noopener nofollow">https://www.jianshu.com/p/3c2791a525d0</a>
+4. [理解 Laravel 中的 pipeline (①)](https://www.insp.top/article/realization-of-pipeline-component-for-laravel) [②](https://www.jianshu.com/p/3c2791a525d0)
 
-5.Redis 哈希对象编码方式
- 
-<a href="http://redisbook.com/preview/object/hash.html" target="_blank" rel="noopener nofollow">http://redisbook.com/preview/object/hash.html</a>
+5. [Redis 哈希对象编码方式](http://redisbook.com/preview/object/hash.html)
 
-6.哈希表原理介绍
- 
-<a href="http://www.cnblogs.com/yangecnu/p/Introduce-Hashtable.html" target="_blank" rel="noopener nofollow">http://www.cnblogs.com/yangecnu/p/Introduce-Hashtable.html</a>
+6. [哈希表原理介绍](http://www.cnblogs.com/yangecnu/p/Introduce-Hashtable.html)
