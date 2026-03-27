@@ -1,21 +1,14 @@
 /* 移动端封面图样式 */
 @media screen and (max-width: 768px) {
-  /* 首页头部封面 */
-  body section header.cover,
-  body > header.cover,
-  header.cover.bg-top,
-  header.cover.bg-center,
-  header.cover {
-    background-image: url('/images/blog-cover.jpg') !important;
+  /* 默认封面：靠左偏移 */
+  header.cover.default-cover {
     background-size: cover !important;
     background-position: -20px top !important;
   }
-  
-  /* 文章页面头部封面 */
-  article header.cover {
-    background-image: url('/images/blog-cover.jpg') !important;
+  /* 文章自定义封面：正常居中 */
+  header.cover:not(.default-cover) {
     background-size: cover !important;
-    background-position: -20px top !important;
+    background-position: center top !important;
   }
 }
 

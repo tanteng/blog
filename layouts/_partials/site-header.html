@@ -1,7 +1,7 @@
 {{ $featured_image := site.Params.featured_image | default "https://tanteng.space/blog-cover.jpg" | urls.AbsURL }}
 {{ if $featured_image }}
   {{ $featured_image_class := site.Params.featured_image_class | compare.Default "cover bg-top" }}
-  <header class="{{ $featured_image_class }}" style="background-image: url('{{ $featured_image }}');">
+  <header class="{{ $featured_image_class }} default-cover" style="background-image: url('{{ $featured_image }}');">
     {{ $cover_dimming_class := site.Params.cover_dimming_class | compare.Default "bg-black-60" }}
     <div class="{{ $cover_dimming_class }}">
       {{ partials.Include "site-navigation.html" .}}
