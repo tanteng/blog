@@ -9,8 +9,6 @@ description: "2026年3月28日 Hacker News 热门话题精选，涵盖 macOS 设
 
 📰 Hacker News 热门 - 2026-03-28
 
-<!--more-->
-
 ## 🔥 热门话题
 
 ### 1. Make macOS consistently bad unironically
@@ -20,6 +18,8 @@ description: "2026年3月28日 Hacker News 热门话题精选，涵盖 macOS 设
 作者深入分析 macOS 多年来的设计退化问题，从系统偏好设置的混乱、到 Siri 的失败、再到 Safari 的各种 bug，论证苹果在"细节打磨"上的傲慢正在系统性崩塌。
 
 文章引发强烈共鸣，被批评阵营和苹果粉丝同时关注——前者找到了共鸣素材，后者则激动反驳。这是近年来 HN 上关于苹果批评最火热的帖子之一，**331分 + 230条评论**。
+
+<!--more-->
 
 ### 2. People inside Microsoft are fighting to drop mandatory Microsoft Account
 
