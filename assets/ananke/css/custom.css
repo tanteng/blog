@@ -65,17 +65,6 @@ td:first-child {
 }
 
 
-/* 代码块修复：去掉主题默认的 overflow:scroll 产生的白色滚动条区域 */
-pre, .pre {
-  overflow: auto !important;
-}
-
-.highlight {
-  background-color: #272822;
-  border-radius: 6px;
-  margin: 1.5rem 0;
-}
-
 /* 分页导航居中 */
 nav[aria-label="Pagination"] {
   justify-content: center;
