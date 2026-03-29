@@ -1,179 +1,193 @@
 ---
-title: "Next.js 照片博客性能优化：SSL 架构精简与协议升级"
+title: "Next.js 照片博客性能优化：回源协议与 HTTP/3 升级"
 date: 2026-03-29T00:00:00+08:00
 draft: false
 tags: ['next.js', 'performance', 'nginx', 'edgeone', 'tencent-cloud']
 categories: ['tech']
-description: "在完成 Vercel 到腾讯云的迁移后，进一步优化 Nginx SSL 架构和网络协议，去掉双重 SSL 终止，启用 HTTP/3 (QUIC)，TTFB 最高降低 73%"
+description: "在完成 Vercel 到腾讯云的迁移后，围绕回源协议做了一系列优化：从双重 SSL 到 HTTP 明文，再到 HTTPS + HTTP/2 回源，最终实现全链路 HTTP/2 多路复用。同时启用 HTTP/3 (QUIC) 提升用户侧体验"
 ---
 
-[上一篇文章](/posts/vercel-to-tencent-cloud-migration/)记录了将照片站点从 Vercel 迁移到腾讯云 Lighthouse 的过程。迁移完成后，站点功能正常、性能也有明显提升。但在对 Nginx 日志和响应时间做进一步分析后，发现还有优化空间——主要集中在 SSL 架构和网络协议层面。
+[上一篇文章](/posts/vercel-to-tencent-cloud-migration/)记录了将照片站点从 Vercel 迁移到腾讯云 Lighthouse 的过程。迁移完成后，站点功能正常、性能也有明显提升。但在对 Nginx 日志和响应时间做进一步分析后，发现回源架构和协议层面还有优化空间。
 
 <!--more-->
 
-## 发现问题
+## 回源协议的来回折腾
 
-迁移完成后的架构是这样的：
+这部分经历了三次架构变更，值得简单记录一下决策过程。
 
-```
-用户 ──HTTPS──→ EdgeOne(SSL终止) ──HTTPS──→ Nginx(:443, Certbot证书) ──→ Next.js(:3000)
-```
-
-用 curl 分解各阶段耗时后，发现了问题：
-
-| 阶段 | 耗时 |
-|------|------|
-| Next.js 本地响应 | **4ms** |
-| 直接访问源站（绕过 CDN） | **66ms** TTFB |
-| 经 EdgeOne（CDN 命中） | **152ms** TTFB |
-| TLS 握手 | **85-98ms** |
-
-Next.js 本身极快（4ms，ISR 缓存命中），瓶颈在 TLS 握手和 CDN 处理。更关键的是，SSL 被终止了**两次**：
-
-1. **EdgeOne 终止一次**：用户到 EdgeOne 之间是 HTTPS
-2. **Nginx 又终止一次**：EdgeOne 到 Nginx 之间又走 HTTPS，Nginx 用 Certbot 证书再解密一次
-
-第二次 SSL 终止完全多余——EdgeOne 到源站走的是腾讯云内网，不需要加密。
-
----
-
-## 优化一：去掉 Nginx SSL，单点终止
-
-### 改动
-
-**Nginx 配置**：去掉 443 端口和 SSL 证书，只保留 80 端口：
-
-```nginx
-server {
-    listen 80;
-    http2 on;
-    server_name photos.tanteng.space;
-
-    # Gzip 压缩
-    gzip on;
-    gzip_types text/plain text/css application/json application/javascript
-               text/xml application/xml text/javascript image/svg+xml;
-    gzip_min_length 1000;
-
-    # Next.js 静态资源长期缓存
-    location /_next/static/ {
-        proxy_pass http://127.0.0.1:3000;
-        expires 365d;
-        add_header Cache-Control "public, immutable";
-    }
-
-    # 反向代理到 Next.js
-    location / {
-        proxy_pass http://127.0.0.1:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto https;
-        proxy_cache_bypass $http_upgrade;
-    }
-}
-```
-
-注意 `X-Forwarded-Proto` 硬编码为 `https`——因为用户侧始终是 HTTPS（EdgeOne 管理证书），但回源走 HTTP，如果用 `$scheme` 会传 `http`，可能导致 Next.js 的重定向逻辑出问题。
-
-**EdgeOne 配置**：回源协议从 HTTPS 改为 HTTP，回源端口 80。
-
-### 优化后的架构
+### 第一阶段：双重 SSL（迁移初始状态）
 
 ```
-用户 ──HTTPS──→ EdgeOne（SSL终止）──HTTP──→ Nginx(:80) ──→ Next.js(:3000)
+用户 ──HTTPS──→ EdgeOne(SSL终止) ──HTTPS──→ Nginx(:443, Certbot证书) ──→ Next.js
 ```
 
-SSL 只在 EdgeOne 终止一次，证书由 EdgeOne 自动管理。Nginx 不再处理 SSL，不需要 Certbot 自动续期。
+EdgeOne 到 Nginx 之间走 HTTPS，SSL 被终止了两次。但 EdgeOne 到源站走的是腾讯云内网，第二次 TLS 握手完全多余。实测这层多余的加解密给 TTFB 增加了 85-98ms。
 
----
+### 第二阶段：去掉 Nginx SSL，HTTP 明文回源
 
-## 优化二：启用 HTTP/2 和 HTTP/3 (QUIC)
+```
+用户 ──HTTPS──→ EdgeOne(SSL终止) ──HTTP──→ Nginx(:80) ──→ Next.js
+```
 
-在 EdgeOne 控制台开启了两个协议优化：
+去掉 Nginx 的 443 端口和 Certbot 证书，回源改走 HTTP。TTFB 降低了 26%-73%，运维也简化了（不用管证书续期）。看似完美，但埋了一个隐患。
 
-- **HTTP/2**：多路复用，头部压缩（用户 → EdgeOne）
-- **HTTP/3 (QUIC)**：基于 UDP，0-RTT 连接恢复，弱网环境提升明显
+### 第三阶段：恢复 HTTPS，启用 HTTP/2 回源
 
-开启后，响应头中出现了 `alt-svc: h3=":443"`，支持 QUIC 的浏览器（Chrome、Edge、Firefox）在首次 HTTP/2 连接后，后续访问会自动升级到 HTTP/3。
+在后续[引入 COS 数据万象做图片优化](/posts/cos-ci-image-optimization/)后，图片请求不再经过源站，服务器 CPU 压力消失。但测试中发现部署清缓存后 JS 静态文件加载异常缓慢——20+ 个 JS chunk 全部 MISS 回源，部分请求等了 8 秒。
 
----
+查 Nginx 日志发现了典型的 HTTP/1.1 排队模式：
 
-## 关于 h2c 回源的探索
+```
+# 同一秒内 12 个 JS 文件回源
+前 6 个：rt=0.002s ~ 0.007s    ← 立即处理
+后 6 个：rt=1.55s ~ 1.77s      ← 排队等待
+```
 
-既然 Nginx 回源走的是 HTTP 明文，能不能让回源也用 HTTP/2？HTTP/2 有一个明文模式叫 **h2c**（HTTP/2 cleartext），理论上可以在不加密的情况下使用 HTTP/2 的多路复用和头部压缩。
+**HTTP/1.1 每个连接只能串行处理请求**，EdgeOne 到源站大约建了 6 个并发连接，前 6 个请求秒回，后 6 个要等前一批完成。在 EdgeOne 内部可能还有多层节点逐级回源，排队延迟层层叠加，浏览器端就变成了好几秒。
 
-Nginx 从 1.25.1 开始支持 h2c，配置 `http2 on` 即可。但实测发现回源仍然是 HTTP/1.1。
+解决方案是恢复 HTTPS 443 端口，让 EdgeOne 走 **HTTP/2 回源**——HTTP/2 的多路复用可以在单个连接上并行处理所有请求，消除排队。
 
-原因是 h2c 有两种握手方式：
+```
+用户 ──HTTP/2 or HTTP/3──→ EdgeOne(SSL终止) ──HTTPS + H2──→ Nginx(:443) ──→ Next.js
+```
+
+虽然加回了一层 TLS，但内网 TLS 握手只增加几毫秒，而 HTTP/2 多路复用在并发回源时能节省秒级延迟。**权衡之下，H2 多路复用的收益远大于 TLS 的微小开销。**
+
+### 为什么不用 h2c？
+
+在第二阶段（HTTP 明文回源）时，理论上可以用 **h2c**（HTTP/2 cleartext）在不加密的情况下获得 HTTP/2 的多路复用，两全其美。Nginx 配了 `http2 on` 也确实支持 h2c。
+
+但实测发现 EdgeOne 回源仍然走 HTTP/1.1。原因是 h2c 有两种握手方式：
 
 | 方式 | 过程 | Nginx 支持 |
 |------|------|-----------|
 | **Upgrade** | 先发 HTTP/1.1，服务端返回 101 后切换 | ❌ |
 | **Prior Knowledge** | 直接发 HTTP/2 帧 | ✅ |
 
-EdgeOne 使用的是 Upgrade 方式，而 Nginx 有意不支持 h2c Upgrade——Nginx 团队认为这种"先试探再升级"的机制增加复杂度却带来有限收益。大部分其他 Web 服务器（Apache、Caddy、Go net/http）都支持两种方式。
-
-不过这对实际性能影响很小：CDN 命中率高的站点回源不频繁，每次回源只拿单个 HTML 文件，HTTP/2 的多路复用优势用不上。
+EdgeOne 使用 Upgrade 方式，Nginx 只支持 Prior Knowledge，两边对不上。所以 h2c 这条路走不通，最终选择了 HTTPS + H2 回源。
 
 ---
 
-## 优化效果
+## 重点：HTTP/2 和 HTTP/3 (QUIC) 升级
 
-### TTFB 对比
+回源协议折腾完毕，来看真正重要的部分——用户侧的协议升级。
 
-| 页面 | 优化前 | 优化后 | 提升 |
-|------|--------|--------|------|
-| 首页（CDN 缓存命中） | 152ms | **113ms** | -26% |
-| 首页（首次访问） | 259ms | **176ms** | -32% |
-| 照片详情页 | 293ms | **113ms** | -61% |
-| 标签页 | 443ms | **120ms** | -73% |
+### HTTP/2：多路复用的威力
 
-### 运维简化
+在 EdgeOne 开启 HTTP/2 后，浏览器到 CDN 之间的连接方式发生了质变：
 
-| 方面 | 优化前 | 优化后 |
-|------|--------|--------|
-| SSL 证书 | EdgeOne + Certbot（两套） | 仅 EdgeOne（自动管理） |
-| Nginx 监听端口 | 80 + 443 | 仅 80 |
-| 回源加密 | HTTPS（多一次 TLS） | HTTP（无 TLS 开销） |
+**HTTP/1.1 时代**：浏览器对同一域名最多 6 个并发 TCP 连接，20+ 个 JS/CSS 文件只能排队。
+
+```
+连接1: JS-A ────→ JS-G ────→ ...
+连接2: JS-B ────→ JS-H ────→ ...
+连接3: JS-C ────→ JS-I ────→ ...
+连接4: JS-D ────→ JS-J ────→ ...
+连接5: JS-E ────→ JS-K ────→ ...
+连接6: JS-F ────→ JS-L ────→ ...
+         ↑ 前6个立即发出，其余排队等待
+```
+
+**HTTP/2 时代**：单个连接，所有请求并行传输。
+
+```
+连接1: JS-A + JS-B + JS-C + JS-D + ... + JS-L （全部并行，多路复用）
+```
+
+有一次不小心在 EdgeOne 把 HTTP/2 关掉了（本意是关 HTTP/2 *回源*），结果 20+ 个 JS chunk 加载时间从 1 秒飙到 7-8 秒——这就是多路复用的差距。
+
+### HTTP/3 (QUIC)：0-RTT 和弱网体验
+
+HTTP/3 基于 QUIC 协议（UDP），相比 HTTP/2 (TCP) 有几个关键优势：
+
+**1. 连接建立更快**
+
+传统 HTTPS 需要 TCP 三次握手 + TLS 握手，合计 2-3 个 RTT。QUIC 将传输层和加密层合并，首次连接 1 RTT，重连 **0-RTT**。
+
+```
+HTTP/2 (TCP+TLS):
+  Client ──SYN──→ Server
+  Client ←──SYN-ACK── Server
+  Client ──ACK+ClientHello──→ Server
+  Client ←──ServerHello── Server
+  Client ──Request──→ Server        (2-3 RTT 后才能发请求)
+
+HTTP/3 (QUIC):
+  Client ──Initial+Request──→ Server  (0-1 RTT，请求和握手同时发出)
+```
+
+**2. 消除队头阻塞**
+
+HTTP/2 虽然应用层多路复用，但底层仍然是单个 TCP 连接。一旦某个 TCP 包丢失，整个连接的所有流都要等重传——这就是**队头阻塞**（Head-of-Line Blocking）。
+
+QUIC 的多路复用在传输层实现，每个流独立，一个流丢包不影响其他流。这在移动网络（丢包率高）上提升尤为明显。
+
+**3. 连接迁移**
+
+手机在 Wi-Fi 和 4G 之间切换时，TCP 连接会断开重建。QUIC 用 Connection ID 标识连接（而非 IP+端口），网络切换时连接无缝迁移，不会中断正在传输的资源。
+
+### 开启方式
+
+在 EdgeOne 控制台开启 HTTP/2 和 HTTP/3 后，响应头中出现了：
+
+```
+alt-svc: h3=":443"; ma=2592000
+```
+
+浏览器在首次 HTTP/2 连接后，记住 `alt-svc` 指示，后续访问自动升级到 HTTP/3。在 Chrome DevTools 的 Protocol 列可以看到 `h3` 标识。
+
+### 实际效果
+
+在浏览器 DevTools 中可以清楚看到协议分布：
+
+| 请求类型 | 协议 |
+|----------|------|
+| 首次页面访问 | HTTP/2 |
+| 后续页面访问 | **HTTP/3 (h3)** |
+| RSC 数据请求 | **HTTP/3 (h3)** |
+| 图片（COS CDN） | HTTP/1.1 → HTTP/2（取决于 CDN 配置） |
 
 ---
 
 ## 最终架构
 
 ```
-用户 ──HTTP/2 or HTTP/3──→ EdgeOne（SSL终止 + CDN缓存）──HTTP/1.1──→ Nginx(:80) ──→ Next.js(:3000)
+用户 ──H2/H3(QUIC)──→ EdgeOne（SSL终止 + CDN缓存）──H2(HTTPS)──→ Nginx(:443) ──→ Next.js(:3000)
 ```
 
 三层各司其职：
 
 - **EdgeOne**：SSL 终止、CDN 缓存、HTTP/2 & HTTP/3、WAF 防护
-- **Nginx**：反向代理、Gzip 压缩、安全头、访问日志
+- **Nginx**：反向代理（HTTPS + H2）、Gzip 压缩、访问日志
 - **Next.js**：页面渲染、ISR 缓存
+
+回源走 HTTPS + HTTP/2，用户侧走 HTTP/2 和 HTTP/3 (QUIC)，全链路多路复用，无排队瓶颈。
 
 ---
 
-## 补充：源站 IP 防护
+## 源站 IP 防护
 
-去掉 SSL 后，源站 80 端口直接暴露在公网上。如果有人知道源站 IP，可以绕过 EdgeOne 直接访问。简单的防护方式是在 Nginx 中用 `default_server` 拦截所有非域名请求：
+源站 443 端口暴露在公网上，需要防止绕过 CDN 直接访问。在 Nginx 中用 `default_server` 拦截所有非域名请求：
 
 ```nginx
 server {
     listen 80 default_server;
+    listen 443 ssl default_server;
     server_name _;
+
+    ssl_certificate /etc/letsencrypt/live/photos.tanteng.space/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/photos.tanteng.space/privkey.pem;
+
     return 444;
 }
 ```
 
-这样用 IP 直接访问会被 Nginx 直接断开连接（444），只有带正确 `Host` 头的 EdgeOne 回源请求才能命中站点配置。零维护，不需要跟着 EdgeOne IP 段变更更新白名单。
+用 IP 直接访问会被 Nginx 断开连接（444），只有带正确 `Host` 头的 EdgeOne 回源请求才能命中站点配置。
 
 ---
 
 ## 总结
 
-这次优化的核心思路很简单：**去掉多余的 SSL 终止，让协议栈更高效**。SSL 在 EdgeOne 边缘节点处理一次就够了，回源走明文 HTTP 既快又省心。HTTP/3 (QUIC) 的启用则让用户侧的连接建立更快，尤其是移动网络和弱网环境。
+回源协议的选择不是一个非黑即白的决策。最初去掉 SSL 是因为双重 TLS 握手浪费了 85ms+，后来恢复 HTTPS 是因为需要 HTTP/2 多路复用来解决并发回源排队。每一步都是基于实际数据做的权衡——有时候加回一层"开销"反而让整体更快。
 
-有时候性能优化不需要改代码，架构层面少做一件多余的事，就是最好的优化。
+用户侧的 HTTP/3 (QUIC) 升级则是纯粹的收益：更快的连接建立、消除队头阻塞、连接迁移。对于照片博客这种图片密集、移动端访问多的场景，效果尤其明显。
