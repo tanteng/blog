@@ -6,6 +6,7 @@ tags: ['life']
 categories: ["life"]
 slug: "dream-of-beautiful-scenery"
 description: "昨夜做了一个梦，梦见了非常壮观的美景。"
+featured_image: https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/46ea5009e2dd231c97e5418105b7bc35.png
 ---
 
 昨晚做了一个梦，梦见了非常壮观的美景。
