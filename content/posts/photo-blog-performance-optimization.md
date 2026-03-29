@@ -68,7 +68,7 @@ EdgeOne 使用 Upgrade 方式，Nginx 只支持 Prior Knowledge，两边对不�
 
 ---
 
-## 重点：HTTP/2 和 HTTP/3 (QUIC) 升级
+## HTTP/2 和 HTTP/3 (QUIC) 升级
 
 回源协议折腾完毕，来看真正重要的部分——用户侧的协议升级。
 
