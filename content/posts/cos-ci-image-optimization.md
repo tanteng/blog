@@ -218,11 +218,21 @@ tail -20 /var/log/nginx/photo-blog.access.log | grep '_next/image' | wc -l
 
 图片请求不再经过我的服务器，直接从 COS CDN 节点返回。服务器只需要处理 HTML、RSC 和 JS 静态资源。
 
-## 踩坑：DNG 格式的方向问题
+## 踩坑：图片方向问题
 
-切换到数据万象后发现有一张 iPhone 上传的照片方向不对。排查发现这张照片虽然扩展名是 `.jpeg`，但实际是 DNG（TIFF 容器）格式——iPhone 的 ProRAW 拍摄会生成 DNG 文件，上传流程中被保存为 `.jpeg` 扩展名但内部格式未变。
+切换到数据万象后，发现部分 iPhone 拍摄的竖拍照片显示方向不对。
 
-数据万象的 `auto-orient` 对 TIFF/DNG 格式的 EXIF orientation 处理存在兼容性问题，无法正确旋转。解决方式是用 sharp 手动旋转像素数据并转为真正的 JPEG 后重新上传。这属于个别特殊格式的边界情况，常规 JPEG 照片不受影响。
+原因是 **`imageMogr2` 默认不会根据 EXIF orientation 自动旋转图片**——之前走 Next.js 的 `/_next/image` 时，sharp 会自动处理 orientation，切换到数据万象后这步丢失了。解决方式很简单，在 URL 中加上 `auto-orient` 参数：
+
+```
+# 修复前
+?imageMogr2/thumbnail/640x/format/webp/quality/75/interlace/1
+
+# 修复后
+?imageMogr2/auto-orient/thumbnail/640x/format/webp/quality/75/interlace/1
+```
+
+全库扫描 579 张照片，8 张带 EXIF orientation 的 JPEG 通过 `auto-orient` 自动修复。另外还有 2 张 iPhone ProRAW (DNG) 照片被保存为 `.jpeg` 扩展名但内部实际是 TIFF 格式，`auto-orient` 对 TIFF 无效，这两张需要手动用 sharp 旋转像素数据后重新上传。
 
 ## 小结
 

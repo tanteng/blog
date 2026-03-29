@@ -21,7 +21,7 @@ description: "在完成 Vercel 到腾讯云的迁移后，围绕回源协议做�
 用户 ──HTTPS──→ EdgeOne(SSL终止) ──HTTPS──→ Nginx(:443, Certbot证书) ──→ Next.js
 ```
 
-EdgeOne 到 Nginx 之间走 HTTPS，SSL 被终止了两次。但 EdgeOne 到源站走的是腾讯云内网，第二次 TLS 握手完全多余。实测这层多余的加解密给 TTFB 增加了 85-98ms。
+EdgeOne 到 Nginx 之间走 HTTPS，SSL 被终止了两次。虽然都在腾讯云体系内，但 EdgeOne 边缘节点遍布全国，回源到广州的 Lighthouse 并非 VPC 内网通信，第二次 TLS 握手在安全上意义不大，主要是额外开销。实测这层多余的加解密给 TTFB 增加了 85-98ms。
 
 ### 第二阶段：去掉 Nginx SSL，HTTP 明文回源
 
