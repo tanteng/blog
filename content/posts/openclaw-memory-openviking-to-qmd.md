@@ -1,7 +1,7 @@
 ---
 title: "OpenClaw 记忆后端切换：从 OpenViking 到 QMD"
-date: 2026-03-27
-description: "记录 OpenClaw 记忆系统从 OpenViking 切换到 QMD 的完整过程，包括切换原因、数据迁移、踩坑记录。不是 OpenViking 不好，而是 QMD 更适合当前阶段。"
+date: 2026-03-30
+description: "记录 OpenClaw 记忆系统从 OpenViking 切换到 QMD 的完整过程。包括切换原因、数据迁移、QMD 自动管理机制、记忆加载流程解析、踩坑记录，以及 QMD 在 OpenClaw 记忆体系中的实际意义。"
 categories: ['tech']
 tags: ['openclaw', 'openviking', 'qmd', 'ai', 'memory', 'context-engineering']
 featured_image: ""
@@ -93,106 +93,145 @@ OpenViking 的记忆存储在自己的向量库里，切回 legacy 后这些记�
 
 这样 QMD 就能索引到这些历史记忆了。
 
-### 第四步：构建 QMD 索引
+### 第四步：QMD 索引——你不需要手动管理
 
-这一步最容易踩坑。直觉是"把整个 workspace 扔进去"，但实际上需要仔细想想**哪些内容该索引**。
+~~这一步最容易踩坑。~~ 其实这一步**不需要你做什么**。
 
-#### 先说结论
+我最初在命令行手动折腾了一堆 `qmd collection add`、crontab 同步、memories 目录管理，后来发现全是多余的。
 
-不要把整个 `~/.openclaw/workspace` 加到 QMD。我的 workspace 下有 462 个 Markdown 文件，包括博客文章、技能文档、demo 项目等。全部索引进去会有两个问题：
+#### OpenClaw 自动管理 QMD 索引
 
-1. **噪音太大** —— 搜索"我对 Go 怎么看"，可能返回一篇我转载的别人的观点
-2. **稀释个人记忆** —— 真正有价值的记忆（身份信息、偏好、对话日志）被博客文章淹没
-
-#### 最佳实践：按内容性质拆分 Collection
-
-最终方案是创建两个精准的 collection：
-
-```bash
-# Collection 1: 个人记忆文件
-# 在 /root/memories/ 目录下集中管理核心记忆
-mkdir -p /root/memories
-
-# 把 OpenClaw 核心身份文件复制过来
-cp ~/.openclaw/workspace/{USER,SOUL,IDENTITY,MEMORY}.md /root/memories/
-
-# 如果有自己写的笔记、分析报告也放这里
-# cp ~/.openclaw/workspace/PDD_stock_analysis_*.md /root/memories/
-
-qmd collection add /root/memories --name memories
-# → 8 files indexed
-
-# Collection 2: OpenClaw 每日对话日志
-qmd collection add ~/.openclaw/workspace/memory --name oc-memory
-# → 100 files indexed (每天的对话日志)
-```
-
-这样 QMD 里总共 108 个文件，全部是**属于我的**内容，没有博客转载文章和第三方技能文档的噪音。
-
-#### 为什么不能用 ignore 排除
-
-你可能想："直接索引 workspace，用 ignore 排除不需要的目录不就好了？"
-
-我试过了。QMD 的 `qmd.yaml` 配置里有 `ignore` 字段，理论上支持 glob 模式排除。但实测（QMD 2.0.1）**collection 级别的 ignore 不生效**，`--glob` 参数也无法限制匹配范围——只要 `collection add` 指向一个目录，它就用 `**/*.md` 扫全部。
-
-所以最可靠的方式还是：**用独立目录管理要索引的文件，只把需要的内容放进去。**
-
-#### 生成向量嵌入
-
-```bash
-# 生成向量（CPU 模式，108 个文件约 11 分钟）
-qmd embed
-```
-
-最终状态：
+查看 [官方文档](https://docs.openclaw.ai/reference/memory-config) 才搞清楚：**OpenClaw 会自己管理 QMD 的索引、更新和嵌入。** 它在启动 QMD 时设置了独立的 `XDG_CONFIG_HOME` 和 `XDG_CACHE_HOME`，指向自己的数据目录：
 
 ```
-Documents
-  Total:    108 files indexed
-  Vectors:  397 embedded
-Collections
-  memories   → 8 files (个人记忆)
-  oc-memory  → 100 files (对话日志)
+~/.openclaw/agents/main/qmd/
+├── xdg-config/
+│   ├── index.yml          ← 记忆文件索引配置（自动生成）
+│   └── qmd/index.yml      ← workspace 索引配置（自动生成）
+└── xdg-cache/
+    └── qmd/index.sqlite   ← QMD 索引数据库
 ```
 
-### 第四步半：设置自动同步
+OpenClaw 自动生成的配置内容：
 
-QMD 不会监听文件变化，OpenClaw 更新了 `USER.md` 或新增了对话日志，QMD 索引不会自动刷新。需要一个 crontab 定时同步：
+```yaml
+# index.yml（记忆专用索引）
+collections:
+  memory-root-main:
+    path: ~/.openclaw/workspace
+    pattern: MEMORY.md
+  memory-dir-main:
+    path: ~/.openclaw/workspace/memory
+    pattern: "**/*.md"
 
-```bash
-crontab -e
+# qmd/index.yml（workspace 索引）
+collections:
+  workspace:
+    path: ~/.openclaw/workspace
+    pattern: "**/*.md"
+    ignore:
+      - "**/blog/content/posts/**/*.md"
+      - "**/blog/themes/**"
 ```
 
-添加：
+注意看，**它已经自动排除了博客文章和主题文件**。
+
+#### 自动更新和嵌入
+
+根据官方文档，OpenClaw 的 QMD 管理器会：
+
+- **启动时**执行一次 `qmd update` 和 `qmd embed`（后台运行，不阻塞聊天）
+- **每 5 分钟**自动刷新一次索引和嵌入
+- 通过 `memory.qmd.update.interval` 可以调整刷新频率
+
+所以**不需要 crontab，不需要手动 `qmd update`，不需要手动 `qmd embed`**。OpenClaw 全自动搞定。
+
+#### 命令行的 QMD 是独立的
+
+这里有个容易混淆的点：你在终端里敲 `qmd` 和 OpenClaw 内部调用的 `qmd` 是**同一个程序，但用不同的数据目录**。
+
+| | 索引路径 | 谁管理 |
+|---|---|---|
+| 命令行 `qmd` | `~/.cache/qmd/index.sqlite` | 你自己 |
+| OpenClaw 的 `qmd` | `~/.openclaw/agents/main/qmd/xdg-cache/qmd/index.sqlite` | OpenClaw 自动管理 |
+
+所以你在命令行 `qmd collection add` 加的东西，OpenClaw 根本看不到。反过来也一样。
+
+#### 如果想自定义索引范围
+
+可以在 `openclaw.json` 里通过 `memory.qmd.paths` 添加额外的目录：
+
+```json
+{
+  "memory": {
+    "backend": "qmd",
+    "qmd": {
+      "includeDefaultMemory": true,
+      "paths": [
+        {
+          "name": "notes",
+          "path": "~/my-notes",
+          "pattern": "**/*.md"
+        }
+      ]
+    }
+  }
+}
+```
+
+`includeDefaultMemory` 默认为 `true`，会自动索引 `MEMORY.md` 和 `memory/**/*.md`。
+
+## QMD 在 OpenClaw 记忆体系中的角色
+
+搞清楚这一点很重要——**QMD 是按需语义搜索引擎，不是存储引擎，也不是每次对话都会被调用。**
+
+### OpenClaw 的记忆加载流程
 
 ```
-0 4 * * * bash -c 'source /root/.nvm/nvm.sh && cp /root/.openclaw/workspace/{USER,SOUL,IDENTITY,MEMORY}.md /root/memories/ 2>/dev/null && qmd update && qmd embed' >> /root/qmd-sync.log 2>&1
+会话启动时（每次都执行，不经过 QMD）：
+├── 读取 MEMORY.md        ← 长期记忆（仅私聊加载，~3 KB）
+├── 读取 memory/今天.md    ← 今日对话日志
+├── 读取 memory/昨天.md    ← 昨日对话日志
+└── 注入 system prompt
+
+对话过程中（模型自行判断是否调用）：
+├── memory_get    → 读取指定文件内容（不经过 QMD）
+└── memory_search → 语义搜索（调用 QMD）
 ```
 
-每天凌晨 4 点：
-1. 把 OpenClaw 最新的核心文件同步到 memories 目录
-2. `qmd update` 扫描文件变化
-3. `qmd embed` 对新增/修改的内容生成向量
+注意：`SOUL.md`、`USER.md`、`IDENTITY.md` 这些核心身份文件是作为 system prompt 的一部分直接加载的，不走记忆系统。
 
-#### QMD 在 OpenClaw 记忆体系中的角色
+### QMD 的实际意义
 
-搞清楚这一点很重要——**QMD 是搜索引擎，不是存储引擎**。
+启动时加载的只有 3 个文件，加起来可能不到 10 KB。那 QMD 的价值在哪里？
 
-OpenClaw 每次对话的记忆加载流程：
+**在于让 AI 能精准访问到剩下几百个文件的内容，而只消耗极少的 token。**
+
+举个例子：
 
 ```
-固定读取（每次都读，不经过 QMD）
-├── SOUL.md      → AI 身份
-├── USER.md      → 用户信息
-├── IDENTITY.md  → 身份配置
-└── memory/最近几天.md → 近期对话上下文
+你问："我两周前分析过 PDD 的股票吧？"
 
-按需检索（通过 QMD）
-└── 当对话涉及的内容不在上述文件时
-    → QMD 语义搜索 → 召回相关片段 → 注入上下文
+情况 A（没有 QMD）：
+  → 只有 MEMORY.md + 今天 + 昨天的日志
+  → 两周前的信息不在上下文里
+  → AI 回答："我不记得了"
+
+情况 B（有 QMD）：
+  → 模型判断：这个信息不在已加载的上下文中
+  → 调用 memory_search("PDD stock analysis")
+  → QMD 从所有历史日志中语义检索
+  → 返回最相关的 2-3 个片段（~1 KB）
+  → AI 基于召回内容准确回答
 ```
 
-核心文件 OpenClaw 每次直接读取，不依赖 QMD。QMD 的价值在于当记忆文件多到几百个时，帮 AI 从海量历史中**精准定位**相关内容，而不是把所有文件都塞进上下文窗口。
+一句话概括：**启动时读小文件保证基础记忆，运行时靠 QMD 按需检索保证深度记忆。**
+
+### 什么时候 QMD 不会被调用
+
+如果你问的信息已经在启动时加载的文件里，模型不需要调用 `memory_search`，QMD 就不会介入。这也是我实测发现的——最近几天的对话 session 里 QMD 调用次数为 0，因为常用信息都在 MEMORY.md 和 USER.md 里。
+
+这不是 bug，是设计如此。**不需要搜的时候就不搜，省 token。**
 
 ### 第五步：卸载 OpenViking
 
@@ -298,10 +337,11 @@ qmd embed
 
 几个实操经验总结：
 
-1. **不要把整个 workspace 扔进 QMD** —— 按内容性质拆分 collection，只索引真正属于你的记忆
-2. **QMD 是搜索引擎，不是存储引擎** —— 核心记忆文件 OpenClaw 每次直接读取，QMD 只在需要从大量历史中检索时才介入
-3. **一定要设自动同步** —— QMD 不监听文件变化，crontab 每天跑一次 `qmd update && qmd embed` 是必须的
-4. **中文搜索先别指望太多** —— EmbeddingGemma-300M 对中文支持有限，但 OpenClaw 的 query expansion 能缓解这个问题
-5. **CPU 限速很重要** —— 2 核云主机上不限速 embed 会把服务器跑挂
+1. **QMD 索引不需要手动管理** —— OpenClaw 自动生成配置、自动每 5 分钟刷新索引和嵌入。不需要 crontab，不需要手动 `qmd update`。我最初折腾了一堆手动 collection 方案，后来发现全是多余的
+2. **命令行 `qmd` 和 OpenClaw 的 `qmd` 是隔离的** —— 同一个程序，不同的数据目录。在终端里操作 QMD 不会影响 OpenClaw，反之亦然
+3. **QMD 不是每次对话都触发** —— 只有模型判断需要从历史记忆中搜索时才调用 `memory_search`。常用信息在 MEMORY.md 和当天日志里就能找到，不需要 QMD
+4. **QMD 的意义是"深度记忆"** —— 启动时加载 3 个小文件（MEMORY.md + 今天 + 昨天）保证基础记忆，运行时靠 QMD 按需检索保证对几百个历史文件的访问能力
+5. **中文搜索效果有限** —— EmbeddingGemma-300M 对中文支持不好，但 OpenClaw 会做 query expansion 缓解
+6. **CPU 限速很重要** —— 2 核云主机上首次 embed 几百个文件会打满 CPU，用 `cpulimit` 限速或者 `screen` 前台跑
 
-折腾的过程本身也是学习——搞清楚了 OpenClaw 的 `contextEngine` 架构、插件 slot 机制、记忆搜索后端的切换方式，以及 QMD 的 collection 管理和向量嵌入流程。这些理解比用哪个工具更有价值。
+折腾的过程本身也是学习——搞清楚了 OpenClaw 的记忆加载流程（核心文件直接读 + QMD 按需搜索）、`contextEngine` 架构、QMD 自动管理机制。踩的坑也算值了。
