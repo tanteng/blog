@@ -189,6 +189,8 @@ OpenClaw 的记忆分两个阶段加载：
 
 一句话概括：**启动时读小文件保证基础记忆，运行时靠 QMD 按需检索保证深度记忆。**
 
+值得一提的是，如果你的记忆文件本来就很少，启动时加载的 3 个文件基本覆盖了所有内容，模型几乎不会触发 `memory_search`，QMD 就一直处于待命状态。**记忆少的时候 QMD 是保险，记忆多了才是刚需。**
+
 ## 与 OpenViking 的对比
 
 OpenClaw 的记忆方案还有一个重量级选手——字节跳动开源的 [OpenViking](https://github.com/volcengine/OpenViking)。两者架构思路完全不同：
