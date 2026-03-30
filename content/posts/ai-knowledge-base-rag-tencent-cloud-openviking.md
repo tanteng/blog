@@ -47,69 +47,23 @@ featured_image: ""
 
 #### 阶段一：离线索引（构建知识库）
 
-```
-文档（PDF/Word/网页等）
-    │
-    ▼
-┌─────────────────────────┐
-│  Step 1: 文档解析         │  API: CreateReconstructDocumentFlow
-│  将文档转换为结构化 Markdown │  → GetReconstructDocumentResult
-└────────────┬────────────┘
-             │
-             ▼
-┌─────────────────────────┐
-│  Step 2: 语义拆分         │  API: CreateSplitDocumentFlow
-│  多级语义切片，保留上下文完整性│  → GetSplitDocumentResult
-└────────────┬────────────┘
-             │
-             ▼
-┌─────────────────────────┐
-│  Step 3: 向量化           │  API: GetEmbedding
-│  将文本块转为 Embedding 向量 │
-└────────────┬────────────┘
-             │
-             ▼
-┌─────────────────────────┐
-│  Step 4: 入库存储         │  存入向量数据库
-│  向量 + 原文一起写入索引    │  （腾讯云托管或自建）
-└─────────────────────────┘
+```mermaid
+flowchart LR
+    A["📄 文档（PDF/Word/网页等）"] --> B["Step 1: 文档解析<br/>API: CreateReconstructDocumentFlow → GetReconstructDocumentResult"]
+    B --> C["Step 2: 语义拆分<br/>API: CreateSplitDocumentFlow → GetSplitDocumentResult"]
+    C --> D["Step 3: 向量化<br/>API: GetEmbedding"]
+    D --> E["Step 4: 入库存储<br/>存入向量数据库（腾讯云托管或自建）"]
 ```
 
 #### 阶段二：在线检索（回答问题）
 
-```
-用户提问："如何配置数据库连接池？"
-    │
-    ▼
-┌─────────────────────────┐
-│  Step 5: 多轮改写（可选）   │  API: QueryRewrite
-│  处理指代消解："它的连接池"   │  → "数据库连接池配置方法"
-│  → 转为完整查询             │
-└────────────┬────────────┘
-             │
-             ▼
-┌─────────────────────────┐
-│  Step 6: 查询向量化        │  API: GetEmbedding
-│  将查询转为 Embedding 向量  │
-└────────────┬────────────┘
-             │
-             ▼
-┌─────────────────────────┐
-│  Step 7: 相似度检索        │  向量数据库检索
-│  在知识库中找到 Top-K 相关片段│  API: SearchKnowledge
-└────────────┬────────────┘
-             │
-             ▼
-┌─────────────────────────┐
-│  Step 8: 重排序           │  API: RunRerank
-│  对 Top-K 结果精排         │  输出相关性分数
-└────────────┬────────────┘
-             │
-             ▼
-┌─────────────────────────┐
-│  Step 9: 生成回答         │  将检索结果 + 原始问题
-│  拼接为 Prompt，调用 LLM   │  → 生成最终回答
-└─────────────────────────┘
+```mermaid
+flowchart LR
+    A["❓ 用户提问：如何配置数据库连接池？"] --> B["Step 5: 多轮改写（可选）<br/>API: QueryRewrite<br/>处理指代消解 → 数据库连接池配置方法"]
+    B --> C["Step 6: 查询向量化<br/>API: GetEmbedding"]
+    C --> D["Step 7: 相似度检索<br/>API: SearchKnowledge<br/>在知识库中找到 Top-K 相关片段"]
+    D --> E["Step 8: 重排序<br/>API: RunRerank<br/>对 Top-K 结果精排"]
+    E --> F["Step 9: 生成回答<br/>将检索结果 + 原始问题拼接为 Prompt → LLM → 最终回答"]
 ```
 
 #### 如果使用 RAG 综合套件
