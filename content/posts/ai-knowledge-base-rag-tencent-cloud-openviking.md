@@ -1,5 +1,5 @@
 ---
-title: "AI 知识库实践：腾讯云原子引擎 RAG 全流程 + OpenViking 上下文协同方案"
+title: "腾讯云 RAG 实践：原子引擎与 OpenViking 协同"
 date: 2026-03-02
 description: "当企业知识库遇上 AI Agent 记忆系统，腾讯云原子引擎管知识，OpenViking 管记忆，这可能是当前最务实的 AI 应用架构。"
 categories: ['tech']
