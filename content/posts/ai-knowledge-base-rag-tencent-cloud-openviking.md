@@ -47,24 +47,24 @@ featured_image: ""
 
 #### 阶段一：离线索引（构建知识库）
 
-```mermaid
+{{< mermaid >}}
 flowchart LR
     A["📄 文档（PDF/Word/网页等）"] --> B["Step 1: 文档解析<br/>API: CreateReconstructDocumentFlow → GetReconstructDocumentResult"]
     B --> C["Step 2: 语义拆分<br/>API: CreateSplitDocumentFlow → GetSplitDocumentResult"]
     C --> D["Step 3: 向量化<br/>API: GetEmbedding"]
     D --> E["Step 4: 入库存储<br/>存入向量数据库（腾讯云托管或自建）"]
-```
+{{< /mermaid >}}
 
 #### 阶段二：在线检索（回答问题）
 
-```mermaid
+{{< mermaid >}}
 flowchart LR
     A["❓ 用户提问：如何配置数据库连接池？"] --> B["Step 5: 多轮改写（可选）<br/>API: QueryRewrite<br/>处理指代消解 → 数据库连接池配置方法"]
     B --> C["Step 6: 查询向量化<br/>API: GetEmbedding"]
     C --> D["Step 7: 相似度检索<br/>API: SearchKnowledge<br/>在知识库中找到 Top-K 相关片段"]
     D --> E["Step 8: 重排序<br/>API: RunRerank<br/>对 Top-K 结果精排"]
     E --> F["Step 9: 生成回答<br/>将检索结果 + 原始问题拼接为 Prompt → LLM → 最终回答"]
-```
+{{< /mermaid >}}
 
 #### 如果使用 RAG 综合套件
 
@@ -135,7 +135,7 @@ OpenViking 的做法不同——它给数据加上了**目录结构**，检索�
 
 ### 3.2 协同架构
 
-```mermaid
+{{< mermaid >}}
 flowchart TB
     subgraph AI["AI 应用 / Agent"]
         Q["❓ 用户提问：上次讨论的那个数据库方案，文档里怎么说的？"]
@@ -161,7 +161,7 @@ flowchart TB
     TE4 --> LLM
     OV2 -->|"上下文|文档"| LLM
     LLM --> OV3
-```
+{{< /mermaid >}}
 **协同流程：**
 
 1. **OpenViking 负责理解上下文**：用户说"上次讨论的那个方案"，OpenViking 从长期记忆中召回 "PostgreSQL 方案"，并把模糊的指代转化为明确的查询。
