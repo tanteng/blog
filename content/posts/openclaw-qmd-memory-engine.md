@@ -1,5 +1,5 @@
 ---
-title: 'OpenClaw QMD Memory Engine：本地优先的 AI 记忆搜索引擎'
+title: 'OpenClaw 的 QMD 记忆引擎'
 date: 2026-03-30T15:30:00+08:00
 draft: false
 tags: ['openclaw', 'qmd', 'memory', 'rag', 'llm', 'ai']
