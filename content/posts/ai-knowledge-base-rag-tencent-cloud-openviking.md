@@ -1,7 +1,7 @@
 ---
 title: "腾讯云 RAG 实践：原子引擎与 OpenViking 协同"
 date: 2026-03-02
-description: "当企业知识库遇上 AI Agent 记忆系统，腾讯云原子引擎管知识，OpenViking 管记忆，这可能是当前最务实的 AI 应用架构。"
+description: "当企业知识库遇上 AI Agent 记忆系统，腾讯云原子引擎管知识，OpenViking 管记忆。本文侧重原子引擎的实操经验，协同方案为探索性设想。"
 categories: ['tech']
 tags: ['ai', 'rag', 'openviking', 'agent', 'tencent-cloud']
 featured_image: ""
@@ -123,6 +123,8 @@ OpenViking 的做法不同——它给数据加上了**目录结构**，检索�
 加上分层加载机制（先看摘要，需要时再加载全文），Token 消耗可以降低 60%-90%。
 
 ## 三、腾讯云原子引擎 + OpenViking：如何分工协同
+
+> ⚠️ **说明**：本节探讨的是一种**概念架构设想**，腾讯云原子引擎已在实际项目中使用，但与 OpenViking 的协同方案尚未落地验证，仅作为探索性讨论。
 
 ### 3.1 定位差异
 
