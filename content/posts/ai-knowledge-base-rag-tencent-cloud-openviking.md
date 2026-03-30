@@ -48,22 +48,24 @@ featured_image: ""
 #### 阶段一：离线索引（构建知识库）
 
 {{< mermaid >}}
-flowchart LR
-    A["📄 文档（PDF/Word/网页等）"] --> B["Step 1: 文档解析<br/>API: CreateReconstructDocumentFlow → GetReconstructDocumentResult"]
-    B --> C["Step 2: 语义拆分<br/>API: CreateSplitDocumentFlow → GetSplitDocumentResult"]
-    C --> D["Step 3: 向量化<br/>API: GetEmbedding"]
-    D --> E["Step 4: 入库存储<br/>存入向量数据库（腾讯云托管或自建）"]
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#e3f2fd', 'primaryTextColor': '#1565c0', 'primaryBorderColor': '#1565c0', 'lineColor': '#90a4ae', 'secondaryColor': '#f5f5f5', 'tertiaryColor': '#fff9c4'}}}%%
+flowchart TD
+    A["📄 文档<br/>PDF/Word/网页等"] --> B["Step 1: 文档解析<br/>CreateReconstructDocumentFlow"]
+    B --> C["Step 2: 语义拆分<br/>CreateSplitDocumentFlow"]
+    C --> D["Step 3: 向量化<br/>GetEmbedding"]
+    D --> E["Step 4: 入库存储<br/>向量数据库"]
 {{< /mermaid >}}
 
 #### 阶段二：在线检索（回答问题）
 
 {{< mermaid >}}
-flowchart LR
-    A["❓ 用户提问：如何配置数据库连接池？"] --> B["Step 5: 多轮改写（可选）<br/>API: QueryRewrite<br/>处理指代消解 → 数据库连接池配置方法"]
-    B --> C["Step 6: 查询向量化<br/>API: GetEmbedding"]
-    C --> D["Step 7: 相似度检索<br/>API: SearchKnowledge<br/>在知识库中找到 Top-K 相关片段"]
-    D --> E["Step 8: 重排序<br/>API: RunRerank<br/>对 Top-K 结果精排"]
-    E --> F["Step 9: 生成回答<br/>将检索结果 + 原始问题拼接为 Prompt → LLM → 最终回答"]
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#e8f5e9', 'primaryTextColor': '#2e7d32', 'primaryBorderColor': '#2e7d32', 'lineColor': '#90a4ae', 'secondaryColor': '#f5f5f5', 'tertiaryColor': '#fff9c4'}}}%%
+flowchart TD
+    A["❓ 用户提问"] --> B["Step 5: 多轮改写<br/>QueryRewrite"]
+    B --> C["Step 6: 查询向量化<br/>GetEmbedding"]
+    C --> D["Step 7: 相似度检索<br/>SearchKnowledge"]
+    D --> E["Step 8: 重排序<br/>RunRerank"]
+    E --> F["Step 9: 生成回答<br/>LLM"]
 {{< /mermaid >}}
 
 #### 如果使用 RAG 综合套件
@@ -136,22 +138,23 @@ OpenViking 的做法不同——它给数据加上了**目录结构**，检索�
 ### 3.2 协同架构
 
 {{< mermaid >}}
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#f3e5f5', 'primaryTextColor': '#7b1fa2', 'primaryBorderColor': '#7b1fa2', 'lineColor': '#90a4ae', 'secondaryColor': '#e1bee7', 'tertiaryColor': '#fff9c4'}}}%%
 flowchart TB
-    subgraph AI["AI 应用 / Agent"]
-        Q["❓ 用户提问：上次讨论的那个数据库方案，文档里怎么说的？"]
+    subgraph AI["🤖 AI 应用 / Agent"]
+        Q["❓ 用户提问"]
 
-        subgraph OV["OpenViking"]
-            OV1["① 理解上下文<br/>召回记忆：PostgreSQL 方案"]
-            OV2["② 输出改写后查询<br/>PostgreSQL 连接池配置方法"]
+        subgraph OV["📌 OpenViking"]
+            OV1["① 理解上下文<br/>召回记忆"]
+            OV2["② 输出改写后查询"]
         end
 
-        subgraph TE["腾讯云原子引擎"]
-            TE3["③ 检索企业文档<br/>数据库连接池配置 → 返回相关片段"]
-            TE4["④ 重排序精排<br/>返回最相关内容"]
+        subgraph TE["📚 腾讯云原子引擎"]
+            TE3["③ 检索企业文档"]
+            TE4["④ 重排序精排"]
         end
 
-        LLM["⑤ LLM 生成最终回答<br/>结合记忆上下文 + 文档知识"]
-        OV3["⑥ OpenViking 记忆沉淀<br/>用户关注 PG 连接池配置"]
+        LLM["⑤ LLM 生成回答"]
+        OV3["⑥ 记忆沉淀"]
     end
 
     Q --> OV1
@@ -159,7 +162,7 @@ flowchart TB
     OV2 -->|"改写后查询"| TE3
     OV1 --> OV2
     TE4 --> LLM
-    OV2 -->|"上下文|文档"| LLM
+    OV2 -->|"上下文+文档"| LLM
     LLM --> OV3
 {{< /mermaid >}}
 **协同流程：**

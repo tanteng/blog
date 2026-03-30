@@ -6,13 +6,15 @@
 <style>
   .mermaid {
     visibility: hidden;
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    margin: 20px 0;
+    background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
+    padding: 24px;
+    border-radius: 12px;
+    margin: 24px 0;
     text-align: center;
     overflow-x: auto;
-    min-height: 100px;
+    min-height: 80px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   }
   .mermaid[data-processed="true"],
   .mermaid svg {
@@ -26,9 +28,9 @@
 <script defer src="/js/mermaid.min.js" onload="
   mermaid.initialize({
     startOnLoad: true,
-    theme: 'default',
+    theme: 'base',
     securityLevel: 'loose',
-    flowchart: { useMaxWidth: false }
+    flowchart: { useMaxWidth: false, htmlLabels: true }
   });
 "></script>
 {{ end }}
