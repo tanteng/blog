@@ -1,6 +1,6 @@
 ---
 title: "OpenClaw 记忆后端切换：从 OpenViking 到 QMD"
-date: 2026-03-30
+date: 2026-03-27
 description: "记录 OpenClaw 记忆系统从 OpenViking 切换到 QMD 的完整过程。包括切换原因、数据迁移、QMD 自动管理机制、记忆加载流程解析、踩坑记录，以及 QMD 在 OpenClaw 记忆体系中的实际意义。"
 categories: ['tech']
 tags: ['openclaw', 'openviking', 'qmd', 'ai', 'memory', 'context-engineering']
