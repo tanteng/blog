@@ -141,31 +141,16 @@ OpenViking 的做法不同——它给数据加上了**目录结构**，检索�
 
 {{< mermaid >}}
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#f3e5f5', 'primaryTextColor': '#7b1fa2', 'primaryBorderColor': '#7b1fa2', 'lineColor': '#90a4ae', 'secondaryColor': '#e1bee7', 'tertiaryColor': '#fff9c4'}}}%%
-flowchart TB
-    subgraph AI["🤖 AI 应用 / Agent"]
-        Q["❓ 用户提问"]
-
-        subgraph OV["📌 OpenViking"]
-            OV1["① 理解上下文<br/>召回记忆"]
-            OV2["② 输出改写后查询"]
-        end
-
-        subgraph TE["📚 腾讯云原子引擎"]
-            TE3["③ 检索企业文档"]
-            TE4["④ 重排序精排"]
-        end
-
-        LLM["⑤ LLM 生成回答"]
-        OV3["⑥ 记忆沉淀"]
-    end
-
-    Q --> OV1
-    Q --> TE3
-    OV2 -->|"改写后查询"| TE3
-    OV1 --> OV2
-    TE4 --> LLM
-    OV2 -->|"上下文+文档"| LLM
-    LLM --> OV3
+flowchart TD
+    Q["❓ 用户提问"] --> OV1
+    OV1["① OpenViking 理解上下文<br/>召回记忆"] --> OV2
+    OV2["② OpenViking 输出改写后查询"] --> TE3
+    TE3["③ 腾讯云原子引擎<br/>检索企业文档"] --> TE4
+    TE4["④ 腾讯云原子引擎<br/>重排序精排"] --> LLM
+    LLM["⑤ LLM 生成最终回答"] --> OV3
+    OV3["⑥ OpenViking 记忆沉淀"]
+    Q -->|"并行触发"| TE3
+    OV2 -->|"提供上下文"| LLM
 {{< /mermaid >}}
 **协同流程：**
 
