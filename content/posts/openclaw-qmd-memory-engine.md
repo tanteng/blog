@@ -44,7 +44,44 @@ OpenClaw 自带一个基于 SQLite 的 Memory 引擎，对于简单场景已经�
 
 ### Sidecar 模式
 
-QMD 不是嵌入 OpenClaw 内部的模块，而是一个独立的旁车进程。OpenClaw 负责管理它的完整生命周期：
+Sidecar 是微服务架构中的经典模式：主进程专注核心业务，辅助功能交给一个**独立进程**在旁边跑，两者通过本地通信协作。QMD 就是 OpenClaw 的搜索 Sidecar——OpenClaw 管聊天和记忆读写，QMD 专门负责搜索。
+
+{{< mermaid >}}
+graph TB
+    subgraph OpenClaw["OpenClaw（主进程）"]
+        Chat["对话 / Agent 调度"]
+        MemRW["记忆读写<br/>MEMORY.md · memory/*.md"]
+    end
+
+    subgraph QMD["QMD（Sidecar 进程）"]
+        BM25["BM25 关键词"]
+        Vec["向量搜索"]
+        Rerank["LLM 重排序"]
+    end
+
+    subgraph Data["数据源"]
+        Workspace["工作区 Memory 文件"]
+        Extra["额外目录<br/>~/notes · 项目文档"]
+        Sessions["历史会话记录"]
+    end
+
+    Chat -->|"memory_search"| QMD
+    QMD -->|"返回相关片段"| Chat
+    QMD ---|"每 5 分钟自动索引"| Data
+    Chat -.->|"QMD 不可用时降级"| SQLite["内置 SQLite 引擎"]
+
+    style OpenClaw fill:#e8f4fd,stroke:#1a73e8
+    style QMD fill:#fef3e0,stroke:#e8a017
+    style Data fill:#e8f5e9,stroke:#34a853
+{{< /mermaid >}}
+
+这种设计带来三个好处：
+
+- **解耦**：QMD 挂了不影响 OpenClaw 主功能，自动降级到内置引擎
+- **独立生命周期**：QMD 在后台默默更新索引、生成向量，不和主进程抢资源
+- **可替换**：今天用 QMD，明天换别的搜索引擎，只需改配置
+
+OpenClaw 负责管理 QMD 的完整生命周期：
 
 1. 启动时，根据工作区 Memory 文件和配置的额外路径创建 QMD 集合
 2. **定期刷新**：启动时 + 每 5 分钟自动执行 `qmd update`（更新索引）和 `qmd embed`（生成向量），后台运行不阻塞聊天

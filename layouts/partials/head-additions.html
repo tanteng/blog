@@ -7,7 +7,7 @@
   .mermaid {
     visibility: hidden;
     background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
-    padding: 24px;
+    padding: 16px 8px;
     border-radius: 12px;
     margin: 24px 0;
     text-align: center;
@@ -23,6 +23,7 @@
   .mermaid svg {
     display: inline-block;
     max-width: 100%;
+    height: auto !important;
   }
 </style>
 <script defer src="/js/mermaid.min.js" onload="
@@ -30,7 +31,7 @@
     startOnLoad: true,
     theme: 'base',
     securityLevel: 'loose',
-    flowchart: { useMaxWidth: false, htmlLabels: true }
+    flowchart: { useMaxWidth: true, htmlLabels: true }
   });
 "></script>
 {{ end }}
