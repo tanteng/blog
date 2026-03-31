@@ -7,8 +7,6 @@ categories: ['tech']
 description: 'OpenClaw 的 QMD Memory Engine 是一个本地优先的搜索引擎，集成 BM25、向量搜索和重排序。本文记录了从配置、使用到最终放弃 QMD 的完整过程，以及为什么在低配服务器上它并不实用。'
 ---
 
-> **2026-03-31 更新：** 经过一段时间的实际使用，我最终放弃了 QMD，切回了 OpenClaw 内置的 SQLite 引擎。原因很简单——在 2 核 4G 的轻量云服务器上，QMD 的本地 LLM 推理实在太慢了，`memory_search` 几乎每次都超时返回空结果。具体原因见文末[「为什么我放弃了 QMD」](#为什么我放弃了-qmd)。
-
 OpenClaw 有一套内置的 Memory 系统，基于 SQLite 实现，开箱即用。但对于需要更高搜索质量、更广索引范围的场景，OpenClaw 提供了一个更强大的选项——**QMD Memory Engine**。
 
 本文梳理 QMD 的核心概念、架构原理、配置方法，以及它在 OpenClaw 记忆体系中的实际角色，最后与 OpenViking 方案做对比。
