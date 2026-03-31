@@ -27,10 +27,10 @@ description: '折腾了 QMD、OpenViking 等方案后，最终用 OpenClaw 内�
 
 此外，内置引擎还有两个值得一提的能力：
 
-- **sqlite-vec 加速**：OpenClaw 自带 sqlite-vec 扩展，向量查询直接在 SQLite 数据库内完成，不需要额外安装。如果加载失败会自动回退到进程内余弦相似度计算，功能不受影响。
+- **sqlite-vec 加速**：OpenClaw 自带 `sqlite-vec` 扩展，向量查询直接在 SQLite 数据库内完成，不需要额外安装。如果加载失败会自动回退到进程内余弦相似度计算，功能不受影响。
 - **CJK 支持**：通过三元组分词（trigram tokenization）支持中文、日文、韩文的全文检索，不需要额外配置分词器。
 
-而 QMD 之所以慢，不是因为向量搜索本身慢，而是它在本地跑 3 个 LLM 做 query expansion、embedding 和 reranking。如果 embedding 走远端 API，开销就从"本地跑 1.7B 模型"变成了"一次 HTTP 请求"——毫秒级。
+而 QMD 之所以慢，不是因为向量搜索本身慢，而是它在本地跑 3 个 LLM 做 `query expansion`、`embedding` 和 `reranking`。如果 embedding 走远端 API，开销就从"本地跑 1.7B 模型"变成了"一次 HTTP 请求"——毫秒级。
 
 ## 硅基流动的免费 Embedding 模型
 
@@ -128,7 +128,7 @@ OpenClaw 的记忆搜索我前后折腾了三种方案，放在一起比较：
 | 部署复杂度 | 改一段 JSON | 装 QMD | Python 服务 + systemd |
 | 供应商锁定 | 无 | 无 | 有（数据在向量库） |
 
-QMD 功能最全（有 query expansion 和 reranking），但在低配机器上跑不动；OpenViking 搜索质量最高，但要持续花钱且有供应商锁定；内置引擎 + 硅基流动是折中方案——没有 reranking，但免费、快、中文好、零部署成本。
+QMD 功能最全（有 `query expansion` 和 `reranking`），但在低配机器上跑不动；OpenViking 搜索质量最高，但要持续花钱且有供应商锁定；内置引擎 + 硅基流动是折中方案——没有 `reranking`，但免费、快、中文好、零部署成本。
 
 对于 20-30 个记忆文件的个人使用场景，混合搜索已经绰绰有余。
 
