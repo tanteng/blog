@@ -1,15 +1,17 @@
 ---
-title: 'OpenClaw 的 QMD 记忆引擎'
+title: 'OpenClaw 的 QMD 记忆引擎：从尝鲜到放弃'
 date: 2026-03-30T15:30:00+08:00
 draft: false
 tags: ['openclaw', 'qmd', 'memory', 'rag', 'llm', 'ai']
 categories: ['tech']
-description: 'OpenClaw 的 QMD Memory Engine 是一个本地优先的搜索引擎，集成 BM25、向量搜索和重排序于一体。本文梳理其架构原理、配置方法、在记忆体系中的触发机制，以及与 OpenViking 方案的对比。'
+description: 'OpenClaw 的 QMD Memory Engine 是一个本地优先的搜索引擎，集成 BM25、向量搜索和重排序。本文记录了从配置、使用到最终放弃 QMD 的完整过程，以及为什么在低配服务器上它并不实用。'
 ---
 
-[OpenClaw](https://github.com/open-claw/open-claw) 有一套内置的 Memory 系统，基于 SQLite 实现，开箱即用。但对于需要更高搜索质量、更广索引范围的场景，OpenClaw 提供了一个更强大的选项——**QMD Memory Engine**。
+> **2026-03-31 更新：** 经过一段时间的实际使用，我最终放弃了 QMD，切回了 OpenClaw 内置的 SQLite 引擎。原因很简单——在 2 核 4G 的轻量云服务器上，QMD 的本地 LLM 推理实在太慢了，`memory_search` 几乎每次都超时返回空结果。具体原因见文末[「为什么我放弃了 QMD」](#为什么我放弃了-qmd)。
 
-本文基于 [OpenClaw 官方文档](https://docs.openclaw.ai/concepts/memory-qmd)，梳理 QMD 的核心概念、架构原理、配置方法，以及它在 OpenClaw 记忆体系中的实际角色，最后与 OpenViking 方案做对比。
+OpenClaw 有一套内置的 Memory 系统，基于 SQLite 实现，开箱即用。但对于需要更高搜索质量、更广索引范围的场景，OpenClaw 提供了一个更强大的选项——**QMD Memory Engine**。
+
+本文梳理 QMD 的核心概念、架构原理、配置方法，以及它在 OpenClaw 记忆体系中的实际角色，最后与 OpenViking 方案做对比。
 
 <!--more-->
 
@@ -101,25 +103,13 @@ QMD 通过 Bun + node-llama-cpp 运行，会在首次执行 `qmd query` 时自�
 
 ## 安装与配置
 
-### 前置条件
-
-- 安装 QMD（两种方式均可）：
+安装 QMD：
 
 ```bash
-# 从 npm registry 安装（GitHub README 推荐）
 npm install -g @tobilu/qmd
-
-# 从 GitHub 直接安装（OpenClaw 官方文档写法）
-bun install -g https://github.com/tobi/qmd
 ```
 
-- macOS 上需要支持扩展的 SQLite：`brew install sqlite`
-- QMD 二进制必须在网关的 PATH 中
-- 原生支持 macOS 和 Linux，Windows 建议用 WSL2
-
-### 启用 QMD
-
-在 OpenClaw 配置文件中将 Memory 后端设为 `qmd`：
+在 OpenClaw 配置文件中启用：
 
 ```json
 {
@@ -129,71 +119,19 @@ bun install -g https://github.com/tobi/qmd
 }
 ```
 
-OpenClaw 会自动在 `~/.openclaw/agents/<agentId>/qmd/` 下创建主目录并管理所有后续流程。
-
-### 索引额外路径
-
-把工作区以外的文档纳入搜索范围：
-
-```json
-{
-  "memory": {
-    "backend": "qmd",
-    "qmd": {
-      "paths": [
-        {
-          "name": "docs",
-          "path": "~/notes",
-          "pattern": "**/*.md"
-        }
-      ]
-    }
-  }
-}
-```
-
-配置后，来自额外路径的搜索结果会以 `qmd/<collection>/<relative-path>` 的格式显示，`memory_get` 能识别这个前缀并从正确的目录读取文件。
-
-### 索引历史会话
-
-启用后，OpenClaw 会把之前的对话导出为"用户/助手"轮次格式，存入专用的 QMD 集合：
-
-```json
-{
-  "memory": {
-    "backend": "qmd",
-    "qmd": {
-      "sessions": { "enabled": true }
-    }
-  }
-}
-```
-
-### 其他配置
-
-- **搜索范围**：默认只在 DM（直接消息）会话中返回 QMD 搜索结果，群组和频道不会。可通过 `memory.qmd.scope` 修改。
-- **引用标注**：`memory.citations` 设为 `auto` 或 `on` 时，搜索结果带 `Source: <path#line>` 来源标注。
-- **超时**：`memory.qmd.limits.timeoutMs` 默认 4000ms，硬件较慢可调大。
+OpenClaw 会自动创建主目录并管理索引。还可以通过 `qmd.paths` 索引工作区以外的文档，通过 `qmd.sessions.enabled` 索引历史会话。其他可调配置包括搜索范围（`scope`）、引用标注（`citations`）和超时时间（`timeoutMs`，默认 4000ms）。
 
 ## QMD 在记忆体系中的角色
 
-搞清楚一点很重要——**QMD 是按需语义搜索引擎，不是存储引擎，也不是每次对话都会被调用。**
+**QMD 是按需语义搜索引擎，不是存储引擎，也不是每次对话都会被调用。**
 
-OpenClaw 的记忆分两个阶段加载：
+OpenClaw 的记忆分两个阶段：启动时直接读取 `MEMORY.md` + 今天和昨天的日志，注入上下文（不经过 QMD）；对话过程中，当模型判断需要搜索历史记忆时，调用 `memory_search` 才触发 QMD。
 
-**启动时（不经过 QMD）：** 读取 `MEMORY.md`（长期记忆）+ `memory/今天.md` + `memory/昨天.md`，注入 system prompt。
-
-**对话过程中（模型自行判断）：** 当模型认为需要从历史记忆中搜索时，调用 `memory_search`——**这里才触发 QMD**。
-
-举个例子：你问"上个月讨论的数据库迁移方案是什么？"——上个月的信息不在已加载的文件里，模型会调用 `memory_search`，QMD 从所有历史日志中语义检索，返回最相关的片段。而如果你问的是今天刚聊过的东西，信息已经在上下文里了，QMD 不会介入。**不需要搜的时候就不搜，省 token。**
-
-一句话概括：**启动时读小文件保证基础记忆，运行时靠 QMD 按需检索保证深度记忆。**
-
-值得一提的是，如果你的记忆文件本来就很少，启动时加载的 3 个文件基本覆盖了所有内容，模型几乎不会触发 `memory_search`，QMD 就一直处于待命状态。**记忆少的时候 QMD 是保险，记忆多了才是刚需。**
+一句话概括：**启动时读小文件保证基础记忆，运行时靠 QMD 按需检索保证深度记忆。** 记忆少的时候 QMD 是保险，记忆多了才是刚需。
 
 ## 与 OpenViking 的对比
 
-OpenClaw 的记忆方案还有一个重量级选手——字节跳动开源的 [OpenViking](https://github.com/volcengine/OpenViking)。两者架构思路完全不同：
+OpenClaw 的记忆方案还有一个重量级选手——字节跳动开源的 OpenViking。两者架构思路完全不同：
 
 - **OpenViking** 接管了 OpenClaw 的 `contextEngine` 插槽，成为记忆系统的**唯一入口**，自己管存储和检索，OpenClaw 原生的 Markdown 记忆体系被绕过。
 - **QMD** 只替换了**搜索引擎**，不改存储。记忆还是 Markdown 文件，QMD 只是让搜索从 SQLite FTS 升级到混合检索。
@@ -215,6 +153,16 @@ OpenClaw 的记忆方案还有一个重量级选手——字节跳动开源的 [
 - **CPU 资源消耗**：生成向量嵌入在 CPU 上跑推理，小规格云主机首次 embed 几百个文件可能打满 CPU，建议用 `cpulimit -l 50 -- qmd embed` 限速。
 - **命令行和 OpenClaw 的 QMD 是隔离的**：同一个程序，不同的数据目录。终端里操作 QMD 不影响 OpenClaw，反之亦然。
 
+## 为什么我放弃了 QMD
+
+在腾讯云轻量服务器（2 核 4G，无 GPU）上实际跑了一段时间，最终切回内置引擎：
+
+- **太慢了**：`qmd query` 依次加载 Query Expansion（1.7B）、Embedding（300M）、Reranker（600M）三个模型，单次推理要 1-2 分钟，而 `memory_search` 默认超时 8 秒——几乎每次都超时返回空结果
+- **Vulkan 编译噪音**：每次调用都尝试编译 GPU 支持，失败后才回退 CPU，控制台一堆 CMake 报错
+- **关键词搜索够用了**：20-30 个记忆文件的规模，`qmd search`（纯 BM25）1.3 秒出结果，内置 SQLite FTS 也是毫秒级，不值得为语义搜索等 1-2 分钟
+
+最终配置改回 `"backend": "builtin"`，简单快速零维护。QMD 设计理念很好，但需要至少 4 核 8G 或有 GPU 的环境才实用。
+
 ## 总结
 
 QMD 是 OpenClaw Memory 系统的"增强版"，核心价值在于：
@@ -227,4 +175,4 @@ QMD 是 OpenClaw Memory 系统的"增强版"，核心价值在于：
 
 对于把 OpenClaw 作为日常工作助手的人来说，QMD 让 AI 的"记忆力"从"只看当前项目"扩展到了"你磁盘上的任何文件"——这是一个质的飞跃。
 
-更多配置细节可参考 OpenClaw 官方的 [Memory 配置参考文档](https://docs.openclaw.ai/reference/memory-config)。
+但在实际使用中，**QMD 对硬件有隐性要求**。如果你的服务器是低配云主机（2 核 4G 无 GPU），本地跑 3 个 LLM 模型的开销会让 `memory_search` 形同虚设。这种情况下，内置的 SQLite FTS 引擎反而是更务实的选择——毫秒级响应，零资源消耗。QMD 更适合有独立 GPU 的开发机、Mac Studio 这类本地算力充足的环境。
