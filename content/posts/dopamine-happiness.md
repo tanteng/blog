@@ -1,5 +1,5 @@
 ---
-title: "快乐的神经密码：多巴胺陷阱与内啡肽的真相"
+title: "为什么越追求快乐，越不快乐？"
 date: 2026-03-01
 draft: false
 tags: ["dopamine", "endorphin", "psychology", "neuroscience", "happiness", "well-being"]
