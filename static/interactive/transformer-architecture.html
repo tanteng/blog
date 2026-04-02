@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transformer 架构原理图</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0f1117;
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 4px;
+  }
+  .subtitle { font-size: 12px; color: #888; margin-bottom: 24px; }
+  .subtitle em { color: #a78bfa; font-style: normal; }
+
+  .arch-container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 720px;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 260px;
+    max-width: 320px;
+  }
+  .column-label {
+    font-size: 17px;
+    font-weight: 700;
+    padding: 6px 22px;
+    border-radius: 8px;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+  }
+  .encoder-label { background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
+  .decoder-label { background: rgba(251,146,60,0.15); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+
+  .block {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .block:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  }
+  .block .desc {
+    font-size: 11px;
+    font-weight: 400;
+    color: #bbb;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  .attn-self-enc { background: linear-gradient(135deg, #1e3a5f, #1e4a7a); border: 1px solid #3b82f6; color: #93c5fd; }
+  .attn-masked { background: linear-gradient(135deg, #5a2d0c, #7a3d10); border: 1px solid #fb923c; color: #fed7aa; }
+  .attn-cross { background: linear-gradient(135deg, #3b1764, #5b2d8e); border: 1px solid #a78bfa; color: #c4b5fd; }
+  .ffn { background: linear-gradient(135deg, #1a3a2a, #1e5a3a); border: 1px solid #34d399; color: #a7f3d0; }
+  .add-norm {
+    background: rgba(255,255,255,0.05);
+    border: 1px dashed rgba(255,255,255,0.2);
+    color: #999;
+    padding: 6px 14px;
+    font-weight: 500;
+    font-size: 11px;
+  }
+  .embed { background: linear-gradient(135deg, #1a1a2e, #2a2a4e); border: 1px solid #6366f1; color: #a5b4fc; }
+  .pos-enc { background: linear-gradient(135deg, #2a1a2e, #4a2a4e); border: 1px solid #c084fc; color: #d8b4fe; }
+  .output-layer { background: linear-gradient(135deg, #3a1a1a, #5a2a2a); border: 1px solid #f87171; color: #fca5a5; }
+
+  .layer-group {
+    width: 100%;
+    border: 2px dashed rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 14px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+  }
+  .layer-group-enc { border-color: rgba(59,130,246,0.25); }
+  .layer-group-dec { border-color: rgba(251,146,60,0.25); }
+  .nx-badge {
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #ccc;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 16px;
+  }
+  .arrow { color: #555; font-size: 16px; line-height: 1; }
+  .flow-label { font-size: 11px; color: #777; text-align: center; }
+
+  .legend {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #aaa; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<h1>Transformer 架构原理图</h1>
+<p class="subtitle">论文：<em>Attention Is All You Need</em> (Vaswani et al., 2017)</p>
+
+<div class="arch-container">
+  <!-- ENCODER -->
+  <div class="column">
+    <div class="column-label encoder-label">Encoder 编码器</div>
+    <div class="block embed">📝 Input Embedding<div class="desc">将输入 token ID 映射为 d_model 维向量<br>（论文中 d_model = 512）</div></div>
+    <div class="arrow">↓</div>
+    <div class="block pos-enc">🌊 Positional Encoding<div class="desc">用 sin/cos 函数注入位置信息<br>让模型知道每个 token 的顺序</div></div>
+    <div class="arrow">↓</div>
+    <div class="layer-group layer-group-enc">
+      <div class="nx-badge">× N</div>
+      <div class="block attn-self-enc">🔍 Multi-Head Self-Attention<div class="desc">每个位置关注序列中<b>所有</b>位置（双向）<br>h=8 个头在不同子空间并行计算</div></div>
+      <div class="block add-norm">Add & Norm（残差连接 + 层归一化）</div>
+      <div class="block ffn">⚡ Feed Forward Network<div class="desc">逐位置的两层全连接<br>FFN(x) = ReLU(xW₁+b₁)W₂+b₂<br>隐藏层维度 d_ff = 2048</div></div>
+      <div class="block add-norm">Add & Norm（残差连接 + 层归一化）</div>
+    </div>
+    <div class="flow-label">↑ 编码器输出 → 送入解码器交叉注意力</div>
+  </div>
+
+  <!-- DECODER -->
+  <div class="column">
+    <div class="column-label decoder-label">Decoder 解码器</div>
+    <div class="block embed">📝 Output Embedding<div class="desc">将已生成的 token（shifted right）<br>映射为向量</div></div>
+    <div class="arrow">↓</div>
+    <div class="block pos-enc">🌊 Positional Encoding<div class="desc">同样注入位置信息</div></div>
+    <div class="arrow">↓</div>
+    <div class="layer-group layer-group-dec">
+      <div class="nx-badge">× N</div>
+      <div class="block attn-masked">🎭 Masked Self-Attention<div class="desc">每个位置只能看到当前及之前的 token<br>用 Mask 屏蔽未来信息，防止"作弊"</div></div>
+      <div class="block add-norm">Add & Norm</div>
+      <div class="block attn-cross">🔗 Cross-Attention<div class="desc">Q 来自解码器当前层<br>K 和 V 来自编码器最终输出<br>这是连接编码器和解码器的"桥梁"</div></div>
+      <div class="block add-norm">Add & Norm</div>
+      <div class="block ffn">⚡ Feed Forward Network<div class="desc">结构同编码器，逐位置独立计算</div></div>
+      <div class="block add-norm">Add & Norm</div>
+    </div>
+    <div class="arrow">↓</div>
+    <div class="block output-layer">🎯 Linear + Softmax<div class="desc">Linear 投影到词表大小（如 30000 维）<br>Softmax 输出每个词的概率 → 选概率最高的</div></div>
+  </div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>自注意力</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fb923c"></div>掩码自注意力</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#a78bfa"></div>交叉注意力</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#34d399"></div>前馈网络</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#6366f1"></div>嵌入层</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#c084fc"></div>位置编码</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f87171"></div>输出层</div>
+</div>
+
+</body>
+</html>
