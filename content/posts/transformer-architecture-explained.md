@@ -4,7 +4,6 @@ date: 2026-04-03T00:00:00+08:00
 tags: ["ai", "transformer", "deep-learning", "nlp", "tech"]
 categories: ["ai"]
 description: "通过一张交互式架构图和核心公式，直观理解 Transformer 的完整原理。从 Encoder-Decoder 结构到 Multi-Head Attention，从位置编码到数据流全貌。"
-layout: "wide"
 ---
 
 Transformer 是当今大语言模型（GPT、BERT、T5 等）的基础架构，由 Google 在 2017 年论文 *"Attention Is All You Need"* 中提出。它彻底抛弃了 RNN 的递归结构，仅依靠**注意力机制**实现序列建模，在效果和效率上都带来了革命性突破。
@@ -124,12 +123,6 @@ Self-Attention 的工作方式是：**序列中的每个词，都会同时看到
 **训练时**：编码器和解码器同时处理完整的输入/输出序列。解码器使用 **Teacher Forcing**——直接把正确答案（而非模型预测）作为下一步的输入，配合 Mask 屏蔽未来信息，这样所有位置可以并行计算，效率很高。
 
 **推理（生成）时**：解码器只能**逐个 token 生成**。每次预测一个新 token，把它拼到已有输出后面，再输入解码器预测下一个。这就是为什么 ChatGPT 回答问题是"一个字一个字蹦出来"的原因。
-
-结合上面的架构图理解：训练时，完整输入序列经由**编码器**处理生成上下文表示，然后解码器基于这个上下文和目标序列（Teacher Forcing 模式）并行计算所有位置的输出。只有在推理生成时，才需要逐个 token 自回归地运行解码器。
-
-下面是训练过程的交互式演示，点击各步骤或自动播放，观察数据如何在 Transformer 各组件间流动：
-
-<iframe src="/interactive/transformer-training.html" style="width: 100%; border: none; border-radius: 16px; overflow: hidden;" height="720" loading="lazy"></iframe>
 
 ## 后续发展
 

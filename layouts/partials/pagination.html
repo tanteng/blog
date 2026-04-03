@@ -28,7 +28,7 @@
     {{ end }}
 
     {{ if gt $start 1 }}
-      <li><a href="{{ (index $paginator.Pagers 0).URL }}" class="pagination-item pa2 br2 mr1{{ if eq $current 1 }} bg-light-silver{{ else }} dim{{ end }}">1</a></li>
+      <li><a href="{{ (index $paginator.Pagers 0).URL }}" class="pagination-item pa2 br2 mr1 dim{{ if eq $current 1 }} bg-light-silver{{ end }}">1</a></li>
       {{ if gt $start 2 }}<li><span class="pagination-ellipsis pa2">...</span></li>{{ end }}
     {{ end }}
 
@@ -36,7 +36,7 @@
       {{ $pageNum := .PageNumber }}
       {{ if and (ge $pageNum $start) (le $pageNum $end) }}
         <li>
-          <a href="{{ .URL }}" class="pagination-item pa2 br2 mr1{{ if eq $pageNum $current }} bg-light-silver{{ else }} dim{{ end }}">
+          <a href="{{ .URL }}" class="pagination-item pa2 br2 mr1 dim{{ if eq $pageNum $current }} bg-light-silver{{ end }}">
             {{ $pageNum }}
           </a>
         </li>
@@ -45,7 +45,7 @@
 
     {{ if lt $end $total }}
       {{ if lt $end (sub $total 1) }}<li><span class="pagination-ellipsis pa2">...</span></li>{{ end }}
-      <li><a href="{{ (index $paginator.Pagers (sub $total 1)).URL }}" class="pagination-item pa2 br2 mr1{{ if eq $current $total }} bg-light-silver{{ else }} dim{{ end }}">{{ $total }}</a></li>
+      <li><a href="{{ (index $paginator.Pagers (sub $total 1)).URL }}" class="pagination-item pa2 br2 mr1 dim{{ if eq $current $total }} bg-light-silver{{ end }}">{{ $total }}</a></li>
     {{ end }}
 
     {{ with $paginator.Next }}
