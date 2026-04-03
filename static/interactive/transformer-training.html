@@ -425,18 +425,8 @@ h1 {
   </div>
 </div>
 
-<!-- Sample selector -->
-<div class="sample-tabs">
-  <button class="sample-btn active" onclick="showSample(0)">样本1：我爱→机器</button>
-  <button class="sample-btn" onclick="showSample(1)">样本2：我爱机器→学习</button>
-  <button class="sample-btn" onclick="showSample(2)">样本3：我爱机器学习→和</button>
-  <button class="sample-btn" onclick="showSample(3)">样本4：我爱机器学习和→人工智能</button>
-  <button class="sample-btn" onclick="showSample(4)">样本5：我爱机器学和×习（猜错）</button>
-  <button class="sample-btn" onclick="showSample(5)">样本6：我爱机器学习和人工智能→技术</button>
-</div>
-
 <!-- Training samples overview -->
-<div class="samples-title">6 个 token 产生 6 个训练样本</div>
+<div class="samples-title">点击卡片查看样本详情（共 6 个训练样本）</div>
 <div class="samples-grid" id="samplesGrid"></div>
 
 <!-- Detail panel -->
@@ -571,9 +561,6 @@ samples.forEach((s, i) => {
 });
 
 function updateButtons(idx) {
-  document.querySelectorAll('.sample-btn').forEach((btn, i) => {
-    btn.classList.toggle('active', i === idx);
-  });
   document.querySelectorAll('.sample-card').forEach((card, i) => {
     card.classList.toggle('active', i === idx);
   });
