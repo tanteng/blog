@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transformer 训练过程演示</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0f0f1a;
+  color: #e0e0e0;
+  min-height: 100vh;
+  padding: 30px 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #7dd3fc;
+  margin-bottom: 8px;
+  font-size: 1.5rem;
+}
+
+.subtitle {
+  text-align: center;
+  color: #64748b;
+  margin-bottom: 30px;
+  font-size: 0.9rem;
+}
+
+/* Sentence display */
+.sentence-display {
+  text-align: center;
+  margin-bottom: 24px;
+  padding: 20px;
+  background: #1a1a2e;
+  border-radius: 12px;
+  border: 1px solid #2a2a4a;
+}
+
+.sentence-label {
+  color: #64748b;
+  font-size: 0.8rem;
+  margin-bottom: 12px;
+}
+
+.original-text {
+  font-size: 1.3rem;
+  color: #e0e0e0;
+  margin-bottom: 16px;
+  letter-spacing: 2px;
+}
+
+.token-arrow {
+  color: #a78bfa;
+  font-size: 1rem;
+  margin: 0 4px;
+}
+
+.tokens {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.token {
+  padding: 6px 12px;
+  background: #1e2a3a;
+  border: 1px solid #3b82f6;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #93c5fd;
+  transition: all 0.3s;
+}
+
+.token.highlight {
+  border-color: #4ade80;
+  background: rgba(74, 222, 128, 0.1);
+  color: #4ade80;
+}
+
+/* Tokenization explanation */
+.tokenize-box {
+  background: #1a1a2e;
+  border-radius: 10px;
+  padding: 16px;
+  border: 1px solid #2a2a4a;
+  margin-bottom: 20px;
+}
+
+.tokenize-title {
+  color: #a78bfa;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.tokenize-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+}
+
+.tokenize-flow .original { color: #94a3b8; }
+.tokenize-flow .arrow { color: #64748b; }
+.tokenize-flow .tokenized { color: #93c5fd; }
+
+/* Training samples grid */
+.samples-title {
+  color: #a78bfa;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 24px 0 16px;
+  padding-left: 4px;
+}
+
+.samples-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.sample-card {
+  background: #1a1a2e;
+  border-radius: 10px;
+  padding: 14px;
+  border: 1px solid #2a2a4a;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.sample-card:hover {
+  border-color: #7dd3fc;
+  transform: translateY(-2px);
+}
+
+.sample-card.active {
+  border-color: #7dd3fc;
+  box-shadow: 0 0 20px rgba(125, 211, 252, 0.15);
+}
+
+.sample-card .sample-num {
+  font-size: 0.7rem;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.sample-card .sample-content {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.sample-card .input-part {
+  color: #7dd3fc;
+}
+
+.sample-card .target-part {
+  color: #4ade80;
+}
+
+/* Detail panel */
+.detail-panel {
+  background: #1a1a2e;
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid #2a2a4a;
+  margin-bottom: 20px;
+}
+
+.detail-title {
+  color: #a78bfa;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+
+.prob-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.prob-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.prob-word {
+  width: 60px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.prob-bar-bg {
+  flex: 1;
+  height: 26px;
+  background: #2a2a4a;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.prob-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: width 0.8s ease-out;
+}
+
+.prob-bar-fill.wrong {
+  background: linear-gradient(90deg, #f87171, #ef4444);
+  color: white;
+}
+
+.prob-bar-fill.correct {
+  background: linear-gradient(90deg, #4ade80, #22c55e);
+  color: white;
+}
+
+.prob-percent {
+  width: 42px;
+  text-align: right;
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+/* Loss display */
+.loss-box {
+  background: #12121f;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  margin-top: 16px;
+}
+
+.loss-label {
+  color: #64748b;
+  font-size: 0.75rem;
+  margin-bottom: 8px;
+}
+
+.loss-value {
+  font-size: 1.6rem;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+}
+
+.loss-value.high { color: #f87171; }
+.loss-value.low { color: #4ade80; }
+
+.loss-formula {
+  color: #475569;
+  font-size: 0.7rem;
+  margin-top: 6px;
+  font-family: monospace;
+}
+
+.loss-note {
+  font-size: 0.8rem;
+  margin-top: 8px;
+}
+
+.loss-note.high { color: #fbbf24; }
+.loss-note.low { color: #86efac; }
+
+/* Update box */
+.update-box {
+  background: #1e1b4b;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  border: 1px solid #4c1d95;
+  margin-top: 16px;
+}
+
+.update-text {
+  color: #c4b5fd;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.update-arrow {
+  font-size: 1.3rem;
+  animation: bounce 0.6s ease-in-out infinite;
+  display: block;
+  margin-bottom: 6px;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Buttons */
+.sample-btn {
+  padding: 5px 10px;
+  border-radius: 16px;
+  border: 1px solid #3a3a5a;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 6px;
+}
+
+.sample-btn:hover {
+  border-color: #7dd3fc;
+  color: #7dd3fc;
+}
+
+.sample-btn.active {
+  background: #7dd3fc;
+  color: #0f0f1a;
+  border-color: #7dd3fc;
+}
+
+.sample-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.legend-dot.input { background: #7dd3fc; }
+.legend-dot.target { background: #4ade80; }
+.legend-dot.correct { background: #4ade80; }
+
+.no-selection {
+  text-align: center;
+  padding: 40px 20px;
+  color: #475569;
+  font-size: 0.9rem;
+}
+
+</style>
+</head>
+<body>
+
+<h1>LLM 自回归训练过程演示</h1>
+<p class="subtitle">基于 BPE 分词的真实训练流程</p>
+
+<!-- Sentence with tokenization -->
+<div class="sentence-display">
+  <div class="sentence-label">原始句子</div>
+  <div class="original-text">我爱机器学习和人工智能技术</div>
+</div>
+
+<!-- Tokenization flow -->
+<div class="tokenize-box">
+  <div class="tokenize-title">分词结果（BPE 子词分词）</div>
+  <div class="tokenize-flow">
+    <span class="original">我爱机器学习和人工智能技术</span>
+    <span class="arrow">→</span>
+    <span class="tokenized">["我爱", "机器", "学习", "和", "人工智能", "技术"]</span>
+  </div>
+</div>
+
+<!-- Tokens display -->
+<div class="sentence-display" style="padding: 16px;">
+  <div class="sentence-label">分词后的 6 个 token（每个 token 有独立 ID）</div>
+  <div class="tokens">
+    <div class="token">我爱</div>
+    <div class="token">机器</div>
+    <div class="token">学习</div>
+    <div class="token">和</div>
+    <div class="token">人工智能</div>
+    <div class="token">技术</div>
+  </div>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item">
+    <div class="legend-dot input"></div>
+    <span>输入（模型看到的上文）</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot target"></div>
+    <span>目标（需要预测的下一个 token）</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot correct"></div>
+    <span>正确预测</span>
+  </div>
+</div>
+
+<!-- Sample selector -->
+<div class="sample-tabs">
+  <button class="sample-btn active" onclick="showSample(0)">样本1：我爱→机器</button>
+  <button class="sample-btn" onclick="showSample(1)">样本2：我爱机器→学习</button>
+  <button class="sample-btn" onclick="showSample(2)">样本3：我爱机器学习→和</button>
+  <button class="sample-btn" onclick="showSample(3)">样本4：我爱机器学习和→人工智能</button>
+  <button class="sample-btn" onclick="showSample(4)">样本5：我爱机器学和×习（猜错）</button>
+  <button class="sample-btn" onclick="showSample(5)">样本6：我爱机器学习和人工智能→技术</button>
+</div>
+
+<!-- Training samples overview -->
+<div class="samples-title">6 个 token 产生 6 个训练样本</div>
+<div class="samples-grid" id="samplesGrid"></div>
+
+<!-- Detail panel -->
+<div class="detail-panel">
+  <div class="detail-title" id="detailTitle">请选择一个样本查看详情</div>
+  <div id="detailContent">
+    <div class="no-selection">👆 点击上方样本卡片或按钮查看训练详情</div>
+  </div>
+</div>
+
+<script>
+const samples = [
+  {
+    num: 1,
+    input: "我爱",
+    target: "机器",
+    title: "输入 ['我爱'] → 预测 ['机器']",
+    correct: true,
+    prob: 0.85,
+    bars: [
+      { word: "机器", prob: 85, correct: true },
+      { word: "人工", prob: 6, correct: false },
+      { word: "深度", prob: 4, correct: false },
+      { word: "自然", prob: 3, correct: false },
+    ],
+    loss: "0.163",
+    lossLevel: "low",
+    lossNote: "损失很低，参数几乎不变"
+  },
+  {
+    num: 2,
+    input: "我爱 机器",
+    target: "学习",
+    title: "输入 ['我爱', '机器'] → 预测 ['学习']",
+    correct: true,
+    prob: 0.79,
+    bars: [
+      { word: "学习", prob: 79, correct: true },
+      { word: "是", prob: 8, correct: false },
+      { word: "和", prob: 6, correct: false },
+      { word: "的", prob: 4, correct: false },
+    ],
+    loss: "0.236",
+    lossLevel: "low",
+    lossNote: "损失较低，轻微调整参数"
+  },
+  {
+    num: 3,
+    input: "我爱 机器 学习",
+    target: "和",
+    title: "输入 ['我爱', '机器', '学习'] → 预测 ['和']",
+    correct: true,
+    prob: 0.88,
+    bars: [
+      { word: "和", prob: 88, correct: true },
+      { word: "是", prob: 5, correct: false },
+      { word: "、", prob: 4, correct: false },
+      { word: "与", prob: 2, correct: false },
+    ],
+    loss: "0.128",
+    lossLevel: "low",
+    lossNote: "损失很低，参数几乎不变"
+  },
+  {
+    num: 4,
+    input: "我爱 机器 学习 和",
+    target: "人工智能",
+    title: "输入 ['我爱', '机器', '学习', '和'] → 预测 ['人工智能']",
+    correct: true,
+    prob: 0.72,
+    bars: [
+      { word: "人工智能", prob: 72, correct: true },
+      { word: "机器学习", prob: 12, correct: false },
+      { word: "深度学习", prob: 8, correct: false },
+      { word: "神经网络", prob: 5, correct: false },
+    ],
+    loss: "0.328",
+    lossLevel: "low",
+    lossNote: "损失较低，参数小幅调整"
+  },
+  {
+    num: 5,
+    input: "我爱 机器 学",
+    target: "习",
+    title: "【猜错！】输入 ['我爱', '机器', '学'] → 预测 ['习']",
+    correct: false,
+    prob: 0.18,
+    bars: [
+      { word: "习", prob: 18, correct: true },
+      { word: "的", prob: 35, correct: false },
+      { word: "东", prob: 22, correct: false },
+      { word: "是", prob: 15, correct: false },
+    ],
+    loss: "1.715",
+    lossLevel: "high",
+    lossNote: "损失极高！模型猜错，需要大幅调整参数"
+  },
+  {
+    num: 6,
+    input: "我爱 机器 学习 和 人工智能",
+    target: "技术",
+    title: "输入 ['我爱', '机器', '学习', '和', '人工智能'] → 预测 ['技术']",
+    correct: true,
+    prob: 0.81,
+    bars: [
+      { word: "技术", prob: 81, correct: true },
+      { word: "领域", prob: 8, correct: false },
+      { word: "应用", prob: 6, correct: false },
+      { word: "发展", prob: 3, correct: false },
+    ],
+    loss: "0.210",
+    lossLevel: "low",
+    lossNote: "损失较低，轻微调整参数"
+  }
+];
+
+// Render sample cards
+const grid = document.getElementById('samplesGrid');
+samples.forEach((s, i) => {
+  const card = document.createElement('div');
+  card.className = 'sample-card' + (i === 0 ? ' active' : '');
+  card.innerHTML = `
+    <div class="sample-num">样本 ${s.num}</div>
+    <div class="sample-content">
+      "<span class="input-part">${s.input}</span>"
+      →
+      <span class="target-part">"${s.target}"</span>
+    </div>
+  `;
+  card.onclick = () => showSample(i);
+  grid.appendChild(card);
+});
+
+function updateButtons(idx) {
+  document.querySelectorAll('.sample-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.sample-card').forEach((card, i) => {
+    card.classList.toggle('active', i === idx);
+  });
+}
+
+function showSample(idx) {
+  const s = samples[idx];
+  updateButtons(idx);
+
+  document.getElementById('detailTitle').textContent = s.title;
+
+  let barsHtml = s.bars.map(b => `
+    <div class="prob-item">
+      <div class="prob-word">${b.word}</div>
+      <div class="prob-bar-bg">
+        <div class="prob-bar-fill ${b.correct ? 'correct' : 'wrong'}"
+             style="width:0%" data-width="${b.prob}%">
+          ${b.correct ? '✓' : '✗'} ${b.prob}%
+        </div>
+      </div>
+      <div class="prob-percent">${b.prob}%</div>
+    </div>
+  `).join('');
+
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-section">
+      <div class="detail-label">输入与目标</div>
+      <div style="background:#12121f;padding:14px;border-radius:8px;text-align:center;font-size:1rem;">
+        <span style="color:#7dd3fc;">"${s.input}"</span>
+        <span style="color:#a78bfa;margin:0 8px;">→</span>
+        <span style="color:#4ade80;border:1px solid #4ade80;padding:2px 8px;border-radius:4px;">
+          "${s.target}"
+        </span>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-label">模型预测概率分布</div>
+      <div class="prob-bars">
+        ${barsHtml}
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-label">损失计算</div>
+      <div class="loss-box">
+        <div class="loss-label">交叉熵损失 Cross-Entropy Loss</div>
+        <div class="loss-value ${s.lossLevel}">${s.loss}</div>
+        <div class="loss-formula">Loss = -ln(P(正确答案)) = -ln(${s.prob})</div>
+        <div class="loss-note ${s.lossLevel}">${s.lossNote}</div>
+      </div>
+    </div>
+
+    <div class="update-box">
+      <span class="update-arrow">⚡</span>
+      <div class="update-text">
+        反向传播：Loss 反向传回网络，大幅更新权重<br>
+        目标：使下次给相同输入时，"${s.target}" 的预测概率提高
+      </div>
+    </div>
+  `;
+
+  setTimeout(() => {
+    document.querySelectorAll('.prob-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.width;
+    });
+  }, 50);
+}
+
+showSample(0);
+</script>
+
+</body>
+</html>
