@@ -122,7 +122,11 @@ Self-Attention 的工作方式是：**序列中的每个词，都会同时看到
 
 **训练时**：编码器和解码器同时处理完整的输入/输出序列。解码器使用 **Teacher Forcing**——直接把正确答案（而非模型预测）作为下一步的输入，配合 Mask 屏蔽未来信息，这样所有位置可以并行计算，效率很高。
 
-**推理（生成）时**：解码器只能**逐个 token 生成**。每次预测一个新 token，把它拼到已有输出后面，再输入解码器预测下一个。这就是为什么 ChatGPT 回答问题是"一个字一个字蹦出来"的原因。
+**推理（生成）时**：解码器只能**逐个 token 生成**。每次预测一个新 token，把它拼到已有输出后面，再输入解码器预测下一个。这就是为什么 ChatGPT 回答问题时"一个字一个字蹦出来"的原因。
+
+下面的交互式演示展示了训练过程中，数据如何在各个组件间流动：
+
+<iframe src="/interactive/transformer-training.html" style="width: 100%; border: none; border-radius: 16px; overflow: hidden;" height="820" loading="lazy"></iframe>
 
 ## 后续发展
 
