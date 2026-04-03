@@ -554,6 +554,7 @@ samples.forEach((s, i) => {
       "<span class="input-part">${s.input}</span>"
       →
       <span class="target-part">"${s.target}"</span>
+      ${!s.correct ? '<span style="color:#f87171;font-size:0.75rem;margin-left:6px;">猜错</span>' : ''}
     </div>
   `;
   card.onclick = () => showSample(i);
