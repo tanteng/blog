@@ -2,6 +2,9 @@
 {{ if gt $paginator.TotalPages 1 }}
 <nav class="pagination-nav w-100 mv4" aria-label="分页导航">
   <ul class="pagination list pl0 flex items-center justify-center flex-wrap">
+    <style>
+      .pagination-item.active { background: #3b82f6 !important; color: white !important; }
+    </style>
     {{ with $paginator.First }}
       <li><a href="{{ .URL }}" class="pagination-item pa2 br2 mr1 dim" aria-label="第一页">«</a></li>
     {{ end }}
@@ -28,7 +31,7 @@
     {{ end }}
 
     {{ if gt $start 1 }}
-      <li><a href="{{ (index $paginator.Pagers 0).URL }}" class="pagination-item pa2 br2 mr1{{ if eq $current 1 }} bg-light-silver{{ else }} dim{{ end }}">1</a></li>
+      <li><a href="{{ (index $paginator.Pagers 0).URL }}" class="pagination-item pa2 br2 mr1{{ if eq $current 1 }} active{{ else }} dim{{ end }}">1</a></li>
       {{ if gt $start 2 }}<li><span class="pagination-ellipsis pa2">...</span></li>{{ end }}
     {{ end }}
 
@@ -36,7 +39,7 @@
       {{ $pageNum := .PageNumber }}
       {{ if and (ge $pageNum $start) (le $pageNum $end) }}
         <li>
-          <a href="{{ .URL }}" class="pagination-item pa2 br2 mr1{{ if eq $pageNum $current }} bg-light-silver{{ else }} dim{{ end }}">
+          <a href="{{ .URL }}" class="pagination-item pa2 br2 mr1{{ if eq $pageNum $current }} active{{ else }} dim{{ end }}">
             {{ $pageNum }}
           </a>
         </li>
@@ -45,7 +48,7 @@
 
     {{ if lt $end $total }}
       {{ if lt $end (sub $total 1) }}<li><span class="pagination-ellipsis pa2">...</span></li>{{ end }}
-      <li><a href="{{ (index $paginator.Pagers (sub $total 1)).URL }}" class="pagination-item pa2 br2 mr1{{ if eq $current $total }} bg-light-silver{{ else }} dim{{ end }}">{{ $total }}</a></li>
+      <li><a href="{{ (index $paginator.Pagers (sub $total 1)).URL }}" class="pagination-item pa2 br2 mr1{{ if eq $current $total }} active{{ else }} dim{{ end }}">{{ $total }}</a></li>
     {{ end }}
 
     {{ with $paginator.Next }}
