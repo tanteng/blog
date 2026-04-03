@@ -8,7 +8,7 @@
 
 - **框架**: Hugo
 - **主题**: Ananke
-- **部署**: Vercel
+- **部署**: GitHub Actions → 腾讯云 COS → 腾讯云 EdgeOne CDN
 - **语言**: 中文为主
 
 ## 工作流程
@@ -44,6 +44,10 @@ git commit -m "描述"
 # 示例
 git commit -m "fix: 修正文章分类标签"
 ```
+
+### 部署流程
+
+Push 到 GitHub → 触发 GitHub Actions → 同步到腾讯云 COS → 清除腾讯云 EdgeOne 缓存
 
 ### 本地预览
 
