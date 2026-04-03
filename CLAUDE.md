@@ -15,7 +15,7 @@
 
 ### 文章分类规范
 
-| 分类 | 说明 |
+| 分类 slug | 说明 |
 |------|------|
 | `tech` | 技术文章（编程、架构等） |
 | `reading-notes` | 读书笔记、心得感悟 |
@@ -26,6 +26,10 @@
 | `science` | 科学 |
 | `art` | 艺术 |
 | `technews` | 科技新闻 |
+
+**规范：**
+1. **slug 尽量用已有英文 slug**，不要新建中文或自造英文
+2. **分类目录**：`content/categories/<slug>/_index.md`，front matter 的 `title` 字段设中文展示名
 
 ### 文章标签规范
 
