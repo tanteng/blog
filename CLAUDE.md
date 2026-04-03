@@ -27,6 +27,13 @@
 | `art` | 艺术 |
 | `technews` | 科技新闻 |
 
+### 文章标签规范
+
+1. **tag 使用已有英文 slug**，不要新建中文或自造英文 slug（如腾讯云用 `tencent-cloud`，不是 `tengxunyun`）
+2. **标签数量控制在 4-5 个**
+3. **标签目录**：`content/tags/<slug>/_index.md`，front matter 的 `title` 字段设中文展示名
+4. **常用标签参考**：`ai`, `rag`, `openviking`, `agent`, `tencent-cloud`, `openclaw`, `hugo`, `life`, `reading`, `photography`, `investment` 等
+
 ### 文章修改规范
 
 1. **Steve Jobs 系列文章**属于 `reading-notes`，不是 `tech`
