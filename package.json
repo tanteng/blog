@@ -2,7 +2,9 @@
   "name": "hugo-blog",
   "version": "1.0.0",
   "scripts": {
-    "build": "hugo"
+    "build": "hugo && pagefind --site public --force-language zh"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "pagefind": "^1.1.0"
+  }
 }

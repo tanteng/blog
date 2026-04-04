@@ -71,7 +71,7 @@
 
   {{- if .IsSection -}}{{- $body_classes = $body_classes | append "is-section" -}}{{- end -}}
 
-  <body class="{{ delimit $body_classes " " }}">
+  <body class="{{ delimit $body_classes " " }}" {{ if or (.IsHome) (hasPrefix .RelPermalink "/page/") (hasPrefix .RelPermalink "/posts/page/") (hasPrefix .RelPermalink "/tags/") (hasPrefix .RelPermalink "/categories/") (eq .RelPermalink "/posts/") }}data-pagefind-ignore{{ end }}>
     {{ block "header" . }}{{ partials.Include "site-header.html" .}}{{ end }}
     <main class="pb5" role="main">
       {{ block "main" . }}{{ end }}

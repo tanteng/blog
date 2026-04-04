@@ -5,8 +5,9 @@ theme = "ananke"
 resourceDir = "../resources"
 sectionPagesMenu = "main"
 
-[outputs]
-  home = ["HTML", "JSON"]
+[languages.zh]
+languageName = "中文"
+weight = 1
 
 [related]
   threshold = 80
