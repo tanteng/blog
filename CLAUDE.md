@@ -81,3 +81,19 @@ hugo server
 - `.claude/` 和 `.workbuddy/` 目录不提交到 git
 - 修改前先确认文章当前内容
 - 引用书籍内容时使用原文，不要杜撰
+
+### Hugo Partial 路径规范
+
+**Hugo partials 必须放在 `layouts/_partials/` 目录**，不是 `layouts/partials/`。
+
+- `layouts/_partials/` = Hugo 识别的正确路径
+- `layouts/partials/` = 会被忽略（除非主题特殊处理）
+
+**调试时必须同时测试生产构建：**
+
+```bash
+npm run build  # 构建到 public/，必须检查实际输出
+hugo server -D # 开发模式可能有容错机制
+```
+
+本地开发时 `hugo server` 能"容错"跳过错误路径，但生产构建 `hugo --minify` 会严格遵循路径规范，导致修改不生效。
