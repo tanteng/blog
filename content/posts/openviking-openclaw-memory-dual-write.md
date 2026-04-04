@@ -1,21 +1,26 @@
 ---
 title: "OpenViking × OpenClaw：给 AI Agent 装上长期记忆"
 date: 2026-03-26
-description: "介绍字节跳动的 OpenViking 项目，如何与 OpenClaw 集成实现长程记忆，以及为记忆系统加装的「双写」保险机制。"
+description: "深入解析字节跳动 OpenViking 插件如何接管 OpenClaw 的记忆生命周期，以及我为什么要给记忆系统加装「双写」保险机制。"
 categories: ['tech']
 tags: ['openclaw', 'openviking', 'ai', 'memory', 'context-engineering']
 featured_image: "https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/0011f1b2f3102c5e3b03382d0b494545.png"
 ---
 
-最近给 OpenClaw 装上了 OpenViking，顺手配了套记忆"双写"机制。折腾了一阵，记录下过程和使用心得，也顺便梳理一下这套系统的工作原理。
+最近给 OpenClaw 装上了 OpenViking，顺手配了套记忆"双写"机制。折腾了一阵，记录下过程和使用心得，也深入梳理一下 OpenViking 插件的运行原理——它到底是怎么接管 OpenClaw 的记忆系统的。
 
 <!--more-->
 
-## OpenClaw 的记忆机制
+## OpenClaw 原生的记忆机制
 
 OpenClaw 是个很强的 Agent 框架，能"看见"屏幕、能操作电脑，复杂任务自动化不在话下。但它有个致命短板——**健忘**。
 
-OpenClaw 的核心理念是：**Memory = 文件**。所有记忆都以 Markdown 格式存在本地磁盘上，不依赖任何云服务。记忆分为两层：每日日志（`memory/YYYY-MM-DD.md`）记录当天对话原始内容，长期记忆（`MEMORY.md`）沉淀重要决策和偏好。文件保存后，后台会自动切片构建向量索引，支持语义搜索和关键词搜索，下次对话时按需召回，而不是一股脑塞进上下文。
+OpenClaw 的核心理念是：**Memory = 文件**。所有记忆都以 Markdown 格式存在本地磁盘上，不依赖任何云服务。记忆分为两层：
+
+- **`MEMORY.md`**：长期记忆，存储持久性事实、偏好、关键决策。每次 DM 会话开始时**自动加载**。
+- **`memory/YYYY-MM-DD.md`**：每日笔记，记录当天的上下文和观察。系统**自动加载今天和昨天**的笔记。
+
+OpenClaw 还有一个关键的**自动记忆刷新**机制：在执行对话**压缩（compact）之前**，系统会运行一个静默轮次，提示 Agent 把重要的上下文保存到记忆文件里，防止压缩时丢失信息。文件保存后，后台自动切片构建向量索引，支持语义搜索和关键词搜索，下次对话时按需召回。
 
 ## 为什么需要 OpenViking
 
@@ -29,49 +34,88 @@ OpenClaw 的核心理念是：**Memory = 文件**。所有记忆都以 Markdown 
 
 底层依赖 VikingDB 向量数据库，支持混合检索（语义 + 关键词），万亿级向量毫秒级响应。
 
----
+## OpenViking 插件的运行机制
 
-## QMD：另一个选择
+这是本文的重点。很多人以为 OpenViking 只是个"记忆查询工具"，实际上它是一个**横跨 OpenClaw 整个生命周期的深度集成层**，同时扮演四个角色：
 
-除了 OpenViking，OpenClaw 官方文档里还推荐了另一个搜索后端——[QMD](https://github.com/tobi/qmd)。
+| 角色 | 职责 |
+|---|---|
+| **上下文引擎** | 组装上下文、轮次后处理、对话压缩 |
+| **钩子层** | 接管 prompt 构建前、会话开始/结束等事件 |
+| **工具提供者** | 注册记忆相关的 Agent 工具 |
+| **运行时管理器** | 本地模式下启动并监控 OpenViking 子进程 |
 
-QMD 是一个本地优先的搜索 sidecar，把 **BM25 关键词搜索 + 向量搜索 + LLM Re-ranking** 全部跑在本地（通过 node-llama-cpp + GGUF 模型）。
+### 生命周期钩子：全面接管
 
-核心特点：
+安装插件后，OpenViking 会接管 OpenClaw 的四个关键生命周期阶段：
 
-- **零 API 费用**：模型从 HuggingFace 下载到本地，之后完全不产生任何 Embedding/Rerank 的 API 调用
-- **完全离线**：不依赖任何云服务，隐私性最好
-- **混合搜索**：BM25 精确匹配专有名词/术语，向量搜索捕获语义相似性，Re-ranking 二次排序
+**① before_prompt_build —— 自动记忆召回**
 
-安装方式：
-```bash
-bun install -g https://github.com/tobi/qmd
-# 然后在 OpenClaw 配置里设置 memory.backend = "qmd"
-```
+每次对话前，插件提取最新的用户输入，并行查询 `viking://user/memories` 和 `viking://agent/memories`，检索结果经过智能过滤和排序（考虑记忆层级、偏好记忆、事件记忆、词汇重叠度），转化为 `<memory>` 块插入到提示词最前面。
 
-需要注意的是：QMD 目前在 OpenClaw 文档里标着 **experimental**（实验性），且 4G 内存的机器跑 GGUF 模型比较吃力，可以先只开 BM25 模式（`qmd search`）使用。
+**② assemble —— 上下文组装**
 
-### QMD vs OpenViking
+不再是简单地从本地文件加载历史，而是从 OpenViking 读取会话上下文。OpenClaw 最终看到的是：
 
-| | **QMD** | **OpenViking** |
-|---|---|---|
-| **作者** | tobi（社区） | Volcengine（字节跳动） |
-| **架构** | 本地 sidecar（Bun + node-llama-cpp） | 独立服务 + 向量数据库 |
-| **搜索方式** | BM25 + 向量 + LLM Re-ranking（全部本地 GGUF） | 混合检索 + VikingDB 云端向量 |
-| **Embedding** | 本地 GGUF 模型（HuggingFace 下载） | 调用 Doubao API |
-| **存储** | SQLite（自托管） | VikingDB（本地或云端） |
-| **部署** | OpenClaw 插件，binary 在 PATH | 独立服务（HTTP API） |
-| **成本** | 零 API 费用 | 依赖火山引擎 API |
-| **在 OpenClaw 里的状态** | experimental | 官方推荐插件 |
-| **适合硬件** | 需要较大内存跑 GGUF | 2G+ 内存即可 |
+> 压缩的历史摘要 + 归档索引 + 活跃消息
 
-**怎么选：**
+而不是无限增长的原始文本。
 
-- 追求零成本、隐私优先、硬件够用 → **QMD**
-- 追求开箱即用、配置简单、腾讯云 Lighthouse 这类小内存机器 → **OpenViking**
-- 想两者兼顾 → **OpenViking 做主力 + QMD 做补充**
+**③ afterTurn —— 轮次后处理**
 
----
+每轮对话结束后，新的对话增量被追加到 OpenViking 会话中（去除注入的 `<memory>` 块等噪音）。当 `pending_tokens` 超过阈值时，触发**异步提交**——归档生成和记忆提取在服务器端完成，不阻塞当前对话。
+
+**④ compact —— 对话压缩**
+
+这是一个严格的**同步边界**。调用 `commit(wait=true)` 阻塞直到完成，然后读取最新的归档概览。如果摘要太粗糙，模型可以调用 `ov_archive_expand` 工具重新打开特定归档。
+
+### 流程全景图
+
+下面这张图展示了 OpenViking 插件在一次完整对话中的运行流程：
+
+{{< mermaid >}}flowchart TD
+    A["👤 用户发送消息"] --> B["🔍 before_prompt_build"]
+    B --> B1["提取用户输入关键词"]
+    B1 --> B2["并行查询\nviking://user/memories\nviking://agent/memories"]
+    B2 --> B3["智能过滤 & 排序\n记忆层级 / 偏好 / 词汇重叠"]
+    B3 --> B4["生成 memory 块\n插入 prompt 最前面"]
+
+    B4 --> C["🧩 assemble 上下文组装"]
+    C --> C1["从 OpenViking 读取\n会话上下文"]
+    C1 --> C2["拼接：压缩摘要\n+ 归档索引\n+ 活跃消息"]
+
+    C2 --> D["🤖 模型推理生成回复"]
+
+    D --> E["📝 afterTurn 轮次后处理"]
+    E --> E1["追加对话增量\n到 OpenViking 会话"]
+    E1 --> E2{"pending_tokens\n> 阈值？"}
+    E2 -- 是 --> E3["异步 commit\n归档 + 记忆提取\n不阻塞对话"]
+    E2 -- 否 --> E4["等待下一轮"]
+
+    E3 --> F{"需要压缩？"}
+    E4 --> F
+    F -- 是 --> G["🗜️ compact 压缩"]
+    G --> G1["commit wait=true\n同步阻塞"]
+    G1 --> G2["读取归档概览"]
+    G2 --> G3["可选：ov_archive_expand\n展开特定归档"]
+    F -- 否 --> H["✅ 等待下一条消息"]
+    G3 --> H
+
+    style A fill:#e3f2fd
+    style D fill:#fff3e0
+    style H fill:#e8f5e9
+{{< /mermaid >}}
+
+### 新增的工具能力
+
+除了自动行为，插件还为模型提供了四个显式操作记忆的工具：
+
+| 工具 | 作用 |
+|---|---|
+| `memory_recall` | 显式搜索长期记忆 |
+| `memory_store` | 立即写入记忆并触发提交 |
+| `memory_forget` | 通过 URI 删除或搜索后移除匹配项 |
+| `ov_archive_expand` | 摘要不够时，展开特定归档看原始消息 |
 
 ## 效果数据
 
@@ -84,44 +128,47 @@ bun install -g https://github.com/tobi/qmd
 
 接入 OpenViking 后：**任务完成率提升 43%，Token 成本降低 91%**。
 
----
+## 装了 OpenViking 后，原生记忆文件还会自动维护吗？
 
-## 我的部署：本地插件模式
+这是我在使用过程中产生的一个核心疑问——给 OpenClaw 装了 OpenViking 之后，OpenClaw 原生的 `MEMORY.md` 和每日笔记文件还会被自动维护吗？
 
-我的 OpenClaw 跑在腾讯云 Lighthouse 上，接的是**本地插件模式**，安装了 OpenViking 的 memory plugin。
+翻了 [OpenViking 的 openclaw-plugin 官方文档](https://github.com/volcengine/OpenViking/blob/main/examples/openclaw-plugin/README.md) 和 [OpenClaw 记忆机制官方文档](https://docs.openclaw.ai/concepts/memory)，答案是：
 
-配置概览：
+### **不会了。**
 
-```yaml
-# OpenViking 配置文件: ~/.openviking/ov.conf
+OpenViking 插件横跨了 OpenClaw 的 `assemble` / `afterTurn` / `compact` / `before_prompt_build` 等关键生命周期钩子，**全面接管了记忆的读写和维护**。具体对照如下：
 
-server:
-  host: "127.0.0.1"
-  port: 1933
+| 原生行为 | 装了 OpenViking 后 |
+|---|---|
+| 压缩前自动刷新写入 `MEMORY.md` | ❌ 被 OpenViking 的 commit 流程替代 |
+| 压缩前自动刷新写入每日笔记 | ❌ 同上 |
+| 会话开始自动加载 `MEMORY.md` | ❌ 改为从 OpenViking 检索 `<memory>` 块注入 |
+| 自动加载今天/昨天的每日笔记 | ❌ 被 OpenViking 上下文组装替代 |
+| 用户说"记住这个"时写入文件 | ❌ 改为调用 `memory_store` 写入 OpenViking |
 
-storage:
-  workspace: "/root/.openviking/data"
-  vectordb:
-    backend: "local"
+简单说：**OpenViking 是一次彻底的接管，而不是增量的增强。** 安装后，所有记忆存储和检索都转移到了 OpenViking 后端，原生的 Markdown 记忆文件将不再被自动维护。
 
-embedding:
-  dense:
-    backend: "volcengine"
-    model: "doubao-embedding-vision-251215"
-    dimension: 1024
-```
-
----
+这也是我决定做双写机制的直接原因。
 
 ## 双写机制：给记忆上保险
 
-集成 OpenViking 之后，我又给它加了一层**双写保险**——同时写入两个地方：**本地文件**（`MEMORY.md` + `memory/YYYY-MM-DD.md`）和 **OpenViking 向量库**。向量库检索强但可能漏召或服务抖动，文件系统稳定可读但语义搜索弱——两者互补，才是真正的保险。我在 `AGENTS.md` 里固化了这个规则：存入记忆时必须同时写文件和存向量库。
+既然 OpenViking 会全面接管记忆系统，原生文件不再自动维护，那就存在一个隐患：**所有鸡蛋放在一个篮子里**。向量库检索强但可能漏召或服务抖动，一旦出问题就什么记忆都找不回来了。
+
+所以我给它加了一层**双写保险**——同时写入两个地方：
+
+1. **本地文件**（`MEMORY.md` + `memory/YYYY-MM-DD.md`）
+2. **OpenViking 向量库**
+
+我在 `AGENTS.md` 里固化了这个规则：存入记忆时必须同时写文件和存向量库。
 
 ![配置双写机制](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/c33867c3fca51998b201a132593d168b.png)
 
-双写的好处：**不怕单点故障**、**可读性强**（文件随时能打开看）、**检索互补**（文件精确匹配，向量库语义相似）、**审计方便**（文件即日志）。
+双写的好处：
 
----
+- **不怕单点故障**：向量库挂了，文件还在
+- **可读性强**：Markdown 文件随时能打开查看
+- **检索互补**：文件精确匹配，向量库语义相似
+- **审计方便**：文件即日志，git 可追踪变更
 
 ## 适用场景
 
@@ -138,21 +185,15 @@ embedding:
 - 可以从外部重新获取的信息
 - 敏感信息（密钥等）
 
----
-
 ## 总结
 
-OpenViking 解决了 Agent 的"健忘症"，让 OpenClaw 真正成为有记忆的助手。
+OpenViking 不只是给 OpenClaw 加了个记忆查询工具——它是一次**对记忆系统的彻底接管**，从上下文组装、轮次处理到对话压缩，全链路重写。接管后效果确实好：任务完成率提升 43%，Token 成本降低 91%。
 
-加上双写机制，记忆系统稳如老狗——文件是锚，向量库是检索，两条腿走路。
+但彻底接管也意味着原生的 Markdown 记忆文件不再被自动维护。这就是为什么我要加上双写机制——文件是锚，向量库是检索，两条腿走路，才是真正的保险。
 
 如果你也在用 OpenClaw，强烈建议接上 OpenViking，然后给自己定制一套记忆管理规则。
 
----
-
 ## 参考
 
-- [OpenViking GitHub](https://github.com/volcengine/OpenViking)
-- [QMD GitHub](https://github.com/tobi/qmd)
-- [OpenViking × OpenClaw 官方集成文档](https://www.volcengine.com/docs/6396/2249500?lang=zh)
-- [VikingDB 向量数据库](https://www.volcengine.com/product/vector-database)
+- [OpenViking × OpenClaw 插件文档](https://github.com/volcengine/OpenViking/blob/main/examples/openclaw-plugin/README.md)
+- [OpenClaw 记忆机制官方文档](https://docs.openclaw.ai/concepts/memory)
