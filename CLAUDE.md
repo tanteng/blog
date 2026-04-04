@@ -38,6 +38,10 @@
 3. **标签目录**：`content/tags/<slug>/_index.md`，front matter 的 `title` 字段设中文展示名
 4. **常用标签参考**：`ai`, `rag`, `openviking`, `agent`, `tencent-cloud`, `openclaw`, `hugo`, `life`, `reading`, `photography`, `investment` 等
 
+### Mermaid 图表
+
+使用 `{{< mermaid >}}...{{< /mermaid >}}` shortcode 渲染图表，**不要**使用 ` ```mermaid ` 代码块。Ananke 主题通过 shortcode 触发 `hasMermaid` 标记来条件加载 mermaid JS，代码块无法触发此机制。
+
 ### 文章修改规范
 
 1. **Steve Jobs 系列文章**属于 `reading-notes`，不是 `tech`
