@@ -37,6 +37,9 @@ jobs:
       - name: Build
         run: hugo --minify
 
+      - name: Build search index
+        run: npx pagefind --site public --force-language zh
+
       - name: Install coscli
         run: |
           curl -fsSL https://cosbrowser.cloud.tencent.com/software/coscli/coscli-linux-amd64 -o /usr/local/bin/coscli
