@@ -8,6 +8,9 @@
       {{ end }}
     </a>
     <div class="flex-l items-center">
+      <form class="search-form flex-l items-center mr3 mt2 mt0-l" action="/search/" method="get">
+        <input type="search" name="q" placeholder="搜索..." class="f6 f5-ns input-reset ba b--white-40 bg-transparent white pa2 br-pill">
+      </form>
       {{ partial "i18nlist.html" . }}
       {{ if .Site.Menus.main }}
         <ul class="{{ cond (eq $.Site.Language.LanguageDirection "rtl") "pr0 ml3" "pl0 mr3" }}">

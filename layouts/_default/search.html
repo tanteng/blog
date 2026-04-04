@@ -1,0 +1,68 @@
+{{ define "main" }}
+<article class="cf ph3 ph5-l pv3 pv4-l f4 measure-wide-l center">
+  <header class="mb4 tc">
+    <h1 class="f2 f-subheadline-l fw2">搜索</h1>
+  </header>
+
+  <div class="search-container mb4">
+    <input type="search" id="search-input" class="f4 input-reset ba b--black-20 pa2 w-100" placeholder="输入关键词搜索..." autocomplete="off">
+  </div>
+
+  <div id="search-results" class="search-results">
+    <p class="f5 mid-gray">输入关键词开始搜索...</p>
+  </div>
+</article>
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
+<script>
+(async function() {
+  const fuse = new Fuse([], {
+    keys: ['title', 'description', 'content', 'tags'],
+    includeScore: true,
+    threshold: 0.3,
+    ignoreLocation: true
+  });
+
+  const searchIndex = await fetch('/index.json').then(r => r.json());
+  fuse.setCollection(searchIndex);
+
+  const input = document.getElementById('search-input');
+  const results = document.getElementById('search-results');
+
+  function displayResults(items) {
+    if (items.length === 0) {
+      results.innerHTML = '<p class="f5 mid-gray">没有找到相关文章</p>';
+      return;
+    }
+    results.innerHTML = items.map(item => `
+      <div class="mb4 pb4 bb b--black-10">
+        <h3 class="f4 mb1"><a href="${item.item.permalink}" class="hover-blue">${item.item.title}</a></h3>
+        <p class="f5 mid-gray mb2">${item.item.description || ''}</p>
+        <div class="f6">
+          ${item.item.tags ? item.item.tags.map(t => '<span class="mr2">#' + t + '</span>').join('') : ''}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  input.addEventListener('input', (e) => {
+    const query = e.target.value.trim();
+    if (query.length < 2) {
+      results.innerHTML = '<p class="f5 mid-gray">输入至少2个字符开始搜索...</p>';
+      return;
+    }
+    const results_items = fuse.search(query);
+    displayResults(results_items);
+  });
+
+  // 自动搜索 URL 中的查询参数
+  const urlParams = new URLSearchParams(window.location.search);
+  const initialQuery = urlParams.get('q');
+  if (initialQuery) {
+    input.value = initialQuery;
+    const results_items = fuse.search(initialQuery);
+    displayResults(results_items);
+  }
+})();
+</script>
+{{ end }}

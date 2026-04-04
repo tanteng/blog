@@ -5,6 +5,9 @@ theme = "ananke"
 resourceDir = "../resources"
 sectionPagesMenu = "main"
 
+[outputs]
+  home = ["HTML", "JSON"]
+
 [related]
   threshold = 80
   toLower = false

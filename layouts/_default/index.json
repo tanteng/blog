@@ -1,0 +1,7 @@
+{{- $.Scratch.Delete "search" -}}
+{{- $.Scratch.Set "search" slice -}}
+{{- $sections := where site.RegularPages "Section" "in" site.Params.mainSections -}}
+{{- range $sections -}}
+  {{- $.Scratch.Add "search" (dict "title" .Title "date" .Date "description" .Description "content" .Plain "permalink" .RelPermalink "tags" .Params.tags "categories" .Params.categories) -}}
+{{- end -}}
+{{- $.Scratch.Get "search" | jsonify -}}
