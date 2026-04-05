@@ -1,10 +1,10 @@
 ---
-title: "入门彩负 CN400 和专业彩负有什么区别"
-date: 2026-04-05
+title: "专业彩负和入门彩负有什么区别？有哪些专业卷推荐"
+date: 2025-11-02
 draft: false
 tags: ["photography", "film", "photo"]
 categories: ["photo"]
-description: "聊一聊入门级彩负和外星人 CN400 的定位，以及专业彩负有哪些选择"
+description: "聊一聊入门级彩负和专业彩负的区别，以及专业彩负有哪些选择"
 ---
 
 最近在群里讨论了彩色负片的入门和专业区别，整理成文。
