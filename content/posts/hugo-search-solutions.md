@@ -4,7 +4,6 @@ date: 2026-03-25
 tags: ["hugo", "search", "pagefind", "blog"]
 categories: ["tech"]
 description: "对比 Fuse.js、Lunr.js、Pagefind 等 Hugo 博客搜索方案，详解踩坑经历与最佳实践"
-featured_image: "/images/blog-cover.jpg"
 ---
 
 之前给博客加了搜索功能，调研了几种方案，踩了不少坑，记录一下。
