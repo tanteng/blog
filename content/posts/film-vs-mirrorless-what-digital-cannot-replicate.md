@@ -1,5 +1,5 @@
 ---
-title: "胶片还能赢在哪？微单无法复制的 7 件事"
+title: "微单无法复制的 7 件事：胶片的不可替代性"
 date: 2025-11-11
 tags: ["photography", "camera", "film-camera", "film"]
 categories: ["photo"]
