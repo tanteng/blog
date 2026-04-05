@@ -18,6 +18,8 @@ featured_image: "/images/blog-cover.jpg"
 | Pagefind | ~20KB（按需加载） | 自带 UI | 低 | 需配置 |
 | Algolia | 免费额度内 OK | 极佳 | 高 | 好 |
 
+<!--more-->
+
 ### 1. Fuse.js / Lunr.js（客户端方案）
 
 最早用的方案。Hugo 生成 `index.json`，浏览器加载后用 Fuse.js 在前端搜索。
