@@ -10,6 +10,8 @@ description: "深圳街头三角梅盛开的场景"
 
 {{< figure src="https://assets.tanteng.space/photo-vuE3HuZrjE1ZUfa5.jpeg?imageMogr2/auto-orient/thumbnail/800x/format/webp/quality/85/interlace/1" title="香山中路" >}}
 
+<!--more-->
+
 {{< figure src="https://assets.tanteng.space/photo-MEAHuNnQe1j8agFU.jpeg?imageMogr2/auto-orient/thumbnail/800x/format/webp/quality/85/interlace/1" title="深圳TAXI" >}}
 
 {{< figure src="https://assets.tanteng.space/photo-QRxgpVKGuZ5ePYNc.jpeg?imageMogr2/auto-orient/thumbnail/800x/format/webp/quality/85/interlace/1" title="香山中路" >}}
