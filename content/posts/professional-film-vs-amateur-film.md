@@ -1,5 +1,5 @@
 ---
-title: "专业彩负和入门彩负有什么区别？有哪些专业卷推荐"
+title: "专业彩负与入门彩负的区别"
 date: 2025-11-02
 draft: false
 tags: ["photography", "film", "photo"]
