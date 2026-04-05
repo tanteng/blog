@@ -19,4 +19,4 @@ featured_image: "/images/blog-cover.jpg"
 
 {{< figure src="https://assets.tanteng.space/photo-LtwBe8AUMguDPbf9.jpeg?imageMogr2/auto-orient/thumbnail/800x/format/webp/quality/85/interlace/1" title="三角梅 5" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-LtwBe8AUMguDPbf9.jpeg?imageMogr2/auto-orient/thumbnail/800x/format/webp/quality/85/interlace/1" title="三角梅 6" >}}
+{{< figure src="https://assets.tanteng.space/photo-QRxgpVKGuZ5ePYNc.jpeg?imageMogr2/auto-orient/thumbnail/800x/format/webp/quality/85/interlace/1" title="三角梅 6" >}}
