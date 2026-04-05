@@ -36,7 +36,13 @@ featured_image: "/images/blog-cover.jpg"
 
 ### 2. Pagefind（推荐）
 
-静态搜索工具，Hugo 官方推荐。
+静态搜索工具，Hugo 官方推荐。原理是在构建时扫描生成的 HTML 文件，提取文本内容并建立倒排索引，搜索时通过 WebAssembly 在浏览器端执行。
+
+**工作流程：**
+1. `hugo` 构建生成静态 HTML
+2. `pagefind --site public` 扫描 HTML，提取文本并分词
+3. 生成二进制索引文件（`pagefind/index/`）
+4. 搜索时浏览器按需加载索引，本地执行搜索
 
 **优点：**
 - 构建时生成索引，体积小
@@ -73,23 +79,7 @@ featured_image: "/images/blog-cover.jpg"
 
 ## 踩坑记录
 
-### 1. Hugo Partial 路径问题
-
-Hugo partials 必须放在 `layouts/_partials/` 目录，不是 `layouts/partials/`。
-
-```bash
-# ✅ 正确
-layouts/_partials/site-navigation.html
-
-# ❌ 错误
-layouts/partials/site-navigation.html
-```
-
-开发模式（`hugo server`）可能有容错机制，看似能用。但生产构建（`hugo --minify`）是严格模式，会忽略错误路径。
-
-**教训：修改后必须用 `npm run build` 检查实际输出，不能只靠开发服务器。**
-
-### 2. Pagefind 索引重复
+### 1. Pagefind 索引重复
 
 Hugo 默认生成多语言版本（zh 和 zh-cn），导致 Pagefind 索引了两遍。
 
@@ -99,7 +89,7 @@ Hugo 默认生成多语言版本（zh 和 zh-cn），导致 Pagefind 索引了�
 npx pagefind --site public --force-language zh
 ```
 
-### 3. 排除不需要的内容
+### 2. 排除不需要的内容
 
 搜索结果中出现"相关文章"区块的内容，导致搜索不准确。
 
@@ -121,15 +111,7 @@ npx pagefind --site public --force-language zh
 <body {{ if or (.IsHome) (hasPrefix .RelPermalink "/page/") (hasPrefix .RelPermalink "/posts/page/") (hasPrefix .RelPermalink "/tags/") (hasPrefix .RelPermalink "/categories/") }}data-pagefind-ignore{{ end }}>
 ```
 
-### 4. 搜索框不显示
-
-部署到生产环境后搜索框不显示，但本地正常。
-
-**原因：** 路径错误 + Hugo 版本差异。生产环境用 `hugo --minify`，行为更严格。
-
-**解决：** 确保 partial 文件放在正确路径。
-
-### 5. 搜索结果重复
+### 3. 搜索结果重复
 
 分页页和列表页被索引，导致同一内容出现多次。
 
@@ -160,7 +142,6 @@ npx pagefind --site public --force-language zh
 |------|----------|
 | 索引重复 | `--force-language zh` |
 | 内容重复 | `data-pagefind-ignore` + 排除分页/列表页 |
-| 搜索框不显示 | Hugo partial 必须放在 `layouts/_partials/` |
 | 中文分词 | Pagefind 原生不支持，但基本可用 |
 
 如果你的博客需要更精准的中文搜索，Algolia + Hugo 的 `algolia-index` 可能是更好的选择。但对于大多数博客，Pagefind 已经足够。
