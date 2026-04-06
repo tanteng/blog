@@ -1,5 +1,5 @@
 ---
-title: "深入理解 RAG 核心技术：Embedding、向量检索与 Rerank"
+title: "RAG 核心：Embedding、向量检索与 Rerank"
 date: 2025-12-30
 tags: ["ai", "rag", "embedding", "vector-search", "llm"]
 categories: ["ai"]
