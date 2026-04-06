@@ -1,6 +1,6 @@
 ---
 title: "期权高手的思维方式：从股票思维到Greeks思维"
-date: 2026-04-04
+date: 2026-03-01
 tags: ["investment", "options", "trading", "delta"]
 categories: ["investment"]
 description: "期权新手和高手的核心差距不在于方向判断，而在于思维维度。本文解析高手如何用Delta、Theta、Vega、Gamma等希腊字母进行多维度交易决策。"
