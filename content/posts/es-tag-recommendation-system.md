@@ -246,6 +246,4 @@ final_tags = [k for k, v in tag_weights.items() if v > 0.3]
 
 这个方案实现简单、性能优秀，适合大多数知识推荐场景。
 
----
-
 *有问题欢迎评论区交流~*

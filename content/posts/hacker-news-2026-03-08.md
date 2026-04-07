@@ -16,15 +16,11 @@ categories: ["technews"]
 
 链接: https://news.ycombinator.com/item?id=47289311
 
----
-
 ### 2. Yoghurt delivery women combatting loneliness in Japan
 
 BBC Travel 报道了一个温暖的社会现象——日本酸奶配送女士正在帮助独居老人对抗孤独。这些配送员不仅是送酸奶，更重要的是扮演了"情感连接"的角色，她们会与老人聊天、关心他们的生活状况。在日本这个老龄化严重、独居老人数量众多的国家，这种基于社区的关怀模式引起了广泛关注。
 
 链接: https://news.ycombinator.com/item?id=47287344
-
----
 
 ### 3. CasNum
 
@@ -32,15 +28,11 @@ CasNum 是一个有趣的开源项目（GitHub 270 points），是一个与数�
 
 链接: https://news.ycombinator.com/item?id=47291292
 
----
-
 ### 4. Dumping Lego NXT firmware off of an existing brick
 
 这是一篇技术教程，讲述如何从现有的 Lego NXT 机器人砖块中提取固件。Lego NXT 是乐高推出的可编程机器人系列，本文详细描述了提取固件的技术过程，包括硬件接口、提取工具和方法。这对于想要备份、修改或研究乐高机器人固件的技术爱好者来说是一份宝贵的资料。
 
 链接: https://news.ycombinator.com/item?id=47271988
-
----
 
 ### 5. Cloud VM benchmarks 2026: performance / price
 
@@ -50,15 +42,11 @@ CasNum 是一个有趣的开源项目（GitHub 270 points），是一个与数�
 
 链接: https://news.ycombinator.com/item?id=47293119
 
----
-
 ### 6. FLASH radiotherapy's bold approach to cancer treatment
 
 IEEE Spectrum 报道了 FLASH 放疗技术——一种革命性的癌症治疗方法。FLASH 放疗使用超高剂量率的辐射束，能够在毫秒级时间内完成治疗，相比传统放疗大幅减少对健康组织的伤害。2026 年这一技术正从实验走向临床试验阶段。
 
 链接: https://news.ycombinator.com/item?id=47288533
-
----
 
 ### 7. "Warn about PyPy being unmaintained"
 
@@ -66,15 +54,11 @@ Python 包管理工具 uv 的维护者在 PR 中提出警告：PyPy 可能已经
 
 链接: https://news.ycombinator.com/item?id=47293415
 
----
-
 ### 8. Ki Editor - an editor that operates on the AST
 
 Ki Editor 是一个创新的代码编辑器，其核心特点是直接在 AST（抽象语法树）层面操作代码，而非传统的文本编辑方式。这意味着编辑器理解代码的结构而非仅仅是字符序列，可以提供更智能的代码重构、导航和编辑功能。这是编程工具领域的一个有趣探索，获得了 397 points 的高热度。
 
 链接: https://news.ycombinator.com/item?id=47286311
-
----
 
 ### 9. Files are the interface humans and agents interact with
 
@@ -82,15 +66,11 @@ Ki Editor 是一个创新的代码编辑器，其核心特点是直接在 AST（
 
 链接: https://news.ycombinator.com/item?id=47286408
 
----
-
 ### 10. LLM Writing Tropes.md
 
 这是一个关于大语言模型写作风格的集合文档，整理了 LLM 生成文本时常见的写作模式和套路（tropes）。类似于影视作品中的"套路"，这份文档归纳了 AI 写作的典型特征，帮助人们识别 AI 生成内容。
 
 链接: https://news.ycombinator.com/item?id=47291513
-
----
 
 ### 11. How to run Qwen 3.5 locally
 

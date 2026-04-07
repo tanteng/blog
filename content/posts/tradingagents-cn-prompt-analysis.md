@@ -476,6 +476,4 @@ TradingAgents-CN 的 prompt 设计展示了一个成熟的多Agent系统如何�
 
 这种设计思路值得在任何需要多维度分析+决策的系统 中借鉴。
 
----
-
 完整源代码请参考：https://github.com/hsliuping/TradingAgents-CN

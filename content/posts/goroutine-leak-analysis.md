@@ -77,8 +77,6 @@ func handleRequest(ctx context.Context) {
 }
 ```
 
----
-
 ## 2. 只有发送没有接收的"僵尸"协程
 
 这种情况常出现在**并发任务分发**中，如果逻辑分支覆盖不全，就会留下"尾巴"。
@@ -147,8 +145,6 @@ func getFirstResponse() string {
 }
 ```
 
----
-
 ## 3. time.Ticker 忘记 Stop
 
 虽然 `time.After` 在触发后会被自动回收，但 `time.NewTicker` 如果不手动调用 `Stop()`，它持有的资源和相关的底层协程**不会立即释放**。
@@ -197,8 +193,6 @@ func watch(ctx context.Context) {
     }
 }
 ```
-
----
 
 ## 4. 互斥锁（Mutex）死锁导致的泄露
 
@@ -249,8 +243,6 @@ func worker(ctx context.Context, mu *sync.Mutex) {
 }
 ```
 
----
-
 ## 5. 如何排查 Goroutine 泄露？
 
 ### pprof：排查泄露的"银弹"
@@ -288,8 +280,6 @@ go tool pprof http://localhost:6060/debug/pprof/goroutine
 (pprof) traces
 ```
 
----
-
 ## 6. 预防原则
 
 ### 设计原则
@@ -318,8 +308,6 @@ go tool pprof http://localhost:6060/debug/pprof/goroutine
 - [ ] 使用 `defer` 确保锁、文件等资源释放？
 - [ ] 是否使用 `context` 控制超时和取消？
 
----
-
 ## 总结
 
 Goroutine 泄露是 Go 开发中的"隐形杀手"。它不像内存泄漏那样显而易见，而是通过 Goroutine 数量的缓慢累积，最终在某个临界点爆发。
@@ -333,7 +321,5 @@ Goroutine 泄露是 Go 开发中的"隐形杀手"。它不像内存泄漏那样�
 | Ticker 泄露 | 始终使用 defer ticker.Stop() |
 | Mutex 死锁 | 坚持使用 defer unlock |
 | 排查工具 | pprof + 监控 Goroutine 数量 |
-
----
 
 **你想针对某个具体的业务场景（比如数据库连接池、Web 接口）让我帮你做一次 Goroutine 泄露的代码审查吗？**

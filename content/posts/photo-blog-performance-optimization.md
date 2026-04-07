@@ -66,8 +66,6 @@ EdgeOne 到 Nginx 之间走 HTTPS，SSL 被终止了两次。虽然都在腾讯�
 
 EdgeOne 使用 Upgrade 方式，Nginx 只支持 Prior Knowledge，两边对不上。所以 h2c 这条路走不通，最终选择了 HTTPS + H2 回源。
 
----
-
 ## HTTP/2 和 HTTP/3 (QUIC) 升级
 
 回源协议折腾完毕，来看真正重要的部分——用户侧的协议升级。
@@ -147,8 +145,6 @@ alt-svc: h3=":443"; ma=2592000
 | RSC 数据请求 | **HTTP/3 (h3)** |
 | 图片（COS CDN） | HTTP/1.1 → HTTP/2（取决于 CDN 配置） |
 
----
-
 ## 最终架构
 
 ```
@@ -162,8 +158,6 @@ alt-svc: h3=":443"; ma=2592000
 - **Next.js**：页面渲染、ISR 缓存
 
 回源走 HTTPS + HTTP/2，用户侧走 HTTP/2 和 HTTP/3 (QUIC)，全链路多路复用，无排队瓶颈。
-
----
 
 ## 源站 IP 防护
 
@@ -183,8 +177,6 @@ server {
 ```
 
 用 IP 直接访问会被 Nginx 断开连接（444），只有带正确 `Host` 头的 EdgeOne 回源请求才能命中站点配置。
-
----
 
 ## 总结
 

@@ -179,8 +179,6 @@ AG-UI 协议的核心价值在于：
 
 简单来说：**以前是"点一下等结果"，现在是"看着 AI 干活"**。AG-UI 让 AI Agent 的交互从黑箱变成了透明、可控的体验。
 
----
-
 *参考资料：*
 - *[AG-UI 官方文档](https://docs.ag-ui.com)*
 - *[CopilotKit AG-UI](https://www.copilotkit.ai/ag-ui)*

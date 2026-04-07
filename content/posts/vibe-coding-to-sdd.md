@@ -16,8 +16,6 @@ featured_image: 'https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/
 
 <!--more-->
 
----
-
 ## 1. 核心理念：从 Vibe Coding 到 SDD
 
 | 模式 | 描述 | 特点 |
@@ -27,8 +25,6 @@ featured_image: 'https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/
 | **SDD** | 先由 AI 和人共同确认一份"规范"（Specification），再基于规范生成代码 | 继承 TDD 思想，但用规范文档替代单元测试，覆盖更大粒度 |
 
 **本质变化**：TDD 用测试用例约束代码，SDD 用规范文档约束整个系统的设计和实现。两者都遵循"先定义正确，再实现"的原则。
-
----
 
 ## 2. 执行三剑客：Command, Rule, Skill
 
@@ -76,12 +72,9 @@ CodeBuddy（包括 VS Code 插件 WorkBuddy 和终端工具 CodeBuddy Code）对
 每个 Skill 通过 `SKILL.md` 定义，支持 YAML Frontmatter 声明元数据：
 
 ```markdown
----
 name: deploy
 description: 项目部署工作流
 allowed-tools: Read, Write, Bash
----
-
 你是部署专家，负责执行以下流程：
 1. 运行构建命令
 2. 上传到目标服务器
@@ -118,8 +111,6 @@ allowed-tools: Read, Write, Bash
 - 包含脚本执行的能力
 - 超过 50 行的详细指南
 
----
-
 ## 3. OpenSpec、Rule 和 Skill 的关系
 
 在 GitHub 的 Fission-AI/OpenSpec 项目中，这三者共同构成了 SDD 的完整实践：
@@ -150,8 +141,6 @@ Skill 实际上是将 OpenSpec 的 CLI 命令封装成了 AI 可以调用的函�
 
 层级：Rule 可以是全局的（对所有步骤生效），也可以是针对特定产物（Artifact）的。
 
----
-
 ## 4. 它们是如何协同工作的？
 
 在 OpenSpec 的工作流中，这几个元素形成了一个闭环：
@@ -165,8 +154,6 @@ Skill 实际上是将 OpenSpec 的 CLI 命令封装成了 AI 可以调用的函�
 4. **Skill (支撑层)**：AI 使用它自带的 Skill（如阅读现有代码库、运行测试脚本）来确保 Command 执行成功。
 
 这与 TDD 的循环类似：**规范（测试）→ 实现 → 验证 → 重构**，只是粒度从函数级别提升到了系统级别。
-
----
 
 ## 5. 工具实践：CodeBuddy IDE 的 Craft Spec
 
@@ -198,8 +185,6 @@ SDD 的理念已经开始在主流 AI 编程工具中落地。以腾讯云 CodeB
 关键区别在于**中间有一个对齐环节**。Vibe Coding 是"说→写"的两步流程，中间没有确认；而 Craft Spec 是"说→对齐→写"的三步流程——AI 先把它的理解以 PRD 和设计方案的形式呈现给你，你确认后再进入编码阶段。这一步看似多余，实则避免了大量返工。
 
 对于个人开发者，这意味着你可以用自然语言快速启动一个项目，同时保留了"先想清楚再动手"的工程纪律。对于团队，PRD 和设计方案本身就是可追溯的文档产物。
-
----
 
 ## 6. 进阶：MCP + OpenSpec，企业级高效开发实践
 
@@ -258,8 +243,6 @@ Skill: diagnose-payment-failure
 
 将内部工具封装为 MCP 后，AI 不仅能"看到"这些工具的存在，还能真正执行操作，形成**规范 → 执行 → 验证**的闭环。
 
----
-
 ## 7. SDD 与传统软件工程方法的对比
 
 | 维度 | 传统瀑布模型 | 敏捷开发 | TDD | SDD (AI 时代) |
@@ -270,8 +253,6 @@ Skill: diagnose-payment-failure
 | **适用场景** | 稳定需求 | 变化需求 | 单元级别 | 系统级别 + AI 协作 |
 
 **关键洞察**：SDD 并不是要替代 TDD，而是弥补 TDD 在 AI 时代的断层。TDD 解决的是"如何确保代码正确"，SDD 解决的是"如何确保 AI 生成的系统设计正确"。
-
----
 
 ## 8. 实施 SDD 的挑战与应对
 
@@ -302,8 +283,6 @@ Skill: diagnose-payment-failure
 - 建立 **规范模板**，降低写作门槛
 - 利用 AI 辅助生成规范初稿
 
----
-
 ## 9. 总结
 
 | 层级 | 角色 | 类比 |
@@ -315,8 +294,6 @@ Skill: diagnose-payment-failure
 | **Skill** | 工具箱（能力支撑） | 会做什么 |
 
 **实践建议**：如果你正尝试从"随便写写"转向"专业级 AI 开发"，建议从建立项目的 **Rule** 开始——这能立竿见影地减少 AI 乱写代码的情况。进一步，可以在 [CodeBuddy IDE](https://www.codebuddy.cn/ide/) 中体验 Craft Spec 的完整流程，或者用 OpenSpec 跑一个小项目，感受一下"先写规范再写代码"的 SDD 模式。
-
----
 
 *参考资料：*
 - *Fission-AI/OpenSpec GitHub 项目*

@@ -232,8 +232,6 @@ for _, err := range errors {
 
 > 根据实际需求选择合适的工具，不要过度设计。如果只是简单的等待，用 WaitGroup 就够了。
 
----
-
 ## 参考资料
 
 - [errgroup 官方文档](https://pkg.go.dev/golang.org/x/sync/errgroup)

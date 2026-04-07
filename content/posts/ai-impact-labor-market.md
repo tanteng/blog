@@ -18,8 +18,6 @@ description: "Anthropic发布最新研究，用新指标观察AI对就业的实�
 
 <!--more-->
 
----
-
 ## 为什么要做这项研究？
 
 预测AI对劳动力市场的影响远比想象中困难：
@@ -112,7 +110,5 @@ Anthropic提出了**"观察暴露度"（Observed Exposure）**新指标，综合
 3. **学会用AI，而不是拒绝AI** — 把AI当作助手而非对手
 
 4. **关注年轻人** — 年轻工人受到的招聘放缓影响更明显
-
----
 
 *来源：[Anthropic Research - Labor market impacts of AI](https://www.anthropic.com/research/labor-market-impacts) (2026年3月)*

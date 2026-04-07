@@ -184,4 +184,3 @@ func ExtractArticle(content string, provider string) (*ArticleInfo, error) {
 
 通过 Prompt Template + JSON Mode 的组合，我们可以构建稳定可靠的 AI 应用。Golang 的静态类型和并发优势使其非常适合构建高性能的 AI 服务层。
 
----

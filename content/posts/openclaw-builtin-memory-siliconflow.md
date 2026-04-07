@@ -11,8 +11,6 @@ description: '折腾了 QMD、OpenViking 等方案后，最终用 OpenClaw 内�
 
 <!--more-->
 
----
-
 ## 内置引擎也支持向量搜索
 
 翻了一遍 OpenClaw 官方文档才发现，内置的 SQLite 引擎本身就支持三种搜索模式：

@@ -66,8 +66,6 @@ featured_image: 'https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/
 
 全部在同一区域内网互通，数据库查询从跨洋 200ms+ 降到本地 < 1ms。
 
----
-
 ## 一、图片存储迁移：R2 → 腾讯云 COS
 
 ### 1.1 为什么选 COS
@@ -111,8 +109,6 @@ exif-photo-blog 在上传照片时会生成 `-sm`（小图）、`-md`（中图�
 
 这个问题我在 WorkBuddy 中描述了需求：「COS 上有 400 多张原始照片，需要为每张生成 -sm、-md、-lg 三个优化版本，用 sharp 处理，上传回 COS」。WorkBuddy 直接生成了一个完整的 Node.js 批处理脚本——从 COS 拉取原图列表、用 sharp 按不同尺寸压缩、再上传回 COS，一轮对话搞定。手写这个脚本大概要半小时，AI 生成后微调几处参数就能跑。
 
----
-
 ## 二、数据库迁移：Neon → 本地 PostgreSQL
 
 ### 2.1 选型对比
@@ -143,8 +139,6 @@ psql -U tanteng -d verceldb < dump.sql
 - **连接池参数**：原来的配置是为跨区域 Neon 设计的，超时很长、连接数很大。迁移到本地后收紧参数，同时关闭 SSL
 - **自动备份**：配置了 crontab 每天凌晨 3 点自动备份数据库，保留最近 30 份
 
----
-
 ## 三、部署方案：零停机部署脚本
 
 告别 Vercel 的一键部署后，需要自己搞定 CI/CD。这部分同样在 WorkBuddy 中完成——描述清楚「独立构建、原子替换、自动清 CDN 缓存」的需求，它就生成了一套完整的部署脚本。核心设计：
@@ -153,13 +147,9 @@ psql -U tanteng -d verceldb < dump.sql
 - **原子替换**：`mv` 操作是文件系统原子操作，不存在中间状态
 - **自动清缓存**：部署后通过腾讯云 API V3 调用 EdgeOne purge_host 清除全域缓存
 
----
-
 ## 四、EdgeOne 加速
 
 站点接入 EdgeOne CDN，国内访问走就近节点，首屏加载从 2-4s 降到 1s 以内。图片通过 COS CDN 加速，使用自定义域名 `assets.tanteng.space`。
-
----
 
 ## 五、迁移效果
 
@@ -177,8 +167,6 @@ psql -U tanteng -d verceldb < dump.sql
 - 零停机部署（独立构建 + 原子替换）
 - 部署后自动清除 CDN 缓存
 
----
-
 ## 六、踩坑总结
 
 1. **COS S3 兼容 endpoint**：格式是 `cos.<region>.myqcloud.com`，不是 `s3` 开头
@@ -186,13 +174,9 @@ psql -U tanteng -d verceldb < dump.sql
 3. **EdgeOne 与 Next.js RSC 缓存冲突**：EdgeOne 没正确处理 `Vary: RSC` 响应头，导致首页偶发显示乱码，需在规则引擎中将 RSC 请求头加入自定义 Cache Key
 4. **fonts.googleapis.cn 不靠谱**：应该用 `next/font/local` 自托管
 
----
-
 ## 七、结语
 
 AI 编程工具对这类迁移工作的加速效果非常明显。存储适配、图片批处理、部署自动化、CDN 排障——每个环节都需要不同领域的知识，在 WorkBuddy 里描述清楚需求，Opus 4.6 生成初版代码，review 微调就能用。OpenClaw 搭配 MiniMax-2.5 做终端辅助也不错，不过在写代码方面 Opus 还是更胜一筹。选对工具和模型，效率翻倍。
-
----
 
 ## 后记：安全加固
 

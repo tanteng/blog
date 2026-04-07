@@ -17,8 +17,6 @@ PHP 中的 session 和 cookies 是 Web 开发中非常重要的概念，本文�
 
 Session 解决了 HTTP 协议无状态的问题，让服务器能够"认识"同一个客户端的多次请求。
 
----
-
 ## 2. HTTP 协议与状态保持
 
 HTTP 协议本身是**无状态**的——客户端只需要简单地请求下载某些文件，无论是客户端还是服务器都没有必要记录彼此过去的行为，每一次请求之间都是独立的。
@@ -31,8 +29,6 @@ HTTP 协议本身是**无状态**的——客户端只需要简单地请求下�
 - **HTTP 协议**：添加了文件上传、Cookie 等特性
 
 其中 **Cookie 的作用就是为了解决 HTTP 协议无状态的缺陷**。而 Session 机制则是另一种在客户端与服务器之间保持状态的解决方案。
-
----
 
 ## 3. 理解 Cookie
 
@@ -68,8 +64,6 @@ Cookie 主要包括：**名字、值、过期时间、路径和域**。
 | Firefox | `%APPDATA%\Mozilla\Firefox\Profiles\随机目录\cookies.sqlite` |
 | IE | `%APPDATA%\Microsoft\Windows\Cookies` |
 
----
-
 ## 4. PHP 中 Session 的生成机制
 
 Session 的目的是保持每一个用户的各种状态，弥补 HTTP 协议的不足（无状态）。Session 保存在服务器端，那么它用什么来区别不同用户呢？
@@ -96,8 +90,6 @@ $_SESSION['webUrl'] = 'www.qq.com';
 name|s:8:"sharexie";webUrl|s:10:"www.qq.com";
 ```
 
----
-
 ## 5. PHP 中 Session 的过期回收机制
 
 随着使用时间增长，session 目录下会有许多 session 文件。PHP 提供了过期回收机制来清理这些文件。
@@ -106,8 +98,6 @@ name|s:8:"sharexie";webUrl|s:10:"www.qq.com";
 
 如果 session 文件的最后更新时间到当前时间超过了生存时间，这个 session 文件就被认为是过期的。在下一次 session 回收时，过期的 session 文件就会被删除。
 
----
-
 ## 6. PHP 中 Session 的客户端存储机制
 
 由于 Cookie 可以被人为禁止，必须有其他机制在 Cookie 被禁止时仍然能够把 session id 传递回服务器。解决方案包括：
@@ -115,8 +105,6 @@ name|s:8:"sharexie";webUrl|s:10:"www.qq.com";
 1. **URL 重写**：把 session id 直接附加在 URL 路径后面
 2. **查询字符串**：把 session id 作为查询字符串附加在 URL 后面
 3. **表单隐藏字段**：在表单中使用隐藏字段存储 session id
-
----
 
 ## 总结
 

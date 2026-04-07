@@ -290,6 +290,4 @@ config["channels"]["yuanbao"]["enabled"] = False
 - 记录修改内容和文件路径
 - 考虑写一个 `postinstall` 脚本自动打 patch
 
----
-
 *本文基于 OpenClaw 2026.3.13 版本，部署环境为腾讯云 Lighthouse（OpenCloudOS，2 核 CPU / 3.6GB 内存）。*

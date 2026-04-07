@@ -67,8 +67,6 @@ GET /courses/_search
 
 **原理**：ES 使用倒排索引 + IK 分词器 + BM25 算法，实现近义词匹配和相关性排序。
 
----
-
 ### 2. 海量数据
 
 **场景**：电商平台商品库 5000 万条，需要按关键词搜索并分页。
@@ -94,8 +92,6 @@ GET /products/_search
 ```
 
 **原理**：ES 分布式架构下，每个分片独立排序，汇总后全局排序。使用 `search_after` 游标方式可解决深度分页，延迟基本恒定在 50-200ms。
-
----
 
 ### 3. 复杂聚合（Faceted Search）
 
@@ -125,8 +121,6 @@ GET /products/_search
 }
 ```
 
----
-
 ### 4. 相关性排序（BM25）
 
 **场景**：搜索"Python 学习"，标题含"Python"的应该比正文中提到的排在前面。
@@ -152,8 +146,6 @@ GET /articles/_search
 
 **原理**：BM25 算法综合考虑词频（TF）、逆文档频率（IDF）、字段长度三个因子，实现精准的相关性排序。
 
----
-
 ### 5. 近实时（NRT）
 
 **场景**：资讯平台发布文章后，要求 3 秒内能被搜索到。
@@ -171,8 +163,6 @@ GET /articles/_search?q=新闻
 ```
 
 **原理**：ES 的 Near Real-Time 特性，Write → Memory Buffer → Refresh（每秒一次生成新 Segment）→ 可搜索。
-
----
 
 ## 核心技术概念解析
 
@@ -284,8 +274,6 @@ LIMIT 20;
 **核心原则**：根据业务场景的查询模式来选型，而不是根据数据量。查询模式简单、固定，就用 MySQL；需要全文搜索、模糊匹配、复杂排序，才考虑 ES。
 
 > 不要为了"高性能"而盲目上 ES，引入 ES 意味着额外的基础设施维护成本和数据同步复杂性。
-
----
 
 *参考资料：*
 - *[Elasticsearch vs MySQL - InfluxData](https://www.influxdata.com/comparison/elasticsearch-vs-mysql)*

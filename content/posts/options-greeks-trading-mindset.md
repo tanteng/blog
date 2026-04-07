@@ -107,6 +107,4 @@ Gamma 和 Theta 之间存在天然的对冲关系：高 Gamma 的持仓通常也
 
 进一步学习推荐：Sheldon Natenberg 的《Option Volatility and Pricing》，被业界称为期权交易的圣经，能帮助建立对 Greeks 和期权定价更系统、更深入的理解。
 
----
-
 *免责声明：本文仅为知识科普，不构成任何投资建议。期权交易风险较大，请根据自身风险承受能力谨慎操作。*

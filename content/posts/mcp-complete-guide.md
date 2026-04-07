@@ -37,8 +37,6 @@ flowchart TB
 - **架构**: 客户端-服务器模式
 - **安全**: 零信任架构，所有操作需授权
 
----
-
 ## MCP 服务器的三种传输模式
 
 MCP 服务器支持三种传输方式：**stdio**、**SSE**、**Streamable HTTP**。
@@ -117,8 +115,6 @@ sequenceDiagram
 | 官方推荐 | ✅ 本地开发 | ❌ 已废弃 | ✅ 推荐 |
 | 云部署 | ❌ | ⚠️ | ✅ |
 | 服务器推送 | ❌ | ✅ | ❌ |
-
----
 
 ## MCP 服务开发（Go 语言）
 
@@ -258,8 +254,6 @@ go build -o mcp-server main.go
 ./mcp-server -t http -port 8080
 ```
 
----
-
 ## MCP 服务配置
 
 ### Cherry Studio 配置
@@ -306,8 +300,6 @@ mcporter call "go-demo.add(a: 5, b: 3)"
 }
 ```
 
----
-
 ## 整体架构流程
 
 {{< mermaid >}}
@@ -350,8 +342,6 @@ flowchart TB
     style STDIO fill:#e8f5e8
 {{< /mermaid >}}
 
----
-
 ## 常见问题
 
 ### 1. 三种模式如何选择？
@@ -370,8 +360,6 @@ mcporter 是 MCP 的命令行客户端工具，用于手动调用 MCP 服务进�
 - **OpenClaw**: AI 助手
 - **Claude Desktop**: 桌面应用
 - **mcporter**: 命令行工具
-
----
 
 ## 参考资料
 

@@ -138,8 +138,6 @@ Transformer 催生了三大变体：
 | 仅 Decoder | GPT 系列 | 自回归生成，当前 LLM 主流 |
 | Encoder-Decoder | T5、BART | 翻译、摘要等 seq2seq 任务 |
 
----
-
 *参考资料：*
 - *[Attention Is All You Need](https://arxiv.org/abs/1706.03762) (Vaswani et al., 2017)*
 - *[The Illustrated Transformer](http://jalammar.github.io/illustrated-transformer/) by Jay Alammar*

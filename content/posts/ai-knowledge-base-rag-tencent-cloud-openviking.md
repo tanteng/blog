@@ -211,8 +211,6 @@ flowchart TD
 
 把静态知识和动态记忆分开管理，既能保证知识检索的精准度，又能让 Agent 具备真正的长期记忆能力。这是当前构建企业级 AI 应用的一个务实且高效的架构选择。
 
----
-
 *参考资料：*
 - [腾讯云知识引擎原子能力 - 产品概述](https://cloud.tencent.com/document/product/1772/111122)
 - [腾讯云知识引擎原子能力 - RAG 操作指南](https://cloud.tencent.com/document/product/1772/111236)

@@ -13,8 +13,6 @@ OpenClaw 有一套内置的 Memory 系统，基于 SQLite 实现，开箱即用�
 
 <!--more-->
 
----
-
 ## QMD 是什么
 
 QMD 是一个**本地优先**的搜索辅助程序，以 Sidecar（旁车进程）的方式与 OpenClaw 并行运行。它在一个二进制文件里集成了三种能力：

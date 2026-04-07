@@ -10,8 +10,6 @@ categories: ["ai"]
 
 <!--more-->
 
----
-
 ## 一、 什么是 OpenViking？
 
 OpenViking 是由火山引擎 Viking 团队维护的开源项目。与传统的向量数据库不同，它定位于**上下文工程基础设施**。
@@ -19,8 +17,6 @@ OpenViking 是由火山引擎 Viking 团队维护的开源项目。与传统的�
 其核心逻辑在于：**AI 的本质是处理上下文。** OpenViking 提供了一个统一的数据抽象层，将非结构化数据（文档、图片、音视频）转化为 AI 可理解、可检索、可管理的上下文知识。
 
 > GitHub：https://github.com/volcengine/OpenViking
-
----
 
 ## 二、 核心技术优势
 
@@ -42,8 +38,6 @@ OpenViking 是由火山引擎 Viking 团队维护的开源项目。与传统的�
 
 采用存储计算分离架构，支持水平弹性扩容，确保在业务爆发增长时系统的稳定性。
 
----
-
 ## 三、 OpenViking 核心思路
 
 传统 RAG 是**碎片化的向量存储**，OpenViking 提出了一个全新的范式：**"文件系统"**。
@@ -56,8 +50,6 @@ viking://
 ├── user/          # 用户：偏好、习惯
 └── agent/         # 智能体：技能、指令、任务记忆
 ```
-
----
 
 ## 四、 五大核心概念
 
@@ -120,8 +112,6 @@ ov overview /resources/blog/
 
 智能体越用越聪明。
 
----
-
 ## 五、 为什么开发者需要 OpenViking？
 
 在构建 AI 应用时，开发者往往需要自己维护向量库、缓存、以及复杂的召回逻辑。 OpenViking 解决了以下痛点：
@@ -130,15 +120,11 @@ ov overview /resources/blog/
 * **降低工程复杂度**：提供标准的 API 和 SDK（Python/Go/Java），封装了复杂的向量索引调优过程。
 * **成本优化**：支持 int8 量化和磁盘索引技术，在保证性能的前提下大幅降低内存占用成本。
 
----
-
 ## 六、 应用场景示例
 
 * **企业级知识库 (RAG)**：将公司文档、Wiki、代码库存入 OpenViking，构建精准的问答助手。
 * **AI Agent 记忆系统**：为 Agent 提供持久化记忆，使其能"记住"与用户的历史交互细节。
 * **智能搜索与推荐**：利用多模态检索能力，实现电商平台或内容平台的语义化搜索。
-
----
 
 ## 七、 实验数据
 
@@ -153,8 +139,6 @@ OpenViking 与 OpenClaw 集成后的效果测试：
 **结论**：
 - 任务完成率提升 **43%**
 - 输入Token成本降低 **91%**
-
----
 
 ## 八、 快速开始
 
@@ -220,8 +204,6 @@ ov find "Sony相机"
 # resource     viking://resources/blog/content/posts/Sony_A7M4_创意外观风格/a7m4-s...         2     0.47   This document serves as a reference guide for Sony A7M4 camera users...
 ```
 
----
-
 ## 九、 与传统向量搜索的区别
 
 好问题！传统向量搜索确实也能语义搜索，OpenViking 的区别在于：
@@ -277,8 +259,6 @@ OpenViking 有专门的 `user/` 和 `agent/` 空间，记录：
 
 **本质**：OpenViking = 向量搜索 + 文件系统 + 记忆层，不是单纯的向量数据库。
 
----
-
 ## 十、 总结与展望
 
 OpenViking 的开源标志着字节跳动将其核心的检索技术回馈社区。对于正在构建复杂 AI 应用的开发者来说，它不仅是一个存储工具，更是一个提升 AI"智商"的外部大脑。
@@ -287,15 +267,11 @@ OpenViking 的开源标志着字节跳动将其核心的检索技术回馈社区
 
 OpenViking 要做的，是为智能体定义一个**极简的上下文交互范式**。它不追求颠覆 RAG，而是在 RAG 之上加了一层"文件系统"，让智能体的记忆管理变得可控、可观察、可迭代。
 
----
-
 *参考资料：*
 * *GitHub 仓库: volcengine/OpenViking*
 * *官方文档: docs.openviking.io*
 
 OpenViking 要做的，是为智能体定义一个**极简的上下文交互范式**。它不追求颠覆 RAG，而是在 RAG 之上加了一层"文件系统"，让智能体的记忆管理变得可控、可观察、可迭代。
-
----
 
 *参考资料：*
 * *GitHub 仓库: volcengine/OpenViking*

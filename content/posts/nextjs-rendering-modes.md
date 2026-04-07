@@ -48,8 +48,6 @@ export async function generateStaticParams() {
 - 产品介绍页
 - 不需要频繁更新的内容
 
----
-
 ## 2. ISR - Incremental Static Regeneration（增量静态再生成）
 
 **核心原理**：页面首次访问时生成 HTML，之后在后台定时重新生成。
@@ -91,8 +89,6 @@ export async function Page() {
 60秒后再次请求 → 后台重新生成 → 更新缓存
 ```
 
----
-
 ## 3. SSR - Server-Side Rendering（服务端渲染）
 
 **核心原理**：每次请求时实时在服务器生成 HTML。
@@ -130,8 +126,6 @@ export async function Page() {
 - 用户专属的个性化内容
 - 需要 SEO 且数据频繁变化的页面
 
----
-
 ## 4. CSR - Client-Side Rendering（客户端渲染）
 
 **核心原理**：服务器只返回空 HTML，浏览器用 JavaScript 请求数据并渲染。
@@ -166,8 +160,6 @@ export default function Page() {
 - 需要用户交互后才知道显示什么的页面
 - 社交媒体信息流
 
----
-
 ## 模式对比
 
 | 模式 | 速度 | 实时性 | SEO | 服务器负载 |
@@ -176,8 +168,6 @@ export default function Page() {
 | ISR | 快 | 定时更新 | 友好 | 中 |
 | SSR | 较慢 | 实时 | 友好 | 高 |
 | CSR | 依赖网络 | 实时 | 不友好 | 低 |
-
----
 
 ## 如何选择？
 
@@ -217,12 +207,9 @@ export default function AdminPage() {
 }
 ```
 
----
-
 ## 总结
 
 Next.js 的四种渲染模式各有特点，没有绝对的优劣。根据业务的实际需求选择合适的渲染模式，才能在性能、实时性和开发成本之间找到最佳平衡点。
 
 现代前端开发的一个重要趋势是**尽可能使用静态生成**，因为静态内容的性能优势非常明显。只有在确实需要实时数据时才考虑 SSR 或 CSR。
-
 
