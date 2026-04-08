@@ -1,11 +1,11 @@
 ---
 title: "Prompt Template 与结构化输出实战"
 date: 2023-12-25
-tags: ["ai", "prompt", "deepseek", "structured-output"]
+tags: ["ai", "prompt", "llm", "structured-output"]
 categories: ["tech"]
 ---
 
-在 AI 应用开发中，如何让大模型稳定地输出我们想要的格式？本文介绍如何使用 Golang 实现 Prompt Template，并结合 DeepSeek 的 JSON Mode 实现可靠的结构化输出。
+在 AI 应用开发中，让大模型稳定地输出我们想要的格式是一个常见需求。本文介绍如何使用 Golang 实现 Prompt Template，并结合主流 LLM 的 JSON Mode 实现可靠的结构化输出。
 
 ## 什么是 Prompt Template
 
@@ -13,9 +13,9 @@ Prompt Template 是将提示词模板化的技术，通过占位符动态注入�
 
 <!--more-->
 
-## DeepSeek 的 JSON Mode
+## JSON Mode
 
-DeepSeek API 支持 JSON Mode，通过设置 `response_format` 参数为 `json_object`，可以强制模型输出有效的 JSON 字符串。
+主流 LLM API（如 OpenAI、DeepSeek、Anthropic 等）普遍支持 JSON Mode，通过设置 `response_format` 参数为 `json_object`，可以强制模型输出有效的 JSON 字符串。
 
 ```go
 request := &ChatCompletionRequest{
