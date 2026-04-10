@@ -1,10 +1,10 @@
 ---
-title: "Go map 使用 Swiss Table 重新实现，性能提升近 50%"
+title: "Go map 底层换用 Swiss Table，性能提升近 50%"
 date: 2024-11-15
 draft: false
 tags: ["go", "golang", "performance", "algorithm"]
 categories: ["tech"]
-description: "Go 1.24 将引入 Swiss Table 作为 map 的底层实现，相比原实现查询、插入、删除操作性能提升 20%~50%，迭代性能提升 10%，内存使用减少 0%~25%。"
+description: "Go 1.24 将引入 Swiss Table 作为 map 底层实现，查询、插入、删除操作性能提升 20%~50%，迭代性能提升 10%，内存使用减少 0%~25%"
 ---
 
 在 2024年11月5日的 Go compiler and runtime meeting notes 中,我们注意到一个重要信息:来自字节的一位工程师在两年多前提出的「使用 Swiss table 重新实现 Go map」的建议即将落地,该 issue 已经被纳入 **Go 1.24 里程碑**。
