@@ -1,5 +1,5 @@
 ---
-title: "Go map 底层换用 Swiss Table，性能提升近 50%"
+title: "Go map 底层换用 Swiss Table 性能提升近 50%"
 date: 2024-11-15
 draft: false
 tags: ["go", "golang", "performance", "algorithm"]
@@ -8,6 +8,8 @@ description: "Go 1.24 将引入 Swiss Table 作为 map 底层实现，查询、�
 ---
 
 在 2024 年 11 月 5 日的 Go compiler and runtime meeting notes 中，我们注意到一个重要信息：来自字节的一位工程师在两年多前提出的「使用 Swiss table 重新实现 Go map」的建议即将落地，该 issue 已经被纳入 **Go 1.24 里程碑**。
+
+<!--more-->
 
 ## 什么是 Swiss Table
 
@@ -69,6 +71,8 @@ Group 的 metadata 是一个 16 字节数组，每个字节对应一个 Slot 的
 ## Go tip 版本的实现
 
 Go 团队在 Swiss Table 之上做了**局部改进**，引入了多 table 设计以支持**渐进式扩容**：
+
+![Go tip map 多 table 结构](https://blog.tanteng.space/images/go-tip-map-structure.png)
 
 1. **多 Table 设计**：一个 map 实际上是多个 Swiss Table，每个 table 拥有自己的 load factor，可以独立扩容
 2. **Extendible Hashing**：通过动态调整哈希位数实现渐进式扩容，每次只处理一部分数据
