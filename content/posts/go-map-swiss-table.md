@@ -50,6 +50,8 @@ Go map 采用**链式哈希**（拉链法）实现：
 
 Swiss Table 使用的不是拉链法，而是**开放寻址**。其核心创新是将桶分为多个 **Group**，每个 Group 有 **16 个 Slot**。
 
+![Swiss Table 逻辑结构](https://blog.tanteng.space/images/swiss-table-structure.png)
+
 ### Group Probing
 
 Group Probing 允许通过 **SIMD 指令**并行探测 16 个 Slot，快速定位目标位置。这种方法就像「布隆过滤器」一样，能快速排除不可能的匹配项，减少不必要的内存访问。
