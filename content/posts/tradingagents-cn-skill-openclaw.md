@@ -11,6 +11,29 @@ TradingAgents-CN-Skill 是基于 TradingAgents 框架的中文股票分析 Skill
 
 <!--more-->
 
+框架包含五个阶段：
+
+1. **数据获取** - 结构化提取 + 新闻搜索
+2. **四位分析师** - 技术、基本面、新闻、情绪分析
+3. **多空辩论** - 两轮 Bull/Bear 对话式辩论
+4. **研究管理 + 交易** - 管理者裁决 + 交易员制定计划
+5. **风控辩论 + 评级** - 激进/保守/中立三方辩论，投资组合经理给出五级评级
+
+整体流程：
+
+{{< mermaid >}}
+flowchart TD
+    A[股票代码] --> B[数据获取]
+    B --> C[四位分析师报告]
+    C --> D[多空辩论 R1]
+    D --> E[多空辩论 R2]
+    E --> F[研究管理者裁决]
+    F --> G[交易员计划]
+    G --> H[风控三方辩论]
+    H --> I[投资组合经理评级]
+    I --> J[PDF 报告]
+{{< /mermaid >}}
+
 ## 项目地址
 
 - **Skill 仓库**：[github.com/tanteng/tradingagents-cn-skill](https://github.com/tanteng/tradingagents-cn-skill)
@@ -20,14 +43,6 @@ TradingAgents-CN-Skill 是基于 TradingAgents 框架的中文股票分析 Skill
 ## 灵感来源
 
 TradingAgents 是 Tauric Research 开源的多智能体股票分析框架。真实的交易公司不是一个人做决策，而是一个组织化的团队——分析师、研究员、交易员、风控各司其职，通过讨论和制衡来提高决策质量。TradingAgents 把这套组织动态搬到了 LLM 多智能体系统中。
-
-框架包含五个阶段：
-
-1. **数据获取** - 结构化提取 + 新闻搜索
-2. **四位分析师** - 技术、基本面、新闻、情绪分析
-3. **多空辩论** - 两轮 Bull/Bear 对话式辩论
-4. **研究管理 + 交易** - 管理者裁决 + 交易员制定计划
-5. **风控辩论 + 评级** - 激进/保守/中立三方辩论，投资组合经理给出五级评级
 
 原版用 Python + LangGraph 实现，通过 StateGraph 的条件分支控制辩论轮数。TradingAgents-CN-Skill 则用 OpenClaw SKILL.md 驱动，信息流对齐但实现方式不同：
 
