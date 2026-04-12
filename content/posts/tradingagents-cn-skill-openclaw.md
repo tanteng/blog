@@ -1,41 +1,46 @@
 ---
-title: "从论文到 Skill：基于 TradingAgents 架构打造中文股票多智能体分析框架"
+title: "基于 TradingAgents 框架打造的股票分析 Skill"
 date: 2026-04-11T00:30:00+08:00
 draft: false
 tags: ["ai", "agent", "llm", "investment", "openclaw", "tradingagents"]
 categories: ["tech"]
-description: "记录如何将 TradingAgents 论文中的多智能体交易框架思想，落地为一个 OpenClaw Skill，实现 4 位分析师 + 2 轮多空辩论 + 风控三方辩论 + 五级评级的完整中文股票分析流水线。"
+description: "记录如何将 TradingAgents 框架的核心思想落地为 OpenClaw Skill，实现 4 位分析师 + 2 轮多空辩论 + 风控三方辩论 + 五级评级的完整中文股票分析流水线。"
 ---
 
-最近把 [TradingAgents](https://github.com/TauricResearch/TradingAgents) 这个多智能体交易框架的核心思想，做成了一个 OpenClaw Skill —— [TradingAgents-CN-Skill](https://github.com/tanteng/TradingAgents-CN-Skill)。本文记录整个过程：从理解论文、提取 Prompt、到最终落地为一个可运行的 Skill。
+TradingAgents-CN-Skill 是基于 TradingAgents 框架的中文股票分析 Skill。用户只需输入股票代码，自动完成 4 位分析师 + 2 轮多空辩论 + 风控三方辩论 + 五级评级，输出完整 PDF 报告。
 
 <!--more-->
 
-## 灵感来源：TradingAgents 论文
+## 项目地址
 
-[TradingAgents](https://arxiv.org/abs/2412.20138) 是 Tauric Research 在 2025 年发表的论文，核心思想很简单也很聪明：
+- **Skill 仓库**：[github.com/tanteng/tradingagents-cn-skill](https://github.com/tanteng/tradingagents-cn-skill)
+- **灵感来源**：[github.com/TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents)
+- **原版论文**：[arXiv:2412.20138](https://arxiv.org/abs/2412.20138)
 
-> **用 LLM 多智能体模拟一家真实交易公司的组织架构。**
+## 灵感来源
 
-真实的交易公司不是一个人做决策，而是一个组织化的团队——分析师、研究员、交易员、风控各司其职，通过讨论和制衡来提高决策质量。TradingAgents 把这套组织动态搬到了 LLM 多智能体系统中。
+TradingAgents 是 Tauric Research 开源的多智能体股票分析框架。真实的交易公司不是一个人做决策，而是一个组织化的团队——分析师、研究员、交易员、风控各司其职，通过讨论和制衡来提高决策质量。TradingAgents 把这套组织动态搬到了 LLM 多智能体系统中。
 
-它的架构分四层：
+框架包含五个阶段：
 
-```
-市场数据 → [4位分析师] 多维度分析
-                ↓
-         [研究员团队] 多空辩论 ← 核心创新：对抗性推理
-                ↓
-         [交易员] 综合决策
-                ↓
-         [风控+组合经理] 风险把关 → 最终决策
-```
+1. **数据获取** - 结构化提取 + 新闻搜索
+2. **四位分析师** - 技术、基本面、新闻、情绪分析
+3. **多空辩论** - 两轮 Bull/Bear 对话式辩论
+4. **研究管理 + 交易** - 管理者裁决 + 交易员制定计划
+5. **风控辩论 + 评级** - 激进/保守/中立三方辩论，投资组合经理给出五级评级
 
-原版项目用 Python + LangGraph 实现，通过 StateGraph 的条件分支控制辩论轮数，是一个很典型的有向状态图编排。
+原版用 Python + LangGraph 实现，通过 StateGraph 的条件分支控制辩论轮数。TradingAgents-CN-Skill 则用 OpenClaw SKILL.md 驱动，信息流对齐但实现方式不同：
 
-## 深入源码：提取 12 个 Agent 的 Prompt
+| 维度 | 原版 | 本项目 |
+|------|------|--------|
+| 编排方式 | LangGraph | OpenClaw SKILL.md |
+| 语言 | 英文 | 中文 |
+| 输出 | 终端文本 | PDF 报告 |
+| 辩论轮次 | N轮 | 2轮 |
 
-要做 Skill，首先要理解原版的每一个 Prompt 在干什么。我克隆了仓库，逐个文件读取，提取出了全部 12 个角色的完整 Prompt：
+## 深入源码：提取 Prompt
+
+要做 Skill，首先要理解原版的 Prompt 在干什么。克隆了仓库，逐个文件读取，提取出关键 Prompt：
 
 | 角色 | 文件 | 核心职责 |
 |------|------|---------|
@@ -70,81 +75,52 @@ description: "记录如何将 TradingAgents 论文中的多智能体交易框架
 
 `deep_think_llm` 用于研究管理者和投资组合经理（关键决策），`quick_think_llm` 用于分析师和辩论者（量大但不需要极深推理）。
 
-## 从 LangGraph 到 SKILL.md
-
-原版用 LangGraph 的 `StateGraph` 编排智能体，通过条件边控制辩论轮数：
-
-```python
-# 原版的辩论循环控制
-def should_continue_debate(self, state):
-    if state["investment_debate_state"]["count"] >= 2 * self.max_debate_rounds:
-        return "Research Manager"  # 辩论够了，交给裁判
-    if state["current_response"].startswith("Bull"):
-        return "Bear Researcher"   # 轮到对方
-    return "Bull Researcher"
-```
-
-而 OpenClaw 的 Skill 是 Agent 驱动模式——SKILL.md 定义流程，Agent 按步骤串行调用 LLM。没有 LangGraph 的状态图，但可以通过 SKILL.md 的步骤编排实现同样的信息流。
-
-**关键取舍：**
-
-- ✅ 保留：四位分析师 → 多空辩论 → 交易员 → 风控辩论 → 最终决策的信息流
-- ✅ 保留：2 轮 Bull/Bear 辩论、风控三方独立发言
-- ✅ 保留：五级评级体系
-- ✅ 新增：中文 PDF 报告输出
-- ❌ 暂不实现：记忆/反思机制（需要持久化存储，后续迭代）
-- ❌ 简化：分析师无独立数据工具，依赖 web_search 获取新闻
-
-## 最终的 17 步工作流
-
-```
-Step 1A-1B: 数据获取和结构化
-Step 2:     web_search 获取新闻
-───── 四位分析师 ─────
-Step 3-6:   技术/基本面/新闻/情绪分析师各出一份报告
-───── 多空辩论（2轮）─────
-Step 7:     🐂 看多研究员 Round 1
-Step 8:     🐻 看空研究员 Round 1（回应看多）
-Step 9:     🐂 看多研究员 Round 2（反驳看空）
-Step 10:    🐻 看空研究员 Round 2（反驳看多）
-───── 裁决与交易 ─────
-Step 11:    ⚖️ 研究管理者裁决
-Step 12:    💹 交易员制定计划
-───── 风控三方辩论 ─────
-Step 13:    🔴 激进型风控
-Step 14:    🟢 保守型风控（回应激进派）
-Step 15:    🟡 中立型风控（回应双方）
-───── 最终决策 ─────
-Step 16:    👔 投资组合经理（五级评级）
-Step 17:    📄 生成 PDF 报告
-```
-
-共 14 次 LLM 调用，比原版的 12 步多了几步，但信息流更完整。
-
 ## Prompt 的中文化改造
 
-原版的 Prompt 是英文的，直接翻译效果不好。我做了几个关键改造：
+原版 Prompt 是英文的，直接翻译效果不好。做了几个关键改造：
 
-**1. 分析框架本地化**
+- **指标本地化**：从美股指标（SMA/EMA/VWMA）换为 A 股/港股常用体系（MA5/MA10/MA20/MA30/MA60/MA120 + KDJ）
+- **辩论输出纯文本**：分析师步骤输出 JSON，辩论步骤输出纯中文文本，让 LLM 自由辩论不受格式约束
+- **交易员价格约束**：输出具体买入价、目标价、止损价（附计算公式），而非仅方向
+- **五级评级中文化**：Buy/Overweight/Hold/Underweight/Sell → 买入/增持/持有/减持/卖出
 
-技术分析师的指标库从原版的美股指标（SMA/EMA/VWMA）调整为 A 股/港股常用的均线体系（MA5/MA10/MA20/MA30/MA60/MA120），加入了 KDJ 等国内常用指标。
+## 工作流程
 
-**2. 辩论步骤输出纯文本**
+共 10 步，数据流线性推进：
 
-分析师步骤输出 JSON（方便验证和 PDF 渲染），但辩论步骤输出纯中文文本——让 LLM 自由地对话式辩论，不受 JSON 格式约束。这是一个关键的设计决策：辩论质量比格式规范更重要。
+1. **数据获取**：结构化提取 + 新闻搜索
+2. **四位分析师**：技术 / 基本面 / 新闻 / 情绪各出一份报告
+3. **多空辩论 R1**：看多 / 看空研究员第一轮辩论
+4. **多空辩论 R2**：看多 / 看空研究员第二轮辩论
+5. **裁决与交易**：研究管理者裁决 + 交易员制定计划
+6. **风控辩论**：激进 / 保守 / 中立三方独立发言
+7. **最终决策**：投资组合经理给出五级评级
+8. **PDF 生成**：`generate_report.py` 读取 `report.json` 输出报告
 
-**3. 交易员的价格约束**
+每步 LLM 输出经 `validate_step.py` 验证后自动写入 `report.json`，最终合并为完整报告。
 
-原版交易员只输出方向，但中国投资者更关心具体价格。交易员 Prompt 要求必须输出具体的数字（买入价、目标价、止损价），并附带公式（如 `buy_price = P × 0.98`）帮助 LLM 计算。
+## 数据管线设计
 
-**4. 五级评级中文化**
+每步 LLM 输出后通过 `validate_step.py` 验证，自动写入 `report.json`，最后由 `generate_report.py` 生成 PDF。设计原则是：
+
+> **Prompt 定义 schema → validate 验证 → pdf_generator 读取**
+
+三端对齐，确保数据一致性。
+
+文件结构：
 
 ```
-Buy → 买入
-Overweight → 增持
-Hold → 持有
-Underweight → 减持
-Sell → 卖出
+tradingagents-cn-skill/
+├── references/          # 各角色 Prompt 定义和 JSON schema
+│   ├── tech_prompt.md
+│   ├── fundamentals_prompt.md
+│   ├── bull_prompt.md
+│   ├── bear_prompt.md
+│   └── ...
+└── scripts/
+    ├── validate_step.py
+    ├── generate_report.py
+    └── pdf_generator.py
 ```
 
 ## 工程上的几个经验
@@ -168,10 +144,5 @@ Sell → 卖出
 
 整个分析流程大约 3-5 分钟完成（取决于 LLM 响应速度），输出一份 10+ 页的中文 PDF 报告。
 
-## 项目地址
-
-- **Skill 仓库**：[github.com/tanteng/TradingAgents-CN-Skill](https://github.com/tanteng/TradingAgents-CN-Skill)
-- **灵感来源**：[github.com/TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents)
-- **原版论文**：[arXiv:2412.20138](https://arxiv.org/abs/2412.20138)
-
 > ⚠️ 免责声明：本框架仅供研究和学习目的，不构成任何形式的投资建议。
+

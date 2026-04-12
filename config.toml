@@ -50,10 +50,16 @@ weight = 1
     weight = 3
 
   [[menu.main]]
+    identifier = "life"
+    name = "生活"
+    url = "/categories/life/"
+    weight = 4
+
+  [[menu.main]]
     identifier = "about"
     name = "关于"
     url = "/about/"
-    weight = 4
+    weight = 5
 
 [pagination]
 paginate = 20
