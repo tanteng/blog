@@ -7,7 +7,7 @@ categories: ["tech"]
 description: "记录如何将 TradingAgents 框架的核心思想落地为 OpenClaw Skill，实现 4 位分析师 + 2 轮多空辩论 + 风控三方辩论 + 五级评级的完整中文股票分析流水线。"
 ---
 
-TradingAgents-CN-Skill 是基于 TradingAgents 框架的中文股票分析 Skill。用户只需输入股票代码，自动完成 4 位分析师 + 2 轮多空辩论 + 风控三方辩论 + 五级评级，输出完整 PDF 报告。
+TradingAgents-CN-Skill 是基于 TradingAgents 框架的中文股票分析 Skill。用户输入股票截图、文字描述或股票代码，Agent 自动完成 4 位分析师 + 2 轮多空辩论 + 风控三方辩论 + 五级评级，输出完整 PDF 报告。
 
 <!--more-->
 
@@ -23,15 +23,16 @@ TradingAgents-CN-Skill 是基于 TradingAgents 框架的中文股票分析 Skill
 
 {{< mermaid >}}
 flowchart TD
-    A[股票代码] --> B[数据获取]
-    B --> C[四位分析师报告]
-    C --> D[多空辩论 R1]
-    D --> E[多空辩论 R2]
-    E --> F[研究管理者裁决]
-    F --> G[交易员计划]
-    G --> H[风控三方辩论]
-    H --> I[投资组合经理评级]
-    I --> J[PDF 报告]
+    A[截图 / 文字描述 / 股票代码] --> B[Agent 调用 MCP 识别 / 搜索 / 提取]
+    B --> C[结构化数据]
+    C --> D[四位分析师报告]
+    D --> E[多空辩论 R1]
+    E --> F[多空辩论 R2]
+    F --> G[研究管理者裁决]
+    G --> H[交易员计划]
+    H --> I[风控三方辩论]
+    I --> J[投资组合经理评级]
+    J --> K[PDF 报告]
 {{< /mermaid >}}
 
 ## 项目地址
