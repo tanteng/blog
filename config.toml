@@ -44,18 +44,6 @@ weight = 1
     weight = 2
 
   [[menu.main]]
-    identifier = "tech"
-    name = "技术"
-    url = "/categories/tech/"
-    weight = 3
-
-  [[menu.main]]
-    identifier = "life"
-    name = "生活"
-    url = "/categories/life/"
-    weight = 4
-
-  [[menu.main]]
     identifier = "about"
     name = "关于"
     url = "/about/"
