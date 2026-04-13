@@ -1,5 +1,5 @@
 ---
-title: "基于 TradingAgents 框架打造的股票分析 Skill"
+title: "一个基于 TradingAgents 框架打造的股票分析 Skill"
 date: 2026-04-11T00:30:00+08:00
 draft: false
 tags: ["ai", "agent", "llm", "investment", "openclaw", "tradingagents"]
@@ -11,7 +11,7 @@ TradingAgents-CN-Skill 是基于 TradingAgents 框架的中文股票分析 Skill
 
 <!--more-->
 
-框架包含五个阶段：
+TradingAgents 框架包含五个阶段：
 
 1. **数据获取** - 结构化提取 + 新闻搜索
 2. **四位分析师** - 技术、基本面、新闻、情绪分析
@@ -37,9 +37,9 @@ flowchart TD
 
 ## 项目地址
 
-- **Skill 仓库**：[github.com/tanteng/tradingagents-cn-skill](https://github.com/tanteng/tradingagents-cn-skill)
-- **灵感来源**：[github.com/TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents)
-- **原版论文**：[arXiv:2412.20138](https://arxiv.org/abs/2412.20138)
+- **Skill 仓库**：[https://github.com/tanteng/tradingagents-cn-skill](https://github.com/tanteng/tradingagents-cn-skill)
+- **灵感来源**：[https://github.com/TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents)
+- **原版论文**：[https://arxiv.org/abs/2412.20138](https://arxiv.org/abs/2412.20138)
 
 ## 灵感来源
 
