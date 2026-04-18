@@ -39,6 +39,9 @@ description: "过程就是奖励——乔布斯最爱的格言，源自1982年�
 
 ---
 
-**Source:**
-- 乔布斯1982年帕加罗沙丘退思会演讲记录
-- Jeffrey Young, *Steve Jobs: The Journey is the Reward* (1987)
+**Sources:**
+
+- [乔布斯60语录系列-19：过程就是奖励 - 知乎](https://zhuanlan.zhihu.com/p/143870465)
+- [乔布斯传给你的职场之道：过程就是奖励 - 知乎](https://zhuanlan.zhihu.com/p/138397719)
+- [乔布斯:"决不妥协"和"过程就是奖励" - 今日头条](https://www.toutiao.com/w/1815049935926400/)
+- Jeffrey Young, *Steve Jobs: The Journey is the Reward* (1987) - [eBay](https://www.ebay.com/itm/Steve-Jobs-The-Journey-is-the-Reward-by-Jeffrey-Young-/372864613143)
