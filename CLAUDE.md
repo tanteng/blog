@@ -13,7 +13,10 @@
 
 ## 工作流程
 
-### 文章分类规范
+### 文件命名规范
+
+1. **文件名不带日期**：文章文件名不包含日期，如 `ddd-layered-architecture-dependency.md`，而非 `2021-04-01-ddd-layered-architecture-dependency.md`
+2. **front matter 的 `url` 字段**中包含日期路径，如 `url: /2021/04/ddd-layered-architecture-dependency/`
 
 | 分类 slug | 说明 |
 |------|------|
