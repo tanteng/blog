@@ -73,8 +73,10 @@ Push 到 GitHub → 触发 GitHub Actions → 同步到腾讯云 COS → 清除�
 ```bash
 hugo server
 # 访问 http://localhost:1313（或实际占用的端口）
-# 启动后给出完整的预览 URL
+# 启动后给出完整的预览 URL（包含文章路径）
 ```
+
+**每次新增或修改文章后，默认启动本地 hugo 预览并给出完整 URL。**
 
 ## Superpowers 使用
 
