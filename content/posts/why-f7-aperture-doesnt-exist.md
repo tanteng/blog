@@ -11,6 +11,8 @@ url: /2026/05/why-f7-aperture-doesnt-exist/
 
 <!--more-->
 
+![为什么没有 f/7 这个光圈值？](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/05/b010e12ab30519bfe02a8094d7d2d5a6.png)
+
 我们可以从以下几个维度来理解：
 
 ## 1. 根源在于数学：1.414（√2）的倍数
