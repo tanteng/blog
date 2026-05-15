@@ -5,8 +5,6 @@ tags: ["protobuf", "tech", "golang", "backend"]
 categories: ["tech"]
 ---
 
-## 前言
-
 在 Go 后端开发中，`google.protobuf.Value` 是一个经常被提及但容易被误用的类型。它属于 Protobuf 的 Well-Known Types（内置类型），设计初衷是解决**动态类型**问题——即在静态的 message 定义中承载任意的 JSON 兼容数据。
 
 本文从 Go 后端开发者的视角出发，系统讲解 `Value` 的设计理念、Golang 实战用法，以及常见的最佳实践和避坑指南。

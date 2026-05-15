@@ -9,8 +9,6 @@ slug: "openclaw-dreaming-memory-consolidation"
 description: "深入解析OpenClaw的Dreaming后台记忆整理系统——让AI在夜间自动将短期记忆晋升为长期知识。"
 ---
 
-# OpenClaw Dreaming：让AI在睡眠中整理记忆
-
 > _就像人类会做梦来巩固白天的经历一样，OpenClaw也有自己的"睡眠周期"。_
 
 如果你在用 OpenClaw 作为私人AI助手，日复一日的对话会产生大量的短期记忆碎片——哪些任务完成了、用户纠正了哪些错误、下次要注意什么。这些信号如果不做任何处理，要么被遗忘，要么塞进 system prompt 里导致上下文膨胀。
