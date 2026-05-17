@@ -2,6 +2,7 @@
 title: "OpenClaw 多 Agent 架构详解"
 date: 2026-05-17
 draft: false
+url: /2026/05/openclaw-multi-agent-architecture/
 tags: ["ai", "openclaw", "agent", "architecture"]
 categories: ["ai"]
 description: "详解 OpenClaw 的多 Agent 架构，包括 Agent、Session、Sub-agent 的概念，以及它们之间的协作模式。"
