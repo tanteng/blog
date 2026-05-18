@@ -1,5 +1,5 @@
 ---
-title: "OpenClaw 多 Agent 协作：独立 Agent 与临时子 Agent 详解"
+title: "OpenClaw 多 Agent 协作：独立 Agent 与临时子 Agent 的区别"
 date: 2026-05-17
 draft: false
 url: /2026/05/openclaw-multi-agent-architecture/
@@ -138,8 +138,7 @@ sessions_spawn({
     M -->|sessions_spawn| E1
     M -->|sessions_spawn| E2
     M -->|sessions_spawn| E3
-    M -->|sessions_spawn
-        agentId="travel_assistant"| PA
+    M -->|sessions_spawn| PA
     E1 --> M
     E2 --> M
     E3 --> M
