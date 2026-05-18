@@ -24,6 +24,141 @@ OpenClaw 是一个强大的 AI 助手框架，其核心设计思想之一就是*
 - **工具（Tools）** - 读写文件、搜索、执行命令等
 - **技能（Skills）** - 特定领域的专业能力
 
+---
+
+## Agent 的两种形态
+
+在 OpenClaw 中，Agent 存在两种截然不同的形态，各有其用途和生命周期。
+
+### 形态一：独立 Agent（Persistent Agent）
+
+**独立 Agent** 是通过 `openclaw agents add` 命令创建的持久化 Agent，有固定的人设、记忆和工作区。
+
+```bash
+openclaw agents add travel_assistant
+```
+
+创建后会在 `~/.openclaw/agents/<agentId>/` 下生成完整的目录结构：
+
+```
+~/.openclaw/agents/travel_assistant/
+├── agent/
+│   ├── auth-profiles.json    # 独立凭证配置
+│   └── ...
+├── sessions/                 # 独立的会话历史
+└── workspace/               # 独立的工作区
+    ├── AGENTS.md            # Agent 行为规范
+    ├── SOUL.md              # Agent 人设定义
+    ├── USER.md              # 用户信息
+    ├── MEMORY.md            # 长期记忆（累积）
+    └── memory/
+        └── YYYY-MM-DD.md    # 每日日志
+```
+
+**特点**：
+
+| 特性 | 说明 |
+|------|------|
+| 持久性 | 长期存在，跨 session 保留 |
+| 人设固化 | 通过 SOUL.md 定义固定人设 |
+| 记忆累积 | MEMORY.md 会随使用不断丰富 |
+| 独立凭证 | 可绑定独立的 API 密钥、渠道账号 |
+| 固定角色 | 例如：旅行助手、股票分析师、客服机器人 |
+
+**典型用途**：
+- 固定角色的专业助手（旅行规划、代码审查）
+- 多渠道 Bot（不同 Telegram Bot 对应不同 Agent）
+- 需要长期记忆积累的助手
+
+### 形态二：临时子 Agent（Ephemeral Sub-Agent）
+
+**临时子 Agent** 是通过 `sessions_spawn` 动态创建的 Agent，执行完任务后立即消失，不保留任何记忆。
+
+```javascript
+sessions_spawn({
+  task: "帮我查询深圳天气",
+  mode: "run"
+})
+```
+
+**特点**：
+
+| 特性 | 说明 |
+|------|------|
+| 生命周期 | 本次任务执行完即结束 |
+| 工作区 | 临时创建的独立目录 |
+| 记忆 | MEMORY.md 为空，无累积 |
+| 人设 | 在 task 参数中临时指定 |
+| 隔离性 | 完全独立，不污染父 Agent |
+
+**执行流程**：
+
+{{< mermaid >}}sequenceDiagram
+    participant Main as 主 Agent
+    participant Sub as 临时子 Agent
+
+    Main->>Sub: sessions_spawn 创建
+    Sub->>Sub: 独立执行任务
+    Sub-->>Main: 返回结果
+    Note over Sub: 任务完成
+    Note over Sub: Sub Agent 消失
+{{< /mermaid >}}
+
+### 对比总结
+
+| 维度 | 独立 Agent | 临时子 Agent |
+|------|------------|---------------|
+| **创建方式** | `openclaw agents add` | `sessions_spawn` |
+| **生命周期** | 持久常驻 | 临时，执行完消失 |
+| **记忆累积** | ✅ MEMORY.md 长期积累 | ❌ 每次都是空的 |
+| **人设** | SOUL.md 固化定义 | Prompt 中临时指定 |
+| **凭证** | 独立配置 | 继承父 Agent |
+| **适用场景** | 固定角色、长期助手 | 并行任务、一次性工作 |
+| **工作区** | 固定 workspace | 临时独立 workspace |
+| **下次调用** | 同一 Agent，有上下文 | 全新的空状态 |
+
+### 混合使用
+
+两种形态可以组合使用，发挥各自优势：
+
+{{< mermaid >}}graph TB
+    subgraph Main["🤖 主 Agent（主 Session）"]
+        M[任务分解
+        结果汇总]
+    end
+
+    subgraph Persistent["👤 独立 Agent"]
+        PA[travel_assistant<br/>旅行顾问 - 有记忆累积]
+    end
+
+    subgraph Ephemeral["⚡ 临时子 Agent（sessions_spawn）"]
+        E1[天气查询]
+        E2[活动搜索]
+        E3[户外专项]
+    end
+
+    M -->|sessions_spawn| E1
+    M -->|sessions_spawn| E2
+    M -->|sessions_spawn| E3
+    M -->|sessions_spawn
+        agentId="travel_assistant"| PA
+    E1 --> M
+    E2 --> M
+    E3 --> M
+    PA --> M
+
+    style Persistent fill:#e1f5fe
+    style Ephemeral fill:#fff3e0
+{{< /mermaid >}}
+
+例如在一个旅行规划场景中：
+- **临时子 Agent** 并行查询天气、景点、活动（快速、隔离）
+- **独立 Agent** `travel_assistant` 基于用户的旅行偏好历史，提供个性化建议（记忆+人设）
+- **主 Agent** 汇总所有结果，生成最终行程
+
+> 📌 **关键理解**：无论是独立 Agent 还是临时子 Agent，核心的隔离性是一样的 —— 每个 Agent 都有自己独立的 workspace 和 memory，不会互相污染。区别只在于生命周期的长短和是否有持久记忆。
+
+---
 
 **Session（会话）** 是 OpenClaw 中最基本的运行单元，可以理解为一个"独立的工作空间"。
 
