@@ -13,7 +13,7 @@
   </article>
 
   {{/* 使用分页 */}}
-  {{ $paginator := .Paginate (where .Site.RegularPages "Section" "in" .Site.Params.mainSections) }}
+  {{ $paginator := .Paginate (where .Site.RegularPages "Section" "in" .Site.Params.mainSections) 30 }}
 
   {{ if gt $paginator.TotalPages 0 }}
     <div class="pa3 pa4-ns w-100 w-70-ns center">
