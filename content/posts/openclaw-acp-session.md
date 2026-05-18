@@ -1,7 +1,7 @@
 ---
 title: 'OpenClaw ACP 会话：如何让 AI Agent 协同工作'
 slug: 'openclaw-acp-session'
-date: 2026-05-19T10:00:00+08:00
+date: 2026-05-18T10:00:00+08:00
 tags: [OpenClaw, ACP, AI Agent, Agent协作, JSON-RPC, 前端工具]
 categories: [AI, Agent, OpenClaw]
 description: 深入解析 OpenClaw ACP 会话协议，教你如何通过 sessions_spawn、sessions_send 等工具实现多个 AI Agent 的并行协作与任务编排。
