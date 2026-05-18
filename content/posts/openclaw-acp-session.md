@@ -57,18 +57,26 @@ Session Key 的格式长这样：`agent:<agentId>:acp:<uuid>`，唯一标识一�
 
 这一参数决定了子 Agent 能看到多少父 Agent 的上下文：
 
-| 模式 | 何时使用 | 行为 |
-|------|----------|------|
-| `isolated` | 独立研究、代码实现、慢工具工作 | 创建干净的子转录本，**默认** |
-| `fork` | 需要当前对话上下文、已有工具结果 | 从请求者转录本分支，共享上下文 |
+```mermaid
+graph LR
+    A[父 Agent] --> B{context 参数}
+    B --> C[isolated<br/>干净独立环境<br/>默认]
+    B --> D[fork<br/>共享上下文<br/>从父转录本分支]
+    C --> E[独立研究<br/>代码实现]
+    D --> F[需要父上下文<br/>已有工具结果]
+```
 
 ### thread + mode 组合
 
-| 组合 | 行为 |
-|------|------|
-| `thread: false` + `mode: "run"` | 默认 one-shot 子 Agent，一次性任务 |
-| `thread: true` + `mode: "run"` | 线程绑定 one-shot，结果可追溯 |
-| `thread: true` + `mode: "session"` | 持久会话，线程必须绑定 |
+```mermaid
+stateDiagram-v2
+    [*] --> oneShot: thread: false, mode: "run"
+    oneShot --> threadBound: thread: true, mode: "run"
+    threadBound --> persistent: thread: true, mode: "session"
+    oneShot --> [*]: 一次性任务
+    threadBound --> [*]: 线程绑定
+    persistent --> [*]: 持久会话
+```
 
 ---
 
@@ -76,7 +84,18 @@ Session Key 的格式长这样：`agent:<agentId>:acp:<uuid>`，唯一标识一�
 
 `sessions_spawn` 只是**启动**一个子 Agent，真正实现双向通信要靠 `sessions_send`。
 
-### 核心参数
+```mermaid
+flowchart LR
+    A[主 Agent] -->|timeoutSeconds: 0<br/>Fire-and-forget| B[子 Agent]
+    A -->|timeoutSeconds: 60<br/>等待回复| C[子 Agent]
+    C -->|回复结果| A
+    
+    style A fill:#4a90d9,color:#fff
+    style B fill:#7f8c8d,color:#fff
+    style C fill:#27ae60,color:#fff
+```
+
+### sessions_send 核心参数
 
 | 参数 | 类型 | 必填 | 说明 |
 |------|------|------|------|
@@ -84,26 +103,6 @@ Session Key 的格式长这样：`agent:<agentId>:acp:<uuid>`，唯一标识一�
 | `label` | string | 否 | 标签定位目标（二选一） |
 | `message` | string | **是** | 发送的消息 |
 | `timeoutSeconds` | number | 否 | 等待回复超时（0=立即返回） |
-
-### 两种使用模式
-
-**模式一：Fire-and-forget（发完不等）**
-```javascript
-{
-  "sessionKey": "agent:codex:acp:abc123",
-  "message": "继续完成剩余任务",
-  "timeoutSeconds": 0
-}
-```
-
-**模式二：等待回复**
-```javascript
-{
-  "sessionKey": "agent:codex:acp:abc123",
-  "message": "帮我审查这段代码",
-  "timeoutSeconds": 60
-}
-```
 
 ---
 
@@ -143,11 +142,16 @@ sessions_yield()
 
 ### subagents：控制子 Agent 生命周期
 
-| action | 说明 |
-|--------|------|
-| `"list"` | 检查活跃/最近运行的子 Agent |
-| `"steer"` | 向运行中的子 Agent 发送引导消息 |
-| `"kill"` | 停止单个或全部子 Agent |
+```mermaid
+flowchart TD
+    A[subagents 工具] --> B[action 参数]
+    B --> C["list<br/>检查活跃子 Agent"]
+    B --> D["steer<br/>向运行中的子发送消息"]
+    B --> E["kill<br/>停止子 Agent"]
+    C --> F[查看状态]
+    D --> G[引导方向]
+    E --> H[释放资源]
+```
 
 ---
 
@@ -197,6 +201,17 @@ sessions_send({
 
 多阶段分析流水线：
 
+```mermaid
+flowchart TB
+    A[主 Agent<br/>调度器] --> B[log-analyzer<br/>日志分析]
+    A --> C[perf-analyzer<br/>性能分析]
+    A --> D[optimizer<br/>优化建议]
+    B --> E[结果聚合]
+    C --> E
+    D --> E
+    E --> F[完整报告]
+```
+
 ```javascript
 sessions_spawn({ task: "分析日志错误", label: "log-analyzer", ... })
 sessions_spawn({ task: "分析性能瓶颈", label: "perf-analyzer", ... })
@@ -212,14 +227,16 @@ sessions_yield()
 
 ## 6. ACP vs Sub-agent：怎么选？
 
-| 场景 | 推荐 |
-|------|------|
-| 后台任务、并行工作 | Sub-agent（native，更轻量） |
-| 需要 Claude Code/Codex 等外部工具 | ACP（`runtime: "acp"`） |
-| 线程绑定、持久对话 | ACP 或 Sub-agent（`thread: true`） |
-| 需要沙箱隔离 | Sub-agent（`sandbox: "require"`） |
-| 快速 one-shot 任务 | Sub-agent |
-| 复杂编码会话、需要 resume | ACP |
+```mermaid
+pie "Sub-agent 场景" : 60
+    pie "后台任务/并行工作" : 20
+    pie "快速 one-shot" : 15
+    pie "沙箱隔离" : 10
+    pie "ACP 场景" : 40
+    pie "外部工具集成" : 20
+    pie "持久会话/resume" : 15
+    pie "线程绑定对话" : 5
+```
 
 ---
 
