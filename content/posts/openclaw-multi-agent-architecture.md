@@ -1,5 +1,5 @@
 ---
-title: "OpenClaw 多 Agent 架构详解"
+title: "OpenClaw 多 Agent 协作：独立 Agent 与临时子 Agent 详解"
 date: 2026-05-17
 draft: false
 url: /2026/05/openclaw-multi-agent-architecture/
@@ -23,8 +23,6 @@ OpenClaw 是一个强大的 AI 助手框架，其核心设计思想之一就是*
 - **上下文（Context）** - 记忆和工作区
 - **工具（Tools）** - 读写文件、搜索、执行命令等
 - **技能（Skills）** - 特定领域的专业能力
-
----
 
 ## Agent 的两种形态
 
@@ -158,9 +156,7 @@ sessions_spawn({
 
 > 📌 **关键理解**：无论是独立 Agent 还是临时子 Agent，核心的隔离性是一样的 —— 每个 Agent 都有自己独立的 workspace 和 memory，不会互相污染。区别只在于生命周期的长短和是否有持久记忆。
 
----
-
-**Session（会话）** 是 OpenClaw 中最基本的运行单元，可以理解为一个"独立的工作空间"。
+## 什么是 Session？
 
 {{< mermaid >}}graph LR
     A[用户消息] --> B[Session A<br/>主会话]
