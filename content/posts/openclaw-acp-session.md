@@ -228,14 +228,13 @@ sessions_yield()
 ## 6. ACP vs Sub-agent：怎么选？
 
 ```mermaid
-pie "Sub-agent 场景" : 60
-    pie "后台任务/并行工作" : 20
-    pie "快速 one-shot" : 15
-    pie "沙箱隔离" : 10
-    pie "ACP 场景" : 40
-    pie "外部工具集成" : 20
-    pie "持久会话/resume" : 15
-    pie "线程绑定对话" : 5
+pie title Sub-agent vs ACP 场景分布
+    "后台任务/并行工作" : 35
+    "快速 one-shot" : 20
+    "沙箱隔离" : 10
+    "外部工具集成(Claude Code等)" : 25
+    "持久会话/resume" : 15
+    "线程绑定对话" : 10
 ```
 
 ---
