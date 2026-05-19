@@ -24,6 +24,8 @@ OpenClaw 是一个强大的 AI 助手框架，其核心设计思想之一就是*
 - **工具（Tools）** - 读写文件、搜索、执行命令等
 - **技能（Skills）** - 特定领域的专业能力
 
+> **补充**：这里的 Agent 指的是 OpenClaw 内部的 AI Agent。对于需要调度 Claude Code、Codex 等**外部** Agent 的场景，需要通过 ACP（Agent Client Protocol）协议，此时外部 Agent 运行在独立进程中，与 OpenClaw 通过 JSON-RPC 2.0 通信。详见 [OpenClaw ACP 会话](/2026/05/openclaw-acp-session/)。
+
 ## Agent 的两种形态
 
 在 OpenClaw 中，Agent 存在两种截然不同的形态，各有其用途和生命周期。
