@@ -42,11 +42,11 @@ Session Key 的格式长这样：`agent:<agentId>:acp:<uuid>`，唯一标识一�
 | `task` | string | **必填** | 子 Agent 的任务描述 |
 | `label` | string | - | 可读标签，方便追踪 |
 | `agentId` | string | - | 托管目标（需 `subagents.allowAgents` 允许） |
-| `runtime` | `"subagent"` \| `"acp"` | `"subagent"` | 运行时类型 |
-| `mode` | `"run"` \| `"session"` | `"run"` | 运行模式 |
-| `context` | `"isolated"` \| `"fork"` | `"isolated"` | 上下文模式 |
+| `runtime` | string | `"subagent"` | 运行时类型：`"subagent"` 或 `"acp"` |
+| `mode` | string | `"run"` | 运行模式：`"run"` 或 `"session"` |
+| `context` | string | `"isolated"` | 上下文模式：`"isolated"` 或 `"fork"` |
 | `runTimeoutSeconds` | number | `0` | 超时秒数（0=无超时） |
-| `cleanup` | `"delete"` \| `"keep"` | `"keep"` | 完成后删除策略 |
+| `cleanup` | string | `"keep"` | 完成后删除策略：`"delete"` 或 `"keep"` |
 
 ### context 参数：isolated vs fork
 
