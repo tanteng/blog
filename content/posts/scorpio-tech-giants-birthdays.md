@@ -117,8 +117,6 @@ Valve 公司创始人，全球玩家爱称的「G胖」。创办了 Steam 平台
 
 赛灵思（Xilinx）联合创始人，FPGA 可编程芯片的发明者。
 
----
-
 ## 💡 名单汇总
 
 **10月28日：** 比尔·盖茨（Bill Gates）、林纳斯·托瓦兹（Linus Torvalds）、丁磊、杰拉德·霍尔茨曼（Gerard J. Holzmann）
