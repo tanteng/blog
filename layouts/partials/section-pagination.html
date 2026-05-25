@@ -1,0 +1,5 @@
+{{ if gt .paginator.TotalPages 1 }}
+<nav class="flex justify-center pt4 pb4">
+  <span class="f6 mid-gray">共 {{ .paginator.TotalPages }} 页</span>
+</nav>
+{{ end }}
