@@ -1,6 +1,6 @@
 ---
 title: "沃兹尼亚克毕业演讲：你们拥有的 AI 是真正的智慧"
-date: 2026-05-22
+date: 2026-05-24
 draft: false
 tags: ["apple", "ai", "career"]
 categories: ["tech"]
