@@ -70,57 +70,94 @@ Go 的 protobuf 运行时（`google.golang.org/protobuf`）在程序启动时，
 
 核心思路：**既然冲突来自 proto 注册，那就不注册**。
 
-不使用 user 模块生成的完整 `.pb.go`（里面有大量 `init()` 注册逻辑），而是手写一个**只包含业务所需最小定义**的本地 stub，完全绕过 proto 注册机制。
+不使用 user 模块生成的完整 `.pb.go`（里面有大量 `init()` 注册逻辑），而是创建一个**只包含业务所需最小 proto 定义**的本地 stub 目录，通过 Makefile 编译生成精简的 stub 代码，彻底绕过 proto 注册机制。
 
 ### 实施步骤
 
-**第一步：创建本地 stub 目录**
+**第一步：创建本地 stub 目录结构**
 
 ```
 protocols/legacy/user/
-├── user.pb.go    ← 只含业务所需的 message 结构体
-└── user.trpc.go  ← 只含业务所需的 RPC 方法
+├── proto/
+│   └── user.proto        ← 精简后的 proto 定义
+├── pb/                   ← 编译生成的 pb 文件目录（加入 .gitignore）
+│   └── user.pb.go
+├── user.trpc.go          ← tRPC 客户端代理（手写）
+├── Makefile              ← 编译命令
+└── stubs.go              ← 确保不注册 proto 的空壳文件
 ```
 
-注意：**没有 `go.mod`**，这个目录是主模块的一部分，不是独立模块。
+注意：**`pb/` 目录不加入版本控制**，只提交 proto 源文件。
 
-**第二步：手写最小化的 `user.pb.go`**
+**第二步：编写精简 proto 文件**
 
-原始 `user.pb.go` 有数百 KB，包含几十个 message 类型和完整的 proto 注册逻辑。我们只需要一个结构体：
+从服务端获取原始 proto 定义后，只保留业务所需的接口，删除其他所有 message 定义：
 
-```go
-// Package user 是 trpc.example.user 服务的本地精简副本，
-// 仅包含业务所需的最小定义，规避 proto namespace 冲突。
-package user
+```protobuf
+// proto/user.proto
+// 精简版 user 服务 proto，仅包含 GetUserInfo 接口
+// 原始定义来源：git.example.com/internal/user
 
-import (
-    "google.golang.org/protobuf/runtime/protoimpl"
-)
+syntax = "proto3";
 
-// GetUserInfoRequest 获取用户信息请求
-type GetUserInfoRequest struct {
-    state         protoimpl.MessageState
-    sizeCache     protoimpl.SizeCache
-    unknownFields protoimpl.UnknownFields
+package trpc.example.user;
 
-    UserId string `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3"`
-    Lang   string `protobuf:"bytes,2,opt,name=lang,proto3"`
+option go_package = "git.example.com/myservice/protocols/legacy/user/pb";
+
+service UserService {
+  rpc GetUserInfo(GetUserInfoRequest) returns (GetUserInfoResponse);
 }
 
-func (x *GetUserInfoRequest) Reset() {}
-func (x *GetUserInfoRequest) String() string { return x.UserId }
-func (x *GetUserInfoRequest) ProtoMessage() {}
+message GetUserInfoRequest {
+  string user_id = 1;
+  string lang = 2;
+}
 
-// GetUserId / GetLang 等 Getter 方法按需补充
+message GetUserInfoResponse {
+  string nickname = 1;
+  string email = 2;
+  string avatar = 3;
+}
 ```
 
-关键点：**没有 `init()` 函数，没有 `proto.RegisterFile()` 调用**，彻底规避注册冲突。
+关键点：**删除了 `import "validate/validate.proto"` 等所有传递依赖**，只保留最核心的定义。
 
-**第三步：手写最小化的 `user.trpc.go`**
+**第三步：编写 Makefile**
 
-原始 `user.trpc.go` 包含几十个 RPC 方法。我们只保留实际需要的那一个：
+```makefile
+# proto 编译目标
+.PHONY: proto clean
+
+PROTO_DIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
+PB_DIR := $(PROTO_DIR)/pb
+
+# 编译 proto 生成 pb 文件
+proto:
+	@mkdir -p $(PB_DIR)
+	protoc \
+		--go_out=$(PB_DIR) \
+		--go_opt=paths=source_relative \
+		-I=$(PROTO_DIR) \
+		$(PROTO_DIR)/proto/user.proto
+
+	@echo "Proto compiled to $(PB_DIR)"
+
+# 清理生成的 pb 文件
+clean:
+	rm -rf $(PB_DIR)
+```
+
+编译后会生成 `pb/user.pb.go`，但由于原始 proto 里没有 `import "validate/validate.proto"`，生成的代码不会触发冲突。
+
+**第四步：手写 tRPC 客户端代理**
+
+tRPC 框架除了生成 pb 文件外，还需要一个 `*.trpc.go` 文件来处理 RPC 调用逻辑。这个文件手写，只包含业务需要的接口：
 
 ```go
+// user.trpc.go
+// Package user 是 trpc.example.user 服务的本地精简副本，
+// 仅包含 GetUserInfo 接口，规避 proto namespace 冲突。
+// 原始定义：git.example.com/internal/user
 package user
 
 import (
@@ -135,31 +172,20 @@ type UserServiceClientProxy interface {
         ctx context.Context,
         req *GetUserInfoRequest,
         opts ...client.Option,
-    ) (rsp *GetUserInfoResponse, err error)
-}
-
-// GetUserInfoResponse 获取用户信息响应
-type GetUserInfoResponse struct {
-    state         protoimpl.MessageState
-    sizeCache     protoimpl.SizeCache
-    unknownFields protoimpl.UnknownFields
-
-    Nickname string `protobuf:"bytes,1,opt,name=nickname,proto3"`
-    Email    string `protobuf:"bytes,2,opt,name=email,proto3"`
-    Avatar   string `protobuf:"bytes,3,opt,name=avatar,proto3"`
+    ) (*GetUserInfoResponse, error)
 }
 
 // NewUserServiceClientProxy 创建 user 服务客户端代理
 var NewUserServiceClientProxy = func(opts ...client.Option) UserServiceClientProxy {
-    return &UserServiceClientProxyImpl{client: client.DefaultClient, opts: opts}
+    return &userServiceClientProxyImpl{client: client.DefaultClient, opts: opts}
 }
 
-type UserServiceClientProxyImpl struct {
+type userServiceClientProxyImpl struct {
     client client.Client
     opts   []client.Option
 }
 
-func (c *UserServiceClientProxyImpl) GetUserInfo(
+func (c *userServiceClientProxyImpl) GetUserInfo(
     ctx context.Context,
     req *GetUserInfoRequest,
     opts ...client.Option,
@@ -172,7 +198,20 @@ func (c *UserServiceClientProxyImpl) GetUserInfo(
 }
 ```
 
-**第四步：清理 `go.mod`**
+**第五步：创建 stubs.go 防止意外注册**
+
+在包根目录添加一个空壳文件，确保即使有人误在 `pb/` 目录外引用了 proto 注册逻辑，也不会生效：
+
+```go
+// stubs.go
+// 空壳文件，用于占据 proto 注册名空间，防止意外注册冲突。
+// 所有 proto 定义均在 pb/ 目录下，不在包级别引入任何注册逻辑。
+package user
+
+// 本文件不做任何事，仅用于阻断错误的 import 行为。
+```
+
+**第六步：清理 `go.mod`**
 
 ```diff
 - git.example.com/devsec/protoc-gen-secv => ./stubs/protoc-gen-secv
@@ -183,15 +222,23 @@ func (c *UserServiceClientProxyImpl) GetUserInfo(
 - git.example.com/devsec/protoc-gen-secv v0.3.4 // indirect
 ```
 
-**第五步：更新业务代码的 import 路径**
+**第七步：更新业务代码的 import 路径**
 
 ```go
 // 之前
 import "git.example.com/internal/user"
 
 // 之后（主模块内部路径）
-import "git.example.com/myservice/sword/protocols/legacy/user"
+import "git.example.com/myservice/protocols/legacy/user"
 ```
+
+**第八步：编译**
+
+```bash
+cd protocols/legacy/user && make proto
+```
+
+生成精简后的 `pb/user.pb.go`，不再包含任何 `validate.proto` 的注册逻辑。
 
 ## 效果对比
 
@@ -199,9 +246,10 @@ import "git.example.com/myservice/sword/protocols/legacy/user"
 |------|------------|--------------|
 | `go.mod` 新增条目 | +5 行（require + replace + 传递依赖） | 0 |
 | proto 注册冲突 | 2 处 panic | 无 |
-| 代码体积 | 数百 KB pb.go + 数十 KB trpc.go | ~3KB |
+| 代码体积 | 数百 KB pb.go + 数十 KB trpc.go | ~5KB |
 | 传递依赖 | `protoc-gen-secv`、`common` 等 | 无新增 |
-| 可维护性 | 跟随上游版本升级 | 手动维护，但极少变化 |
+| 可维护性 | 跟随上游版本升级 | proto 源文件手动维护 |
+| 构建方式 | 直接 go build | `make proto` 编译生成 |
 
 ## 适用场景与边界
 
@@ -220,7 +268,7 @@ import "git.example.com/myservice/sword/protocols/legacy/user"
 
 ### 注意事项
 
-1. **proto tag 必须与原始定义完全一致**，否则序列化/反序列化会出错。字段编号、类型必须严格对应。
+1. **proto 字段编号必须与原始定义完全一致**，否则序列化/反序列化会出错。proto 是来源依据，字段编号是契约，不能改。
 
 2. **RPC 路径必须与服务端完全一致**，包括包名、服务名、方法名：
 
@@ -228,7 +276,9 @@ import "git.example.com/myservice/sword/protocols/legacy/user"
    msg.WithClientRPCName("/trpc.example.user.UserService/GetUserInfo")
    ```
 
-3. **建议在目录下加注释说明来源**，方便后续维护者理解背景。
+3. **`pb/` 目录应加入 `.gitignore`**，避免提交生成的二进制文件，只保留 proto 源文件。
+
+4. **建议在 proto 文件头注释中注明原始来源**，方便后续维护者溯源。
 
 ## 更深层的思考
 
