@@ -22,12 +22,12 @@ panic: proto: file "common.proto" has a name conflict over trpc.myservice.common
 
 ## 背景
 
-需要调用一个内部 RPC 服务（`order`）的某个接口，最直接的做法是在 `go.mod` 中引入：
+需要调用一个内部 RPC 服务（`user`）的某个接口，最直接的做法是在 `go.mod` 中引入：
 
 ```go
-require git.example.com/internal/order v1.3.74
+require git.example.com/internal/user v1.2.10
 
-replace git.example.com/internal/order => ./protocols/legacy/order
+replace git.example.com/internal/user => ./protocols/legacy/user
 ```
 
 编译通过，服务启动后 panic。错误信息指向两个 proto 文件：
@@ -50,7 +50,7 @@ Go 的 protobuf 运行时（`google.golang.org/protobuf`）在程序启动时，
 
 ### 冲突是怎么产生的
 
-引入 `order` 模块后，它的 `order.pb.go` 的传递依赖注册了：
+引入 `user` 模块后，它的 `user.pb.go` 的传递依赖注册了：
 
 - `git.example.com/devsec/protoc-gen-secv/validate` → 注册了 `validate.proto`
 - `git.example.com/trpcprotocol/myservice/common` → 注册了 `common.proto`
@@ -64,106 +64,111 @@ Go 的 protobuf 运行时（`google.golang.org/protobuf`）在程序启动时，
 
 ### 为什么 `replace` 解决不了
 
-`replace` 只能重定向模块路径，但 `order` 模块的 `go.mod` 里声明的依赖（`protoc-gen-secv`、`trpcprotocol/myservice/common`）是它自己的传递依赖，主模块无法通过 `replace` 完全消除这些传递依赖带来的 proto 注册。
+`replace` 只能重定向模块路径，但 `user` 模块的 `go.mod` 里声明的依赖（`protoc-gen-secv`、`trpcprotocol/myservice/common`）是它自己的传递依赖，主模块无法通过 `replace` 完全消除这些传递依赖带来的 proto 注册。
 
 ## 解决方案：本地精简 Stub（Local Minimal Stub）
 
 核心思路：**既然冲突来自 proto 注册，那就不注册**。
 
-不使用 order 模块生成的完整 `.pb.go`（里面有大量 `init()` 注册逻辑），而是手写一个**只包含业务所需最小定义**的本地 stub，完全绕过 proto 注册机制。
+不使用 user 模块生成的完整 `.pb.go`（里面有大量 `init()` 注册逻辑），而是手写一个**只包含业务所需最小定义**的本地 stub，完全绕过 proto 注册机制。
 
 ### 实施步骤
 
 **第一步：创建本地 stub 目录**
 
 ```
-protocols/legacy/order/
-├── order.pb.go    ← 只含业务所需的 message 结构体
-└── order.trpc.go  ← 只含业务所需的 RPC 方法
+protocols/legacy/user/
+├── user.pb.go    ← 只含业务所需的 message 结构体
+└── user.trpc.go  ← 只含业务所需的 RPC 方法
 ```
 
 注意：**没有 `go.mod`**，这个目录是主模块的一部分，不是独立模块。
 
-**第二步：手写最小化的 `order.pb.go`**
+**第二步：手写最小化的 `user.pb.go`**
 
-原始 `order.pb.go` 有 458KB、11599 行，包含几十个 message 类型和完整的 proto 注册逻辑。我们只需要一个结构体：
+原始 `user.pb.go` 有数百 KB，包含几十个 message 类型和完整的 proto 注册逻辑。我们只需要一个结构体：
 
 ```go
-// Package order 是 trpc.myservice.order 服务的本地精简副本，
+// Package user 是 trpc.example.user 服务的本地精简副本，
 // 仅包含业务所需的最小定义，规避 proto namespace 冲突。
-package order
+package user
 
 import (
     "google.golang.org/protobuf/runtime/protoimpl"
 )
 
-// CreatePresentResourcePackageRequest 创建赠送类型的资源包
-type CreatePresentResourcePackageRequest struct {
+// GetUserInfoRequest 获取用户信息请求
+type GetUserInfoRequest struct {
     state         protoimpl.MessageState
     sizeCache     protoimpl.SizeCache
     unknownFields protoimpl.UnknownFields
 
-    CompanyId    string `protobuf:"bytes,1,opt,name=company_id,json=companyId,proto3"`
-    ResourceType string `protobuf:"bytes,2,opt,name=resource_type,json=resourceType,proto3"`
-    ProductType  string `protobuf:"bytes,3,opt,name=product_type,json=productType,proto3"`
-    Size         uint64 `protobuf:"varint,4,opt,name=size,proto3"`
-    Source       string `protobuf:"bytes,5,opt,name=source,proto3"`
-    EndAt        string `protobuf:"bytes,6,opt,name=end_at,json=endAt,proto3"`
+    UserId string `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3"`
+    Lang   string `protobuf:"bytes,2,opt,name=lang,proto3"`
 }
 
-func (x *CreatePresentResourcePackageRequest) Reset() {}
-func (x *CreatePresentResourcePackageRequest) String() string { return x.CompanyId }
-func (x *CreatePresentResourcePackageRequest) ProtoMessage() {}
+func (x *GetUserInfoRequest) Reset() {}
+func (x *GetUserInfoRequest) String() string { return x.UserId }
+func (x *GetUserInfoRequest) ProtoMessage() {}
 
-// GetCompanyId / GetResourceType / GetProductType / GetSize / GetSource / GetEndAt
-// 等 Getter 方法按需补充
+// GetUserId / GetLang 等 Getter 方法按需补充
 ```
 
 关键点：**没有 `init()` 函数，没有 `proto.RegisterFile()` 调用**，彻底规避注册冲突。
 
-**第三步：手写最小化的 `order.trpc.go`**
+**第三步：手写最小化的 `user.trpc.go`**
 
-原始 `order.trpc.go` 有 97KB，包含几十个 RPC 方法。我们只保留实际需要的那一个：
+原始 `user.trpc.go` 包含几十个 RPC 方法。我们只保留实际需要的那一个：
 
 ```go
-package order
+package user
 
 import (
     "context"
     "git.example.com/trpc-go/trpc-go/client"
     "git.example.com/trpc-go/trpc-go/codec"
-    "google.golang.org/protobuf/types/known/emptypb"
 )
 
-// OrderClientProxy order 服务客户端代理接口
-type OrderClientProxy interface {
-    CreatePresentResourcePackage(
+// UserServiceClientProxy user 服务客户端代理接口
+type UserServiceClientProxy interface {
+    GetUserInfo(
         ctx context.Context,
-        req *CreatePresentResourcePackageRequest,
+        req *GetUserInfoRequest,
         opts ...client.Option,
-    ) (rsp *emptypb.Empty, err error)
+    ) (rsp *GetUserInfoResponse, err error)
 }
 
-// NewOrderClientProxy 创建 order 服务客户端代理
-var NewOrderClientProxy = func(opts ...client.Option) OrderClientProxy {
-    return &OrderClientProxyImpl{client: client.DefaultClient, opts: opts}
+// GetUserInfoResponse 获取用户信息响应
+type GetUserInfoResponse struct {
+    state         protoimpl.MessageState
+    sizeCache     protoimpl.SizeCache
+    unknownFields protoimpl.UnknownFields
+
+    Nickname string `protobuf:"bytes,1,opt,name=nickname,proto3"`
+    Email    string `protobuf:"bytes,2,opt,name=email,proto3"`
+    Avatar   string `protobuf:"bytes,3,opt,name=avatar,proto3"`
 }
 
-type OrderClientProxyImpl struct {
+// NewUserServiceClientProxy 创建 user 服务客户端代理
+var NewUserServiceClientProxy = func(opts ...client.Option) UserServiceClientProxy {
+    return &UserServiceClientProxyImpl{client: client.DefaultClient, opts: opts}
+}
+
+type UserServiceClientProxyImpl struct {
     client client.Client
     opts   []client.Option
 }
 
-func (c *OrderClientProxyImpl) CreatePresentResourcePackage(
+func (c *UserServiceClientProxyImpl) GetUserInfo(
     ctx context.Context,
-    req *CreatePresentResourcePackageRequest,
+    req *GetUserInfoRequest,
     opts ...client.Option,
-) (*emptypb.Empty, error) {
+) (*GetUserInfoResponse, error) {
     ctx, msg := codec.WithCloneMessage(ctx)
     defer codec.PutBackMessage(msg)
-    msg.WithClientRPCName("/trpc.myservice.order.Order/CreatePresentResourcePackage")
+    msg.WithClientRPCName("/trpc.example.user.UserService/GetUserInfo")
     // ... tRPC 调用逻辑（根据实际框架补充）
-    return &emptypb.Empty{}, nil
+    return &GetUserInfoResponse{}, nil
 }
 ```
 
@@ -172,9 +177,9 @@ func (c *OrderClientProxyImpl) CreatePresentResourcePackage(
 ```diff
 - git.example.com/devsec/protoc-gen-secv => ./stubs/protoc-gen-secv
 - git.example.com/trpcprotocol/myservice/common => ./stubs/trpcprotocol-myservice-common
-- git.example.com/internal/order => ./protocols/legacy/order
+- git.example.com/internal/user => ./protocols/legacy/user
 
-- git.example.com/internal/order v1.3.74
+- git.example.com/internal/user v1.2.10
 - git.example.com/devsec/protoc-gen-secv v0.3.4 // indirect
 ```
 
@@ -182,10 +187,10 @@ func (c *OrderClientProxyImpl) CreatePresentResourcePackage(
 
 ```go
 // 之前
-import "git.example.com/internal/order"
+import "git.example.com/internal/user"
 
 // 之后（主模块内部路径）
-import "git.example.com/myservice/sword/protocols/legacy/order"
+import "git.example.com/myservice/sword/protocols/legacy/user"
 ```
 
 ## 效果对比
@@ -194,7 +199,7 @@ import "git.example.com/myservice/sword/protocols/legacy/order"
 |------|------------|--------------|
 | `go.mod` 新增条目 | +5 行（require + replace + 传递依赖） | 0 |
 | proto 注册冲突 | 2 处 panic | 无 |
-| 代码体积 | 458KB pb.go + 97KB trpc.go | ~3KB |
+| 代码体积 | 数百 KB pb.go + 数十 KB trpc.go | ~3KB |
 | 传递依赖 | `protoc-gen-secv`、`common` 等 | 无新增 |
 | 可维护性 | 跟随上游版本升级 | 手动维护，但极少变化 |
 
@@ -220,7 +225,7 @@ import "git.example.com/myservice/sword/protocols/legacy/order"
 2. **RPC 路径必须与服务端完全一致**，包括包名、服务名、方法名：
 
    ```go
-   msg.WithClientRPCName("/trpc.myservice.order.Order/CreatePresentResourcePackage")
+   msg.WithClientRPCName("/trpc.example.user.UserService/GetUserInfo")
    ```
 
 3. **建议在目录下加注释说明来源**，方便后续维护者理解背景。
