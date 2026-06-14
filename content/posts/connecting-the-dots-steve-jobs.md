@@ -1,6 +1,6 @@
 ---
 title: "你无法预先串联点点滴滴：乔布斯最打动我的一句话"
-date: 2026-06-14
+date: 2013-08-01
 draft: false
 tags: ["stevejobs", "thinking", "life"]
 categories: ["life"]
