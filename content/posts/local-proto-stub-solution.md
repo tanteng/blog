@@ -198,7 +198,7 @@ func (c *userServiceClientProxyImpl) GetUserInfo(
 }
 ```
 
-**第五步：创建 stubs.go 防止意外注册**
+**第五步：创建 `stubs.go` 防止意外注册**
 
 在包根目录添加一个空壳文件，确保即使有人误在 `pb/` 目录外引用了 proto 注册逻辑，也不会生效：
 
@@ -246,10 +246,10 @@ cd protocols/legacy/user && make proto
 |------|------------|--------------|
 | `go.mod` 新增条目 | +5 行（require + replace + 传递依赖） | 0 |
 | proto 注册冲突 | 2 处 panic | 无 |
-| 代码体积 | 数百 KB pb.go + 数十 KB trpc.go | ~5KB |
+| 代码体积 | 数百 KB `pb.go` + 数十 KB `trpc.go` | ~5KB |
 | 传递依赖 | `protoc-gen-secv`、`common` 等 | 无新增 |
 | 可维护性 | 跟随上游版本升级 | proto 源文件手动维护 |
-| 构建方式 | 直接 go build | `make proto` 编译生成 |
+| 构建方式 | 直接 `go build` | `make proto` 编译生成 |
 
 ## 适用场景与边界
 
