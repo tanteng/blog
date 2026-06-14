@@ -1,6 +1,6 @@
 ---
 title: "生命就像一盒巧克力：《阿甘正传》台词解析"
-date: 2026-05-11
+date: 2024-05-11
 draft: false
 tags: ["movie", "forrest-gump", "life", "english"]
 categories: ["life"]
