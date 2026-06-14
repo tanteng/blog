@@ -1,5 +1,5 @@
 ---
-title: "用本地精简 Stub 解决 Go Monorepo 中的 Proto Namespace 冲突"
+title: "用本地 Stub 解决 Go Proto 冲突"
 date: 2026-05-28
 draft: false
 tags: ["go", "golang", "protobuf", "microservices", "protocol"]
