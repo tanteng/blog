@@ -1,6 +1,6 @@
 ---
 title: "黄金与通胀：看透本质，看清套路"
-date: 2023-06-15
+date: 2026-05-21
 draft: false
 tags: ["investment", "gold", "inflation", "economics"]
 categories: ["investment"]
