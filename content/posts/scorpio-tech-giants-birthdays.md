@@ -1,5 +1,5 @@
 ---
-title: "天蝎星群：科技巨头的生日密码"
+title: "天蝎座的生日玄学"
 date: 2026-05-25
 draft: false
 tags: ["tech", "history", "science"]
