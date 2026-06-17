@@ -1,6 +1,6 @@
 ---
-title: "深入浅出 MySQL 死锁：从根源剖析到线上治理实战"
-date: 2026-06-17
+title: "MySQL 死锁：根源剖析与线上治理实战"
+date: 2023-04-22
 draft: false
 tags: ["mysql", "innodb", "deadlock", "architecture"]
 categories: ["tech"]
