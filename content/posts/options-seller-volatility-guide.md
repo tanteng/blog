@@ -1,6 +1,6 @@
 ---
 title: "期权卖方如何看波动率：IV百分位与行权价IV的实战用法"
-date: 2026-06-24
+date: 2026-06-23
 draft: false
 tags: ["options", "trading", "investment", "volatility"]
 categories: ["investment"]
