@@ -3,7 +3,7 @@ title: "买 Call 的艺术：期权买方的进阶实战指南"
 date: 2026-06-24
 draft: false
 tags: ["options", "trading", "investment", "call", "delta", "theta"]
-categories: ["投资"]
+categories: ["investment"]
 description: "作为期权买方，你不需要等到股价涨过行权价才能盈利。本文深入解析买 Call 的获利逻辑、希腊字母机制，以及五个实战进阶技巧。"
 ---
 
