@@ -110,15 +110,34 @@ consumer2 = client.newConsumer()
 
 **两者本质都是一条消息只投给一个消费者，不是广播。要广播只能靠多组/多订阅。**
 
-## 3. 消息顺序保证
+## 3. Ack 确认机制
 
-| 场景 | Kafka | Pulsar |
+Kafka 和 Pulsar 都通过确认机制来标记消息已被成功消费，但实现粒度和方式有本质区别。
+
+**Kafka：位移提交（Commit Offset）**
+
+Kafka 严格来说不叫"单条 Ack"，而是**提交消费位移（Commit Offset）**。消费了 Offset 1、2、3 后，提交 Offset = 4 的请求，表示"4 之前的消息都已处理"。
+
+- **自动提交**：默认每 5 秒自动提交，程序崩溃可能丢消息
+- **手动提交**：调用 `commitSync()` 或 `commitAsync()`，在业务逻辑执行成功后显式提交，精确控制消费进度
+
+**Pulsar：支持单条 Ack**
+
+Pulsar 的存储层 BookKeeper 在底层记录每条消息的确认状态，支持两种模式：
+
+- **单条确认（Individual Ack）**：可单独 Ack 某一条消息，在并发处理或部分消息失败需单独重试的场景下非常灵活
+- **累积确认（Cumulative Ack）**：Ack 某一条消息，等同于 Kafka 的方式，表示该消息之前的所有消息都已消费
+
+| 特性 | Kafka | Pulsar |
 |------|-------|--------|
-| 全局有序 | 需要单 Partition | 需要 Exclusive/Failover 订阅 |
-| 分区有序 | 按 Partition 内的 offset | 按 Key_Shared 同一 key 有序 |
-| Shared 模式有序 | ❌ 无序 | ❌ 无序 |
+| 核心概念 | 提交 Offset | 消息 Ack |
+| Ack 粒度 | 仅累积提交，无法单独 Ack 中间某条 | 支持单条 Ack，也支持累积 Ack |
+| 适用场景 | 高吞吐顺序消费 | 流式顺序消费 + 传统队列并发消费 |
 
-## 4. 性能对比
+
+## 4. 消息顺序保证
+
+## 5. 性能对比
 
 ### 吞吐量
 
@@ -141,7 +160,7 @@ consumer2 = client.newConsumer()
 | 多租户隔离 | Pulsar |
 | 跨地域复制 | Pulsar 原生支持更好 |
 
-## 5. 多租户（Multi-Tenancy）
+## 6. 多租户（Multi-Tenancy）
 
 这是 Pulsar 的强项：
 
@@ -151,7 +170,7 @@ consumer2 = client.newConsumer()
 
 Kafka 的多租户能力需要额外方案（如 Strimzi、Confluent RBAC）。
 
-## 6. 消息回查与重放
+## 7. 消息回查与重放
 
 ### Seek 跳转回查
 
@@ -188,7 +207,7 @@ producer.newMessage()
 
 Kafka 需要用时间轮或第三方方案实现延迟消息。
 
-## 7. 地理复制（Geo-Replication）
+## 8. 地理复制（Geo-Replication）
 
 Pulsar 原生支持跨机房复制：
 - 配置 `replication_clusters`
@@ -197,7 +216,7 @@ Pulsar 原生支持跨机房复制：
 
 Kafka 需要用 MirrorMaker 或外部方案做跨集群复制。
 
-## 8. 总结对比表
+## 9. 总结对比表
 
 | 特性 | Kafka | Pulsar |
 |------|-------|--------|
@@ -213,7 +232,7 @@ Kafka 需要用 MirrorMaker 或外部方案做跨集群复制。
 | 延迟消息 | 需外部方案 | 原生支持 |
 | Nack 重投 | 不支持 | 支持 |
 
-## 9. 选型建议
+## 10. 选型建议
 
 **选 Kafka：**
 - 日志采集、大数据流处理
@@ -228,7 +247,6 @@ Kafka 需要用 MirrorMaker 或外部方案做跨集群复制。
 
 两者都是优秀的消息队列，核心区别在于**架构设计哲学**——Kafka 追求极致性能，Pulsar 追求云原生时代的灵活性。
 
----
 
 **参考版本：**
 - Kafka：3.6+
