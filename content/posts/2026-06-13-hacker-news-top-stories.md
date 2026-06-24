@@ -1,9 +1,11 @@
+---
 title: "Hacker News 热门话题 2026-06-13"
 date: 2026-06-13
 draft: false
 tags: ["hacker-news", "technews", "ai", "anthropic", "crispr", "science"]
 categories: ["technews"]
 description: "本期 Hacker News 热门话题包括 Anthropic Fable/Mythos 5 遭美国政府出口管制、CRISPR 精准抗癌技术突破、开源 AI 宣言、以及 AI 时代职场礼仪反思等。"
+---
 
 本周 Hacker News 热门话题涵盖 AI 政策管制、生物医疗技术、开源生态以及人机协作等多个维度，以下是本期精选内容。
 

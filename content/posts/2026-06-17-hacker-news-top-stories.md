@@ -1,9 +1,11 @@
+---
 title: "Hacker News 热门话题 2026-06-17"
 date: 2026-06-17
 draft: false
 tags: ["hacker-news", "technews", "ai", "llm", "apple", "security", "spacex"]
 categories: ["technews"]
 description: "本期 Hacker News 热门话题包括本地大模型运行体验、SpaceX 收购 Cursor、Meta 工程文化危机、苹果防晕车功能、机械表原理以及 JWT 安全问题等。"
+---
 
 本周 Hacker News 热门话题涵盖了 AI 编程工具、太空科技、工程文化、消费电子以及 Web 安全等多个领域，以下是本期精选内容。
 

@@ -1,9 +1,11 @@
+---
 title: "MaaS 详解：大模型时代最重要的那个 aaS"
 date: 2026-04-05
 draft: false
 tags: ["ai", "cloud", "maas", "tech", "agent"]
 categories: ["tech"]
 description: "从 IaaS、PaaS、SaaS 到 MaaS，云服务的演进本质上是一段不断让用户少干活的历史。MaaS 将如何改变 AI 能力的消费方式？"
+---
 
 2026年，AI 应用开发已经变得像调用 API 一样简单。**MaaS（Model as a Service，模型即服务）** 正在成为继 IaaS、PaaS、SaaS 之后，云计算世界里最具变革性的那个"aaS"。
 

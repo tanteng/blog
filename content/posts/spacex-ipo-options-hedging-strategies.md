@@ -1,9 +1,11 @@
+---
 title: "SpaceX 上市后期权对冲策略解析：零成本领口与波动率红利"
 date: 2026-06-18
 draft: false
 tags: ["options", "investment", "trading"]
 categories: ["investment"]
 description: "解析 SpaceX 上市后期权市场的三种主流策略：零成本领口（Zero Cost Collar）、卖出虚值看跌期权和机构对冲思路，帮助投资者在高波动环境中管理股票敞口。"
+---
 
 SpaceX 上周创纪录登陆纳斯达克，市值一度突破 2.5 万亿美元。本周二，SPCX 期权正式开市交易，首日成交量即打破 IPO 后期权上市的历史纪录——近 **180 万张合约**易手。在这场热潮背后，市场呈现出鲜明的两极分化：散户追涨情绪高涨，而机构资金则悄然布下精密的对冲棋局。
 

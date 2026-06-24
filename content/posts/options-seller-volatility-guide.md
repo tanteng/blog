@@ -1,9 +1,11 @@
+---
 title: "期权卖方如何看波动率：IV百分位与行权价IV的实战用法"
 date: 2026-06-23
 draft: false
 tags: ["options", "trading", "investment", "volatility"]
 categories: ["investment"]
 description: "详解期权卖方如何利用IV百分位择时、行权价IV择码，以及波动率偏度（Skew）寻找最佳卖方机会。"
+---
 
 做期权卖方（Short Options），最核心的能力不是"赌方向"，而是**看懂波动率**。
 

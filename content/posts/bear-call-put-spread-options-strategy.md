@@ -1,9 +1,11 @@
+---
 title: "熊市期权策略：牛市看涨价差与熊市看跌价差完全指南"
 date: 2026-06-23
 draft: false
 tags: ["options", "trading", "investment"]
 categories: ["investment"]
 description: "深入解析熊市看涨价差（Bear Call Spread）和熊市看跌价差（Bear Put Spread）两种核心期权策略，从希腊字母分析到实战应用，帮助投资者在看跌市场中获取稳定收益。"
+---
 
 在期权交易的世界里，熊市策略是每个投资者都必须掌握的核心技能。今天我们要聊的是两种最经典的熊市价差策略：**熊市看涨价差（Bear Call Spread）** 和 **熊市看跌价差（Bear Put Spread）**。
 
