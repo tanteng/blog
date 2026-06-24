@@ -3,7 +3,7 @@ title: "多巴胺与内啡肽：大脑如何制造快乐"
 date: 2026-03-01
 draft: false
 tags: ["dopamine", "endorphin", "psychology", "neuroscience", "happiness", "well-being"]
-categories: []
+categories: ["life"]
 ---
 
 在现代社会，"追求快乐"几乎成为一种本能。人们不断购物、刷短视频、追逐新鲜体验——然而，心理学研究反复揭示一个令人不安的事实：**越是用力追求快乐的人，往往离快乐越远。**
