@@ -137,6 +137,12 @@ Pulsar 的存储层 BookKeeper 在底层记录每条消息的确认状态，支�
 
 ## 4. 消息顺序保证
 
+| 场景 | Kafka | Pulsar |
+|------|-------|--------|
+| 全局有序 | 需要单 Partition | 需要 Exclusive/Failover 订阅 |
+| 分区有序 | 按 Partition 内的 offset | 按 Key_Shared 同一 key 有序 |
+| Shared 模式有序 | ❌ 无序 | ❌ 无序 |
+
 ## 5. 性能对比
 
 ### 吞吐量
