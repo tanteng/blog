@@ -1,11 +1,9 @@
----
 title: "MaaS 详解：大模型时代最重要的那个 aaS"
 date: 2026-04-05
 draft: false
 tags: ["ai", "cloud", "maas", "tech", "agent"]
 categories: ["tech"]
 description: "从 IaaS、PaaS、SaaS 到 MaaS，云服务的演进本质上是一段不断让用户少干活的历史。MaaS 将如何改变 AI 能力的消费方式？"
----
 
 2026年，AI 应用开发已经变得像调用 API 一样简单。**MaaS（Model as a Service，模型即服务）** 正在成为继 IaaS、PaaS、SaaS 之后，云计算世界里最具变革性的那个"aaS"。
 
@@ -114,6 +112,5 @@ MaaS 并非没有挑战：
 
 但更大的图景是：MaaS 正在成为 AI 时代的基础设施标准。信通院 2025 年发布的 MaaS 系列标准，围绕模型服务调用、RAG 构建、Agent 应用开发等横纵向维度建立了行业规范，标志着 MaaS 从野蛮生长进入了有标准可依的新阶段。
 
----
 
 *参考资料：JEDEC 固态技术协会（云计算标准）、中国信通院 MaaS 系列标准（2025年）、OpenAI API 文档、Hugging Face 技术博客、DeepSeek 官方发布（2025年）。*
