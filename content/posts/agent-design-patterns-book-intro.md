@@ -42,6 +42,46 @@ description: "拆解黄佳《Agent设计模式》核心内容：21个设计模�
 
 ## 上篇：智能设计的哲学
 
+{{< mermaid >}}
+flowchart TD
+    title1["📖 上篇：智能设计的哲学"]
+    core["💡 核心问题：<br/>如何在不确定的大模型上<br/>构建可靠的系统？"]
+    ch1["第1章：从结构到智能<br/>设计模式的世纪旅程"]
+    ch2["第2章：从模式到意图<br/>软件工程的范式迁移"]
+    ch3["第3章：从设计到演化<br/>欢迎来到Agent时代"]
+    ch1_1["GoF 23模式 → 模式病"]
+    ch1_2["确定性失效<br/>三重不确定性"]
+    ch1_3["2012转折点：<br/>Chaos Monkey + K8s"]
+    ch2_1["函数与流<br/>无状态→纯函数"]
+    ch2_2["分布式+Serverless<br/>Agent的\"手脚\""]
+    ch2_3["软件2.0<br/>概率性 > 确定性"]
+    ch3_1["Agent本质：<br/>感知·记忆·推理·行动"]
+    ch3_2["ReAct + MCP<br/>Agent行动标准"]
+    ch3_3["多Agent协作<br/>A2A双轨协议"]
+    conclusion["🎯 结论：<br/>设计模式进化 · 软件工程重生<br/>人类角色升华"]
+    title1 --> core
+    core --> ch1 & ch2 & ch3
+    ch1 --> ch1_1 & ch1_2 & ch1_3
+    ch2 --> ch2_1 & ch2_2 & ch2_3
+    ch3 --> ch3_1 & ch3_2 & ch3_3
+    ch1_3 & ch2_3 & ch3_3 --> conclusion
+    style title1 fill:#1a1a2e,stroke:#eee,color:#fff,font-size:14px
+    style core fill:#16213e,stroke:#e94560,color:#fff,font-size:13px,stroke-width:2px
+    style ch1 fill:#0f3460,stroke:#533483,color:#fff,font-size:12px
+    style ch2 fill:#0f3460,stroke:#533483,color:#fff,font-size:12px
+    style ch3 fill:#0f3460,stroke:#533483,color:#fff,font-size:12px
+    style conclusion fill:#e94560,stroke:#fff,color:#fff,font-size:12px
+    style ch1_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:11px
+    style ch1_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:11px
+    style ch1_3 fill:#1a1a2e,stroke:#e94560,color:#e94560,font-size:11px
+    style ch2_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:11px
+    style ch2_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:11px
+    style ch2_3 fill:#1a1a2e,stroke:#e94560,color:#e94560,font-size:11px
+    style ch3_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:11px
+    style ch3_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:11px
+    style ch3_3 fill:#1a1a2e,stroke:#e94560,color:#e94560,font-size:11px
+{{< /mermaid >}}
+
 ### 第1章：从结构到智能——设计模式的世纪旅程
 
 #### 1.1 模式思想的起源
@@ -230,6 +270,72 @@ GoF 设计模式诞生于"静态世界"，2012 年是关键转折点——Netfli
 
 
 ## 下篇：六大类 21 个核心设计模式
+
+
+{{< mermaid >}}
+flowchart TD
+    title2["📖 下篇：六大类 21 个核心设计模式"]
+    agent["🤖 完整 Agent"]
+    sense["👁️ 感知模式"]
+    memory["🧠 记忆模式"]
+    reason["⚙️ 推理模式"]
+    action["💪 行动模式"]
+    reflect["🔮 反思模式"]
+    collaborate["🤝 协作模式"]
+    sense_1["注意力聚焦"]
+    sense_2["多模态融合"]
+    sense_3["主动感知"]
+    memory_1["分层记忆"]
+    memory_2["RAG"]
+    memory_3["情节记忆"]
+    reason_1["思维链"]
+    reason_2["思维树"]
+    reason_3["思维图"]
+    action_1["ReAct"]
+    action_2["规划-执行"]
+    action_3["工具编排"]
+    reflect_1["自我修正"]
+    reflect_2["反思记忆"]
+    reflect_3["元学习"]
+    collab_1["辩论"]
+    collab_2["委托"]
+    collab_3["群体"]
+    title2 --> agent
+    agent --> sense & memory & reason & action & reflect & collaborate
+    sense --> sense_1 & sense_2 & sense_3
+    memory --> memory_1 & memory_2 & memory_3
+    reason --> reason_1 & reason_2 & reason_3
+    action --> action_1 & action_2 & action_3
+    reflect --> reflect_1 & reflect_2 & reflect_3
+    collaborate --> collab_1 & collab_2 & collab_3
+    style title2 fill:#1a1a2e,stroke:#eee,color:#fff,font-size:14px
+    style agent fill:#e94560,stroke:#fff,color:#fff,font-size:13px,stroke-width:3px
+    style sense fill:#0f3460,stroke:#4ecca3,color:#fff,font-size:11px
+    style memory fill:#0f3460,stroke:#4ecca3,color:#fff,font-size:11px
+    style reason fill:#0f3460,stroke:#4ecca3,color:#fff,font-size:11px
+    style action fill:#0f3460,stroke:#4ecca3,color:#fff,font-size:11px
+    style reflect fill:#0f3460,stroke:#4ecca3,color:#fff,font-size:11px
+    style collaborate fill:#0f3460,stroke:#4ecca3,color:#fff,font-size:11px
+    style sense_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style sense_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style sense_3 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style memory_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style memory_2 fill:#1a1a2e,stroke:#e94560,color:#e94560,font-size:10px
+    style memory_3 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style reason_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style reason_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style reason_3 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style action_1 fill:#1a1a2e,stroke:#e94560,color:#e94560,font-size:10px
+    style action_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style action_3 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style reflect_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style reflect_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style reflect_3 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style collab_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style collab_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style collab_3 fill:#1a1a2e,stroke:#4ecca3,color:#4ecca3,font-size:10px
+{{< /mermaid >}}
+
 
 ### 感知模式——系统与世界的接口层
 
