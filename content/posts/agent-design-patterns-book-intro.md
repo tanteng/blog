@@ -22,19 +22,6 @@ description: "拆解黄佳《Agent设计模式》核心内容：21个设计模�
 
 ---
 
-**📌 一句话总结：** 从 GoF 设计模式到 Agent 设计模式，是软件工程从"精密机械"向"自组织生命体"的范式跃迁。21 个可复用架构模式，让 AI 系统像搭积木一样可靠构建。
-
-**🔥 核心观点：**
-- **确定性已死**：软件不再是"瑞士手表"，而是"热带雨林"——拥抱不确定性，才能反脆弱
-- **意图 > 模式**：GoF 模式告诉我们"怎么做"，Agent 时代"想做什么"才是关键
-- **感知-记忆-推理-行动-反思-协作**：六大类模式构建完整智能体
-- **MCP + A2A**：双轨协议让 Agent 连接工具、连接彼此，如同 USB-C 统一设备连接一样统一 AI 世界
-- **园丁而非建筑师**：Agent 时代架构师的新角色——优化数据"土壤"、设置护栏"篱笆"、容忍适度失控
-
-**💡 最打动人的比喻：** "机器何时拥有灵魂？当它开始为自己的错误感到不安时。"
-
----
-
 2012年，Netflix 开源了一个"疯狂"的项目：Chaos Monkey——专门在生产环境中随机杀死自己的服务器。这在传统软件工程时代不可想象，但 Netflix 的逻辑很简单：既然故障不可避免，就让系统通过持续的小创伤进化出真正的免疫力。
 
 同年，Google 发表论文"Datacenter as Computer"，宣告硬件故障不再是意外，而是统计学必然。软件设计的目标从"防止故障"转向"在故障常态化中依然可靠"。
@@ -52,80 +39,6 @@ description: "拆解黄佳《Agent设计模式》核心内容：21个设计模�
 - **显式反馈**：将反馈、反思与改进视为核心能力，内建于系统设计之初
 - **渐进自治**：让系统在安全护栏内逐步提升自主决策能力
 - **涌现优于规定**：设计让智能体自然涌现行为的机制，而非硬编码每一步
-
-### 上篇结构图
-
-```mermaid
-flowchart TD
-    %% 标题
-    title1["📖 上篇：智能设计的哲学"]
-    
-    %% 核心理念
-    core["💡 核心问题：<br/>如何在不确定的大模型上<br/>构建可靠的系统？"]
-    
-    %% 三章内容
-    ch1["第1章：从结构到智能<br/>设计模式的世纪旅程"]
-    ch2["第2章：从模式到意图<br/>软件工程的范式迁移"]
-    ch3["第3章：从设计到演化<br/>欢迎来到Agent时代"]
-    
-    %% 第1章详情
-    ch1_1["GoF 23模式<br/>→ 模式病"]
-    ch1_2["确定性失效<br/>三重不确定性"]
-    ch1_3["2012转折点：<br/>Chaos Monkey + K8s<br/>= 故障常态化"]
-    
-    %% 第2章详情
-    ch2_1["函数与流<br/>无状态→纯函数"]
-    ch2_2["分布式+Serverless<br/>Agent的"手脚""]
-    ch2_3["软件2.0<br/>概率性 > 确定性"]
-    
-    %% 第3章详情
-    ch3_1["Agent本质：<br/>感知·记忆·推理·行动"]
-    ch3_2["ReAct + MCP<br/>Agent行动标准"]
-    ch3_3["多Agent协作<br/>A2A双轨协议"]
-    
-    %% 底部结论
-    conclusion["🎯 结论：<br/>设计模式进化 · 软件工程重生<br/>人类角色升华"]
-    
-    %% 连接关系
-    title1 --> core
-    core --> ch1
-    core --> ch2
-    core --> ch3
-    
-    ch1 --> ch1_1
-    ch1 --> ch1_2
-    ch1 --> ch1_3
-    
-    ch2 --> ch2_1
-    ch2 --> ch2_2
-    ch2 --> ch2_3
-    
-    ch3 --> ch3_1
-    ch3 --> ch3_2
-    ch3 --> ch3_3
-    
-    ch1_3 --> conclusion
-    ch2_3 --> conclusion
-    ch3_3 --> conclusion
-    
-    %% 样式
-    style title1 fill:#1a1a2e,stroke:#eee,color:#fff,font-size:14px
-    style core fill:#16213e,stroke:#e94560,color:#fff,font-size:13px,stroke-width:2px
-    style ch1 fill:#0f3460,stroke:#533483,color:#fff,font-size:12px
-    style ch2 fill:#0f3460,stroke:#533483,color:#fff,font-size:12px
-    style ch3 fill:#0f3460,stroke:#533483,color:#fff,font-size:12px
-    style conclusion fill:#e94560,stroke:#fff,color:#fff,font-size:12px
-    style ch1_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:11px
-    style ch1_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:11px
-    style ch1_3 fill:#1a1a2e,stroke:#e94560,color:#e94560,font-size:11px
-    style ch2_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:11px
-    style ch2_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:11px
-    style ch2_3 fill:#1a1a2e,stroke:#e94560,color:#e94560,font-size:11px
-    style ch3_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:11px
-    style ch3_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:11px
-    style ch3_3 fill:#1a1a2e,stroke:#e94560,color:#e94560,font-size:11px
-```
-
 
 ## 上篇：智能设计的哲学
 
@@ -301,120 +214,20 @@ Anthropic 2025 年发布的 **Agent Skills** 进一步区分：
 人类与 AI 的关系不再局限于调用 API，而是转向设计协作模式。人类从代码的"建筑师"转变为 Agent 系统的"设计师与协作者"。
 
 > **从 GoF 的 23 个设计模式到 Agent 的无限可能，我们跨越了软件工程的一个世纪：设计模式并未消亡，而是在进化；软件工程未曾终结，而是在重生；人类的角色没有消失，而是在升华。**
+---
+
+### 📖 上篇总结
+
+**从确定性工程到概率性工程的范式跃迁。**
+
+GoF 设计模式诞生于"静态世界"，2012 年是关键转折点——Netflix Chaos Monkey 宣告"故障常态化"，K8s 引入"声明式 API + 调解循环"（原始 Agent 思想）。从函数式响应式流、分布式 + Serverless 到 Software 2.0，每一步演进都在为 Agent 铺路：**让软件具备感知、记忆、思考与行动能力。**
+
+> **核心洞见：意图比模式更重要。** Agent 时代不是 GoF 模式的终结，而是进化。
+
+---
 
 
-### 下篇结构图
 
-```mermaid
-flowchart TD
-    %% 标题
-    title2["📖 下篇：六大类 21 个核心设计模式"]
-    
-    %% 中心：完整Agent
-    agent["🤖 完整 Agent"]
-    
-    %% 六大类
-    sense["👁️ 感知模式<br/>看世界"]
-    memory["🧠 记忆模式<br/>连接时间"]
-    reason["⚙️ 推理模式<br/>编织逻辑"]
-    action["💪 行动模式<br/>付诸实施"]
-    reflect["🔮 反思模式<br/>判断对错"]
-    collaborate["🤝 协作模式<br/>共同进化"]
-    
-    %% 感知子模式
-    sense_1["注意力聚焦<br/>信息太多→精简"]
-    sense_2["多模态融合<br/>信息太杂→统一"]
-    sense_3["主动感知<br/>信息太少→寻找"]
-    
-    %% 记忆子模式
-    memory_1["分层记忆<br/>L1/L2/L3"]
-    memory_2["RAG<br/>检索+生成"]
-    memory_3["情节记忆<br/>动态经验"]
-    
-    %% 推理子模式
-    reason_1["思维链 CoT<br/>线性逐步"]
-    reason_2["思维树 ToT<br/>分支回溯"]
-    reason_3["思维图 GoT<br/>图结构迭代"]
-    
-    %% 行动子模式
-    action_1["ReAct<br/>边想边做"]
-    action_2["规划-执行<br/>运筹帷幄"]
-    action_3["工具编排<br/>精准调配"]
-    
-    %% 反思子模式
-    reflect_1["自我修正<br/>当下·擦除"]
-    reflect_2["反思记忆<br/>下次·错题本"]
-    reflect_3["元学习<br/>长远·修订教科书"]
-    
-    %% 协作子模式
-    collab_1["辩论<br/>对抗·多角度"]
-    collab_2["委托<br/>层级·目标分解"]
-    collab_3["群体<br/>涌现·自组织"]
-    
-    %% 连接
-    title2 --> agent
-    agent --> sense
-    agent --> memory
-    agent --> reason
-    agent --> action
-    agent --> reflect
-    agent --> collaborate
-    
-    sense --> sense_1
-    sense --> sense_2
-    sense --> sense_3
-    
-    memory --> memory_1
-    memory --> memory_2
-    memory --> memory_3
-    
-    reason --> reason_1
-    reason --> reason_2
-    reason --> reason_3
-    
-    action --> action_1
-    action --> action_2
-    action --> action_3
-    
-    reflect --> reflect_1
-    reflect --> reflect_2
-    reflect --> reflect_3
-    
-    collaborate --> collab_1
-    collaborate --> collab_2
-    collaborate --> collab_3
-    
-    %% 中心强调
-    sense & memory & reason & action & reflect & collaborate --> agent
-    
-    %% 样式
-    style title2 fill:#1a1a2e,stroke:#eee,color:#fff,font-size:14px
-    style agent fill:#e94560,stroke:#fff,color:#fff,font-size:13px,stroke-width:3px
-    style sense fill:#0f3460,stroke:#4ecca3,color:#fff,font-size:12px
-    style memory fill:#0f3460,stroke:#4ecca3,color:#fff,font-size:12px
-    style reason fill:#0f3460,stroke:#4ecca3,color:#fff,font-size:12px
-    style action fill:#0f3460,stroke:#4ecca3,color:#fff,font-size:12px
-    style reflect fill:#0f3460,stroke:#4ecca3,color:#fff,font-size:12px
-    style collaborate fill:#0f3460,stroke:#4ecca3,color:#fff,font-size:12px
-    style sense_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
-    style sense_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
-    style sense_3 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
-    style memory_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
-    style memory_2 fill:#1a1a2e,stroke:#e94560,color:#e94560,font-size:10px
-    style memory_3 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
-    style reason_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
-    style reason_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
-    style reason_3 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
-    style action_1 fill:#1a1a2e,stroke:#e94560,color:#e94560,font-size:10px
-    style action_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
-    style action_3 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
-    style reflect_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
-    style reflect_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
-    style reflect_3 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
-    style collab_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
-    style collab_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
-    style collab_3 fill:#1a1a2e,stroke:#4ecca3,color:#4ecca3,font-size:10px
-```
 
 ## 下篇：六大类 21 个核心设计模式
 
@@ -580,6 +393,23 @@ Agent ≈ 操作系统内核：
 | 群体（涌现） | 蚁群迁徙 | 无需明确指挥者，自组织展现惊人效率 |
 
 > **智能的最高形态，不在于独立思考，而在于共同进化。**
+
+---
+
+### 📖 下篇总结
+
+**六大类 21 个模式，构建完整智能体。**
+
+- **感知**：注意力聚焦（认知漏斗）、多模态融合（在场感）、主动感知（元认知控制）
+- **记忆**：分层记忆（L1/L2/L3如同工作记忆/短期缓存/长期存储）、RAG（推理与知识解耦）、情节记忆（动态经验沉淀）
+- **推理**：思维链（线性）、思维树（分支回溯）、思维图（图结构迭代）—— 指挥认知乐团
+- **行动**：ReAct（边想边做）、规划-执行（运筹帷幄）、工具编排（精准调配）
+- **反思**：自我修正（当下擦除）、反思记忆（下次错题本）、元学习（长远修订教科书）
+- **协作**：辩论、委托、路由、群体——智能的最高形态在于共同进化
+
+> **最打动人的比喻：机器何时拥有灵魂？当它开始为自己的错误感到不安时。**
+
+---
 
 
 ## 后记：从软件工程到 Agent 工程的生物化演进
