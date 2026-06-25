@@ -53,6 +53,79 @@ description: "拆解黄佳《Agent设计模式》核心内容：21个设计模�
 - **渐进自治**：让系统在安全护栏内逐步提升自主决策能力
 - **涌现优于规定**：设计让智能体自然涌现行为的机制，而非硬编码每一步
 
+### 上篇结构图
+
+```mermaid
+flowchart TD
+    %% 标题
+    title1["📖 上篇：智能设计的哲学"]
+    
+    %% 核心理念
+    core["💡 核心问题：<br/>如何在不确定的大模型上<br/>构建可靠的系统？"]
+    
+    %% 三章内容
+    ch1["第1章：从结构到智能<br/>设计模式的世纪旅程"]
+    ch2["第2章：从模式到意图<br/>软件工程的范式迁移"]
+    ch3["第3章：从设计到演化<br/>欢迎来到Agent时代"]
+    
+    %% 第1章详情
+    ch1_1["GoF 23模式<br/>→ 模式病"]
+    ch1_2["确定性失效<br/>三重不确定性"]
+    ch1_3["2012转折点：<br/>Chaos Monkey + K8s<br/>= 故障常态化"]
+    
+    %% 第2章详情
+    ch2_1["函数与流<br/>无状态→纯函数"]
+    ch2_2["分布式+Serverless<br/>Agent的"手脚""]
+    ch2_3["软件2.0<br/>概率性 > 确定性"]
+    
+    %% 第3章详情
+    ch3_1["Agent本质：<br/>感知·记忆·推理·行动"]
+    ch3_2["ReAct + MCP<br/>Agent行动标准"]
+    ch3_3["多Agent协作<br/>A2A双轨协议"]
+    
+    %% 底部结论
+    conclusion["🎯 结论：<br/>设计模式进化 · 软件工程重生<br/>人类角色升华"]
+    
+    %% 连接关系
+    title1 --> core
+    core --> ch1
+    core --> ch2
+    core --> ch3
+    
+    ch1 --> ch1_1
+    ch1 --> ch1_2
+    ch1 --> ch1_3
+    
+    ch2 --> ch2_1
+    ch2 --> ch2_2
+    ch2 --> ch2_3
+    
+    ch3 --> ch3_1
+    ch3 --> ch3_2
+    ch3 --> ch3_3
+    
+    ch1_3 --> conclusion
+    ch2_3 --> conclusion
+    ch3_3 --> conclusion
+    
+    %% 样式
+    style title1 fill:#1a1a2e,stroke:#eee,color:#fff,font-size:14px
+    style core fill:#16213e,stroke:#e94560,color:#fff,font-size:13px,stroke-width:2px
+    style ch1 fill:#0f3460,stroke:#533483,color:#fff,font-size:12px
+    style ch2 fill:#0f3460,stroke:#533483,color:#fff,font-size:12px
+    style ch3 fill:#0f3460,stroke:#533483,color:#fff,font-size:12px
+    style conclusion fill:#e94560,stroke:#fff,color:#fff,font-size:12px
+    style ch1_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:11px
+    style ch1_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:11px
+    style ch1_3 fill:#1a1a2e,stroke:#e94560,color:#e94560,font-size:11px
+    style ch2_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:11px
+    style ch2_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:11px
+    style ch2_3 fill:#1a1a2e,stroke:#e94560,color:#e94560,font-size:11px
+    style ch3_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:11px
+    style ch3_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:11px
+    style ch3_3 fill:#1a1a2e,stroke:#e94560,color:#e94560,font-size:11px
+```
+
 
 ## 上篇：智能设计的哲学
 
@@ -229,6 +302,119 @@ Anthropic 2025 年发布的 **Agent Skills** 进一步区分：
 
 > **从 GoF 的 23 个设计模式到 Agent 的无限可能，我们跨越了软件工程的一个世纪：设计模式并未消亡，而是在进化；软件工程未曾终结，而是在重生；人类的角色没有消失，而是在升华。**
 
+
+### 下篇结构图
+
+```mermaid
+flowchart TD
+    %% 标题
+    title2["📖 下篇：六大类 21 个核心设计模式"]
+    
+    %% 中心：完整Agent
+    agent["🤖 完整 Agent"]
+    
+    %% 六大类
+    sense["👁️ 感知模式<br/>看世界"]
+    memory["🧠 记忆模式<br/>连接时间"]
+    reason["⚙️ 推理模式<br/>编织逻辑"]
+    action["💪 行动模式<br/>付诸实施"]
+    reflect["🔮 反思模式<br/>判断对错"]
+    collaborate["🤝 协作模式<br/>共同进化"]
+    
+    %% 感知子模式
+    sense_1["注意力聚焦<br/>信息太多→精简"]
+    sense_2["多模态融合<br/>信息太杂→统一"]
+    sense_3["主动感知<br/>信息太少→寻找"]
+    
+    %% 记忆子模式
+    memory_1["分层记忆<br/>L1/L2/L3"]
+    memory_2["RAG<br/>检索+生成"]
+    memory_3["情节记忆<br/>动态经验"]
+    
+    %% 推理子模式
+    reason_1["思维链 CoT<br/>线性逐步"]
+    reason_2["思维树 ToT<br/>分支回溯"]
+    reason_3["思维图 GoT<br/>图结构迭代"]
+    
+    %% 行动子模式
+    action_1["ReAct<br/>边想边做"]
+    action_2["规划-执行<br/>运筹帷幄"]
+    action_3["工具编排<br/>精准调配"]
+    
+    %% 反思子模式
+    reflect_1["自我修正<br/>当下·擦除"]
+    reflect_2["反思记忆<br/>下次·错题本"]
+    reflect_3["元学习<br/>长远·修订教科书"]
+    
+    %% 协作子模式
+    collab_1["辩论<br/>对抗·多角度"]
+    collab_2["委托<br/>层级·目标分解"]
+    collab_3["群体<br/>涌现·自组织"]
+    
+    %% 连接
+    title2 --> agent
+    agent --> sense
+    agent --> memory
+    agent --> reason
+    agent --> action
+    agent --> reflect
+    agent --> collaborate
+    
+    sense --> sense_1
+    sense --> sense_2
+    sense --> sense_3
+    
+    memory --> memory_1
+    memory --> memory_2
+    memory --> memory_3
+    
+    reason --> reason_1
+    reason --> reason_2
+    reason --> reason_3
+    
+    action --> action_1
+    action --> action_2
+    action --> action_3
+    
+    reflect --> reflect_1
+    reflect --> reflect_2
+    reflect --> reflect_3
+    
+    collaborate --> collab_1
+    collaborate --> collab_2
+    collaborate --> collab_3
+    
+    %% 中心强调
+    sense & memory & reason & action & reflect & collaborate --> agent
+    
+    %% 样式
+    style title2 fill:#1a1a2e,stroke:#eee,color:#fff,font-size:14px
+    style agent fill:#e94560,stroke:#fff,color:#fff,font-size:13px,stroke-width:3px
+    style sense fill:#0f3460,stroke:#4ecca3,color:#fff,font-size:12px
+    style memory fill:#0f3460,stroke:#4ecca3,color:#fff,font-size:12px
+    style reason fill:#0f3460,stroke:#4ecca3,color:#fff,font-size:12px
+    style action fill:#0f3460,stroke:#4ecca3,color:#fff,font-size:12px
+    style reflect fill:#0f3460,stroke:#4ecca3,color:#fff,font-size:12px
+    style collaborate fill:#0f3460,stroke:#4ecca3,color:#fff,font-size:12px
+    style sense_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style sense_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style sense_3 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style memory_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style memory_2 fill:#1a1a2e,stroke:#e94560,color:#e94560,font-size:10px
+    style memory_3 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style reason_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style reason_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style reason_3 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style action_1 fill:#1a1a2e,stroke:#e94560,color:#e94560,font-size:10px
+    style action_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style action_3 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style reflect_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style reflect_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style reflect_3 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style collab_1 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style collab_2 fill:#1a1a2e,stroke:#666,color:#aaa,font-size:10px
+    style collab_3 fill:#1a1a2e,stroke:#4ecca3,color:#4ecca3,font-size:10px
+```
 
 ## 下篇：六大类 21 个核心设计模式
 
