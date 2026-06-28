@@ -20,6 +20,8 @@ description: "详解索尼 A7M4 白平衡偏移（WB Shift）的核心坐标轴�
 * **A - B 轴**：Amber（琥珀色/暖） ↔ Blue（蓝色/冷）
 * **G - M 轴**：Green（绿色） ↔ Magenta（洋红色）
 
+![](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/06/d2bd012c2f2731d35c084b8206e43560.png)
+
 ## 2. 常用白平衡偏移方案推荐
 
 ### 方案一：清透人像与日常挂机（去黄显白）
