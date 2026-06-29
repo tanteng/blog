@@ -302,45 +302,38 @@ mcporter call "go-demo.add(a: 5, b: 3)"
 
 ## 整体架构流程
 
+### MCP Client 在哪里？
+
+理解 MCP 架构的关键问题是：**MCP Client 究竟运行在哪里？**
+
+答案很直接——**谁对接大模型并执行 Agent 编排逻辑，MCP Client 就躺在谁的数据链路里。**
+
+以一个真实案例说明：假设企业内部 AI 助手 **WorkBuddy** 需要调用飞书（Lexiang）的文档搜索能力：
+
 {{< mermaid >}}
 flowchart TB
-    subgraph 用户层
-        U[用户提问]
+    subgraph WorkBuddy 后端
+        U[用户提问] --> LLM[🧠 大模型<br/>理解意图 · 决策调用工具]
+        LLM --> MC[MCP Client<br/>解析 Tool Call · 发起 JSON-RPC 请求]
     end
     
-    subgraph AI应用层
-        LLM[大模型]
-        MC[MCP 客户端]
-    end
-    
-    subgraph MCP服务器层
-        HTTP[HTTP/SSE传输]
-        STDIO[Stdio传输]
-        Tools[工具定义]
-        Resources[资源定义]
-    end
-    
-    subgraph 业务层
-        API[外部API]
-        DB[数据库]
-        FS[文件系统]
-    end
-    
-    U --> LLM
-    LLM --> MC
-    MC -->|JSON-RPC| HTTP
-    MC -->|stdio| STDIO
-    HTTP --> Tools
-    STDIO --> Tools
-    Tools --> API
-    Tools --> DB
-    Resources --> FS
-    
-    style LLM fill:#e3f2fd
-    style MC fill:#fff3e0
-    style HTTP fill:#e8f5e8
-    style STDIO fill:#e8f5e8
+    MC -->|SSE / HTTP| MS[MCP Server<br/>Lexiang 服务]
+    MS -->|调用底层 API| LexiangAPI[飞书文档 API]
+    LexiangAPI --> MS
+    MS --> MC
+    MC --> LLM
+    LLM --> U
+
+    style LLM fill:#f6ad55,stroke:#dd6b20,color:#fff,stroke-width:2px
+    style MC fill:#fff3e0,stroke:#fb8c00,color:#2d3748,stroke-width:2px
+    style MS fill:#68d391,stroke:#38a169,color:#fff,stroke-width:2px
+    style U fill:#667eea,stroke:#5a67d8,color:#fff
+    style LexiangAPI fill:#e1f5fe,stroke:#0277bd,color:#2d3748
 {{< /mermaid >}}
+
+可以看到：**MCP Client 位于 WorkBuddy 后端服务中**，它与 Host Application（WorkBuddy 本身）紧密配合，是 AI 应用连接外部工具的桥梁。
+
+而 **MCP Server（这里是 Lexiang 服务）则是一个独立进程或微服务**，负责将飞书的底层 API 封装成标准化的 Tools/Resources 供 MCP Client 调用。
 
 ## 常见问题
 
