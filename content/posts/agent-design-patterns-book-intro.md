@@ -2,8 +2,8 @@
 title: "《Agent设计模式》读书笔记：21个架构范式与智能体的演化之路"
 date: 2026-06-24
 draft: false
-tags: ["ai", "agent", "design-pattern", "book-notes"]
-categories: ["ai"]
+tags: ["ai", "agent", "design-pattern", "book-notes", "llm"]
+categories: ["读书笔记"]
 description: "拆解黄佳《Agent设计模式》核心内容：21个设计模式如何解决「在大模型不确定性上构建可靠系统」这一核心难题，从架构哲学到工程实践完整梳理。"
 ---
 
