@@ -308,7 +308,7 @@ mcporter call "go-demo.add(a: 5, b: 3)"
 
 答案很直接——**谁对接大模型并执行 Agent 编排逻辑，MCP Client 就躺在谁的数据链路里。**
 
-以一个真实案例说明：假设企业内部 AI 助手 **WorkBuddy** 需要调用飞书（Lexiang）的文档搜索能力：
+以一个真实案例说明：假设企业内部 AI 助手 **WorkBuddy** 需要调用**腾讯文档**的文档搜索能力：
 
 {{< mermaid >}}
 flowchart TB
@@ -317,9 +317,9 @@ flowchart TB
         LLM --> MC[MCP Client<br/>解析 Tool Call · 发起 JSON-RPC 请求]
     end
     
-    MC -->|SSE / HTTP| MS[MCP Server<br/>Lexiang 服务]
-    MS -->|调用底层 API| LexiangAPI[飞书文档 API]
-    LexiangAPI --> MS
+    MC -->|SSE / HTTP| MS[MCP Server<br/>腾讯文档服务]
+    MS -->|调用底层 API| WXAPI[腾讯文档 API]
+    WXAPI --> MS
     MS --> MC
     MC --> LLM
     LLM --> U
@@ -328,12 +328,12 @@ flowchart TB
     style MC fill:#fff3e0,stroke:#fb8c00,color:#2d3748,stroke-width:2px
     style MS fill:#68d391,stroke:#38a169,color:#fff,stroke-width:2px
     style U fill:#667eea,stroke:#5a67d8,color:#fff
-    style LexiangAPI fill:#e1f5fe,stroke:#0277bd,color:#2d3748
+    style WXAPI fill:#e1f5fe,stroke:#0277bd,color:#2d3748
 {{< /mermaid >}}
 
 可以看到：**MCP Client 位于 WorkBuddy 后端服务中**，它与 Host Application（WorkBuddy 本身）紧密配合，是 AI 应用连接外部工具的桥梁。
 
-而 **MCP Server（这里是 Lexiang 服务）则是一个独立进程或微服务**，负责将飞书的底层 API 封装成标准化的 Tools/Resources 供 MCP Client 调用。
+而 **MCP Server（这里是腾讯文档服务）则是一个独立进程或微服务**，负责将腾讯文档的底层 API 封装成标准化的 Tools/Resources 供 MCP Client 调用。
 
 ## 常见问题
 
