@@ -38,7 +38,8 @@
   </article>
   <div class="mw8 center">
     <section class="flex-ns mt5 flex-wrap justify-around">
-      {{ $pages := .Paginate .Pages 50 }}
+      {{ $sorted := .Pages.ByWeight.Reverse }}
+      {{ $pages := .Paginate $sorted 50 }}
       {{ range $pages.Pages }}
         <div class="w-100 mb4 relative bg-white">
           {{ .Render "summary" }}

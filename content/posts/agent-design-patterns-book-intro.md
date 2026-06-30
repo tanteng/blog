@@ -1,6 +1,7 @@
 ---
 title: "《Agent设计模式》读书笔记：21个架构范式与智能体的演化之路"
 date: 2026-06-24
+weight: 10
 draft: false
 tags: ["ai", "agent", "design-pattern", "book-notes", "llm"]
 categories: ["读书笔记"]
