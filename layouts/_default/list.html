@@ -38,10 +38,11 @@
   </article>
   <div class="mw8 center">
     <section class="flex-ns mt5 flex-wrap justify-around">
+      {{ $sorted := .Pages }}
       {{ if eq .Kind "home" }}
-        {{ $sorted := .Pages.ByWeight.Reverse }}
+        {{ $sorted = .Pages.ByWeight.Reverse }}
       {{ else }}
-        {{ $sorted := .Pages.ByDate.Reverse }}
+        {{ $sorted = .Pages.ByDate.Reverse }}
       {{ end }}
       {{ $pages := .Paginate $sorted 50 }}
       {{ range $pages.Pages }}
