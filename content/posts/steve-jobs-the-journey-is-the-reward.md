@@ -27,32 +27,9 @@ description: "过程就是奖励——乔布斯最爱的格言，源自1982年�
 
 另一张纸上有一句禅宗公案一样的短语，他后来告诉我这是他最爱的一句格言："过程就是奖励"。乔布斯喜欢强调，Mac 团队是一支有着崇高使命的特殊队伍。未来的某一天，他们会回顾这段共同度过的时光，对于那些痛苦的时刻——只是过眼云烟，或者付之一笑——他们会把这段时光看做人生中奇妙的巅峰时刻。
 
-艾萨克森在《史蒂夫·乔布斯传》第十三章中记录了这个场景，并写道：
-
-> *"The Mac team taught me that the best people love to work together, and they cannot tolerate mediocrity. You could ask anyone on the Mac team and they would tell you that the pain was worth it."*
-
-最初的 Mac 团队让我知道，最顶级的人才喜欢一起工作，而且他们是不能容忍平庸的作品的。你到那个团队里随便找个人问问，他们会告诉你，那些痛苦都是值得的。
-
-## 海盗团队
-
-退思会之后，乔布斯还做了一个后来成为 Mac 团队标志性传统的仪式：每当 Mac 的最终设计方案敲定，他会将团队成员召集到一起，拿出绘图纸和三福记号笔，让所有人都签上自己的名字。他说：
-
-> *"Real artists sign their work."*
-
-真正的艺术家会在作品上签上名字。
-
-这些签名后来被刻在了每一台麦金塔电脑的内部。
-
-乔布斯还给这支团队起了一个后来闻名硅谷的名号——**"海盗团队"**（The Pirates），而他自己则是海盗王。
-
-## 1988年的传记书名
-
-1988年，传记作家杰弗里·扬（Jeffrey S. Young）以此为书名，出版了最早的乔布斯传记之一 *Steve Jobs: The Journey Is the Reward*。该书由 Lynx Books 出版（ISBN: 9781558023789），平装本，定价 4.95 美元。
-
 ---
 
 **Sources:**
 
 - 沃尔特·艾萨克森，《史蒂夫·乔布斯传》第十三章"制造Mac"（双语阅读版）
 - [乔布斯60语录系列-19：过程就是奖励 - 知乎](https://zhuanlan.zhihu.com/p/143870465)
-- Jeffrey Young, *Steve Jobs: The Journey Is the Reward* (1988) - [Douban](https://book.douban.com/subject/1870446/)
