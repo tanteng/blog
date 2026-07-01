@@ -7,9 +7,9 @@ categories: ["reading-notes"]
 description: "过程就是奖励——乔布斯最爱的格言，源自1982年麦金塔团队的一次退思会。"
 ---
 
-> *"The first was 'Don't compromise.'"*
+> *"The journey is the reward."*
 
-第一条是"决不妥协"。
+过程就是奖励。
 
 <!--more-->
 
