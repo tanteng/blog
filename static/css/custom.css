@@ -30,18 +30,6 @@ pre, .pre {
   margin: 1.5rem 0;
 }
 
-/* Mermaid 图表竖屏横滚，避免被压缩变形 */
-.mermaid {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  text-align: center;
-}
-
-.mermaid svg {
-  max-width: none !important;
-  min-width: 100%;
-}
-
 /* 视频 iframe 响应式自适应 */
 iframe {
   width: 100%;
