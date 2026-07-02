@@ -4,7 +4,7 @@ date: 2026-06-24
 weight: 10
 draft: false
 tags: ["ai", "agent", "design-pattern", "book-notes", "llm"]
-categories: ["reading-notes"]
+categories: ["ai"]
 description: "一个贯穿全文的核心命题：如何在概率性的大模型之上，构建确定性的可靠系统？沿着这条主线，梳理黄佳《Agent 设计模式》的架构哲学与 6 大类 21 个设计模式。"
 ---
 
