@@ -192,24 +192,54 @@ PPO 算法复杂、训练不稳定。2023 年出现的 **DPO（Direct Preference
 
 ## 📊 大模型训练完整技术栈一览
 
-```
-┌─────────────────────────────────────────────────────┐
-│                    训练数据 Pipeline                 │
-│  去重 · 质量过滤 · 安全过滤 · Tokenization (BPE)    │
-├─────────────────────────────────────────────────────┤
-│                    模型架构                          │
-│  Transformer (Attention + FFN + LayerNorm + ResNet) │
-├─────────────────────────────────────────────────────┤
-│                    预训练                            │
-│  Next Token Prediction · Mixed Precision (BF16)     │
-│  分布式训练 (TP/PP/DP + ZeRO)                       │
-│  优化器 (AdamW) · LR Schedule (Cosine + Warmup)     │
-│  梯度裁剪 · 权重衰减                                 │
-├─────────────────────────────────────────────────────┤
-│                  Post-training                       │
-│  SFT → RLHF(DPO) → RLAIF                            │
-└─────────────────────────────────────────────────────┘
-```
+{{< mermaid >}}
+flowchart TB
+    subgraph Data["📦 训练数据 Pipeline"]
+        D1[🗑️ 去重<br/>SimHash / MinHash]
+        D2[✅ 质量过滤<br/>规则 + fastText 分类]
+        D3[🛡️ 安全过滤<br/>毒性 + PII 去除]
+        D4[🔤 Tokenization<br/>BPE / SentencePiece]
+        D1 --> D2 --> D3 --> D4
+    end
+
+    subgraph Arch["🏗️ 模型架构"]
+        A1[Transformer]
+        A2[Self-Attention<br/>Query/Key/Value]
+        A3[FFN<br/>线性层 + 激活]
+        A4[LayerNorm +<br/>Residual Connection]
+        A1 --> A2 --> A3 --> A4
+    end
+
+    subgraph PreTrain["🚀 预训练"]
+        P1[Next Token<br/>Prediction]
+        P2[混合精度<br/>BF16 + FP32 Opt]
+        P3[分布式训练<br/>TP / PP / DP + ZeRO]
+        P4[AdamW 优化器]
+        P5[Cosine LR +<br/>Warmup]
+        P6[梯度裁剪<br/>max_norm=1.0]
+        P1 --> P2 --> P3 --> P4 --> P5 --> P6
+    end
+
+    subgraph PostTrain["🎯 Post-training"]
+        PT1[SFT<br/>监督微调]
+        PT2[RLHF<br/>Reward Model + PPO]
+        PT3[DPO<br/>直接偏好优化]
+        PT4[RLAIF<br/>AI 反馈替代人类]
+        PT1 --> PT2
+        PT2 --> PT3
+        PT3 --> PT4
+    end
+
+    Data --> Arch --> PreTrain --> PostTrain
+
+    classDef stage fill:#1a1a2e,stroke:#5a67d8,color:#fff,stroke-width:2px,rx:10
+    classDef tech fill:#2d3748,stroke:#718096,color:#a0aec0,stroke-width:1px,rx:6
+    classDef highlight fill:#553c9a,stroke:#9f7aea,color:#fff,stroke-width:2px,rx:8
+    classDef arrow color:#718096,stroke-width:2px
+
+    class D1,D2,D3,D4,Arch,A1,A2,A3,A4,PreTrain,P1,P2,P3,P4,P5,P6,PT1,PT2,PT3,PT4 tech
+    class Data,PostTrain highlight
+{{< /mermaid >}}
 
 ## 🚀 总结
 
