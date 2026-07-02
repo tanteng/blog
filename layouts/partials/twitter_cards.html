@@ -6,5 +6,6 @@
 {{- else -}}
 <meta name="twitter:image" content="{{ .Site.Params.open_graph_image | absURL }}" />
 {{- end -}}
+<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="{{ .Title }}" />
 <meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Summary | plainify }}{{ end }}" />
