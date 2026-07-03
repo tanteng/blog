@@ -1,5 +1,5 @@
 ---
-title: "Nikon FM2 双重曝光：人像与天空的梦幻叠加"
+title: "Nikon FM2 双重曝光：四种经典梦幻效果的拍法"
 date: 2025-05-11
 lastmod: 2026-07-04
 draft: false
