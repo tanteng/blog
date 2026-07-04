@@ -1,6 +1,7 @@
 ---
 title: "大模型全栈拆解：从一堆数据到一个能对话的 AI"
-date: 2026-06-28
+date: 2026-03-01
+weight: 10
 draft: false
 tags: ["ai", "machine-learning", "deep-learning", "llm", "transformer"]
 categories: ["ai"]
