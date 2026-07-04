@@ -48,36 +48,6 @@ description: "一个贯穿全文的核心命题：如何在概率性的大模型
 > **主线定位｜第 1 个问题：为什么是 Agent？**
 > 上篇不谈具体模式，而是回答一个前置问题：软件工程走了三十年，为什么最终会把"用不确定性构建可靠系统"这个答案，交到 Agent 手上？答案藏在一条清晰的演进线里——**确定性失效 → 范式迁移 → 物种诞生**。
 
-{{< mermaid >}}
-flowchart TB
-    title1["📖 上篇：智能设计的哲学"]:::title
-    core["💡 核心问题：如何在不确定的大模型上构建可靠的系统？"]:::core
-    ch1["第1章：从结构到智能"]:::chapter
-    ch2["第2章：从模式到意图"]:::chapter
-    ch3["第3章：从设计到演化"]:::chapter
-    ch1_1["GoF 23模式 → 模式病"]:::leaf
-    ch1_2["确定性失效"]:::leaf
-    ch1_3["2012转折点"]:::highlight
-    ch2_1["函数与流"]:::leaf
-    ch2_2["分布式+Serverless"]:::leaf
-    ch2_3["软件2.0"]:::highlight
-    ch3_1["Agent本质"]:::leaf
-    ch3_2["ReAct + MCP"]:::leaf
-    ch3_3["多Agent协作"]:::highlight
-    conclusion["🎯 结论：设计进化 · 工程重生 · 角色升华"]:::done
-    title1 --> core --> ch1 & ch2 & ch3
-    ch1 --> ch1_1 & ch1_2 & ch1_3
-    ch2 --> ch2_1 & ch2_2 & ch2_3
-    ch3 --> ch3_1 & ch3_2 & ch3_3
-    ch1_3 & ch2_3 & ch3_3 --> conclusion
-    classDef title fill:#1a1a2e,stroke:#5a67d8,color:#fff,stroke-width:2px,rx:12
-    classDef core fill:#2d3748,stroke:#e94560,color:#fff,stroke-width:3px,rx:20
-    classDef chapter fill:#4a5568,stroke:#718096,color:#fff,stroke-width:1px,rx:10
-    classDef highlight fill:#553c9a,stroke:#9f7aea,color:#fff,stroke-width:2px,rx:10
-    classDef done fill:#2b6cb0,stroke:#4299e1,color:#fff,stroke-width:2px,rx:15
-    classDef leaf fill:#2d3748,stroke:#718096,color:#a0aec0,stroke-width:1px,rx:8
-{{< /mermaid >}}
-
 ### 第1章：从结构到智能——设计模式的世纪旅程
 
 #### 1.1 模式思想的起源
@@ -290,47 +260,8 @@ GoF 设计模式诞生于"静态世界"，2012 年是关键转折点——Netfli
 > **主线定位｜第 3 & 4 个问题：可靠性从哪来？怎么落地？**
 > 上篇论证了"为什么是 Agent"，但一个会胡说的模型，凭什么能撑起可靠系统？下篇给出的答案是：**把可靠性拆解到六大类能力里，逐个消解不确定性**——感知消解"信息噪声"，记忆消解"知识过期"，推理消解"逻辑跳步"，行动消解"纸上谈兵"，反思消解"错而不知"，协作消解"单点认知上限"。每一类能力，再落成 3～4 个可复用的设计模式。
 
-{{< mermaid >}}
-flowchart TB
-    title2["📖 下篇：六大类 21 个核心设计模式"]:::title
-    agent["🤖 完整 Agent"]:::core
-    sense["👁️ 感知"]:::category
-    memory["🧠 记忆"]:::category
-    reason["⚙️ 推理"]:::category
-    action["💪 行动"]:::category
-    reflect["🔮 反思"]:::category
-    collaborate["🤝 协作"]:::category
-    sense_1["注意力聚焦"]:::leaf
-    sense_2["多模态融合"]:::leaf
-    sense_3["主动感知"]:::leaf
-    memory_1["分层记忆"]:::leaf
-    memory_2["RAG"]:::highlight
-    memory_3["情节记忆"]:::leaf
-    reason_1["思维链"]:::leaf
-    reason_2["思维树"]:::leaf
-    reason_3["思维图"]:::leaf
-    action_1["ReAct"]:::highlight
-    action_2["规划-执行"]:::leaf
-    action_3["工具编排"]:::leaf
-    reflect_1["自我修正"]:::leaf
-    reflect_2["反思记忆"]:::leaf
-    reflect_3["元学习"]:::leaf
-    collab_1["辩论"]:::leaf
-    collab_2["委托"]:::leaf
-    collab_3["群体"]:::highlight
-    title2 --> agent --> sense & memory & reason & action & reflect & collaborate
-    sense --> sense_1 & sense_2 & sense_3
-    memory --> memory_1 & memory_2 & memory_3
-    reason --> reason_1 & reason_2 & reason_3
-    action --> action_1 & action_2 & action_3
-    reflect --> reflect_1 & reflect_2 & reflect_3
-    collaborate --> collab_1 & collab_2 & collab_3
-    classDef title fill:#1a1a2e,stroke:#5a67d8,color:#fff,stroke-width:2px,rx:12
-    classDef core fill:#2d3748,stroke:#e94560,color:#fff,stroke-width:3px,rx:20
-    classDef category fill:#4a5568,stroke:#718096,color:#fff,stroke-width:1px,rx:10
-    classDef highlight fill:#553c9a,stroke:#9f7aea,color:#fff,stroke-width:2px,rx:10
-    classDef leaf fill:#2d3748,stroke:#718096,color:#a0aec0,stroke-width:1px,rx:8
-{{< /mermaid >}}
+
+**Tencent WorkBuddy** 和 **Claude Code** 都是目前大模型落地应用中非常典型的 Agent 设计模式集大成者。传统的 AI 助手（如早期 ChatGPT 网页版）是"问答式"的——你输入一条指令，它返回一段文字，属于**单次交互**。而 WorkBuddy 和 Claude Code 则运行在一个 `while(alive)` 的控制循环中，具备了感知、规划、工具调用、反思和协同的能力。它们具体运用了以下核心的 Agent 设计模式。
 
 ### 感知模式——系统与世界的接口层
 
@@ -356,6 +287,10 @@ flowchart TB
 
 **ReAct**：看图规划 → 采取行动 → 观察反馈——**推理轨迹追踪中间决策，行动赋予探索环境获取外部信息的能力**。
 
+**Claude Code 的 ReAct 循环**：当你让 Claude Code"修复项目中所有过期的依赖并确保测试通过"时，它不会一次性把代码吐给你，而是进入 ReAct 循环：**Thought**：我需要先查看 `package.json` 哪些依赖过期了。**Action**：调用终端工具运行 `npm outdated`。**Observation**：终端返回了一堆过期的包和版本号。**Thought**：我知道该更新什么了，先更新 A 包，然后运行测试。**Action**：运行 `npm install A@latest`，接着运行 `npm test`。如此循环，直到所有测试通过。
+
+**WorkBuddy 的 ReAct 循环**：在桌面办公场景下，你让它"把上个月的销售数据整理成图表并给老板发邮件"。它会先"想"去哪里找数据（Thought），然后去打开本地对应的 Excel 表格（Action），读取内容（Observation），再决定下一步是调用 Python 脚本画图还是直接在 Excel 内操作。
+
 > **当 Agent 能够感知、记忆、推理，并以明智且适应性的方式行动时，它已近乎一个完整的智能系统。** 但它仍存在致命弱点：可能对自己的错误深信不疑。
 
 ### 反思模式——AI 的灵魂工程学
@@ -364,9 +299,13 @@ flowchart TB
 
 > **自我修正**（当下毫秒级，像橡皮擦）/**反思记忆**（下次分钟级，像错题本）/**元学习**（长远日/周级，像修订教科书）——三种时间尺度，构成 Agent 的完整反思闭环。
 
+**Claude Code 的反思场景**：它写完了一段代码并自动运行了 `pytest`。结果终端报错了（SyntaxError 或断言失败）。在传统模式下，任务就死掉了。但在 Agent 模式下，Claude Code 会把"报错信息"作为新的上下文输入给自己，进行**自我反思**："哦，我刚才漏掉了一个闭合括号 / 误解了 API"，然后直接修改代码重新运行，直到测试完全通过才向人类交付。
+
 ### 协作模式——协作的终局
 
 **→ 消解「单点认知上限」的不确定性。** **智能并非孤独的函数，而是关系的网络。** AI 正从"工具时代"迈入"社会时代"。
+
+**WorkBuddy 的专家团模式**：WorkBuddy 在后台其实往往不是一个 Agent 在单打独斗，而是编排了一个**专家网络**。**Orchestrator（编排器）**负责理解人类意图并分配任务；**Reader Agent（文档专家）**专门负责高效解析几百页的报表，提取关键数字；**Analyst Agent（分析专家）**负责写 Python 代码跑数据分析；**Writer Agent（文案专家）**负责把分析结果润色成高级的汇报邮件。它们通过类似"对讲机协议"的方式互相传递数据，最终合力完成工作。
 
 **委托模式**如同军队的作战体系：命令层层下达，强调执行力与服从性。**路由模式**则如同综合医院的分诊系统：按需分诊，以专业度为先——"没有任何一个模型能在所有任务上都保持优势；关键在于让最合适的大脑去处理最匹配的问题。"（MoA 论文）
 
