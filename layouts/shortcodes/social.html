@@ -1,0 +1,5 @@
+{{- $name := .Get 0 -}}
+{{- $icon := resources.Get (printf "ananke/socials/%s.svg" $name) -}}
+{{- with $icon -}}
+<span class="social-icon" style="display:inline-block;vertical-align:-0.2em;width:1.2em;height:1.2em;margin-right:0.3em;line-height:1;">{{ .Content | safeHTML }}</span>
+{{- end -}}
