@@ -1,37 +1,8 @@
-<link rel="icon" href="/favicon.ico">
-<link rel="icon" type="image/png" href="/favicon.png">
-<link rel="apple-touch-icon" href="/favicon.png">
-<link rel="stylesheet" href="/css/custom.css?v=20260702">
-{{ if or (.Page.HasShortcode "mermaid") (.Page.Store.Get "hasMermaid") }}
-<style>
-  .mermaid {
-    visibility: hidden;
-    background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
-    padding: 16px 8px;
-    border-radius: 12px;
-    margin: 24px 0;
-    text-align: center;
-    overflow-x: auto;
-    min-height: 80px;
-    border: 1px solid #e0e0e0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  }
-  .mermaid[data-processed="true"],
-  .mermaid svg {
-    visibility: visible;
-  }
-  .mermaid svg {
-    display: inline-block;
-    max-width: 100%;
-    height: auto !important;
-  }
-</style>
-<script defer src="/js/mermaid.min.js" onload="
-  mermaid.initialize({
-    startOnLoad: true,
-    theme: 'base',
-    securityLevel: 'loose',
-    flowchart: { useMaxWidth: true, htmlLabels: true }
-  });
-"></script>
-{{ end }}
+{{/*
+  head-additions.html — the designated injection point at the end of <head>.
+
+  Site projects can override this partial directly, or use the "head-end" hook
+  to inject markup (meta tags, preloads, third-party <script>/<link> tags)
+  without overriding the partial. See the documentation on hooks & filters.
+*/}}
+{{- partials.Include "hook.html" (dict "hook" "head-end" "context" .) -}}

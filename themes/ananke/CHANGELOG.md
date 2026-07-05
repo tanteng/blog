@@ -1,4 +1,498 @@
 # Changelog
+
+## [2.19.0](https://github.com/gohugo-ananke/ananke/compare/v2.18.0...v2.19.0) (2026-06-07)
+
+### Features
+
+* add edit-page shortcode for GitHub edit links ([#1028](https://github.com/gohugo-ananke/ananke/issues/1028)) ([688f358](https://github.com/gohugo-ananke/ananke/commit/688f3584ad4d3625cd001855c1f01448316252ba))
+
+### Bug Fixes
+
+* normalise GoHugo to Hugo ([45143b5](https://github.com/gohugo-ananke/ananke/commit/45143b564b99709c2c23664de0bbcb7b1d30b17e))
+* various changes to workspace, testing, linting, etc. ([c43eae2](https://github.com/gohugo-ananke/ananke/commit/c43eae25528e08a19e9bf4af4d5753ab814a1179))
+
+### Build
+
+* **vscode:** update workspace configuration ([9e1d7b9](https://github.com/gohugo-ananke/ananke/commit/9e1d7b96a2998887d174adf592b7f98adc4af14b))
+
+### Documentation
+
+* **ai:** add release notes prompt ([606eaac](https://github.com/gohugo-ananke/ananke/commit/606eaacd6cef65903078ab9b9f4550db53da96c0))
+
+## [2.18.0](https://github.com/gohugo-ananke/ananke/compare/v2.17.1...v2.18.0) (2026-06-07)
+
+### Features
+
+* add layout hooks head/body-start/end, header/main/content/footer-before/after ([66247c8](https://github.com/gohugo-ananke/ananke/commit/66247c8cc7544c4d736deb83705b731d1a1d6687))
+* add layout hooks head/body-start/end, header/main/content/footer-before/after ([cc579e8](https://github.com/gohugo-ananke/ananke/commit/cc579e8ae36756d246eb4f6be1c69e38976f9cef))
+* add since shortcode for release badges ([#1018](https://github.com/gohugo-ananke/ananke/issues/1018)) ([fb71d10](https://github.com/gohugo-ananke/ananke/commit/fb71d100fe069244d1fcbe3f48c976ab7a0558e2))
+* add since shortcode for release badges ([#1018](https://github.com/gohugo-ananke/ananke/issues/1018)) ([ddfc42c](https://github.com/gohugo-ananke/ananke/commit/ddfc42c738d12303b442a6fd12e7cabc6eef614d))
+* copy-to-clipboard buttons for code blocks ([#986](https://github.com/gohugo-ananke/ananke/issues/986)) ([1d96734](https://github.com/gohugo-ananke/ananke/commit/1d9673468505eaad912ebb7b9b6d601ac2b5bf60)), closes [#985](https://github.com/gohugo-ananke/ananke/issues/985)
+* copy-to-clipboard buttons for code blocks ([#986](https://github.com/gohugo-ananke/ananke/issues/986)) ([8c3143a](https://github.com/gohugo-ananke/ananke/commit/8c3143a220e69752c9434b15309c75145b99b896)), closes [#985](https://github.com/gohugo-ananke/ananke/issues/985)
+* make section link above article title clickable and configurable ([d343f0b](https://github.com/gohugo-ananke/ananke/commit/d343f0b8575a02a872f4cfbde314da4d0b60b53c))
+* show categories on posts ([#973](https://github.com/gohugo-ananke/ananke/issues/973)) ([52ec6cd](https://github.com/gohugo-ananke/ananke/commit/52ec6cd4b85f0d861100c6ab78bc2f8d3f073675)), closes [#620](https://github.com/gohugo-ananke/ananke/issues/620) [gohugo-ananke/documentation#18](https://github.com/gohugo-ananke/documentation/issues/18)
+* show categories on posts ([#973](https://github.com/gohugo-ananke/ananke/issues/973)) ([c806c1c](https://github.com/gohugo-ananke/ananke/commit/c806c1cf1b8bc98068ffef9cfd551a73711dcdc1)), closes [#620](https://github.com/gohugo-ananke/ananke/issues/620) [gohugo-ananke/documentation#18](https://github.com/gohugo-ananke/documentation/issues/18)
+
+### Bug Fixes
+
+* allow images in list summary cards ([#971](https://github.com/gohugo-ananke/ananke/issues/971)) ([713bb6d](https://github.com/gohugo-ananke/ananke/commit/713bb6dd58f4e4bb1db3ca1b8e56e385016b06ea)), closes [gohugo-ananke/documentation#13](https://github.com/gohugo-ananke/documentation/issues/13)
+* allow images in list summary cards ([#971](https://github.com/gohugo-ananke/ananke/issues/971)) ([c88d2fc](https://github.com/gohugo-ananke/ananke/commit/c88d2fc98c6b84d847f06b5f1b644d6dadb2299a)), closes [gohugo-ananke/documentation#13](https://github.com/gohugo-ananke/documentation/issues/13)
+* font size definition for in-paragraph code ([502c676](https://github.com/gohugo-ananke/ananke/commit/502c676249dbc14011e965d84f91c8a8ee6d9701))
+* font size definition for in-paragraph code ([da07193](https://github.com/gohugo-ananke/ananke/commit/da071934f9c4fa85c9c8ef0102b3af6c2759a0c2))
+* generate responsive hero background images ([#970](https://github.com/gohugo-ananke/ananke/issues/970)) ([9570264](https://github.com/gohugo-ananke/ananke/commit/9570264992f1f4923255bd8522a99c5552595d65)), closes [#362](https://github.com/gohugo-ananke/ananke/issues/362) [gohugo-ananke/documentation#14](https://github.com/gohugo-ananke/documentation/issues/14) [#362](https://github.com/gohugo-ananke/ananke/issues/362)
+* generate responsive hero background images ([#970](https://github.com/gohugo-ananke/ananke/issues/970)) ([7abd905](https://github.com/gohugo-ananke/ananke/commit/7abd905913a476061ff6880f645c2ce2e1092278)), closes [#362](https://github.com/gohugo-ananke/ananke/issues/362) [gohugo-ananke/documentation#14](https://github.com/gohugo-ananke/documentation/issues/14) [#362](https://github.com/gohugo-ananke/ananke/issues/362) [#540](https://github.com/gohugo-ananke/ananke/issues/540)
+* make header height configurable ([#972](https://github.com/gohugo-ananke/ananke/issues/972)) ([634cc09](https://github.com/gohugo-ananke/ananke/commit/634cc090072fbc2f99eaef4a19639c016e3e245c)), closes [#504](https://github.com/gohugo-ananke/ananke/issues/504) [gohugo-ananke/documentation#20](https://github.com/gohugo-ananke/documentation/issues/20)
+* make header height configurable ([#972](https://github.com/gohugo-ananke/ananke/issues/972)) ([de31c71](https://github.com/gohugo-ananke/ananke/commit/de31c71c2a3b3235fec0783521d5104ff41ec566)), closes [#504](https://github.com/gohugo-ananke/ananke/issues/504) [gohugo-ananke/documentation#20](https://github.com/gohugo-ananke/documentation/issues/20)
+
+### Build
+
+* **deps:** update dependencies ([3395d1f](https://github.com/gohugo-ananke/ananke/commit/3395d1f354e9045ea21d36d6af21f18eba1a013e))
+* **fix:** proper discussion category for GH release ([2b51bf7](https://github.com/gohugo-ananke/ananke/commit/2b51bf775e658d8d10e7815ffa948612cdcb3e17))
+* **fix:** proper discussion category for GH release ([0a0bc21](https://github.com/gohugo-ananke/ananke/commit/0a0bc2107d420d1fe01dd5316f88c54c233c3c91))
+* **vscode:** update workspace configuration ([90a7775](https://github.com/gohugo-ananke/ananke/commit/90a7775039fce92f8ce83c4f6f870a128a49b7cc))
+
+### Documentation
+
+* **ai:** update issue prompt ([2eb476f](https://github.com/gohugo-ananke/ananke/commit/2eb476fd782d758ef42f90a83d96ffa3edc3f9f8))
+* **ai:** update issue prompt ([81f0cfe](https://github.com/gohugo-ananke/ananke/commit/81f0cfe2a3ae0fdf6b89673531ad5a6699661546))
+
+### Tests
+
+* scaffold Playwright + axe testing PoC ([#1004](https://github.com/gohugo-ananke/ananke/issues/1004)) ([2d2116e](https://github.com/gohugo-ananke/ananke/commit/2d2116e1143a2214b9f1469d56803f0b06977869))
+
+## [2.17.1](https://github.com/gohugo-ananke/ananke/compare/v2.17.0...v2.17.1) (2026-06-06)
+
+### Bug Fixes
+
+* apply configured social colours on hover for follow and share ([#861](https://github.com/gohugo-ananke/ananke/issues/861)) ([#979](https://github.com/gohugo-ananke/ananke/issues/979)) ([237551f](https://github.com/gohugo-ananke/ananke/commit/237551fcb68055aa8344e83b1d31773fe7c2e653))
+* test local working tree in quickstart test ([#938](https://github.com/gohugo-ananke/ananke/issues/938)) ([#978](https://github.com/gohugo-ananke/ananke/issues/978)) ([d545fdf](https://github.com/gohugo-ananke/ananke/commit/d545fdff144cebdd9358b1b14c0c168b03a7fd0b))
+
+### Build
+
+* **deps-dev:** bump @biomejs/biome from 2.4.15 to 2.4.16 ([#977](https://github.com/gohugo-ananke/ananke/issues/977)) ([ccbcc32](https://github.com/gohugo-ananke/ananke/commit/ccbcc324c3bc396cc2f4d608c1b4c0db22bbe112))
+* **deps-dev:** bump @types/node from 25.8.0 to 25.9.1 ([#976](https://github.com/gohugo-ananke/ananke/issues/976)) ([8743905](https://github.com/gohugo-ananke/ananke/commit/87439054b061727f957b489db9e74ceb37f8c524))
+* **deps-dev:** bump lint-staged from 17.0.4 to 17.0.5 ([#975](https://github.com/gohugo-ananke/ananke/issues/975)) ([447ede2](https://github.com/gohugo-ananke/ananke/commit/447ede2ada00932a707179bcaaa59763696ce0e2))
+* **deps:** bump postcss from 8.5.14 to 8.5.15 ([#974](https://github.com/gohugo-ananke/ananke/issues/974)) ([7cd8756](https://github.com/gohugo-ananke/ananke/commit/7cd8756d3846ea90447aae85ee02de8698dec655))
+
+### Chores
+
+* update gitignore ([#981](https://github.com/gohugo-ananke/ananke/issues/981)) ([24426cb](https://github.com/gohugo-ananke/ananke/commit/24426cbd2549b7fc7d6ca8b2fea98edf348bd78b))
+
+## [2.17.0](https://github.com/gohugo-ananke/ananke/compare/v2.16.0...v2.17.0) (2026-05-17)
+
+### Features
+
+* theme hooks and filters ([#964](https://github.com/gohugo-ananke/ananke/issues/964)) ([6dedd8e](https://github.com/gohugo-ananke/ananke/commit/6dedd8ebbc8a25bcd34669201853861d836d12e6))
+
+### Bug Fixes
+
+* remove deprecated partials ([9dc44d5](https://github.com/gohugo-ananke/ananke/commit/9dc44d5b04092c54a2a16ce03a41423a7a434572))
+* remove external link indicator from social icons ([1a185ea](https://github.com/gohugo-ananke/ananke/commit/1a185ea6b62acad9dfebcf57c6ecbcd1b902a2e6))
+* remove font size from code highlighting ([399075e](https://github.com/gohugo-ananke/ananke/commit/399075ed6fdb2abd7afe04019b1b912e4099773c))
+* remove stray overflow from code highlighting ([09d711c](https://github.com/gohugo-ananke/ananke/commit/09d711ccf52aa944e662c5e2ac0cf2fd109ce3c6))
+* rename theme styles from main.css to theme.css ([918148e](https://github.com/gohugo-ananke/ananke/commit/918148e0d10f438b26d4893a69fde4bb713e81c0))
+* slightly larger font size in code blocks ([9cac210](https://github.com/gohugo-ananke/ananke/commit/9cac2102da3dbc771195ad7fd4ed9c4bac7cc4ff))
+* support images array for featured image ([#967](https://github.com/gohugo-ananke/ananke/issues/967)) ([ad43367](https://github.com/gohugo-ananke/ananke/commit/ad433679f34ff636f07026d42b21ffeb3dd54e97)), closes [gohugo-ananke/documentation#10](https://github.com/gohugo-ananke/documentation/issues/10) [#77](https://github.com/gohugo-ananke/ananke/issues/77)
+
+### Build
+
+* **config:** update workspace configuration ([bcc90b5](https://github.com/gohugo-ananke/ananke/commit/bcc90b5cbbc14f3a556c064dfe54abb52107a144))
+* **fix:** create a release on github when publishing a new release ([d72fdad](https://github.com/gohugo-ananke/ananke/commit/d72fdad1ef44bbbf6f91a488bc9334c384c8bae8))
+* **fix:** create discussion on release ([9a5cadd](https://github.com/gohugo-ananke/ananke/commit/9a5cadd1058926426fdc419e379145304577ce33))
+
+### CI
+
+* **fix:** do not check the whole code base on TS changes ([998b060](https://github.com/gohugo-ananke/ananke/commit/998b060a26963eca175439ce55579ef69cce66fb))
+
+## [2.16.0](https://github.com/gohugo-ananke/ananke/compare/v2.15.0...v2.16.0) (2026-05-16)
+
+### Features
+
+* rework stylesheet pipeline ([f78134c](https://github.com/gohugo-ananke/ananke/commit/f78134c2724d6c12ebe183e3e592f469c2da806b))
+
+### Build
+
+* **deps:** update bundled Tachyons from 4.9.1 to 4.12.0 ([433ef8f](https://github.com/gohugo-ananke/ananke/commit/433ef8f9c3c941975dab935122445c22d837bb47))
+* **fix:** run test only on main branch push hook ([148aa95](https://github.com/gohugo-ananke/ananke/commit/148aa9512b269231196ee0cf30a950a62d54f881))
+* **fix:** update version numbers and fix release setup ([29f0f4d](https://github.com/gohugo-ananke/ananke/commit/29f0f4df0774f5c91ff25ed67b72c751919f6e8d))
+
+## [2.14.0](https://github.com/gohugo-ananke/ananke/compare/v2.13.3...v2.14.0) (2026-05-15)
+
+### Features
+
+* add simple icons and maintenance script ([f6fa927](https://github.com/gohugo-ananke/ananke/commit/f6fa927de83e1ec49be7e0656d6c6d932e230f5f))
+
+### Build
+
+* **fix:** remove improper cooldown config for GH actions ([079b757](https://github.com/gohugo-ananke/ananke/commit/079b757e38d6d6806e8661bf72f136cf57f0ccfe))
+* **fix:** smaller fixes to the release configuration ([0672476](https://github.com/gohugo-ananke/ananke/commit/067247654333afb79151a19b5e3b75b6908f40be))
+* **fix:** update release setup ([229588b](https://github.com/gohugo-ananke/ananke/commit/229588be6961d020af2f1e9557199bfb69a32ae7))
+
+## [2.13.3](https://github.com/gohugo-ananke/ananke/compare/v2.13.2...v2.13.3) (2026-05-15)
+
+### Build
+
+* **fix:** proper release key attribution ([59b44f2](https://github.com/gohugo-ananke/ananke/commit/59b44f2d9d51d4b56be75a90409894c242a38ff2))
+
+## [2.13.2](https://github.com/gohugo-ananke/ananke/compare/v2.13.1...v2.13.2) (2026-05-15)
+
+### Build
+
+* **fix:** proper release key attribution ([db5561d](https://github.com/gohugo-ananke/ananke/commit/db5561d78a249902f8aa9cd3e79e73ace414292f))
+
+## [2.13.1](https://github.com/gohugo-ananke/ananke/compare/v2.13.0...v2.13.1) (2026-05-15)
+
+### Build
+
+* **deps-dev:** bump @release-it/conventional-changelog from 10.0.6 to 11.0.0 ([#953](https://github.com/gohugo-ananke/ananke/issues/953)) ([c3ada3f](https://github.com/gohugo-ananke/ananke/commit/c3ada3fa46e89a6f565bdb6fe72c733da2ed3ec0))
+* **deps-dev:** bump release-it from 19.2.4 to 20.0.1 ([#954](https://github.com/gohugo-ananke/ananke/issues/954)) ([50a4ce9](https://github.com/gohugo-ananke/ananke/commit/50a4ce99140cfacfb00ebe5f693a802f5f756254))
+* **deps:** bump actions/checkout from 4 to 6 ([#945](https://github.com/gohugo-ananke/ananke/issues/945)) ([5d40ea3](https://github.com/gohugo-ananke/ananke/commit/5d40ea3fe961f99dbc45bb461acfd13a00b65af8))
+* **deps:** bump actions/setup-node from 4 to 6 ([#946](https://github.com/gohugo-ananke/ananke/issues/946)) ([dc0a822](https://github.com/gohugo-ananke/ananke/commit/dc0a8223b3dd020543ece8d0013ef8bcf40a515b))
+* **deps:** bump postcss from 8.5.10 to 8.5.13 ([#955](https://github.com/gohugo-ananke/ananke/issues/955)) ([ed5f168](https://github.com/gohugo-ananke/ananke/commit/ed5f168c0f42f98386b80a4c48056ee22de79446))
+* **deps:** bump the npm_and_yarn group across 1 directory with 2 updates ([#956](https://github.com/gohugo-ananke/ananke/issues/956)) ([09a1dea](https://github.com/gohugo-ananke/ananke/commit/09a1dea357e39ea352fa75d80c621d9cbc17b582))
+* **deps:** update dependencies ([9347892](https://github.com/gohugo-ananke/ananke/commit/9347892f1d62c7acd1bac3b8dce76d10febfe7ac))
+* **fix:** always use latest node version ([17401b9](https://github.com/gohugo-ananke/ananke/commit/17401b98ee421fbb6b67709d3a994a6026d5700d))
+* **fix:** dependabot must pull agains development branch ([036acd7](https://github.com/gohugo-ananke/ananke/commit/036acd7f24f591002f31786686255a1bf93e9d91))
+* rework release configuration ([2b6c1fe](https://github.com/gohugo-ananke/ananke/commit/2b6c1fe20cd829bf5f95637d60d68ebe6058f542))
+
+### Chores
+
+* set up branch protection rules and workflows ([c0c179c](https://github.com/gohugo-ananke/ananke/commit/c0c179cf95878ef908d70396bc8a724f7a56c8a0))
+* update package.json ([aaa7016](https://github.com/gohugo-ananke/ananke/commit/aaa701650f6f8d298811b178b1e8988526dbc38b))
+
+### CI
+
+* **fix:** allow quickstart workflow to run on request ([a1dd0f6](https://github.com/gohugo-ananke/ananke/commit/a1dd0f637c8188b91030ccffe1754489ac586234))
+* **fix:** lint only staged markdown files ([60eb57d](https://github.com/gohugo-ananke/ananke/commit/60eb57dfcd86615f58f2db50e843e9760614760d))
+* update branch setup/rules and CONTRIBUTING.md ([c336f54](https://github.com/gohugo-ananke/ananke/commit/c336f54315f4d3a8f80c2b8c82a0055037e7bf76))
+
+### Documentation
+
+* add AI contributor guide to CONTRIBUTING.md ([a819d1e](https://github.com/gohugo-ananke/ananke/commit/a819d1ece3d6819dd8bde48688cff345ce65f5cd))
+* **ai:** add DESIGN.md with initial setup ([d262f3a](https://github.com/gohugo-ananke/ananke/commit/d262f3a379bc0680717f6c0a98f532d189324f88))
+* **ai:** add issue analysis prompt ([437d60c](https://github.com/gohugo-ananke/ananke/commit/437d60c6d68f009db08d6b73c774710d6164ada2))
+* **ai:** fix test script prompt ([d569659](https://github.com/gohugo-ananke/ananke/commit/d56965905f35c7279eab961ed37e326dec36fd09))
+* **ai:** update issue analysis prompt with documentation instructions ([c5c37be](https://github.com/gohugo-ananke/ananke/commit/c5c37bee8b5fb3c1272cdee9fcbc8c36468ee513))
+* **fix:** update links to documentation repository ([feb14b2](https://github.com/gohugo-ananke/ananke/commit/feb14b2cfff4ae1caed4e7d6fc1e529731ab834f))
+* **readme:** link to deployed documentation ([#959](https://github.com/gohugo-ananke/ananke/issues/959)) ([f63ea20](https://github.com/gohugo-ananke/ananke/commit/f63ea2005a5bad0fbc733a641fea5c20380c32fa))
+
+## [2.13.0](https://github.com/gohugo-ananke/ananke/compare/v2.13.0-prerelease.2...v2.13.0) (2026-04-24)
+
+## [2.13.0-prerelease.2](https://github.com/gohugo-ananke/ananke/compare/v2.13.0-prerelease.1...v2.13.0-prerelease.2) (2026-04-24)
+
+### Bug Fixes
+
+* change ananke theme paths to organisation path ([e6ba1e9](https://github.com/gohugo-ananke/ananke/commit/e6ba1e9ea04f2a1c900947053ae5a777ed4201fc))
+
+### Build
+
+* **fix:** add RELEASES.md and fix existing docs to reflect reality ([d63de44](https://github.com/gohugo-ananke/ananke/commit/d63de44d9e73c735fbcc5b1239f284d12debdd9f))
+* **fix:** changed repo paths ([fc7a580](https://github.com/gohugo-ananke/ananke/commit/fc7a58090ced2be234d2178f438f3d829c6f7e34))
+* **fix:** proper repository path ([982fea0](https://github.com/gohugo-ananke/ananke/commit/982fea003835be8f4fc4359b3f0f2dda1b87b3dd))
+* **fix:** update workspace setup ([1bf4684](https://github.com/gohugo-ananke/ananke/commit/1bf468408e9bea4d8e4582890e32d89e5ce367f9))
+* **vscode:** update workspace setup ([1a5c6f8](https://github.com/gohugo-ananke/ananke/commit/1a5c6f8790b30522d02a41c37e700819845bf348))
+
+### Chores
+
+* delete old release configuration ([838ed40](https://github.com/gohugo-ananke/ananke/commit/838ed401c017c4896bef70ae07d6118e3fc49796))
+* **fix:** various paths changed to new org layout ([b5ac529](https://github.com/gohugo-ananke/ananke/commit/b5ac5297dc30be632f64d9e4c18645df8e2b77fd))
+* remove docs site setup ([fa18bca](https://github.com/gohugo-ananke/ananke/commit/fa18bca9a2be107b15f61030ea41ca347013a87e))
+* remove docs submodule ([e861c03](https://github.com/gohugo-ananke/ananke/commit/e861c031e269334006abb736331d6a51c4d05413))
+* update module name in go.mod ([45cc10e](https://github.com/gohugo-ananke/ananke/commit/45cc10e7bbf17aa4ed125f42946a8fdbb70349ba))
+
+### CI
+
+* lintstaged changes ([2baed34](https://github.com/gohugo-ananke/ananke/commit/2baed34a6ad7a638e373f2d9451c92de6129eb64))
+
+### Documentation
+
+* add link to repo-change discussion ([238b8e3](https://github.com/gohugo-ananke/ananke/commit/238b8e35350884580449b37325e712d675292003))
+* **fix:** add v2 to Hugo module replacement ([4547572](https://github.com/gohugo-ananke/ananke/commit/45475720a621b24c12fc2fd176e20a0462d8e5fc))
+* **fix:** discussion and issue links ([14349f4](https://github.com/gohugo-ananke/ananke/commit/14349f4f0e8ba90b478490808437ca3371cce282))
+* **fix:** typo ([cd6d1f8](https://github.com/gohugo-ananke/ananke/commit/cd6d1f85e0409e95de92eb65b424a26ea1ddae39))
+* update README.md with notice about organisation move ([dabe904](https://github.com/gohugo-ananke/ananke/commit/dabe904322f65274f54a2eec09ebae349c023ee6))
+
+### AI Instruction Files
+
+* move files around ([9b05e7d](https://github.com/gohugo-ananke/ananke/commit/9b05e7df232574d0a35638311a1b83608d48d70d))
+
+## [2.13.0-prerelease.1](https://github.com/theNewDynamic/gohugo-theme-ananke/compare/v2.12.1...v2.13.0-prerelease.1) (2026-04-17)
+
+### Features
+
+* add dynamic identifiers to body and article classes per page ([#887](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/887)) ([62aa99f](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/62aa99f85bc98ca97ca4f798dfc8b0d507c0fb4b)), closes [#815](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/815)
+* add global param for params.ananke.show_date frontmatter ([e416e55](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/e416e554e9d2fdd3abae34cc2eb6aa9ff8ed6928))
+* add page-index shortcode ([3ad8419](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/3ad84196b30907c7a0ce7ae726c07df96e5b3cd4))
+* add params.ananke.show_date frontmatter ([e31a61a](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/e31a61a4b3f324ae6a8c7f206f804c63727c0edd))
+* add proper font setup and a couple of design hacks to documentation site ([07ebd9f](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/07ebd9f82f2b2b6c9e2f9b7af928db40f7254d7b))
+
+### Bug Fixes
+
+* add alignment option to home layout ([#896](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/896)) ([65dec45](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/65dec45ece2188f814fff0d907db47fe0e6b9456))
+* add codeberg icon in socials ([8c2a277](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/8c2a27729d30b65e6a0912d2a597c35dde878f88))
+* address deprecations in language API ([#933](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/933)) ([039d106](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/039d10644c072488fe820a39e253ba5a2124f10b))
+* hack for contributors list page ([db06298](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/db062982543e43239ed7f433ba6fb790a4543c95))
+* move index.html to home.html for home pages (v0.146) ([5951d4f](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/5951d4fcce33b57a3ca9bab222f05bf143c1703e))
+* move layouts to their hugo-v0.146+ locations ([d5bd482](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/d5bd482f89aa857a81502257cc17884310a960f0))
+* proper partial command for disqus template ([#900](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/900)) ([c7b14f3](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/c7b14f3e9395446acf4c648fd61d0544ddc59089))
+* remove environments, add default mounts ([a1b8ef0](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/a1b8ef006c5d57816fb66ee7581d510e91f7dd98)), closes [#937](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/937)
+* remove unnecessary vertical space with disabled comments ([#898](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/898)) ([bce4ce7](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/bce4ce75d18d4f591cbdf553f606bcce4ca09fee)), closes [theNewDynamic/gohugo-theme-ananke#662](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/662)
+* replace former _internal paths with root paths (v0.146) ([bc49549](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/bc495491553830da7677a22d0a02478b4e3531ae))
+* set minimum required gohugo version to 0.146.0 ([d3f8825](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/d3f882550e866d647b70c1dbc42851ca15bf0006))
+* **theme:** center post body horizontally if there is no toc nor related blocks ([#784](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/784)) ([3dcd991](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/3dcd9912208fb764fd61791b06af5ee55db21580))
+* update documentation site setup and config ([5679ac9](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/5679ac9090d194fb3f50aa69496d4aecbc66d46d))
+* various documentation fixes ([#904](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/904)) ([7e45a93](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/7e45a93015bb324a7022be9a1fb6bc649e1500a1))
+
+### Build
+
+* add mount for node_modules to assets ([4f04feb](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/4f04feb6c5733efe02f85cd96df7c0778737d14b))
+* add simple-git-hooks and lint-staged setup ([1c295b2](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/1c295b2a4af2012ee6856af738d3cc6941973d26))
+* cleanup package.json and other workspace fixes ([37f4294](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/37f42948d880f2e624da7d022a82303866933e26))
+* **deps-dev:** bump @biomejs/biome from 1.9.4 to 2.0.6 ([#855](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/855)) ([9b3d106](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/9b3d1069f83789487640f75348ce9dffd42a0097))
+* **deps:** bump postcss from 8.5.3 to 8.5.6 ([#856](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/856)) ([ff04bf8](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/ff04bf8ba23e3deeeca7c030bca0f0a8537cacfc))
+* **deps:** ignore .wireit folder ([366e01f](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/366e01f8ece75a89b20881a1c2d530d019f561ac))
+* **deps:** update dependencies ([1d4a492](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/1d4a49276c37b8d489b5e9a35404ae0e596ba1b0))
+* **deps:** update dependencies ([7c79c80](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/7c79c80cc31fe9976c6cf4cf7e3d462fb622e79a))
+* **deps:** update dependencies ([3d41b3f](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/3d41b3fa555b347f401fa17cc48f9a89b2d5bc61))
+* **deps:** update dependencies ([#895](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/895)) ([4a50edd](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/4a50edda116e3249598622414abd256ef5d59aeb))
+* fix deployment setup ([7d07812](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/7d07812e047c3d2e10501f90643cbaffedc7d83c))
+* **fix:** add --fix option to biome check ([6b5cee3](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/6b5cee3a83127f6edb56b2768f0db793032f7c15))
+* **fix:** addd missing dependencies ([545cd9c](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/545cd9cf311462115d9e1c4580ee00d2e2cf45e0))
+* **fix:** no auto release on GitHub ([bd5deb6](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/bd5deb6c6ce575b906fc88ff09953e5ff898e12e))
+* **fix:** proper environment for netlify deploy ([813b67b](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/813b67b79963a64251710ae536c3d8479377135a))
+* **fix:** proper typescript configuration ([53620d2](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/53620d22a7491e9975c9177c77964d201a85252c)), closes [#937](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/937)
+* **fix:** remove wireit from setup ([957dbf9](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/957dbf984ccf68c5dee275262689c79a6d0e4688))
+* switch to release-it ([e8c04af](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/e8c04af6d5c1b3f57c295febc1538e9aa03ef74c))
+
+### Chores
+
+* add CONTRIBUTING.md ([e47cfff](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/e47cfff436be61d062b350211c935cc6224a5db6))
+* **config:** add coderabbit configuration ([#894](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/894)) ([83da004](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/83da004fec39981eb49b9574873642205408f883))
+* **deps:** update dependencies ([98a904b](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/98a904b10f23dd7b06bed616d18ce71b4fd00906))
+* **git:** update docs submodule ([248e4f5](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/248e4f5170d8fd3898e05a8343bc59ce99bf2367))
+* **git:** update documentation submodule ([c3ba238](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/c3ba238b1f3da7e602d88b2b1d55599a71db89c7))
+* **git:** update documentation submodule ([24ee29e](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/24ee29eec9ef10ae02dbba53adb9bac86ea22faf))
+* **git:** update documentation submodule ([bcd9745](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/bcd9745f7226689a2948d027966033cc38a76c1a))
+* **git:** update documentation submodule ([9e88d99](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/9e88d99f7c943cc3ca5ec005384a132f5aea80e5))
+* **git:** update documentation submodule ([463b055](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/463b055a657d17c300a52c387488c9a14d62f0fb))
+* moving docs into submodule ([1ef15f4](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/1ef15f42dedf7786b2e2b82f6aa21e8577770aaa))
+* **release:** v2.12.2 ([6846b13](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/6846b1352d9fd5b5c334d5fe626f8b1041b4a49f))
+* **release:** v2.13.0-prerelease.0 ([2e2ea73](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/2e2ea7368a0067e9954f9ea75712a5777cee621e))
+* remove outdated package.hugo.json ([#902](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/902)) ([f305bb1](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/f305bb129fac9d7cac53cd21e0efceeee9371eaf))
+* remove release:minor script ([#903](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/903)) ([98ca867](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/98ca8675c580eeb7c8f549c61c4b5044cd6c3c61))
+* update .nvmrc to v24 ([aba0ce2](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/aba0ce28c2c1e5d1fd89895fbf44724e7bf8020e))
+* update gitignore file ([eb38100](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/eb3810017443656a8a71ef6e4b3e6131c39092d1))
+
+### CI
+
+* add cspell setup and configuration ([8c89ac9](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/8c89ac996e1fdcdc60ee01847b4f2b9bcb50031f))
+* add lychee.toml for lint:links script ([bd4072f](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/bd4072fc201cad5addc3e28bfa119470eb02a0ff))
+* add quickstart test to workflows ([62c5f22](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/62c5f2218be43559731dd723fc9d5555bf24aadf)), closes [#937](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/937)
+* **fix:** add all quick start steps to the test script ([efd1e87](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/efd1e8736a2d3c764007683393954ab270fb5afc))
+* **fix:** check and fix only docs in lint:markdown ([f5a9b92](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/f5a9b92ba6a3f7ee09a8c668077b72625c6806e0))
+* **fix:** lychee checks only homepage not full site ([c764341](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/c7643413f15c54615cea45cf0a98e4d8f73810e6))
+* **fix:** update markdownlint configuration ([adb5c87](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/adb5c870ed2de3702e4b23f621e0345a81db6e59))
+
+### Documentation
+
+* add all-contributors instructions ([4e8a973](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/4e8a973c829c9bd7f0012e336583dacd65cdc7a5))
+* add documentation pages ([#897](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/897)) ([db85438](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/db854384305e8ff3f54400631e8787af30aafd98))
+* add note about --no-verify to CONTRIBUTING.md ([59856a5](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/59856a56228e9082cc6b0173ff9c1db0189d7ce5))
+* adding myself to LICENSE.md ([9e3b3f9](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/9e3b3f9a2c19612fb37b65a16fe843834b18e37a))
+* cleanup documentation and readme files ([50a7485](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/50a748552fbfa399dcb95b98623297ea48da5e50))
+* **fix:** broken links and outdated references ([14307e0](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/14307e00ebb8a9eb8f7c2c9da2504486e8d8dfde))
+* **fix:** remove kitchensink ([#901](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/901)) ([a23edc5](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/a23edc50ae692db0aa696f953f67144b40a47cbe))
+* **fix:** various documentation fixes ([#906](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/906)) ([a5f3dd6](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/a5f3dd61ce53879019049d9a2ba8f049abdfee68))
+* update README.md ([a4c2f7d](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/a4c2f7d07d0bef27f54991febefe07a10331987e))
+* update README.md with a hint about the layout discussion ([0cb0c55](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/0cb0c552290ca8eb6236877d1f13a599e0a606a5))
+
+### AI Instruction Files
+
+* add initial agent for test file generation ([3d2656e](https://github.com/theNewDynamic/gohugo-theme-ananke/commit/3d2656e1723420df97a01bac2f404c413987396c))
+
+## [2.13.0-prerelease.0](https://github.com/davidsneighbour/kollitsch.dev/compare/v2.12.1...v2.13.0-prerelease.0) (2026-04-17)
+
+### Features
+
+* add dynamic identifiers to body and article classes per page ([#887](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/887)) ([62aa99f](https://github.com/davidsneighbour/kollitsch.dev/commit/62aa99f85bc98ca97ca4f798dfc8b0d507c0fb4b)), closes [#815](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/815)
+* add global param for params.ananke.show_date frontmatter ([e416e55](https://github.com/davidsneighbour/kollitsch.dev/commit/e416e554e9d2fdd3abae34cc2eb6aa9ff8ed6928))
+* add page-index shortcode ([3ad8419](https://github.com/davidsneighbour/kollitsch.dev/commit/3ad84196b30907c7a0ce7ae726c07df96e5b3cd4))
+* add params.ananke.show_date frontmatter ([e31a61a](https://github.com/davidsneighbour/kollitsch.dev/commit/e31a61a4b3f324ae6a8c7f206f804c63727c0edd))
+* add proper font setup and a couple of design hacks to documentation site ([07ebd9f](https://github.com/davidsneighbour/kollitsch.dev/commit/07ebd9f82f2b2b6c9e2f9b7af928db40f7254d7b))
+
+### Bug Fixes
+
+* add alignment option to home layout ([#896](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/896)) ([65dec45](https://github.com/davidsneighbour/kollitsch.dev/commit/65dec45ece2188f814fff0d907db47fe0e6b9456))
+* add codeberg icon in socials ([8c2a277](https://github.com/davidsneighbour/kollitsch.dev/commit/8c2a27729d30b65e6a0912d2a597c35dde878f88))
+* address deprecations in language API ([#933](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/933)) ([039d106](https://github.com/davidsneighbour/kollitsch.dev/commit/039d10644c072488fe820a39e253ba5a2124f10b))
+* hack for contributors list page ([db06298](https://github.com/davidsneighbour/kollitsch.dev/commit/db062982543e43239ed7f433ba6fb790a4543c95))
+* move index.html to home.html for home pages (v0.146) ([5951d4f](https://github.com/davidsneighbour/kollitsch.dev/commit/5951d4fcce33b57a3ca9bab222f05bf143c1703e))
+* move layouts to their hugo-v0.146+ locations ([d5bd482](https://github.com/davidsneighbour/kollitsch.dev/commit/d5bd482f89aa857a81502257cc17884310a960f0))
+* proper partial command for disqus template ([#900](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/900)) ([c7b14f3](https://github.com/davidsneighbour/kollitsch.dev/commit/c7b14f3e9395446acf4c648fd61d0544ddc59089))
+* remove environments, add default mounts ([a1b8ef0](https://github.com/davidsneighbour/kollitsch.dev/commit/a1b8ef006c5d57816fb66ee7581d510e91f7dd98)), closes [#937](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/937)
+* remove unnecessary vertical space with disabled comments ([#898](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/898)) ([bce4ce7](https://github.com/davidsneighbour/kollitsch.dev/commit/bce4ce75d18d4f591cbdf553f606bcce4ca09fee)), closes [theNewDynamic/gohugo-theme-ananke#662](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/662)
+* replace former _internal paths with root paths (v0.146) ([bc49549](https://github.com/davidsneighbour/kollitsch.dev/commit/bc495491553830da7677a22d0a02478b4e3531ae))
+* set minimum required gohugo version to 0.146.0 ([d3f8825](https://github.com/davidsneighbour/kollitsch.dev/commit/d3f882550e866d647b70c1dbc42851ca15bf0006))
+* **theme:** center post body horizontally if there is no toc nor related blocks ([#784](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/784)) ([3dcd991](https://github.com/davidsneighbour/kollitsch.dev/commit/3dcd9912208fb764fd61791b06af5ee55db21580))
+* update documentation site setup and config ([5679ac9](https://github.com/davidsneighbour/kollitsch.dev/commit/5679ac9090d194fb3f50aa69496d4aecbc66d46d))
+* various documentation fixes ([#904](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/904)) ([7e45a93](https://github.com/davidsneighbour/kollitsch.dev/commit/7e45a93015bb324a7022be9a1fb6bc649e1500a1))
+
+### Build
+
+* add mount for node_modules to assets ([4f04feb](https://github.com/davidsneighbour/kollitsch.dev/commit/4f04feb6c5733efe02f85cd96df7c0778737d14b))
+* add simple-git-hooks and lint-staged setup ([1c295b2](https://github.com/davidsneighbour/kollitsch.dev/commit/1c295b2a4af2012ee6856af738d3cc6941973d26))
+* cleanup package.json and other workspace fixes ([37f4294](https://github.com/davidsneighbour/kollitsch.dev/commit/37f42948d880f2e624da7d022a82303866933e26))
+* **deps-dev:** bump @biomejs/biome from 1.9.4 to 2.0.6 ([#855](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/855)) ([9b3d106](https://github.com/davidsneighbour/kollitsch.dev/commit/9b3d1069f83789487640f75348ce9dffd42a0097))
+* **deps:** bump postcss from 8.5.3 to 8.5.6 ([#856](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/856)) ([ff04bf8](https://github.com/davidsneighbour/kollitsch.dev/commit/ff04bf8ba23e3deeeca7c030bca0f0a8537cacfc))
+* **deps:** ignore .wireit folder ([366e01f](https://github.com/davidsneighbour/kollitsch.dev/commit/366e01f8ece75a89b20881a1c2d530d019f561ac))
+* **deps:** update dependencies ([1d4a492](https://github.com/davidsneighbour/kollitsch.dev/commit/1d4a49276c37b8d489b5e9a35404ae0e596ba1b0))
+* **deps:** update dependencies ([7c79c80](https://github.com/davidsneighbour/kollitsch.dev/commit/7c79c80cc31fe9976c6cf4cf7e3d462fb622e79a))
+* **deps:** update dependencies ([3d41b3f](https://github.com/davidsneighbour/kollitsch.dev/commit/3d41b3fa555b347f401fa17cc48f9a89b2d5bc61))
+* **deps:** update dependencies ([#895](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/895)) ([4a50edd](https://github.com/davidsneighbour/kollitsch.dev/commit/4a50edda116e3249598622414abd256ef5d59aeb))
+* fix deployment setup ([7d07812](https://github.com/davidsneighbour/kollitsch.dev/commit/7d07812e047c3d2e10501f90643cbaffedc7d83c))
+* **fix:** add --fix option to biome check ([6b5cee3](https://github.com/davidsneighbour/kollitsch.dev/commit/6b5cee3a83127f6edb56b2768f0db793032f7c15))
+* **fix:** addd missing dependencies ([545cd9c](https://github.com/davidsneighbour/kollitsch.dev/commit/545cd9cf311462115d9e1c4580ee00d2e2cf45e0))
+* **fix:** proper environment for netlify deploy ([813b67b](https://github.com/davidsneighbour/kollitsch.dev/commit/813b67b79963a64251710ae536c3d8479377135a))
+* **fix:** proper typescript configuration ([53620d2](https://github.com/davidsneighbour/kollitsch.dev/commit/53620d22a7491e9975c9177c77964d201a85252c)), closes [#937](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/937)
+* **fix:** remove wireit from setup ([957dbf9](https://github.com/davidsneighbour/kollitsch.dev/commit/957dbf984ccf68c5dee275262689c79a6d0e4688))
+* switch to release-it ([e8c04af](https://github.com/davidsneighbour/kollitsch.dev/commit/e8c04af6d5c1b3f57c295febc1538e9aa03ef74c))
+
+### Chores
+
+* add CONTRIBUTING.md ([e47cfff](https://github.com/davidsneighbour/kollitsch.dev/commit/e47cfff436be61d062b350211c935cc6224a5db6))
+* **config:** add coderabbit configuration ([#894](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/894)) ([83da004](https://github.com/davidsneighbour/kollitsch.dev/commit/83da004fec39981eb49b9574873642205408f883))
+* **deps:** update dependencies ([98a904b](https://github.com/davidsneighbour/kollitsch.dev/commit/98a904b10f23dd7b06bed616d18ce71b4fd00906))
+* **git:** update docs submodule ([248e4f5](https://github.com/davidsneighbour/kollitsch.dev/commit/248e4f5170d8fd3898e05a8343bc59ce99bf2367))
+* **git:** update documentation submodule ([c3ba238](https://github.com/davidsneighbour/kollitsch.dev/commit/c3ba238b1f3da7e602d88b2b1d55599a71db89c7))
+* **git:** update documentation submodule ([24ee29e](https://github.com/davidsneighbour/kollitsch.dev/commit/24ee29eec9ef10ae02dbba53adb9bac86ea22faf))
+* **git:** update documentation submodule ([bcd9745](https://github.com/davidsneighbour/kollitsch.dev/commit/bcd9745f7226689a2948d027966033cc38a76c1a))
+* **git:** update documentation submodule ([9e88d99](https://github.com/davidsneighbour/kollitsch.dev/commit/9e88d99f7c943cc3ca5ec005384a132f5aea80e5))
+* **git:** update documentation submodule ([463b055](https://github.com/davidsneighbour/kollitsch.dev/commit/463b055a657d17c300a52c387488c9a14d62f0fb))
+* moving docs into submodule ([1ef15f4](https://github.com/davidsneighbour/kollitsch.dev/commit/1ef15f42dedf7786b2e2b82f6aa21e8577770aaa))
+* **release:** v2.12.2 ([6846b13](https://github.com/davidsneighbour/kollitsch.dev/commit/6846b1352d9fd5b5c334d5fe626f8b1041b4a49f))
+* remove outdated package.hugo.json ([#902](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/902)) ([f305bb1](https://github.com/davidsneighbour/kollitsch.dev/commit/f305bb129fac9d7cac53cd21e0efceeee9371eaf))
+* remove release:minor script ([#903](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/903)) ([98ca867](https://github.com/davidsneighbour/kollitsch.dev/commit/98ca8675c580eeb7c8f549c61c4b5044cd6c3c61))
+* update .nvmrc to v24 ([aba0ce2](https://github.com/davidsneighbour/kollitsch.dev/commit/aba0ce28c2c1e5d1fd89895fbf44724e7bf8020e))
+* update gitignore file ([eb38100](https://github.com/davidsneighbour/kollitsch.dev/commit/eb3810017443656a8a71ef6e4b3e6131c39092d1))
+
+### CI
+
+* add cspell setup and configuration ([8c89ac9](https://github.com/davidsneighbour/kollitsch.dev/commit/8c89ac996e1fdcdc60ee01847b4f2b9bcb50031f))
+* add lychee.toml for lint:links script ([bd4072f](https://github.com/davidsneighbour/kollitsch.dev/commit/bd4072fc201cad5addc3e28bfa119470eb02a0ff))
+* add quickstart test to workflows ([62c5f22](https://github.com/davidsneighbour/kollitsch.dev/commit/62c5f2218be43559731dd723fc9d5555bf24aadf)), closes [#937](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/937)
+* **fix:** add all quick start steps to the test script ([efd1e87](https://github.com/davidsneighbour/kollitsch.dev/commit/efd1e8736a2d3c764007683393954ab270fb5afc))
+* **fix:** check and fix only docs in lint:markdown ([f5a9b92](https://github.com/davidsneighbour/kollitsch.dev/commit/f5a9b92ba6a3f7ee09a8c668077b72625c6806e0))
+* **fix:** lychee checks only homepage not full site ([c764341](https://github.com/davidsneighbour/kollitsch.dev/commit/c7643413f15c54615cea45cf0a98e4d8f73810e6))
+* **fix:** update markdownlint configuration ([adb5c87](https://github.com/davidsneighbour/kollitsch.dev/commit/adb5c870ed2de3702e4b23f621e0345a81db6e59))
+
+### Documentation
+
+* add all-contributors instructions ([4e8a973](https://github.com/davidsneighbour/kollitsch.dev/commit/4e8a973c829c9bd7f0012e336583dacd65cdc7a5))
+* add documentation pages ([#897](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/897)) ([db85438](https://github.com/davidsneighbour/kollitsch.dev/commit/db854384305e8ff3f54400631e8787af30aafd98))
+* add note about --no-verify to CONTRIBUTING.md ([59856a5](https://github.com/davidsneighbour/kollitsch.dev/commit/59856a56228e9082cc6b0173ff9c1db0189d7ce5))
+* adding myself to LICENSE.md ([9e3b3f9](https://github.com/davidsneighbour/kollitsch.dev/commit/9e3b3f9a2c19612fb37b65a16fe843834b18e37a))
+* cleanup documentation and readme files ([50a7485](https://github.com/davidsneighbour/kollitsch.dev/commit/50a748552fbfa399dcb95b98623297ea48da5e50))
+* **fix:** broken links and outdated references ([14307e0](https://github.com/davidsneighbour/kollitsch.dev/commit/14307e00ebb8a9eb8f7c2c9da2504486e8d8dfde))
+* **fix:** remove kitchensink ([#901](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/901)) ([a23edc5](https://github.com/davidsneighbour/kollitsch.dev/commit/a23edc50ae692db0aa696f953f67144b40a47cbe))
+* **fix:** various documentation fixes ([#906](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/906)) ([a5f3dd6](https://github.com/davidsneighbour/kollitsch.dev/commit/a5f3dd61ce53879019049d9a2ba8f049abdfee68))
+* update README.md ([a4c2f7d](https://github.com/davidsneighbour/kollitsch.dev/commit/a4c2f7d07d0bef27f54991febefe07a10331987e))
+* update README.md with a hint about the layout discussion ([0cb0c55](https://github.com/davidsneighbour/kollitsch.dev/commit/0cb0c552290ca8eb6236877d1f13a599e0a606a5))
+
+### AI Instruction Files
+
+* add initial agent for test file generation ([3d2656e](https://github.com/davidsneighbour/kollitsch.dev/commit/3d2656e1723420df97a01bac2f404c413987396c))
+
+## [2.13.0-0](https://github.com/davidsneighbour/kollitsch.dev/compare/v2.12.1...v2.13.0-0) (2026-04-17)
+
+### Features
+
+* add dynamic identifiers to body and article classes per page ([#887](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/887)) ([62aa99f](https://github.com/davidsneighbour/kollitsch.dev/commit/62aa99f85bc98ca97ca4f798dfc8b0d507c0fb4b)), closes [#815](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/815)
+* add global param for params.ananke.show_date frontmatter ([e416e55](https://github.com/davidsneighbour/kollitsch.dev/commit/e416e554e9d2fdd3abae34cc2eb6aa9ff8ed6928))
+* add page-index shortcode ([3ad8419](https://github.com/davidsneighbour/kollitsch.dev/commit/3ad84196b30907c7a0ce7ae726c07df96e5b3cd4))
+* add params.ananke.show_date frontmatter ([e31a61a](https://github.com/davidsneighbour/kollitsch.dev/commit/e31a61a4b3f324ae6a8c7f206f804c63727c0edd))
+* add proper font setup and a couple of design hacks to documentation site ([07ebd9f](https://github.com/davidsneighbour/kollitsch.dev/commit/07ebd9f82f2b2b6c9e2f9b7af928db40f7254d7b))
+
+### Bug Fixes
+
+* add alignment option to home layout ([#896](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/896)) ([65dec45](https://github.com/davidsneighbour/kollitsch.dev/commit/65dec45ece2188f814fff0d907db47fe0e6b9456))
+* add codeberg icon in socials ([8c2a277](https://github.com/davidsneighbour/kollitsch.dev/commit/8c2a27729d30b65e6a0912d2a597c35dde878f88))
+* address deprecations in language API ([#933](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/933)) ([039d106](https://github.com/davidsneighbour/kollitsch.dev/commit/039d10644c072488fe820a39e253ba5a2124f10b))
+* hack for contributors list page ([db06298](https://github.com/davidsneighbour/kollitsch.dev/commit/db062982543e43239ed7f433ba6fb790a4543c95))
+* move index.html to home.html for home pages (v0.146) ([5951d4f](https://github.com/davidsneighbour/kollitsch.dev/commit/5951d4fcce33b57a3ca9bab222f05bf143c1703e))
+* move layouts to their hugo-v0.146+ locations ([d5bd482](https://github.com/davidsneighbour/kollitsch.dev/commit/d5bd482f89aa857a81502257cc17884310a960f0))
+* proper partial command for disqus template ([#900](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/900)) ([c7b14f3](https://github.com/davidsneighbour/kollitsch.dev/commit/c7b14f3e9395446acf4c648fd61d0544ddc59089))
+* remove environments, add default mounts ([a1b8ef0](https://github.com/davidsneighbour/kollitsch.dev/commit/a1b8ef006c5d57816fb66ee7581d510e91f7dd98)), closes [#937](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/937)
+* remove unnecessary vertical space with disabled comments ([#898](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/898)) ([bce4ce7](https://github.com/davidsneighbour/kollitsch.dev/commit/bce4ce75d18d4f591cbdf553f606bcce4ca09fee)), closes [theNewDynamic/gohugo-theme-ananke#662](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/662)
+* replace former _internal paths with root paths (v0.146) ([bc49549](https://github.com/davidsneighbour/kollitsch.dev/commit/bc495491553830da7677a22d0a02478b4e3531ae))
+* set minimum required gohugo version to 0.146.0 ([d3f8825](https://github.com/davidsneighbour/kollitsch.dev/commit/d3f882550e866d647b70c1dbc42851ca15bf0006))
+* **theme:** center post body horizontally if there is no toc nor related blocks ([#784](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/784)) ([3dcd991](https://github.com/davidsneighbour/kollitsch.dev/commit/3dcd9912208fb764fd61791b06af5ee55db21580))
+* update documentation site setup and config ([5679ac9](https://github.com/davidsneighbour/kollitsch.dev/commit/5679ac9090d194fb3f50aa69496d4aecbc66d46d))
+* various documentation fixes ([#904](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/904)) ([7e45a93](https://github.com/davidsneighbour/kollitsch.dev/commit/7e45a93015bb324a7022be9a1fb6bc649e1500a1))
+
+### Build
+
+* add mount for node_modules to assets ([4f04feb](https://github.com/davidsneighbour/kollitsch.dev/commit/4f04feb6c5733efe02f85cd96df7c0778737d14b))
+* add simple-git-hooks and lint-staged setup ([1c295b2](https://github.com/davidsneighbour/kollitsch.dev/commit/1c295b2a4af2012ee6856af738d3cc6941973d26))
+* cleanup package.json and other workspace fixes ([37f4294](https://github.com/davidsneighbour/kollitsch.dev/commit/37f42948d880f2e624da7d022a82303866933e26))
+* **deps-dev:** bump @biomejs/biome from 1.9.4 to 2.0.6 ([#855](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/855)) ([9b3d106](https://github.com/davidsneighbour/kollitsch.dev/commit/9b3d1069f83789487640f75348ce9dffd42a0097))
+* **deps:** bump postcss from 8.5.3 to 8.5.6 ([#856](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/856)) ([ff04bf8](https://github.com/davidsneighbour/kollitsch.dev/commit/ff04bf8ba23e3deeeca7c030bca0f0a8537cacfc))
+* **deps:** ignore .wireit folder ([366e01f](https://github.com/davidsneighbour/kollitsch.dev/commit/366e01f8ece75a89b20881a1c2d530d019f561ac))
+* **deps:** update dependencies ([1d4a492](https://github.com/davidsneighbour/kollitsch.dev/commit/1d4a49276c37b8d489b5e9a35404ae0e596ba1b0))
+* **deps:** update dependencies ([7c79c80](https://github.com/davidsneighbour/kollitsch.dev/commit/7c79c80cc31fe9976c6cf4cf7e3d462fb622e79a))
+* **deps:** update dependencies ([3d41b3f](https://github.com/davidsneighbour/kollitsch.dev/commit/3d41b3fa555b347f401fa17cc48f9a89b2d5bc61))
+* **deps:** update dependencies ([#895](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/895)) ([4a50edd](https://github.com/davidsneighbour/kollitsch.dev/commit/4a50edda116e3249598622414abd256ef5d59aeb))
+* fix deployment setup ([7d07812](https://github.com/davidsneighbour/kollitsch.dev/commit/7d07812e047c3d2e10501f90643cbaffedc7d83c))
+* **fix:** add --fix option to biome check ([6b5cee3](https://github.com/davidsneighbour/kollitsch.dev/commit/6b5cee3a83127f6edb56b2768f0db793032f7c15))
+* **fix:** addd missing dependencies ([545cd9c](https://github.com/davidsneighbour/kollitsch.dev/commit/545cd9cf311462115d9e1c4580ee00d2e2cf45e0))
+* **fix:** proper environment for netlify deploy ([813b67b](https://github.com/davidsneighbour/kollitsch.dev/commit/813b67b79963a64251710ae536c3d8479377135a))
+* **fix:** proper typescript configuration ([53620d2](https://github.com/davidsneighbour/kollitsch.dev/commit/53620d22a7491e9975c9177c77964d201a85252c)), closes [#937](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/937)
+* switch to release-it ([1b027c2](https://github.com/davidsneighbour/kollitsch.dev/commit/1b027c28f8d5008982aff91bd3090bb9206cb7d8))
+
+### Chores
+
+* add CONTRIBUTING.md ([e47cfff](https://github.com/davidsneighbour/kollitsch.dev/commit/e47cfff436be61d062b350211c935cc6224a5db6))
+* **config:** add coderabbit configuration ([#894](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/894)) ([83da004](https://github.com/davidsneighbour/kollitsch.dev/commit/83da004fec39981eb49b9574873642205408f883))
+* **deps:** update dependencies ([98a904b](https://github.com/davidsneighbour/kollitsch.dev/commit/98a904b10f23dd7b06bed616d18ce71b4fd00906))
+* **git:** update docs submodule ([248e4f5](https://github.com/davidsneighbour/kollitsch.dev/commit/248e4f5170d8fd3898e05a8343bc59ce99bf2367))
+* **git:** update documentation submodule ([c3ba238](https://github.com/davidsneighbour/kollitsch.dev/commit/c3ba238b1f3da7e602d88b2b1d55599a71db89c7))
+* **git:** update documentation submodule ([24ee29e](https://github.com/davidsneighbour/kollitsch.dev/commit/24ee29eec9ef10ae02dbba53adb9bac86ea22faf))
+* **git:** update documentation submodule ([bcd9745](https://github.com/davidsneighbour/kollitsch.dev/commit/bcd9745f7226689a2948d027966033cc38a76c1a))
+* **git:** update documentation submodule ([9e88d99](https://github.com/davidsneighbour/kollitsch.dev/commit/9e88d99f7c943cc3ca5ec005384a132f5aea80e5))
+* **git:** update documentation submodule ([463b055](https://github.com/davidsneighbour/kollitsch.dev/commit/463b055a657d17c300a52c387488c9a14d62f0fb))
+* moving docs into submodule ([1ef15f4](https://github.com/davidsneighbour/kollitsch.dev/commit/1ef15f42dedf7786b2e2b82f6aa21e8577770aaa))
+* **release:** v2.12.2 ([6846b13](https://github.com/davidsneighbour/kollitsch.dev/commit/6846b1352d9fd5b5c334d5fe626f8b1041b4a49f))
+* remove outdated package.hugo.json ([#902](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/902)) ([f305bb1](https://github.com/davidsneighbour/kollitsch.dev/commit/f305bb129fac9d7cac53cd21e0efceeee9371eaf))
+* remove release:minor script ([#903](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/903)) ([98ca867](https://github.com/davidsneighbour/kollitsch.dev/commit/98ca8675c580eeb7c8f549c61c4b5044cd6c3c61))
+* update .nvmrc to v24 ([aba0ce2](https://github.com/davidsneighbour/kollitsch.dev/commit/aba0ce28c2c1e5d1fd89895fbf44724e7bf8020e))
+* update gitignore file ([eb38100](https://github.com/davidsneighbour/kollitsch.dev/commit/eb3810017443656a8a71ef6e4b3e6131c39092d1))
+
+### CI
+
+* add cspell setup and configuration ([8c89ac9](https://github.com/davidsneighbour/kollitsch.dev/commit/8c89ac996e1fdcdc60ee01847b4f2b9bcb50031f))
+* add lychee.toml for lint:links script ([bd4072f](https://github.com/davidsneighbour/kollitsch.dev/commit/bd4072fc201cad5addc3e28bfa119470eb02a0ff))
+* add quickstart test to workflows ([62c5f22](https://github.com/davidsneighbour/kollitsch.dev/commit/62c5f2218be43559731dd723fc9d5555bf24aadf)), closes [#937](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/937)
+* **fix:** add all quick start steps to the test script ([efd1e87](https://github.com/davidsneighbour/kollitsch.dev/commit/efd1e8736a2d3c764007683393954ab270fb5afc))
+* **fix:** check and fix only docs in lint:markdown ([f5a9b92](https://github.com/davidsneighbour/kollitsch.dev/commit/f5a9b92ba6a3f7ee09a8c668077b72625c6806e0))
+* **fix:** lychee checks only homepage not full site ([c764341](https://github.com/davidsneighbour/kollitsch.dev/commit/c7643413f15c54615cea45cf0a98e4d8f73810e6))
+* **fix:** update markdownlint configuration ([adb5c87](https://github.com/davidsneighbour/kollitsch.dev/commit/adb5c870ed2de3702e4b23f621e0345a81db6e59))
+
+### Documentation
+
+* add all-contributors instructions ([4e8a973](https://github.com/davidsneighbour/kollitsch.dev/commit/4e8a973c829c9bd7f0012e336583dacd65cdc7a5))
+* add documentation pages ([#897](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/897)) ([db85438](https://github.com/davidsneighbour/kollitsch.dev/commit/db854384305e8ff3f54400631e8787af30aafd98))
+* add note about --no-verify to CONTRIBUTING.md ([59856a5](https://github.com/davidsneighbour/kollitsch.dev/commit/59856a56228e9082cc6b0173ff9c1db0189d7ce5))
+* adding myself to LICENSE.md ([9e3b3f9](https://github.com/davidsneighbour/kollitsch.dev/commit/9e3b3f9a2c19612fb37b65a16fe843834b18e37a))
+* cleanup documentation and readme files ([50a7485](https://github.com/davidsneighbour/kollitsch.dev/commit/50a748552fbfa399dcb95b98623297ea48da5e50))
+* **fix:** broken links and outdated references ([14307e0](https://github.com/davidsneighbour/kollitsch.dev/commit/14307e00ebb8a9eb8f7c2c9da2504486e8d8dfde))
+* **fix:** remove kitchensink ([#901](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/901)) ([a23edc5](https://github.com/davidsneighbour/kollitsch.dev/commit/a23edc50ae692db0aa696f953f67144b40a47cbe))
+* **fix:** various documentation fixes ([#906](https://github.com/theNewDynamic/gohugo-theme-ananke/issues/906)) ([a5f3dd6](https://github.com/davidsneighbour/kollitsch.dev/commit/a5f3dd61ce53879019049d9a2ba8f049abdfee68))
+* update README.md ([a4c2f7d](https://github.com/davidsneighbour/kollitsch.dev/commit/a4c2f7d07d0bef27f54991febefe07a10331987e))
+* update README.md with a hint about the layout discussion ([0cb0c55](https://github.com/davidsneighbour/kollitsch.dev/commit/0cb0c552290ca8eb6236877d1f13a599e0a606a5))
+
+### AI Instruction Files
+
+* add initial agent for test file generation ([3d2656e](https://github.com/davidsneighbour/kollitsch.dev/commit/3d2656e1723420df97a01bac2f404c413987396c))
+
 ## [2.12.2](https://github.com/thenewdynamic/gohugo-theme-ananke/compare/v2.12.1...v2.12.2) (2026-01-18)
 
 

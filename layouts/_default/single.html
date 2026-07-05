@@ -20,6 +20,11 @@
       <h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
         {{ .Title }}
       </h1>
+      {{ with .Params.description }}
+      <div class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+        {{ . }}
+      </div>
+      {{ end }}
     </div>
   </div>
 </header>
@@ -107,7 +112,6 @@
     </div>
     {{- if $needs_aside -}}
     <aside class="w-30-l mt6-l">
-      {{- partials.Include "menu-contextual.html" . -}}
       {{- partials.Include "related-posts.html" . -}}
     </aside>
     {{- end -}}

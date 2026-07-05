@@ -1,71 +1,64 @@
-# Ananke, a starter theme for GoHugo
+# Ananke Theme for Hugo
 
-> [!WARNING]
-> If you are experiencing issues with recent Hugo versions please check the [Discussion about the layout changes](https://github.com/theNewDynamic/gohugo-theme-ananke/discussions/886) and add your issues there. Thank you!
+Ananke is a flexible, production-ready starter theme for [Hugo](https://gohugo.io/) focused on accessibility, performance, and maintainable defaults.
 
-The intent of this theme is to provide a solid starting place for [GoHugo](https://gohugo.io/) sites with basic features and include best practices for performance, accessibility, and rapid development.
+![Ananke screenshot](images/screenshot.png)
 
-![screenshot](images/screenshot.png)
+* Demo: [ananke-theme.netlify.app](https://ananke-theme.netlify.app/)
+* Documentation: [ananke-documentation.netlify.app](https://ananke-documentation.netlify.app/)
+* Changelog: [CHANGELOG.md](CHANGELOG.md)
 
-[DEMO](https://ananke-theme.netlify.app/)
+> [!IMPORTANT]
+>
+> Ananke moved to its own organisation on April 23, 2026. Please update your references from `github.com/theNewDynamic/gohugo-theme-ananke` to `github.com/gohugo-ananke/ananke`. Bear with us as we update all documentation and links to reflect this change. Until then, both URLs will continue to work as links as well as in the `git` operations for cloning and submodules.
+>
+> The following steps should suffice to update your references if you have not changed the setup:
+>
+> **For Hugo Modules:** search and replace all instances of `github.com/theNewDynamic/gohugo-theme-ananke/v2` with `github.com/gohugo-ananke/ananke/v2` in your site's configuration and run `hugo mod tidy` to update the module dependencies.
+>
+> **For Git Submodules:** To change the remote URL for your existing submodule, run:
+>
+> ```bash
+> cd path/to/your/repo/themes/ananke # <-- adjust path as needed, keep the 'themes/ananke' part
+> git remote set-url origin https://github.com/gohugo-ananke/ananke.git
+> ```
+>
+> Then find `.gitmodules` in the root of your repository and replace all instances of `theNewDynamic/gohugo-theme-ananke` with `gohugo-ananke/ananke` in that file as well.
+> Finally, run `git submodule sync` to update the submodule configuration.
+>
+> **Issues?** Get in touch via [GitHub Discussions](https://github.com/orgs/gohugo-ananke/discussions/944).
 
-Features
+## Features
 
-* Responsive
-* Accessible
-* Contact form
-* Custom Robots.txt (changes values based on environment)
-* Internal templates for meta data, google analytics, and DISQUS or COMMENTO comments
-* RSS Discovery
-* Table of Contents (must declare `toc: true` in post parameter)
-
-Also includes examples of Hugo Features or Functions:
-
-* Pagination (internal template)
-* Taxonomies
-* Archetypes
-* Custom shortcode
-* Related content
-* Hugo built-in menu
-* i18n
-* `with`
-* `first`
-* `after`
-* `sort`
-* Site LanguageCode
-* `where`
-* Content Views
-* Partials
-* Template layouts (type "post" uses a special list template, single template, and a content view)
-* Tags
-* `len`
-* Conditionals
-* `ge` (greater than or equal to)
-* `.Site.Params.mainSections` to avoid hard-coding "blog," etc. [[release note](https://github.com/gohugoio/hugo/blob/66ec6305f6cb450ddf9c489854146bac02f7dca1/docs/content/meta/release-notes.md#enhancements)]
-
-This theme uses the [Tachyons CSS library](https://tachyons.io/). This will allow you to manipulate the design of the theme by changing class names in HTML without touching the original CSS files.
-
-## Compatibility
-
-> [!IMPORTANT]  
-> The [main](https://github.com/theNewDynamic/gohugo-theme-ananke) branch contains the latest version of Ananke that is tested and working with GoHugo v0.146.0+. If you wish to use an older version of GoHugo, use the [v2.12 branch](https://github.com/theNewDynamic/gohugo-theme-ananke/tree/release/v2.12) that is working with GoHugo v0.128.1 to v0.145.0. To get the theme working with an even older version of GoHugo feel free to peruse the [releases page](https://github.com/theNewDynamic/gohugo-theme-ananke/tags) to find a version that is working with your GoHugo version.
+* Responsive layouts and accessible markup
+* Configurable hero/header behaviour
+* Configurable social follow/share links
+* Optional contact form shortcode
+* Localized i18n strings in many languages
+* SEO defaults with Hugo internal templates
+* Reading time/word count support
+* Robots.txt handling by environment
 
 ## Installation
 
-Dive into our [documentation on installing the theme as GoHugo Module or Git Submodule](https://github.com/theNewDynamic/gohugo-theme-ananke/wiki/Installation). [The official setup guide](https://gohugo.io/getting-started/quick-start/) of GoHugo covers the installation of the theme as Git Submodule.
+Ananke supports both installation methods:
 
-## Getting started
+* [Install as Hugo Module (recommended)](https://ananke-documentation.netlify.app/installation/gohugo-module/)
+* [Install as Git Submodule](https://ananke-documentation.netlify.app/installation/git-submodule/)
 
-After installing the theme successfully it requires [a few more steps to get your site running](https://github.com/theNewDynamic/gohugo-theme-ananke/wiki/Getting-Started). Read on for a quick overview of the most important steps. Or follow one of the more detailed guides following.
+If you are new to Hugo, see Hugo's official quick start: [gohugo.io/getting-started/quick-start](https://gohugo.io/getting-started/quick-start/).
 
-## Latest Changes
+## Getting Started
 
-See the [CHANGELOG](CHANGELOG.md) for details about what has changed recently. For a list of older changes, see the [changelog-old.md](.github/changelog-old.md) file.
+After installation, use these guides to configure your site:
 
-## Contributing
+* [Getting Started](https://ananke-documentation.netlify.app/getting-started/)
+* [Configuration](https://ananke-documentation.netlify.app/configuration/)
+* [Customisation](https://ananke-documentation.netlify.app/customisation/)
+* [Troubleshooting](https://ananke-documentation.netlify.app/troubleshooting/)
 
-If you find a bug feel free to use the [issue tracker](https://github.com/theNewDynamic/gohugo-theme-ananke/issues) to let me know. If you are having issues setting up your site with the theme, or have an idea for a feature, please use the [discussions](https://github.com/theNewDynamic/gohugo-theme-ananke/discussion) for support.
+## Support and Contributions
 
-Join me on my [ananke-theme Discord channel](https://discord.gg/MykHvyU5P3) for direct support, but please remember that I am doing this in my spare time.
-
-If you would like to contribute code, please read the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines on how to contribute.
+* Bug reports: [GitHub Issues](https://github.com/gohugo-ananke/ananke/issues)
+* Questions and feature ideas: [GitHub Discussions](https://github.com/gohugo-ananke/ananke/discussions)
+* Contribution guide: [CONTRIBUTING.md](CONTRIBUTING.md)
