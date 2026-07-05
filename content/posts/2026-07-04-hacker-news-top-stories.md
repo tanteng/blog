@@ -41,22 +41,10 @@ Citizen Lab 发布重磅调查报告，揭露欧洲议会成员 Stelios Kouloglo
 
 Ubuntu 团队工程师使用 TLA+（一种形式化验证规格语言）发现了一个在 SQLite WAL（Write-Ahead Logging）模式中存在了长达16年之久的罕见并发 bug。Tailscale 工程师在生产环境中首次发现并复现了这个问题，随后购买了 SQLite 企业支持合同寻求官方修复。这个 bug 极其罕见且难以复现——SQLite 官方文档也承认这一点——但一旦在特定并发时序下触发，可能导致数据库损坏。作者在 HN 评论中解释了 TLA+ 符号与 LaTeX 数学符号的渊源，引发了程序员们关于形式化方法在工程实践中价值的热烈讨论。
 
-## 6. 芬兰最后的模拟固话在 150 年后彻底沉默
+## 6. Finland's last analogue landline phones go silent after 150 years
 
 🔗 [Finland's last analogue landline phones go silent after 150 years](https://news.ycombinator.com/item?id=48786868)
 
 芬兰完成了从模拟固话向数字网络的最终过渡，关闭了已有 150 年历史的模拟电话网络，这是全球最早部署电话的国家之一完成的最后一程。这一事件引发了关于数字鸿沟、代际技术认知差异以及传统通信基础设施历史的讨论。
 
-## 7. MSI Center：几秒内获取 SYSTEM 权限
-
-🔗 [MSI Center – How to gain SYSTEM privileges in seconds](https://news.ycombinator.com/item?id=48781688)
-
-安全研究者披露了微星电脑配套软件 MSI Center 的一个严重提权漏洞，普通用户可在数秒内通过该软件特定功能获取系统最高权限（SYSTEM）。由于 MSI Center 通常以高权限运行以控制硬件设置（如风扇转速、RGB 灯光等），攻击者可利用其中的逻辑缺陷实现无需管理员交互的本地提权。研究者已将详情报告给 MSI，官方尚未发布修复补丁。
-
-## 8. 新发现：韦伯望远镜观测结果令天体物理学家困惑
-
-🔗 [Astrophysicists Puzzle over Webb's New Universe](https://news.ycombinator.com/item?id=48783948)
-
-Quanta Magazine 报道了韦伯太空望远镜（James Webb Space Telescope）近期观测结果对现有宇宙学理论带来的挑战。自韦伯投入观测以来，天体物理学家不断发现与标准宇宙学模型预测不符的现象——包括早期星系成熟度过高、暗物质分布异常等。这些新观测数据正在促使科学家重新审视我们对宇宙演化的理解。
-
-*本期话题覆盖商业策略、AI 本地运行、网络安全、软件开发、通信历史和宇宙科学等多个领域，数据和事件均为发帖时信息，仅供参考。*
+*本期话题覆盖商业策略、AI 本地运行、网络安全、开源工具、形式化验证和通信历史等多个领域，数据和事件均为发帖时信息，仅供参考。*
