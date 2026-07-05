@@ -31,27 +31,25 @@
 {{ end }}
 
 {{ define "main" }}
-  <article class="cf pa3 pa4-m pa4-l">
-    <div class="measure-wide-l center f4 lh-copy nested-copy-line-height nested-links {{ $.Param "text_color" | compare.Default "mid-gray" }}">
+  <article class="pa3 pa4-ns nested-copy-line-height">
+    <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy nested-links {{ $.Param "text_color" | compare.Default "mid-gray" }}">
       <p>共 {{ len .Pages }} 篇文章</p>
-    </div>
-  </article>
-  <div class="mw8 center">
+    </section>
+    {{ $sorted := .Pages }}
+    {{ if eq .Kind "home" }}
+      {{ $sorted = .Pages.ByWeight.Reverse }}
+    {{ else }}
+      {{ $sorted = .Pages.ByDate.Reverse }}
+    {{ end }}
+    {{ $pages := .Paginate $sorted }}
     <section class="flex-ns mt5 flex-wrap justify-around">
-      {{ $sorted := .Pages }}
-      {{ if eq .Kind "home" }}
-        {{ $sorted = .Pages.ByWeight.Reverse }}
-      {{ else }}
-        {{ $sorted = .Pages.ByDate.Reverse }}
-      {{ end }}
-      {{ $pages := .Paginate $sorted 50 }}
       {{ range $pages.Pages }}
-        <div class="w-100 mb4 relative bg-white">
+        <div class="w-100 w-30-l mb4 relative bg-white">
           {{ .Render "summary" }}
         </div>
       {{ end }}
     </section>
 
     {{ partial "section-pagination.html" (dict "paginator" $pages "current" $pages.PageNumber "total" $pages.TotalPages) }}
-  </div>
+  </article>
 {{ end }}

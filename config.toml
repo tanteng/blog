@@ -50,7 +50,7 @@ weight = 1
     weight = 5
 
 [pagination]
-paginate = 30
+pagerSize = 30
 
 [params]
 customCSS = ["css/custom.css"]

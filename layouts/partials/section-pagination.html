@@ -1,5 +1,63 @@
-{{ if gt .paginator.TotalPages 1 }}
-<nav class="flex justify-center pt4 pb4">
-  <span class="f6 mid-gray">共 {{ .paginator.TotalPages }} 页</span>
+{{- $paginator := .paginator -}}
+{{ if gt $paginator.TotalPages 1 }}
+<nav class="pagination-nav w-100 mv4" aria-label="分页导航">
+  <ul class="pagination list pl0 flex items-center justify-center flex-wrap">
+    <style>
+      .pagination-item.active { background: #1a1a1a; color: white; }
+    </style>
+    {{ with $paginator.First }}
+      <li><a href="{{ .URL }}" class="pagination-item pa2 br2 mr1 dim" aria-label="第一页">«</a></li>
+    {{ end }}
+
+    {{ with $paginator.Prev }}
+      <li><a href="{{ .URL }}" class="pagination-item pa2 br2 mr1 dim" aria-label="上一页">‹</a></li>
+    {{ end }}
+
+    {{ $current := $paginator.PageNumber }}
+    {{ $total := $paginator.TotalPages }}
+    {{ $range := 2 }}
+
+    {{ $start := $current }}
+    {{ $end := $current }}
+    {{ if gt (sub $current $range) 1 }}
+      {{ $start = sub $current $range }}
+    {{ else }}
+      {{ $start = 1 }}
+    {{ end }}
+    {{ if lt (add $current $range) $total }}
+      {{ $end = add $current $range }}
+    {{ else }}
+      {{ $end = $total }}
+    {{ end }}
+
+    {{ if gt $start 1 }}
+      <li><a href="{{ (index $paginator.Pagers 0).URL }}" class="pagination-item pa2 br2 mr1{{ if eq $current 1 }} active{{ else }} dim{{ end }}">1</a></li>
+      {{ if gt $start 2 }}<li><span class="pagination-ellipsis pa2">...</span></li>{{ end }}
+    {{ end }}
+
+    {{ range $paginator.Pagers }}
+      {{ $pageNum := .PageNumber }}
+      {{ if and (ge $pageNum $start) (le $pageNum $end) }}
+        <li>
+          <a href="{{ .URL }}" class="pagination-item pa2 br2 mr1{{ if eq $pageNum $current }} active{{ else }} dim{{ end }}">
+            {{ $pageNum }}
+          </a>
+        </li>
+      {{ end }}
+    {{ end }}
+
+    {{ if lt $end $total }}
+      {{ if lt $end (sub $total 1) }}<li><span class="pagination-ellipsis pa2">...</span></li>{{ end }}
+      <li><a href="{{ (index $paginator.Pagers (sub $total 1)).URL }}" class="pagination-item pa2 br2 mr1{{ if eq $current $total }} active{{ else }} dim{{ end }}">{{ $total }}</a></li>
+    {{ end }}
+
+    {{ with $paginator.Next }}
+      <li><a href="{{ .URL }}" class="pagination-item pa2 br2 mr1 dim" aria-label="下一页">›</a></li>
+    {{ end }}
+
+    {{ with $paginator.Last }}
+      <li><a href="{{ .URL }}" class="pagination-item pa2 br2 mr1 dim" aria-label="最后一页">»</a></li>
+    {{ end }}
+  </ul>
 </nav>
 {{ end }}
