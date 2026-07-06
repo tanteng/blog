@@ -1,6 +1,6 @@
 ---
 title: "RAG 精排算法全景：7 种 Rerank 方法的工程对比"
-date: 2026-07-06
+date: 2026-02-03T08:00:00+08:00
 description: "本文以 RAG 检索流水线的 5 个阶段为脉络，重点按相关性、多样性、时效性三个维度，对比 7 种主流 Rerank 算法的工程实现：BM25、Bi-encoder、Cross-encoder、ColBERT、Cohere Rerank、MMR、Temporal Decay、RRF。"
 categories: ['ai']
 tags: ['ai', 'rag', 'rerank', 'vector-db', 'retrieval']
