@@ -1,6 +1,6 @@
 ---
 title: '解决部署时新旧构建产物切换导致的静态资源 404'
-date: 2026-07-05T08:00:00+08:00
+date: 2025-10-20T08:00:00+08:00
 draft: false
 tags: ['deployment', 'nextjs', 'devops', 'static-assets']
 categories: ['tech']
