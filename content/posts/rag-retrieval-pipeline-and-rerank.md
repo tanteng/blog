@@ -5,7 +5,6 @@ description: "本文以 RAG 检索流水线的 5 个阶段为脉络，重点按�
 categories: ['ai']
 tags: ['ai', 'rag', 'rerank', 'vector-db', 'retrieval']
 featured_image: ""
-disableRelated: true
 ---
 
 RAG（Retrieval-Augmented Generation）的"检索"二字，背后是一整条工程流水线——从用户 query 出发，经过**粗排、召回、精排、选样**四步处理后，才把 top-K 文档喂给 LLM。这条流水线上每个环节都有专门的算法优化，但**最容易出效果、也最容易被忽视**的，是中间的**Rerank 阶段**。
