@@ -1,6 +1,6 @@
 ---
 title: "买 Call 的艺术：期权买方的进阶实战指南"
-date: 2026-06-24
+date: 2026-05-24
 draft: false
 tags: ["options", "trading", "investment", "call", "delta", "theta"]
 categories: ["investment"]

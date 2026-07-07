@@ -1,6 +1,6 @@
 ---
 title: "期权价差组合策略：低成本博方向的买方向价差"
-date: 2026-06-27
+date: 2026-05-27
 draft: false
 tags: ["options", "trading", "investment", "spread", "bull-call-spread", "bear-put-spread"]
 categories: ["investment"]
