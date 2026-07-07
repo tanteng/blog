@@ -116,8 +116,6 @@ def rerank(query, candidates, top_k=8):
 
 > 先把"**强 Embedding + Hybrid Search + Rerank**"三件套搭扎实（这一步能解决 80%+ 的召回问题），再按具体缺口按表叠加 HyDE / Graph / Agentic——不要反过来。
 
-下一篇会写 LazyGraphRAG 的实战解析，看它如何用 0.1% 的成本接近完整 GraphRAG 的效果。
-
 **参考资料：**
 
 1. Microsoft Research (2024). *LazyGraphRAG: Setting a New Standard for Cost-Efficient RAG*. [arXiv:2411.11523](https://arxiv.org/abs/2411.11523) — 微软官方 LazyGraphRAG 论文。
