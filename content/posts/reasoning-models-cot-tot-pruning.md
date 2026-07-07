@@ -1,6 +1,6 @@
 ---
 title: "从 CoT 到 ToT：大模型推理的思维进化与剪枝策略"
-date: 2026-05-20
+date: 2026-06-30
 draft: false
 tags: ["ai", "llm", "reasoning", "agent"]
 categories: ["ai"]
