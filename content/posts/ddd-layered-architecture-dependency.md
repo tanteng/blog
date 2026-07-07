@@ -21,7 +21,7 @@ DDD（领域驱动设计）架构中，Infrastructure 层可以依赖 Domain 层
 
 在 Eric Evans 2003 年《领域驱动设计》一书中提出的传统四层架构，依赖关系是这样的：
 
-{{< mermaid >}}
+```mermaid
 graph TB
     subgraph UI ["用户接口层"]
         ui["UI Layer"]
@@ -39,7 +39,7 @@ graph TB
     ui --> app
     app --> dom
     dom --> inf
-{{< /mermaid >}}
+```
 
 基础设施层位于最底层，领域层依赖基础设施层，基础设施层不依赖其他层。
 
@@ -53,7 +53,7 @@ graph TB
 
 《实现领域驱动设计》（Vaughn Vernon）中提出了基于**依赖倒置原则（DIP）**的改良架构：
 
-{{< mermaid >}}
+```mermaid
 graph TB
     subgraph INF ["Infrastructure（最外层）"]
         inf["实现 Domain 层接口<br/>持久化、消息队列等"]
@@ -71,7 +71,7 @@ graph TB
     inf --> dom
     ui --> app
     app --> dom
-{{< /mermaid >}}
+```
 
 核心思想：**Infrastructure 依赖 Domain，而不是反过来。**
 
@@ -139,7 +139,7 @@ public class OrderRepositoryImpl implements OrderRepository {
 
 六边形架构（也称端口与适配器架构）与改良版四层架构的思想一脉相承，进一步强化了这种依赖关系：
 
-{{< mermaid >}}
+```mermaid
 graph TB
     subgraph CENTER ["Domain（最核心）"]
         dom["核心业务逻辑<br/>领域模型<br/>端口接口定义"]
@@ -157,7 +157,7 @@ graph TB
     ui -.->|依赖端口接口| dom
     infra -.->|依赖端口接口| dom
     app --> dom
-{{< /mermaid >}}
+```
 
 在六边形架构中：
 - **Domain 层位于最核心**，完全不依赖任何外层

@@ -44,7 +44,7 @@ OpenClaw 自带一个基于 SQLite 的 Memory 引擎，对于简单场景已经�
 
 Sidecar 是微服务架构中的经典模式：主进程专注核心业务，辅助功能交给一个**独立进程**在旁边跑，两者通过本地通信协作。QMD 就是 OpenClaw 的搜索 Sidecar——OpenClaw 管聊天和记忆读写，QMD 专门负责搜索。
 
-{{< mermaid >}}
+```mermaid
 graph TB
     subgraph OpenClaw["OpenClaw（主进程）"]
         Chat["对话 / Agent 调度"]
@@ -71,7 +71,7 @@ graph TB
     style OpenClaw fill:#e8f4fd,stroke:#1a73e8
     style QMD fill:#fef3e0,stroke:#e8a017
     style Data fill:#e8f5e9,stroke:#34a853
-{{< /mermaid >}}
+```
 
 这种设计带来三个好处：
 

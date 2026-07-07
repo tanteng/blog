@@ -51,7 +51,7 @@ TTL 设置为 `every * 2`，作为自动过期的兜底。
 
 ## 限流判断流程
 
-{{< mermaid >}}
+```mermaid
 flowchart TD
     A["读取 Hash key<br/>start / end / count"] --> B{key 存在?}
 
@@ -68,7 +68,7 @@ flowchart TD
 
     H -->|否| I["❌ 限流拒绝"]
     H -->|是| G
-{{< /mermaid >}}
+```
 
 ## 底层 Lua 脚本
 

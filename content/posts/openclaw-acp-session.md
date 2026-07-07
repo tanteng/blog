@@ -52,18 +52,18 @@ Session Key 的格式长这样：`agent:<agentId>:acp:<uuid>`，唯一标识一�
 
 这一参数决定了子 Agent 能看到多少父 Agent 的上下文：
 
-{{< mermaid >}}
+```mermaid
 graph LR
     A[父 Agent] --> B{context 参数}
     B --> C[isolated<br/>干净独立环境<br/>默认]
     B --> D[fork<br/>共享上下文<br/>从父转录本分支]
     C --> E[独立研究<br/>代码实现]
     D --> F[需要父上下文<br/>已有工具结果]
-{{< /mermaid >}}
+```
 
 ### thread + mode 组合
 
-{{< mermaid >}}
+```mermaid
 stateDiagram-v2
     [*] --> oneShot
     oneShot --> threadBound
@@ -74,13 +74,13 @@ stateDiagram-v2
     note right of oneShot: thread=false, mode="run"
     note right of threadBound: thread=true, mode="run"
     note right of persistent: thread=true, mode="session"
-{{< /mermaid >}}
+```
 
 ## 3. sessions_send：向子 Agent 发消息
 
 `sessions_spawn` 只是**启动**一个子 Agent，真正实现双向通信要靠 `sessions_send`。
 
-{{< mermaid >}}
+```mermaid
 flowchart LR
     A[主 Agent] -->|timeoutSeconds: 0<br/>Fire-and-forget| B[子 Agent]
     A -->|timeoutSeconds: 60<br/>等待回复| C[子 Agent]
@@ -89,7 +89,7 @@ flowchart LR
     style A fill:#4a90d9,color:#fff
     style B fill:#7f8c8d,color:#fff
     style C fill:#27ae60,color:#fff
-{{< /mermaid >}}
+```
 
 ### sessions_send 核心参数
 
@@ -157,7 +157,7 @@ sessions_spawn({
 
 多阶段分析流水线，使用内部 Sub-agent：
 
-{{< mermaid >}}
+```mermaid
 flowchart TB
     A[主 Agent<br/>调度器] --> B[log-analyzer<br/>日志分析]
     A --> C[perf-analyzer<br/>性能分析]
@@ -166,7 +166,7 @@ flowchart TB
     C --> E
     D --> E
     E --> F[完整报告]
-{{< /mermaid >}}
+```
 
 ```javascript
 sessions_spawn({ task: "分析日志错误", label: "log-analyzer", ... })

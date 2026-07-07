@@ -15,7 +15,7 @@ MCP（Model Context Protocol，模型上下文协议）是一个**标准化协�
 
 ### 核心定位
 
-{{< mermaid >}}
+```mermaid
 flowchart TB
     U[👤 用户<br/>提问 / 需求]:::user --> LLM[🧠 大模型 LLM<br/>理解意图 · 决定调用 · 解析结果]:::llm
     LLM -->|MCP 协议通信| C1[Claude /<br/>OpenClaw]:::client
@@ -29,7 +29,7 @@ flowchart TB
     classDef llm fill:#f6ad55,stroke:#dd6b20,color:#fff,stroke-width:2px
     classDef client fill:#edf2f7,stroke:#a0aec0,color:#2d3748,stroke-width:1px
     classDef server fill:#68d391,stroke:#38a169,color:#fff,stroke-width:2px
-{{< /mermaid >}}
+```
 
 ### 技术特点
 
@@ -45,7 +45,7 @@ MCP 服务器支持三种传输方式：**stdio**、**SSE**、**Streamable HTTP*
 
 **本地进程通信**，通过标准输入输出传递数据。
 
-{{< mermaid >}}
+```mermaid
 graph LR
     A[客户端<br/>Cherry Studio/OpenClaw] -->|stdio| B[MCP 服务器<br/>本地进程]
     B -->|调用远程 API| C[外部服务]
@@ -53,7 +53,7 @@ graph LR
     style A fill:#e1f5fe
     style B fill:#fff3e0
     style C fill:#e8f5e8
-{{< /mermaid >}}
+```
 
 - **适用场景**: 本地开发的 MCP 服务
 - **优点**: 配置简单，无需网络
@@ -63,7 +63,7 @@ graph LR
 
 **Server-Sent Events**，服务器推送模式。
 
-{{< mermaid >}}
+```mermaid
 sequenceDiagram
     participant C as 客户端
     participant S as MCP 服务器
@@ -78,7 +78,7 @@ sequenceDiagram
     S-->>C: 返回结果
     
     Note over C,S: 连接一直保持，对话结束断开
-{{< /mermaid >}}
+```
 
 - **适用场景**: 需要服务器推送的场景
 - **优点**: 支持实时推送
@@ -88,7 +88,7 @@ sequenceDiagram
 
 **官方推荐的现代传输方式**（2025年3月推出）。
 
-{{< mermaid >}}
+```mermaid
 sequenceDiagram
     participant C as 客户端
     participant S as MCP 服务器
@@ -100,7 +100,7 @@ sequenceDiagram
     S-->>C: 返回结果
     
     Note over C,S: 无状态，每次独立请求
-{{< /mermaid >}}
+```
 
 - **适用场景**: 云部署、无服务器环境
 - **优点**: 无状态、适合水平扩展、官方推荐
@@ -310,7 +310,7 @@ mcporter call "go-demo.add(a: 5, b: 3)"
 
 以一个真实案例说明：假设企业内部 AI 助手 **WorkBuddy** 需要调用**腾讯文档**的文档搜索能力：
 
-{{< mermaid >}}
+```mermaid
 flowchart TB
     subgraph WorkBuddy 后端
         U[用户提问] --> LLM[🧠 大模型<br/>理解意图 · 决策调用工具]
@@ -329,7 +329,7 @@ flowchart TB
     style MS fill:#68d391,stroke:#38a169,color:#fff,stroke-width:2px
     style U fill:#667eea,stroke:#5a67d8,color:#fff
     style WXAPI fill:#e1f5fe,stroke:#0277bd,color:#2d3748
-{{< /mermaid >}}
+```
 
 可以看到：**MCP Client 位于 WorkBuddy 后端服务中**，它与 Host Application（WorkBuddy 本身）紧密配合，是 AI 应用连接外部工具的桥梁。
 

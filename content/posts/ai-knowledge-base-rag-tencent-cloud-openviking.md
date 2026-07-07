@@ -47,18 +47,18 @@ featured_image: ""
 
 #### 阶段一：离线索引（构建知识库）
 
-{{< mermaid >}}
+```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#e3f2fd', 'primaryTextColor': '#1565c0', 'primaryBorderColor': '#1565c0', 'lineColor': '#90a4ae', 'secondaryColor': '#f5f5f5', 'tertiaryColor': '#fff9c4'}}}%%
 flowchart TD
     A["📄 文档<br/>PDF/Word/网页等"] --> B["Step 1: 文档解析<br/>CreateReconstructDocumentFlow"]
     B --> C["Step 2: 语义拆分<br/>CreateSplitDocumentFlow"]
     C --> D["Step 3: 向量化<br/>GetEmbedding"]
     D --> E["Step 4: 入库存储<br/>向量数据库"]
-{{< /mermaid >}}
+```
 
 #### 阶段二：在线检索（回答问题）
 
-{{< mermaid >}}
+```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#e8f5e9', 'primaryTextColor': '#2e7d32', 'primaryBorderColor': '#2e7d32', 'lineColor': '#90a4ae', 'secondaryColor': '#f5f5f5', 'tertiaryColor': '#fff9c4'}}}%%
 flowchart TD
     A["❓ 用户提问"] --> B["Step 5: 多轮改写<br/>QueryRewrite"]
@@ -66,7 +66,7 @@ flowchart TD
     C --> D["Step 7: 相似度检索<br/>SearchKnowledge"]
     D --> E["Step 8: 重排序<br/>RunRerank"]
     E --> F["Step 9: 生成回答<br/>LLM"]
-{{< /mermaid >}}
+```
 
 #### 如果使用 RAG 综合套件
 
@@ -139,7 +139,7 @@ OpenViking 的做法不同——它给数据加上了**目录结构**，检索�
 
 ### 3.2 协同架构
 
-{{< mermaid >}}
+```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#f3e5f5', 'primaryTextColor': '#7b1fa2', 'primaryBorderColor': '#7b1fa2', 'lineColor': '#90a4ae', 'secondaryColor': '#e1bee7', 'tertiaryColor': '#fff9c4'}}}%%
 flowchart TD
     Q["❓ 用户提问"] --> OV1
@@ -151,7 +151,7 @@ flowchart TD
     OV3["⑥ OpenViking 记忆沉淀"]
     Q -->|"并行触发"| TE3
     OV2 -->|"提供上下文"| LLM
-{{< /mermaid >}}
+```
 **协同流程：**
 
 1. **OpenViking 负责理解上下文**：用户说"上次讨论的那个方案"，OpenViking 从长期记忆中召回 "PostgreSQL 方案"，并把模糊的指代转化为明确的查询。

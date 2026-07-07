@@ -33,7 +33,8 @@ featured_image: "https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/
 
 完整流程：
 
-{{< mermaid >}}flowchart TD
+```mermaid
+flowchart TD
     A["👤 用户发送消息"] --> B["🔍 before_prompt_build<br/>并行查询 memories<br/>生成 memory 块注入 prompt"]
     B --> C["🧩 assemble<br/>从 OpenViking 读取<br/>压缩摘要 + 归档索引 + 活跃消息"]
     C --> D["🤖 模型推理"]
@@ -51,7 +52,7 @@ featured_image: "https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/
     style A fill:#e3f2fd
     style D fill:#fff3e0
     style I fill:#e8f5e9
-{{< /mermaid >}}
+```
 
 除了自动行为，插件还为模型提供了四个显式工具：
 

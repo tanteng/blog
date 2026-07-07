@@ -93,7 +93,8 @@ sessions_spawn({
 
 **执行流程**：
 
-{{< mermaid >}}sequenceDiagram
+```mermaid
+sequenceDiagram
     participant Main as 主 Agent
     participant Sub as 临时子 Agent
 
@@ -102,7 +103,7 @@ sessions_spawn({
     Sub-->>Main: 返回结果
     Note over Sub: 任务完成
     Note over Sub: Sub Agent 消失
-{{< /mermaid >}}
+```
 
 ### 对比总结
 
@@ -121,7 +122,8 @@ sessions_spawn({
 
 两种形态可以组合使用，发挥各自优势：
 
-{{< mermaid >}}graph TB
+```mermaid
+graph TB
     subgraph Main["🤖 主 Agent（主 Session）"]
         M[任务分解
         结果汇总]
@@ -148,7 +150,7 @@ sessions_spawn({
 
     style Persistent fill:#e1f5fe
     style Ephemeral fill:#fff3e0
-{{< /mermaid >}}
+```
 
 例如在一个旅行规划场景中：
 - **临时子 Agent** 并行查询天气、景点、活动（快速、隔离）
@@ -159,7 +161,8 @@ sessions_spawn({
 
 ## 什么是 Session？
 
-{{< mermaid >}}graph LR
+```mermaid
+graph LR
     A[用户消息] --> B[Session A<br/>主会话]
     B --> C[Task 1]
     B --> D[Task 2]
@@ -168,7 +171,8 @@ sessions_spawn({
     style B fill:#e1f5fe
     style C fill:#fff3e0
     style D fill:#fff3e0
-    style E fill:#fff3e0{{< /mermaid >}}
+    style E fill:#fff3e0
+```
 
 ### Session 的特性
 
@@ -182,7 +186,8 @@ sessions_spawn({
 
 OpenClaw 的多 Agent 架构采用**主从模式**：
 
-{{< mermaid >}}graph TB
+```mermaid
+graph TB
     subgraph Gateway["🌐 Gateway（网关）"]
         G[消息入口<br/>路由决策<br/>Session 管理]
     end
@@ -207,7 +212,8 @@ OpenClaw 的多 Agent 架构采用**主从模式**：
     
     style Gateway fill:#f3e5f5
     style Main fill:#e3f2fd
-    style SubAgents fill:#e8f5e9{{< /mermaid >}}
+    style SubAgents fill:#e8f5e9
+```
 
 ### 核心组件
 
@@ -236,7 +242,8 @@ Sub Agent 是执行具体任务的 Agent，可以是：
 
 ### 模式一：父子协作（Sessions Spawn）
 
-{{< mermaid >}}sequenceDiagram
+```mermaid
+sequenceDiagram
     participant User as 用户
     participant Main as Main Agent
     participant SA as Sub Agent A
@@ -248,7 +255,8 @@ Sub Agent 是执行具体任务的 Agent，可以是：
     Main-->>SB: 启动新闻搜索
     SA-->>Main: 股票分析完成
     SB-->>Main: 新闻搜索完成
-    Main->>User: 汇总结果回复{{< /mermaid >}}
+    Main->>User: 汇总结果回复
+```
 
 **特点**：
 - 主 Agent 派生子 Agent
@@ -257,7 +265,8 @@ Sub Agent 是执行具体任务的 Agent，可以是：
 
 ### 模式二：工具调用（Tools）
 
-{{< mermaid >}}graph LR
+```mermaid
+graph LR
     A[Main Agent] --> B[内置工具]
     A --> C[Skill 工具]
     A --> D[MCP 工具]
@@ -269,7 +278,8 @@ Sub Agent 是执行具体任务的 Agent，可以是：
     style A fill:#e3f2fd
     style B fill:#fff3e0
     style C fill:#fff3e0
-    style D fill:#fff3e0{{< /mermaid >}}
+    style D fill:#fff3e0
+```
 
 **特点**：
 - Agent 内置工具直接调用
@@ -278,11 +288,13 @@ Sub Agent 是执行具体任务的 Agent，可以是：
 
 ### 模式三：跨 Session 通信
 
-{{< mermaid >}}graph LR
+```mermaid
+graph LR
     A[Session A<br/>主会话] -->|sessions_send| B[Session B<br/>子会话]
     B -->|返回结果| A
     A -->|sessions_send| C[Session C<br/>另一个任务]
-    C -->|返回结果| A{{< /mermaid >}}
+    C -->|返回结果| A
+```
 
 **特点**：
 - 通过 `sessions_send` 发送消息
@@ -309,7 +321,8 @@ Sub Agent 是执行具体任务的 Agent，可以是：
 
 ### 场景一：股票分析报告
 
-{{< mermaid >}}flowchart TB
+```mermaid
+flowchart TB
     A[用户请求：分析腾讯股票] --> B[Main Agent]
     B --> C[spawn 股票分析 Agent]
     B --> D[spawn 新闻搜索 Agent]
@@ -325,11 +338,13 @@ Sub Agent 是执行具体任务的 Agent，可以是：
     I --> J[返回用户]
     
     style A fill:#ffcdd2
-    style J fill:#c8e6c9{{< /mermaid >}}
+    style J fill:#c8e6c9
+```
 
 ### 场景二：博客文章发布
 
-{{< mermaid >}}flowchart LR
+```mermaid
+flowchart LR
     A[用户：发布博客] --> B[Main Agent]
     B --> C[分析文章内容]
     C --> D[生成文件名]
@@ -339,7 +354,8 @@ Sub Agent 是执行具体任务的 Agent，可以是：
     G --> H[返回部署链接]
     
     style A fill:#ffcdd2
-    style H fill:#c8e6c9{{< /mermaid >}}
+    style H fill:#c8e6c9
+```
 
 
 ### 1. 模块化设计

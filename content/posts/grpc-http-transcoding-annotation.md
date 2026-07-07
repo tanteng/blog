@@ -25,7 +25,7 @@ gRPC 以其高效的二进制序列化（Protocol Buffers）和强大的流式�
 
 HTTP Transcoding（HTTP 转码）是 gRPC 框架提供的一种机制：它能够将 **HTTP/JSON 请求**自动转换为 **gRPC/Protobuf 请求**，使同一个 gRPC 服务可以同时处理两种类型的调用。
 
-{{< mermaid theme="neutral" >}}
+```mermaid
 flowchart LR
     A["HTTP/JSON 客户端 (浏览器/curl)"] --> B["gRPC Transcoding Filter"]
     B --> C["gRPC Server (Protobuf)"]
@@ -34,7 +34,7 @@ flowchart LR
     B -. "DescribeUserReq" .-> C
     C -. "DescribeUserReply" .-> B
     B -. "200 OK { name: Alice }" .-> A
-{{< /mermaid >}}
+```
 
 ## 二、google.api.http 注解
 
@@ -121,7 +121,7 @@ rpc SearchUsers(SearchUsersReq) returns (SearchUsersReply) {
 
 ### 3.1 请求处理流程
 
-{{< mermaid theme="neutral" >}}
+```mermaid
 flowchart TD
     A["HTTP/JSON 请求"] --> B["HTTP/JSON Decoder<br/>解码器：解析请求行、头部、URL"]
     B --> C["Path Matcher<br/>路径匹配器：根据 URL 匹配 RPC 方法"]
@@ -130,7 +130,7 @@ flowchart TD
     E --> F["gRPC Handler<br/>gRPC 处理器：调用实际 RPC 方法"]
     F --> G["Response Transcoder<br/>响应转换器：Protobuf → JSON"]
     G --> H["HTTP/JSON 响应"]
-{{< /mermaid >}}
+```
 
 ### 3.2 关键转换逻辑
 

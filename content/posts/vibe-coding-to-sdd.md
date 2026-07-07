@@ -21,7 +21,7 @@ featured_image: 'https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/06/
 
 当前主流 AI 编程工具的工作流，本质都是"需求 → 代码 → 试错"的循环：
 
-{{< mermaid >}}
+```mermaid
 graph LR
     A[自然语言需求] --> B[AI生成代码]
     B --> C{运行测试}
@@ -30,7 +30,7 @@ graph LR
     E --> B
     style A fill:#f9f,stroke:#333,stroke-width:2px
     style D fill:#bbf,stroke:#333,stroke-width:2px
-{{< /mermaid >}}
+```
 
 这套流程的问题在于：**试错的次数决定了开发效率**。当需求复杂时，AI 生成的代码往往需要多次调试才能跑通，甚至会逐渐失控。
 
@@ -107,7 +107,7 @@ Command 是**用户主动按下**的斜杠命令，没有自动识别、你按�
 
 [OpenSpec](https://github.com/Fission-AI/OpenSpec)（`@fission-ai/openspec`）是一个**工具无关**的规范驱动开发框架，专为**存量项目（brownfield）** 设计。它的核心工作流是 **Propose → Apply → Archive** 三步：
 
-{{< mermaid >}}
+```mermaid
 graph LR
     A[用户提出需求] --> B["/opsx:propose"]
     B --> C["生成 change 制品<br/>proposal / specs / design / tasks"]
@@ -116,7 +116,7 @@ graph LR
     E -->|准备下一个需求| A
     style A fill:#f96,stroke:#333,stroke-width:2px
     style D fill:#6f9,stroke:#333,stroke-width:2px
-{{< /mermaid >}}
+```
 
 在 `/opsx:propose` 阶段，OpenSpec 会为这次变更创建一个独立文件夹，一次性产出四类制品：
 

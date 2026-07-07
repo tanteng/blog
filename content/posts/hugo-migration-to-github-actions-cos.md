@@ -22,7 +22,8 @@ tags: ['hugo', 'ci-cd', 'tencent-cloud', 'ai-coding']
 
 下图展示了当前部署的完整流程：
 
-{{< mermaid >}}flowchart TD
+```mermaid
+flowchart TD
     A([🚀 Git Push to main]):::trigger --> B[⚙️ GitHub Actions<br/>并发控制]:::ci
     B --> C[📥 Checkout<br/>fetch-depth: 2]:::step
     C --> D[🔧 安装 Hugo 二进制]:::step
@@ -42,7 +43,7 @@ tags: ['hugo', 'ci-cd', 'tencent-cloud', 'ai-coding']
     classDef check fill:#fefcbf,stroke:#d69e2e,color:#744210,stroke-width:2px
     classDef purge fill:#68d391,stroke:#38a169,color:#fff,stroke-width:2px
     classDef done fill:#48bb78,stroke:#2f855a,color:#fff,stroke-width:2px
-{{< /mermaid >}}
+```
 
 ## 部署方案演进
 

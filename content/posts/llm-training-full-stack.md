@@ -229,7 +229,7 @@ PPO 算法复杂、需要同时加载 4 个模型（策略、参考、奖励、C
 
 ## 📊 大模型完整技术栈一览
 
-{{< mermaid >}}
+```mermaid
 flowchart TB
     subgraph Data["📦 数据 Pipeline"]
         D1[🗑️ 去重<br/>MinHash / SimHash]
@@ -281,7 +281,7 @@ flowchart TB
 
     class D1,D2,D3,D4,A1,A2,A3,A4,P1,P2,P3,P4,P5,P6,PT1,PT2,PT3,PT4,I1,I2,I3,I4,I5 tech
     class Data,Arch,PreTrain,PostTrain,Infer highlight
-{{< /mermaid >}}
+```
 
 ## 🚀 总结
 

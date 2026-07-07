@@ -21,7 +21,7 @@ HyDE 是 2022 年 CMU 和滑铁卢大学团队（Luyu Gao, Xueguang Ma, Jimmy Li
 
 > 既然用户的问题"长得不像"答案，那就让 LLM 先按问题的语义**想象一段答案**，然后拿这个**和答案同形的文本**去做检索。整条流水线只有一步多了 LLM：
 
-{{< mermaid >}}
+```mermaid
 flowchart TD
     A["<b>用户问题</b>"] --> B["<b>LLM 生成假想答案</b><br/>temperature = 0<br/>不用事实准确，形态对就行"]
     B --> C["<b>embed 假想答案</b>"]
@@ -33,7 +33,7 @@ flowchart TD
     style C fill:#fff9c4,stroke:#f57f17,stroke-width:2px
     style D fill:#e8f5e9,stroke:#2e7d32
     style E fill:#e8f5e9,stroke:#2e7d32
-{{< /mermaid >}}
+```
 
 假想答案**不需要事实正确**——事实上它经常一本正经地胡说。但 HyDE 不在乎事实，它只在乎文本的形态和语义空间位置。看个例子：
 

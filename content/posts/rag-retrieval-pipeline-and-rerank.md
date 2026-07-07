@@ -17,7 +17,7 @@ RAG（Retrieval-Augmented Generation）的"检索"二字，背后是一整条工
 
 RAG 检索不是"搜一下 → 喂给 LLM"这么简单。一次完整的检索要经过 5 个阶段：
 
-{{< mermaid >}}
+```mermaid
 flowchart TB
     A["<b>用户 query</b>"] --> B["<b>1. Query 预处理</b><br/>改写 / 扩展 / HyDE"]
     B --> C["<b>2a. 粗排</b><br/>BM25 / 倒排索引"]
@@ -31,7 +31,7 @@ flowchart TB
     style F fill:#fff9c4,stroke:#f57f17,stroke-width:3px
     style G fill:#bbdefb,stroke:#1565c0
     style H fill:#c8e6c9,stroke:#2e7d32
-{{< /mermaid >}}
+```
 
 各阶段的职责分工：
 

@@ -21,7 +21,7 @@ TradingAgents 框架包含五个阶段：
 
 整体流程：
 
-{{< mermaid >}}
+```mermaid
 flowchart TD
     A[截图 / 文字描述 / 股票代码] --> B[Agent 调用 MCP 识别 / 搜索 / 提取]
     B --> C[结构化数据]
@@ -33,7 +33,7 @@ flowchart TD
     H --> I[风控三方辩论]
     I --> J[投资组合经理评级]
     J --> K[PDF 报告]
-{{< /mermaid >}}
+```
 
 ## 项目地址
 

@@ -142,7 +142,7 @@ IVF + PQ 常组合使用：IVF 负责减少搜索范围，PQ 负责加速距离�
 
 完整的 RAG 流程分为**离线索引**和**在线检索**两个阶段：
 
-{{< mermaid >}}
+```mermaid
 flowchart TD
     subgraph 离线索引阶段
         A1["📄 文档"]
@@ -175,7 +175,7 @@ flowchart TD
     style Q4 fill:#fff9c4,stroke:#f57f17
     style Q5 fill:#fff9c4,stroke:#f57f17
     style Q6 fill:#c8e6c9,stroke:#2e7d32
-{{< /mermaid >}}
+```
 
 向量数据库在**在线检索阶段**扮演核心角色：用 ANN 算法快速从海量向量中找到和查询最相关的 K 个。
 

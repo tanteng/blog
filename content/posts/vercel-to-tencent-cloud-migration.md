@@ -28,7 +28,8 @@ featured_image: 'https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/
 
 最终决定整体迁移到腾讯云 Lighthouse，把计算、存储、数据库全部集中到广州区域的一台 Lighthouse 实例上。迁移后的架构如下：
 
-{{< mermaid >}}flowchart TB
+```mermaid
+flowchart TB
     subgraph CDN["🌐 EdgeOne CDN"]
         A[photos.tanteng.space]:::cdn
     end
@@ -62,7 +63,7 @@ featured_image: 'https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/
     style Server fill:#fff8f0,stroke:#f6ad55,stroke-width:2px,color:#2d3748
     style Storage fill:#f0f8ff,stroke:#4299e1,stroke-width:2px,color:#2d3748
     style Database fill:#f0fff0,stroke:#68d391,stroke-width:2px,color:#2d3748
-{{< /mermaid >}}
+```
 
 全部在同一区域内网互通，数据库查询从跨洋 200ms+ 降到本地 < 1ms。
 

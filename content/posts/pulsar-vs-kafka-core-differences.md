@@ -15,7 +15,7 @@ Pulsar 是 Apache 旗下的分布式消息队列，由 Yahoo 开源，专为云�
 
 ### Kafka 架构
 
-{{< mermaid >}}
+```mermaid
 graph TD
     P[Producer] --> T[Topic]
     T --> P0[Partition 0]
@@ -25,7 +25,7 @@ graph TD
     P1 --> C2[Consumer 2]
     P2 --> C3[Consumer 3]
     T --> ZK[Zookeeper / KRaft]
-{{< /mermaid >}}
+```
 
 Kafka 的核心是 **Partition（分区）**：
 - 每个 Topic 由若干个 Partition 组成
@@ -34,7 +34,7 @@ Kafka 的核心是 **Partition（分区）**：
 
 ### Pulsar 架构
 
-{{< mermaid >}}
+```mermaid
 graph TD
     P[Producer] --> T[Topic]
     T --> B1[Broker 1]
@@ -46,7 +46,7 @@ graph TD
     ML --> BK3[Bookie 3]
     B1 --> C1[Consumer]
     B2 --> C2[Consumer]
-{{< /mermaid >}}
+```
 
 Pulsar 的核心是 **计算与存储分离**：
 - **Broker**：负责处理生产者和消费者的请求，无状态
