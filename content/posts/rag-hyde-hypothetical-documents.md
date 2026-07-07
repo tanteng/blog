@@ -100,7 +100,7 @@ HyDE 的代价很清楚：多 200-500ms 延迟、多 $0.0001-0.001 / 次成本�
 
 **最适合用 HyDE 的场景**：知识库语言规范（白皮书、产品手册、FAQ）+ 用户问题偏口语化（客服、内部问答）。这种组合下，召回质量通常能提升 10-20%。
 
-> **2026 年补充**：当下生产环境的 RAG 标配是 **Hybrid Search（BM25+向量）+ Rerank + 强 Embedding**（如 BGE-M3、Qwen3-Embedding），HyDE 退居可选增强位。新项目选型建议先上三件套，召回还有明显缺口时**再叠加** HyDE。详见[《RAG 召回率优化的 2026 主路线》](/posts/rag-2026-mainstream-hybrid-rerank-embedding/)。
+> **2026 年补充**：当下生产环境的 RAG 标配是 **Hybrid Search（BM25+向量）+ Rerank + 强 Embedding**（如 BGE-M3、Qwen3-Embedding），HyDE 退居可选增强位。新项目选型建议先上三件套，召回还有明显缺口时**再叠加** HyDE。详见[《RAG 召回率优化的主路线》](/posts/rag-retrieval-modern-stack-hybrid-rerank/)。
 
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "RAG 召回率优化的 2026 主路线：Hybrid + Rerank + 强 Embedding 三件套"
+title: "RAG 召回率优化的主路线：Hybrid + Rerank + 强 Embedding 三件套"
 date: 2026-03-05T08:00:00+08:00
 description: "2026 年生产环境的 RAG 标配是三件套：强 Embedding 模型 + Hybrid Search（BM25+向量）+ Rerank 精排。HyDE 等 Query 改写技巧退居可选增强位。本文讲清为什么这是主路线、各组件怎么搭、以及什么时候该叠加其他技巧。"
 categories: ['ai']
