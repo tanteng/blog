@@ -1,5 +1,5 @@
 ---
-title: "大模型全栈拆解：从一堆数据到一个能对话的 AI"
+title: "大模型是怎么炼成的"
 date: 2026-03-01
 weight: 10
 draft: false

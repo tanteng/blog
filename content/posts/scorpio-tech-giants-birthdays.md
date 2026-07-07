@@ -1,6 +1,6 @@
 ---
 title: "天蝎座的生日玄学"
-date: 2026-05-25
+date: 2023-01-01
 draft: false
 tags: ["tech", "history", "science", "星座"]
 categories: ["tech"]
