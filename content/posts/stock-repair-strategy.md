@@ -1,6 +1,6 @@
 ---
 title: "股票修复策略（Stock Repair）：被套时如何不追加资金解套"
-date: 2026-06-24
+date: 2026-04-24
 categories: ['investment']
 tags:
   - 投资策略
