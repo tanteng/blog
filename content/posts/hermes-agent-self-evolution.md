@@ -30,17 +30,15 @@ Nous Research 在 2026 年开源的 [Hermes Agent](https://hermes-agent.nousrese
 
 这四个支柱之间不是并列关系，而是一个**正反馈闭环**：
 
-```
-交互 ──► 短期对话
-   │         │
-   │         ▼
-   │    Nudge 计数到阈值 ──► 后台 Review Fork
-   │                              │
-   │                              ▼
-   │                       写入 MEMORY / 创建 Skill
-   │                              │
-   ▼                              ▼
-下次会话 ◄──────── 注入 System Prompt ◄────┘
+```mermaid
+flowchart LR
+    A["交互"] --> B["短期对话"]
+    B --> C{"Nudge 计数到阈值"}
+    C -->|触发| D["后台 Review Fork"]
+    D --> E["写入 MEMORY / 创建 Skill"]
+    E --> F["下次会话"]
+    F -->|注入| G["System Prompt"]
+    G --> A
 ```
 
 下面我们逐一拆解。
@@ -49,31 +47,23 @@ Nous Research 在 2026 年开源的 [Hermes Agent](https://hermes-agent.nousrese
 
 Hermes 的代码组织极其清晰，整个自进化机制分布在四个核心模块：
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│  Entry: CLI / Gateway (20+ 平台) / ACP / Cron / Batch        │
-└────────────────────┬─────────────────────────────────────────┘
-                     ▼
-┌──────────────────────────────────────────────────────────────┐
-│  AIAgent (run_agent.py)                                       │
-│  ┌────────────────┐ ┌────────────────┐ ┌────────────────┐    │
-│  │ Prompt Builder │ │ Provider       │ │ Tool Dispatch  │    │
-│  │ (注入 MEMORY   │ │ Resolution     │ │ (70+ tools)    │    │
-│  │  + USER +      │ │ (3 API modes)  │ │                │    │
-│  │  Skills 索引)  │ │                │ │                │    │
-│  └────────────────┘ └────────────────┘ └────────────────┘    │
-└────────┬─────────────────────────────────────────┬───────────┘
-         │                                          │
-         ▼                                          ▼
-┌──────────────────────────┐    ┌──────────────────────────────┐
-│ Session Storage          │    │  Memory Manager               │
-│ SQLite + FTS5            │    │  ┌──────────────────────────┐ │
-│ ~/.hermes/state.db       │    │  │ MEMORY.md (2200 chars)   │ │
-│ (所有历史会话可全文检索)  │    │  │ USER.md  (1375 chars)    │ │
-└──────────────────────────┘    │  └──────────────────────────┘ │
-                                │  + Honcho Provider (可选)    │
-                                │  + 后台 Review Nudge         │
-                                └──────────────────────────────┘
+```mermaid
+flowchart LR
+    Entry["Entry: CLI / Gateway (20+) / ACP / Cron / Batch"]
+    Entry --> AIAgent["AIAgent (run_agent.py)"]
+    AIAgent --> PB["Prompt Builder
+注入 MEMORY + USER + Skills 索引"]
+    AIAgent --> PR["Provider Resolution
+3 API modes"]
+    AIAgent --> TD["Tool Dispatch
+70+ tools"]
+    AIAgent --> SS["Session Storage
+SQLite + FTS5 (~/.hermes/state.db)"]
+    AIAgent --> MM["Memory Manager
+├── MEMORY.md (2200 chars)
+├── USER.md (1375 chars)
+├── Honcho Provider (可选)
+└── 后台 Review Nudge"]
 ```
 
 注意右下角的 **Memory Manager** —— 这是整个自进化机制的中枢。它不是一个被动存储，而是**主动 fork 后台 Agent 复盘对话的调度器**。
@@ -82,26 +72,30 @@ Hermes 的代码组织极其清晰，整个自进化机制分布在四个核心�
 
 Hermes 的记忆不是单一的扁平结构，而是分为三层，每层有不同的读写语义和访问成本：
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  L1: Curated Memory (受控编辑)                                │
-│  ─────────────────────────────────                          │
-│  MEMORY.md  (2200 字符, ~800 tokens) ── 永远在 system prompt │
-│  USER.md   (1375 字符, ~500 tokens) ── 永远在 system prompt │
-│  Agent 决定写什么、何时合并、何时丢弃                            │
-├─────────────────────────────────────────────────────────────┤
-│  L2: Session Search (海马体)                                   │
-│  ─────────────────────────────────                          │
-│  SQLite + FTS5 全文索引 (~/.hermes/state.db)                  │
-│  所有 CLI / Gateway 会话的原始消息                             │
-│  按需检索：~20ms FTS5 查询，~1ms 滚动                         │
-├─────────────────────────────────────────────────────────────┤
-│  L3: Honcho 用户建模 (前额叶)                                  │
-│  ─────────────────────────────────                          │
-│  第三方 Memory Provider (plastic-labs/honcho)                 │
-│  服务端用 LLM 推理用户偏好、目标、风格                           │
-│  多 peer 隔离 + 辩证式推理（dialectic reasoning）              │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph L1 ["L1: Curated Memory (受控编辑)"]
+        M1["MEMORY.md
+2200 chars / ~800 tokens
+→ 永远在 system prompt"]
+        U1["USER.md
+1375 chars / ~500 tokens
+→ 永远在 system prompt"]
+        A1["Agent 决定写什么、何时合并、何时丢弃"]
+    end
+    subgraph L2 ["L2: Session Search (海马体)"]
+        SS["SQLite + FTS5 全文索引
+~/.hermes/state.db
+所有 CLI / Gateway 会话原始消息"]
+        R2["按需检索：~20ms FTS5 查询"]
+    end
+    subgraph L3 ["L3: Honcho 用户建模 (前额叶)"]
+        H["第三方 Memory Provider
+(plastic-labs/honcho)"]
+        D["服务端 LLM 推理
+用户偏好、目标、风格
+多 peer 隔离 + 辩证式推理"]
+    end
 ```
 
 ### 3.1 L1：Curated Memory 的精妙设计
@@ -168,16 +162,14 @@ L1 和 L2 本质上都是"存储"。但**用户从未明确说过的话**，比�
 
 Honcho（来自 Plastic Labs）是 Hermes 推荐的第三方 Memory Provider，专门做这件事。它的核心是 **Dialectic Reasoning（辩证推理）**：
 
-```
-每次对话 ──► Honcho 端调用 LLM ──► 推导"未明示"的洞察
-                              │
-                              ▼
-            ┌──────────────────────────────────┐
-            │  结论库 (Conclusions)             │
-            │  - 用户喜欢简洁方案                │
-            │  - 压力上升时偏好稳定技术栈         │
-            │  - 周末风格更随意                  │
-            └──────────────────────────────────┘
+```mermaid
+flowchart LR
+    C["每次对话"] --> L["Honcho 端调用 LLM"]
+    L --> I["推导「未明示」的洞察"]
+    I --> DB["结论库 (Conclusions)
+• 用户喜欢简洁方案
+• 压力上升时偏好稳定技术栈
+• 周末风格更随意"]
 ```
 
 **多 Pass 深度推理**：
@@ -223,16 +215,15 @@ if self._turns_since_skill >= _skill_nudge_interval:
 
 Nudge 命中后，Hermes 在后台 fork 一个独立的 Agent 实例，传入当前会话的压缩摘要，让它判断"这次对话是否产生了值得固化的知识"：
 
-```
-前台会话正常进行 ──► 用户得到响应
-         │
-         │ (异步)
-         ▼
-   _spawn_background_review()
-         │
-         ▼
-   后台 Agent 复盘 ──► memory_manager.sync_all() 
-                     ──► skill_manage(action="create" / "patch")
+```mermaid
+flowchart TD
+    F["前台会话正常进行"] --> U["用户得到响应"]
+    F -->|异步| B["_spawn_background_review()"]
+    B --> R["后台 Agent 复盘"]
+    R --> M["memory_manager.sync_all()
+写入 MEMORY / USER.md"]
+    R --> S["skill_manage(action=create / patch)
+创建或改进 SKILL"]
 ```
 
 后台 Review 的输出有三种去向：
@@ -338,20 +329,19 @@ skill_manage(action="patch", target="deploy-k8s",
 
 核心引擎是 **DSPy + GEPA**（Genetic-Pareto Prompt Evolution）：
 
-```
-读取当前 Skill/Prompt/Tool ──► 生成评估数据集
-                                 │
-                                 ▼
-              GEPA 优化器 ◄─── 执行轨迹
-                  │
-                  ▼
-           候选变体 ──► 评估
-                  │
-                  ▼
-           约束门禁（测试 + 大小 + 基准）
-                  │
-                  ▼
-           最佳变体 ──► 创建 PR（人工审核）
+```mermaid
+flowchart LR
+    A["读取当前
+Skill / Prompt / Tool"] --> B["生成评估数据集"]
+    B --> C["GEPA 优化器"]
+    C -->|执行轨迹| T["候选变体 → 评估"]
+    T --> G["约束门禁
+• 测试套件通过
+• 大小限制
+• 缓存兼容
+• 语义保持"]
+    G --> PR["创建 PR
+人工审核"]
 ```
 
 GEPA 的特别之处是：**它不仅看"变体是否失败"，还读执行轨迹理解"为什么失败"**，然后提出有针对性的改进。这是 Genetic-Pareto 的核心思想——在多个目标（正确性 / 简洁性 / 性能）之间找 Pareto 前沿。
