@@ -2,7 +2,7 @@
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="apple-touch-icon" href="/favicon.png">
 <link rel="stylesheet" href="/css/custom.css?v=20260706">
-{{ if or (.Page.HasShortcode "mermaid") (.Page.Store.Get "hasMermaid") }}
+<!-- Mermaid.js: always loaded so fenced ```mermaid code blocks render anywhere -->
 <style>
   .mermaid {
     visibility: hidden;
@@ -25,13 +25,28 @@
     max-width: 100%;
     height: auto !important;
   }
+  /* Triple-backtick mermaid code blocks: hide raw code, keep for mermaid.js */
+  pre > code.language-mermaid {
+    display: none;
+  }
 </style>
-<script defer src="/js/mermaid.min.js" onload="
-  mermaid.initialize({
-    startOnLoad: true,
-    theme: 'base',
-    securityLevel: 'loose',
-    flowchart: { useMaxWidth: true, htmlLabels: true }
+<script defer src="/js/mermaid.min.js"></script>
+<script defer>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof mermaid === 'undefined') return;
+    // Convert all fenced ```mermaid code blocks to <div class="mermaid"> for rendering
+    document.querySelectorAll('pre > code.language-mermaid').forEach(function(code) {
+      var pre = code.parentElement;
+      var div = document.createElement('div');
+      div.className = 'mermaid';
+      div.textContent = code.textContent;
+      pre.parentNode.replaceChild(div, pre);
+    });
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      securityLevel: 'loose',
+      flowchart: { useMaxWidth: true, htmlLabels: true }
+    });
   });
-"></script>
-{{ end }}
+</script>
