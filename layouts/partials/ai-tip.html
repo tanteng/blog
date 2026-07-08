@@ -1,6 +1,35 @@
-<aside class="ai-tip mt4 mb4 pa3 br2 bg-washed-yellow bl bw2 b--gold mid-gray" role="note">
-  <p class="f6 lh-copy ma0">
+{{- $content := .content -}}
+{{- $slug := "" -}}
+{{- with .page.File -}}
+  {{- $slug = .ContentBaseName -}}
+{{- end -}}
+<aside class="ai-tip mt4 mb4 pa3 br2 bg-washed-yellow bl bw2 b--gold mid-gray relative" role="note" data-ai-tip data-slug="{{ $slug }}">
+  <p class="f6 lh-copy ma0 pr3">
     <span class="fw6 gold mr2" aria-hidden="true">💡</span>
-    {{- . -}}
+    {{- $content -}}
   </p>
+  <button type="button" class="ai-tip-close absolute top-0 right-0 mt1 mr2 bn bg-transparent pointer f5 lh-solid mid-gray" aria-label="关闭提示" data-tip-close>×</button>
 </aside>
+<script>
+(function(){
+  if (window.__aiTipBound) return;
+  window.__aiTipBound = true;
+  var KEY = 'ai-tip-dismissed-';
+  function dismiss(tip){
+    tip.style.display = 'none';
+    var slug = tip.getAttribute('data-slug');
+    if (slug) { try { localStorage.setItem(KEY + slug, '1'); } catch(e) {} }
+  }
+  function init(){
+    var tips = document.querySelectorAll('[data-ai-tip]');
+    for (var i = 0; i < tips.length; i++) (function(tip){
+      var slug = tip.getAttribute('data-slug');
+      if (slug) { try { if (localStorage.getItem(KEY + slug) === '1') { tip.style.display = 'none'; return; } } catch(e) {} }
+      var btn = tip.querySelector('[data-tip-close]');
+      if (btn) btn.addEventListener('click', function(){ dismiss(tip); });
+    })(tips[i]);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
