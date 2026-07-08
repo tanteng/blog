@@ -1,6 +1,6 @@
 ---
 title: "如何在不确定的大模型上，构建可靠的系统？——读《Agent 设计模式》"
-date: 2026-06-24
+date: 2026-07-05
 weight: 10
 draft: false
 tags: ["ai", "agent", "design-pattern", "book-notes", "llm"]

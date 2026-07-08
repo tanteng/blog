@@ -1,6 +1,6 @@
 ---
 title: "Hermes Agent 如何实现自进化：一个内置学习闭环的 AI 智能体"
-date: 2026-07-07T16:30:00+08:00
+date: 2026-05-06
 draft: false
 tags: ["agent", "hermes", "ai", "memory", "self-evolution"]
 categories: ["ai"]
