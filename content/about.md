@@ -9,11 +9,11 @@ description: 'hi，我是tony老师，很高兴在这里认识你。'
 
 hi，欢迎来到我的个人博客。
 
-本站文章内容主要包括 Golang 后端、AI 技术，以及读书笔记等，大多由 AI 根据我的意图生成，并让 AI 修改后自动构建发布。
+本站文章内容主要包括 Golang、K8S、数据库等后端技术，关注 AI 技术，以及读书笔记等，大多由 AI 根据我的意图生成，并让 AI 修改后自动构建发布。
 
 ## 关于我
 
-后端开发工程师，平时喜欢咖啡（手冲爱好者），旅行，摄影，作品放在 [photos.tanteng.space](https://photos.tanteng.space)。
+后台开发工程师，平时喜欢咖啡，旅行，摄影。欢迎访问我的相册 [photos.tanteng.space](https://photos.tanteng.space)
 
 ### 去过的地方
 
