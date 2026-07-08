@@ -1,23 +1,19 @@
 ---
-title: '关于'
+title: '关于本站'
 seo_title: '关于本站 - 谈腾的博客'
 date: 1989-10-31T00:00:00+08:00
 draft: false
 categories: ['life']
-description: '谈腾的个人博客，记录技术文章、科技资讯、生活感悟与读书笔记。'
+description: 'hi，我是tony老师，很高兴在这里认识你。'
 ---
 
-欢迎来到我的个人博客，这里记录我的技术学习、生活点滴和读过的书。
+hi，欢迎来到我的个人博客。
 
-<!--more-->
-
-## 关于本站
-
-文章涵盖 Golang 后端、AI、读书笔记与摄影随想，大多由 AI 根据我的想法生成初稿，我审阅修改后发布。
+本站文章内容主要包括 Golang 后端、AI 技术，以及读书笔记等，大多由 AI 根据我的意图生成，并让 AI 修改后自动构建发布。
 
 ## 关于我
 
-我是 **谈腾**（Tony 老师），腾讯后端工程师，工作之外喜欢咖啡（手冲爱好者）和摄影，作品放在 [photos.tanteng.space](https://photos.tanteng.space)。
+在腾讯从事后端开发工程师工作，平时喜欢咖啡（手冲爱好者），旅行，摄影，作品放在 [photos.tanteng.space](https://photos.tanteng.space)。
 
 ### 去过的地方
 
