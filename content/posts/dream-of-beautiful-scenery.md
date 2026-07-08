@@ -2,6 +2,7 @@
 title: "昨夜梦见的美景"
 date: 2015-03-14T04:07:15+08:00
 draft: false
+original: true
 tags: ['life']
 categories: ["life"]
 slug: "dream-of-beautiful-scenery"
