@@ -13,7 +13,7 @@ hi，欢迎来到我的个人博客。
 
 ## 关于我
 
-在腾讯从事后端开发工程师工作，平时喜欢咖啡（手冲爱好者），旅行，摄影，作品放在 [photos.tanteng.space](https://photos.tanteng.space)。
+后端开发工程师，平时喜欢咖啡（手冲爱好者），旅行，摄影，作品放在 [photos.tanteng.space](https://photos.tanteng.space)。
 
 ### 去过的地方
 
