@@ -1,7 +1,7 @@
 ---
 title: '关于本站'
 seo_title: '关于本站 - 谈腾的博客'
-date: 1989-10-31T00:00:00+08:00
+date: 0
 draft: false
 categories: ['life']
 description: 'hi，我是tony老师，很高兴在这里认识你。'
@@ -15,7 +15,7 @@ hi，欢迎来到我的个人博客。
 
 后台开发工程师，平时喜欢咖啡，旅行，摄影。欢迎访问我的相册 [photos.tanteng.space](https://photos.tanteng.space)
 
-### 去过的地方
+### 旅行足迹
 
 - 🇹🇭 泰国：清迈、曼谷、芭提雅
 - 🇮🇩 印尼：巴厘岛
