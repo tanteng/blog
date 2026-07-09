@@ -1,10 +1,12 @@
 ---
 title: '关于本站'
 seo_title: '关于本站 - 谈腾的博客'
-date: 0
+date: 1989-10-31T00:00:00+08:00
 draft: false
 categories: ['life']
 description: 'hi，我是tony老师，很高兴在这里认识你。'
+ananke:
+  show_date: false
 ---
 
 hi，欢迎来到我的个人博客。

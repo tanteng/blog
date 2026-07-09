@@ -4,7 +4,7 @@
 
 {{ define "main" }}
   {{- $related_content := .Site.RegularPages.Related . -}}
-  {{- $needs_aside := or .Params.toc $related_content (gt (len $related_content) 0) -}}
+  {{- $needs_aside := or .Params.toc $related_content -}}
   {{ $page := .}}
   {{ $section := .Site.GetPage "section" .Section }}
 
@@ -15,16 +15,14 @@
 
   <article class="{{ $post_class }} flex-l {{ if $needs_aside }}mw8{{ else }}mw7{{ end }} center ph3 flex-wrap justify-between">
     <header class="mt4 w-100">
-      <aside class="instapaper_ignoref b helvetica tracked ttu">
-          {{ .CurrentSection.Title }}
-      </aside>
+      {{- partials.Include "hook.html" ( dict "hook" "article/section-link"  "context" . ) -}}
       {{- partials.IncludeCached "social/share.html" . . -}}
       <h1 class="f1 athelas mt3 mb1">
         {{- .Title -}}
       </h1>
       {{ with .Params.author | compare.Default .Site.Params.author }}
       <p class="tracked">
-        {{- if compare.Eq $page.Language "de" "en" "es" "fr" "it" "no" "pt" "pt" -}}
+        {{- if compare.Eq $page.Language "de" "en" "es" "fr" "it" "no" "pt" -}}
           {{- lang.Translate "by" -}}
         {{ end -}} <strong>
         {{- if reflect.IsSlice . -}}
@@ -35,15 +33,11 @@
         </strong>
       </p>
       {{ end }}
-      {{ if and (not .Date.IsZero) (eq .Section "posts") }}
+      {{ if partials.Include "func/ShowDate.html" . }}
       <time class="f6 mv4 dib tracked" {{ fmt.Printf `datetime="%s"` (.Date.Format "2006-01-02T15:04:05Z07:00") | safe.HTMLAttr }}>
         {{- .Date | time.Format (compare.Default "January 2, 2006" .Site.Params.date_format) -}}
       </time>
       {{end}}
-
-      {{ if and .Params.categories (eq .Section "posts") }}
-        {{- partials.Include "categories.html" . -}}
-      {{ end }}
 
       {{ if (or (compare.Eq (.Param "show_reading_time") true) (compare.Eq $section.Params.show_reading_time true) )}}
         {{ $readingTime := .ReadingTime }}
@@ -56,16 +50,26 @@
         <span class="f6 mv4 dib tracked"> - {{ lang.Translate "wordCount" .WordCount }} </span>
       {{ end }}
     </header>
-    {{ if and (eq .Section "posts") (not .Params.original) }}
-      {{- partials.Include "ai-tip.html" (dict "content" "本站文章多由 AI 根据作者意图生成，再按作者意见修改后自动构建发布。如有疏漏，欢迎指正。" "page" .) -}}
-    {{ end }}
     <div class="nested-copy-line-height lh-copy {{ $.Param "post_content_classes"  | compare.Default "serif"}} f4 nested-links {{ $.Param "text_color" | compare.Default "mid-gray" }} {{ compare.Conditional (compare.Eq $.Site.Language.LanguageDirection "rtl") "pl4-l" "pr4-l" }} {{ if $needs_aside }}w-two-thirds-l{{ else }}w-100-l{{ end }}">
+      {{- partials.Include "hook.html" (dict "hook" "content-before" "context" .) -}}
       {{- .Content -}}
+      {{- partials.Include "hook.html" (dict "hook" "content-after" "context" .) -}}
+      {{- partials.Include "categories.html" . -}}
       {{- partials.Include "tags.html" . -}}
+      {{ if .Site.Config.Services.Disqus.Shortname }}
+      <div class="mt6 instapaper_ignoref">
+        {{ partials.Include "disqus.html" . }}
+      </div>
+      {{ end }}
+      {{ if .Site.Params.commentoEnable }}
+      <div class="mt6 instapaper_ignoref">
+        {{ partials.Include "commento.html" . }}
+      </div>
+      {{ end }}
     </div>
     {{- if $needs_aside -}}
     <aside class="w-30-l mt6-l">
-      {{- partials.Include "related-posts.html" . -}}
+      {{- partials.Include "menu-contextual.html" . -}}
     </aside>
     {{- end -}}
 
