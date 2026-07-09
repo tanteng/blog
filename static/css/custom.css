@@ -87,7 +87,11 @@ iframe {
 }
 
 /* 文章页 section 分类标签 + 导航栏链接：已访问保持原色（不变成紫色） */
-.link.dim:visited,
-nav a:visited {
+/* 注意：导航栏不能用 inherit，否则已访问后会变成 body 黑色 */
+.link.dim:visited {
   color: inherit;
+}
+
+nav[role="navigation"] a:visited {
+  color: rgba(255, 255, 255, .9) !important;
 }
