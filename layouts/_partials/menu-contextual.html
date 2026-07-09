@@ -1,7 +1,6 @@
 {{/*
   Override of theme's menu-contextual.html.
-  We use the `content-after` hook for related posts (see layouts/_partials/hooks/content-after.html),
-  so this aside only renders the table of contents when `toc: true` is set.
+  Renders both the table of contents and the related posts list in the aside.
 */}}
 
 {{- if .Params.toc -}}
@@ -10,3 +9,5 @@
       {{ .TableOfContents }}
   </div>
 {{- end -}}
+
+{{- partials.Include "related-posts.html" . -}}
