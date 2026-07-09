@@ -1,6 +1,6 @@
 ---
 title: "Nikon FM2 双重曝光：四种经典梦幻效果的拍法"
-date: 2026-05-11
+date: 2026-04-02
 lastmod: 2026-07-04
 draft: false
 tags: ["photography", "camera", "nikon", "film-camera", "fm2"]

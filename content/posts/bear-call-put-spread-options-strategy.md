@@ -1,6 +1,6 @@
 ---
 title: "熊市期权策略：牛市看涨价差与熊市看跌价差完全指南"
-date: 2026-05-23
+date: 2026-04-01
 draft: false
 tags: ["options", "trading", "investment"]
 categories: ["investment"]
