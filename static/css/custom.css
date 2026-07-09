@@ -1,3 +1,10 @@
+/* tag/category pill 标签列表：li 是 display:inline，margin-bottom 失效，换行时上下贴在一起
+   改为 inline-block 让 .mb3 的 margin-bottom 生效 */
+ul.pa0 li.list.di {
+  display: inline-block;
+  vertical-align: middle;
+}
+
 /* 表格样式 */
 table {
   width: 100% !important;
