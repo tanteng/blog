@@ -85,3 +85,9 @@ iframe {
   height: auto;
   aspect-ratio: 16 / 9;
 }
+
+/* 文章页 section 分类标签 + 导航栏链接：已访问保持原色（不变成紫色） */
+.link.dim:visited,
+nav a:visited {
+  color: inherit;
+}
