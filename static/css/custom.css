@@ -90,11 +90,3 @@ iframe {
 .link.dim:visited {
   color: inherit;
 }
-
-/* 顶部导航栏所有链接（包括 Logo + 菜单项）：覆盖 :link / :visited，避免 hover 之外变紫或变黑 */
-/* Chrome 对 :visited 有隐私限制，只能改 color 不能 override class 的 specificity，所以直接覆盖全部状态 */
-nav a,
-nav a:link,
-nav a:visited {
-  color: rgba(255, 255, 255, .9) !important;
-}
