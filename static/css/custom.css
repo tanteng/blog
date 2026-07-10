@@ -103,11 +103,10 @@ aside.instapaper_ignoref a:visited {
   color: #357edd !important;
 }
 
-/* 导航栏链接：未访问和已访问都保持 white-90 (rgba(255,255,255,0.9))
-   浏览器 :visited 默认紫色 (rebeccapurple) specificity (0,1,1) 会压过
-   .white-90 (0,1,0)，导致在深色背景上导航栏 “已访问” 链接变成深紫色
-   （看着像黑色）。强制覆盖。 */
-header nav[role="navigation"] a,
-header nav[role="navigation"] a:visited {
-  color: rgba(255, 255, 255, 0.9) !important;
+/* 导航栏链接：未访问 (.white-90) 和已访问都保持浅白色 (rgba(255,255,255,0.9))，
+   但 hover/focus 时要让 .hover-white:hover / :focus (#fff) 生效。
+   不写 :hover / :focus 状态、也不用 !important，只在 :visited 静止状态覆盖，
+   避免 specificity (0,2,3) 压过 .hover-white:hover (0,2,0)。 */
+header nav[role="navigation"] a:visited:not(:hover):not(:focus) {
+  color: rgba(255, 255, 255, 0.9);
 }
