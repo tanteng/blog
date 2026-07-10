@@ -1,0 +1,30 @@
+{{- /*
+  Override of ananke's section-link.html.
+
+  Original used `class="link dim"`, which relied on `.link` setting `color:
+  inherit`. Tachyons 1.x (bundled in ananke) actually only sets
+  `text-decoration: none` on `.link`, so the link falls back to the browser
+  default `:link` color (blue). The aside is also outside any `.nested-links`
+  container, so the Ananke link color (#357edd) does not apply.
+
+  Fix: add the `blue` (Tachyons: color: #357edd) class so this section link
+  matches the color of links inside the post body.
+*/ -}}
+{{- with .CurrentSection -}}
+  {{- $section := . -}}
+  {{- $target := $section -}}
+  {{- with $.Param "ananke.section_link" -}}
+    {{- if eq . "first" -}}
+      {{- with first 1 $section.RegularPages -}}
+        {{- $target = index . 0 -}}
+      {{- end -}}
+    {{- else -}}
+      {{- with $section.GetPage . -}}
+        {{- $target = . -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  <aside class="instapaper_ignoref b helvetica tracked ttu">
+    <a class="link dim blue" href="{{ $target.Permalink }}">{{ $section.Title }}</a>
+  </aside>
+{{- end -}}

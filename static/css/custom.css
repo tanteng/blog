@@ -93,7 +93,12 @@ iframe {
   aspect-ratio: 16 / 9;
 }
 
-/* 文章页 section 分类标签：已访问保持原色（不变成紫色） */
-.link.dim:visited {
-  color: inherit;
+/* 文章页 section 分类标签：未访问和已访问颜色保持一致 (Ananke 蓝 #357edd)
+   模板 section-link.html 里 a 加了 .blue class 控制未访问色 (#357edd)。
+   但 :visited 浏览器默认紫色优先级 (0,1,1) > .blue (0,1,0)，且
+   上面的 .link.dim:visited { color: inherit } 优先级 (0,2,1) 也更高，
+   会让 visited 颜色继承父级 mid-gray (#555)。所以必须用 !important 覆盖。 */
+aside.instapaper_ignoref a,
+aside.instapaper_ignoref a:visited {
+  color: #357edd !important;
 }
