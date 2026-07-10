@@ -102,3 +102,12 @@ aside.instapaper_ignoref a,
 aside.instapaper_ignoref a:visited {
   color: #357edd !important;
 }
+
+/* 导航栏链接：未访问和已访问都保持 white-90 (rgba(255,255,255,0.9))
+   浏览器 :visited 默认紫色 (rebeccapurple) specificity (0,1,1) 会压过
+   .white-90 (0,1,0)，导致在深色背景上导航栏 “已访问” 链接变成深紫色
+   （看着像黑色）。强制覆盖。 */
+header nav[role="navigation"] a,
+header nav[role="navigation"] a:visited {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
