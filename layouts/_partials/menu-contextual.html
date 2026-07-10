@@ -1,12 +1,13 @@
-{{/*
-  Override of theme's menu-contextual.html.
-  Renders both the table of contents and the related posts list in the aside.
-*/}}
+{{- /*
+  Sidebar partial: combines Hugo's TOC feature with our custom related-posts.
+  - TOC (when toc: true)
+  - Related posts via related-posts.html (supports disableRelated: true)
+*/ -}}
 
 {{- if .Params.toc -}}
-  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links mb3">
     <p class="f5 b mb3">{{ lang.Translate "whatsInThis" . }}</p>
-      {{ .TableOfContents }}
+    {{ .TableOfContents }}
   </div>
 {{- end -}}
 

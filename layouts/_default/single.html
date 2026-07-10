@@ -42,6 +42,8 @@
       </time>
       {{end}}
 
+      {{- partials.Include "categories.html" . -}}
+
       {{/*
           Show "reading time" and "word count" but only if one of the following are true:
           1) A global config `params` value is set `show_reading_time = true`
@@ -63,7 +65,6 @@
       {{- partials.Include "hook.html" (dict "hook" "content-before" "context" .) -}}
       {{- .Content -}}
       {{- partials.Include "hook.html" (dict "hook" "content-after" "context" .) -}}
-      {{- partials.Include "categories.html" . -}}
       {{- partials.Include "tags.html" . -}}
       {{ if .Site.Config.Services.Disqus.Shortname }}
       <div class="mt6 instapaper_ignoref">
@@ -77,7 +78,7 @@
       </div>
       {{ end }}
     </div>
-    {{- if $needs_aside -}}
+    {{- if or $needs_aside (eq .Section "posts") -}}
     <aside class="w-30-l mt6-l">
       {{- partials.Include "menu-contextual.html" . -}}
     </aside>
