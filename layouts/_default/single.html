@@ -5,7 +5,7 @@
 
 {{ define "main" }}
   {{- $related_content := .RegularPages.Related . -}}
-  {{- $needs_aside := or .Params.toc $related_content -}}
+  {{- $needs_aside := or .Params.toc $related_content (eq .Section "posts") -}}
   {{ $page := .}}
   {{ $section := .Site.GetPage "section" .Section }}
 
