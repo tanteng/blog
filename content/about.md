@@ -23,7 +23,7 @@ hi，我是 tony 老师，欢迎来到我的个人博客。
 - 📷 **Nikon FM2** — 尼康经典全机械胶片单反
 - 📷 **Pentax 17** — 半格胶片，2024 年新发布的复刻机型
 
-🖼️ 我的摄影作品集：[photos.tanteng.space](https://photos.tanteng.space)
+🖼️ 我的作品集：[photos.tanteng.space](https://photos.tanteng.space)
 
 ### 旅行足迹
 
@@ -33,7 +33,23 @@ hi，我是 tony 老师，欢迎来到我的个人博客。
 - 🇮🇩 印尼：巴厘岛
 - 🇯🇵 日本：大阪、奈良、京都
 - 🇷🇺 俄罗斯：莫斯科、圣彼得堡
-- 🇰🇷 韩国：济州岛等
+- 🇰🇷 韩国：济州等
+
+### 喜欢的名人
+
+**Steve Jobs**（史蒂夫·乔布斯，1955–2011），苹果公司联合创始人。
+
+几句我常想起的：
+
+1. **["Stay Hungry, Stay Foolish."](/posts/steve-jobs-stay-hungry-stay-foolish/)** — 求知若饥，虚心若愚。
+
+2. **["The journey is the reward."](/posts/steve-jobs-the-journey-is-the-reward/)** — 过程就是奖励。
+
+3. **["You can't connect the dots looking forward; you can only connect them looking backwards."](/posts/connecting-the-dots-steve-jobs/)** — 你无法预先把点点滴滴串联起来，只有回顾时才能看清它们是如何连接的。
+
+4. **["And most important, have the courage to follow your heart and intuition."](/posts/steve-jobs-remembering-death/)** — 最重要的是，要有勇气去追随你的内心和直觉。
+
+5. **["Your time is limited, so don't waste it living someone else's life."](/posts/your-time-is-limited-live-your-own-life/)** — 你的时间是有限的，不要浪费它去过别人的生活。
 
 ### 联系方式
 
