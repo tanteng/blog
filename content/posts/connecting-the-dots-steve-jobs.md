@@ -1,5 +1,5 @@
 ---
-title: "乔布斯：Connecting the Dots"
+title: "你无法预先把点点滴滴串联起来——回望时才能看清"
 date: 2013-08-01
 draft: false
 tags: ["stevejobs", "reading"]
