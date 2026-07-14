@@ -57,23 +57,23 @@ featured_image: ""
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#e3f2fd', 'primaryTextColor': '#1565c0', 'primaryBorderColor': '#1565c0', 'lineColor': '#90a4ae', 'secondaryColor': '#f5f5f5', 'tertiaryColor': '#fff9c4'}}}%%
 flowchart TB
     subgraph 离线索引
-        A1["📄 上传文档"] --> A2["异步解析<br/>CreateReconstructDocumentFlow"]
-        A2 --> A3["语义拆分<br/>CreateSplitDocumentFlow"]
-        A3 --> A4["向量化<br/>GetEmbedding"]
-        A4 --> A5["向量库"]
+        A1["📄 文档"] --> A2["Step 1: 文档解析<br/>CreateReconstructDocumentFlow"]
+        A2 --> A3["Step 2: 语义拆分<br/>CreateSplitDocumentFlow"]
+        A3 --> A4["Step 3: 向量化<br/>GetEmbedding"]
+        A4 --> A5["Step 4: 入库存储"]
     end
 
     subgraph 在线检索
         B1["❓ 用户提问"] --> B2{"是否多轮?"}
-        B2 -->|"是"| B3["多轮改写<br/>QueryRewrite"]
-        B2 -->|"否"| B4
-        B3 --> B4["查询向量化<br/>GetEmbedding"]
-        B4 --> B5["向量库召回<br/>Top-K"]
-        B5 --> B6["重排序<br/>RunRerank"]
-        B6 --> B7["LLM 生成"]
+        B2 -->|"是"| B3["Step 5: 多轮改写<br/>QueryRewrite"]
+        B2 -->|"否"| B4["Step 5: 查询向量化"]
+        B3 --> B4
+        B4 --> B5["Step 6: 向量库召回"]
+        B5 --> B6["Step 7: 重排序<br/>RunRerank"]
+        B6 --> B7["Step 8: LLM 生成"]
     end
 
-    A5 -.查询.-> B5
+    A5 --> B5
 ```
 
 ### 3.1 解析：同步 SSE 还是异步 Flow？
