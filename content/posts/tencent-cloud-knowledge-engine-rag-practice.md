@@ -55,7 +55,7 @@ featured_image: ""
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#e3f2fd', 'primaryTextColor': '#1565c0', 'primaryBorderColor': '#1565c0', 'lineColor': '#90a4ae', 'secondaryColor': '#f5f5f5', 'tertiaryColor': '#fff9c4'}}}%%
-flowchart LR
+flowchart TB
     subgraph 离线索引
         A1["📄 上传文档"] --> A2["异步解析<br/>CreateReconstructDocumentFlow"]
         A2 --> A3["语义拆分<br/>CreateSplitDocumentFlow"]
