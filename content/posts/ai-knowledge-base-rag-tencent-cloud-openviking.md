@@ -1,51 +1,100 @@
 ---
-title: "腾讯云 RAG 实践：原子引擎与 OpenViking 协同"
-date: 2026-03-02
-description: "当企业知识库遇上 AI Agent 记忆系统，腾讯云原子引擎管知识，OpenViking 管记忆。本文侧重原子引擎的实操经验，协同方案为探索性设想。"
+title: "腾讯云知识引擎原子能力 RAG 实战：能力解析、场景与用法"
+date: 2026-07-14
+description: "腾讯云知识引擎原子能力是企业级 RAG 的核心工具链，提供文档解析、语义拆分、Embedding、多轮改写、重排序等独立 API。本文详解各原子能力原理、RAG 全流程、典型应用场景及接入方法。"
 categories: ['tech']
-tags: ['ai', 'rag', 'openviking', 'agent', 'tencent-cloud']
+tags: ['ai', 'rag', 'tencent-cloud', 'knowledge-engine', 'llm', 'rag']
 featured_image: ""
 ---
 
-当企业知识库遇上 AI Agent 记忆系统，一个管"知识"，一个管"记忆"，这可能是当前最务实的 AI 应用架构。
+在构建企业级 AI 应用时，RAG（检索增强生成）是目前最成熟、最稳妥的技术路线。而 RAG 链路中真正拉开差距的，不是最后一步大模型生成，而是前面的**文档解析质量**、**语义切分方式**和**检索排序策略**。
+
+腾讯云知识引擎原子能力（LLM Knowledge Engine Basic API）正是针对这三个环节，提供了一套完整的解耦原子能力组件。开发者可以按需组装，灵活搭建属于自己的 RAG 链路。
 
 <!--more-->
 
-## 背景
+## 一、什么是知识引擎原子能力
 
-在构建企业级 AI 应用时，我们通常面对两类截然不同的数据管理需求：
+知识引擎原子能力是腾讯云基于**腾讯云智能体开发平台**研发的知识问答全链路能力，面向企业和开发者提供灵活组建及开发模型应用的能力。它不是一个大包大揽的黑盒产品，而是把 RAG 链路中的每个环节都暴露为独立的 API，开发者可以按需调用。
 
-- **静态知识**：产品文档、技术手册、FAQ、合同模板……这些内容相对固定，需要高质量的解析和精准检索。
-- **动态上下文**：用户偏好、对话历史、Agent 积累的经验……这些数据随交互不断变化，需要长期记忆和智能管理。
-
-用一套系统同时解决这两个问题，往往顾此失彼。更好的做法是：**让专业的工具做专业的事**。
-
-本文介绍的方案是：**腾讯云知识引擎原子能力**负责企业知识库的 RAG 全链路，**字节跳动开源的 OpenViking** 负责 AI Agent 的上下文和记忆管理，两者协同工作。
-
-## 一、腾讯云原子引擎：企业知识库的 RAG 全流程
-
-### 1.1 什么是原子引擎
-
-腾讯云知识引擎原子能力（LLM Knowledge Engine Basic API）是腾讯云提供的一套**解耦的 RAG 能力组件**。它不是一个黑盒产品，而是把 RAG 链路中的每个环节都暴露为独立的 API，开发者可以按需组装。
-
-核心原子能力包括：
+核心原子能力覆盖 RAG 全流程：
 
 | 能力 | 说明 | API |
 |------|------|-----|
-| 文档解析（同步） | 多格式文件转 Markdown，支持表格、公式、图片 | `ReconstructDocumentSSE` |
+| 文档解析（同步） | 多格式文件转 Markdown，含表格、公式、图片 | `ReconstructDocumentSSE` |
 | 文档解析（异步） | 同上，适合大文件，无耗时限制 | `CreateReconstructDocumentFlow` |
-| 文档拆分 | 多级语义拆分，比传统正则切分回答完整性提升 20% | `CreateSplitDocumentFlow` |
-| Embedding | 文本转向量，用于语义检索 | `GetEmbedding` |
+| 文档语义拆分 | 多级语义切分，比传统正则切分回答完整性提升 20% | `CreateSplitDocumentFlow` |
+| 文本向量化 | 文本转向量，用于语义检索 | `GetEmbedding` |
 | 多轮改写 | 对话中的指代消解和省略补全 | `QueryRewrite` |
-| 重排序 | 对检索结果按相关性重新排序 | `RunRerank` |
+| 重排序 | 对多路召回结果按相关性重新排序 | `RunRerank` |
 
-此外，还提供了 **RAG 综合能力套件**，包含知识库创建、文档上传、状态查询、知识检索等一站式接口。
+接口请求域名统一为 `lkeap.tencentcloudapi.com`，默认频率限制 **20 次/秒**（按 API + 地域 + 子账号维度）。
 
-### 1.2 RAG 全流程详解
+## 二、核心能力详解
 
-一个完整的 RAG 流程分为两个阶段：**离线索引**和**在线检索**。
+### 2.1 文档解析：业内领先的多模态解析
 
-#### 阶段一：离线索引（构建知识库）
+文档解析是 RAG 的第一步，也是决定上限的一步——解析质量差，后续检索再好也是徒劳。
+
+腾讯云的文档解析能力基于**腾讯优图实验室自研的多模态文档解析大模型**，识别准确率比传统方案提升 30%，核心优势包括：
+
+- **独创多模态解析**：通过粗粒度生成元素位置和顺序，辅以内容生成的语义感知，解决复杂排版问题，在图文表混排场景下优势明显
+- **智能版面分析**：支持多栏、内容混排文档（论文、报告、书籍等），精准提取标题、段落、图片、表格、公式、页眉、页脚等元素，按阅读顺序输出
+- **表格结构识别**：支持常规、有线、无线、少线、多表格、跨页表格等复杂场景，做结构化复原
+- **高精度 OCR**：准确识别中英文、繁体字、生僻字，即使是图片或扫描 PDF 也能高精度识别
+- **Markdown 输出**：输出 Markdown 格式，适合大模型训练和文档电子化
+
+**支持文件格式**：PDF、DOC、DOCX、PPT、PPTX、WPS、XLS、XLSX、MD、TXT、CSV、PNG、JPG、JPEG、BMP、GIF、WEBP 等。
+
+**文件大小限制**：
+- PDF/DOC/DOCX/PPT/PPTX/WPS：最大 100M
+- MD/TXT/XLS/XLSX/CSV：最大 10M
+- 图片格式：最大 20M
+
+**两个解析接口如何选**：
+
+- `ReconstructDocumentSSE`（同步/实时）：使用 HTTP SSE 协议，适合对耗时要求较高的实时文档问答场景，文件较小
+- `CreateReconstructDocumentFlow`（异步）：适合知识库构建等对耗时没有严格要求的大文件解析
+
+### 2.2 语义拆分：业界首创基于 LLM 的多级切分
+
+传统 RAG 用正则或固定长度切分文档，容易把语义连贯的段落拦腰截断，导致检索召回的片段不完整。
+
+腾讯云的方案是**业界首创的基于 LLM 的多级语义切分模型**，通过语义理解对文档进行切分，保障每个切分片段的语义完整性。
+
+核心特点：
+- **多级切分方式**：将文档切分成适合检索和大模型问答的多个层级片段
+- **语义完整性**：端到端检索准确度大幅提升，官方数据显示相比传统正则切分方式**回答完整性提升 20%**
+- **通用性强**：不受文档类型限制，不截断语义
+
+切分后的片段可直接用于向量检索，配合 `GetEmbedding` 接口完成向量化入库。
+
+### 2.3 Embedding：基于 LLM 的文本向量化
+
+`GetEmbedding` 接口调用文本表示模型，将文本转化为数值向量，可用于文本检索、信息推荐、知识挖掘等场景。
+
+腾讯云 Embedding 模型的一个差异化特点是**通过不同的 Instruction 区分 Embedding 和生成任务**，让 LLM 能同时在这两种任务上训练，得到一个同时具备文本表征和文本生成能力的模型。多文档信息召回率从 85% 提升到 92%。
+
+### 2.4 多轮改写：让检索理解对话上下文
+
+多轮对话中，用户的问题往往包含指代（"上次说的那个方案"）或省略（"继续"），直接拿这样的模糊查询去检索，效果会很差。
+
+`QueryRewrite` 接口专门解决这一问题，在多轮对话中进行**指代消解**和**省略补全**，将不完整的查询改写为完整的、可以直接检索的明确问题。
+
+应用场景：
+- 智能客服的多轮问答
+- 企业知识库的上下文对话
+- 任何需要多轮交互的 RAG 应用
+
+### 2.5 重排序：让检索结果更精准
+
+向量检索返回的结果是按相似度排序的，但相似度高的片段未必是回答问题最相关的内容。`RunRerank` 接口提供基于腾讯云精调模型的 Rerank 能力，对多路召回结果进行重排，根据 Query 与切片内容的相关性按分数由高到低排序，输出最相关的片段给大模型。
+
+## 三、RAG 全流程详解
+
+一个完整的 RAG 流程分为两个阶段：**离线索引**（构建知识库）和**在线检索**（回答问题）。
+
+### 阶段一：离线索引（构建知识库）
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#e3f2fd', 'primaryTextColor': '#1565c0', 'primaryBorderColor': '#1565c0', 'lineColor': '#90a4ae', 'secondaryColor': '#f5f5f5', 'tertiaryColor': '#fff9c4'}}}%%
@@ -56,162 +105,195 @@ flowchart TD
     D --> E["Step 4: 入库存储<br/>向量数据库"]
 ```
 
-#### 阶段二：在线检索（回答问题）
+1. **文档解析**：`CreateReconstructDocumentFlow` 将 PDF/Word/PPT 等文件转为结构化的 Markdown
+2. **语义拆分**：`CreateSplitDocumentFlow` 对 Markdown 进行多级语义切分，输出语义完整的片段
+3. **向量化**：`GetEmbedding` 将每个片段转为向量
+4. **入库存储**：向量存入向量数据库（如腾讯云 Elasticsearch），原始文本关联存储
+
+### 阶段二：在线检索（回答问题）
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#e8f5e9', 'primaryTextColor': '#2e7d32', 'primaryBorderColor': '#2e7d32', 'lineColor': '#90a4ae', 'secondaryColor': '#f5f5f5', 'tertiaryColor': '#fff9c4'}}}%%
 flowchart TD
     A["❓ 用户提问"] --> B["Step 5: 多轮改写<br/>QueryRewrite"]
     B --> C["Step 6: 查询向量化<br/>GetEmbedding"]
-    C --> D["Step 7: 相似度检索<br/>SearchKnowledge"]
+    C --> D["Step 7: 相似度检索<br/>向量数据库"]
     D --> E["Step 8: 重排序<br/>RunRerank"]
-    E --> F["Step 9: 生成回答<br/>LLM"]
+    E --> F["Step 9: 生成回答<br/>LLM（如 DeepSeek）"]
 ```
 
-#### 如果使用 RAG 综合套件
+1. **多轮改写**：`QueryRewrite` 处理指代消解和省略补全，输出明确的检索查询
+2. **查询向量化**：`GetEmbedding` 将改写后的查询转为向量
+3. **相似度检索**：在向量数据库中做 Top-K 召回
+4. **重排序**：`RunRerank` 对召回结果做精排，输出最相关的片段
+5. **生成回答**：将精排后的片段作为上下文，调用 LLM 生成最终回答
 
-上述流程也可以简化为 4 步：
+## 四、典型应用场景
+
+### 4.1 智能客服
+
+知识引擎原子能力能够快速准确地检索相关信息，结合生成模型的自然语言处理能力，为客户提供及时、准确且友好的咨询服务。
+
+适用行业：电商、金融、政务、在线教育等需要大量标准化问答的场景。
+
+### 4.2 企业内部知识库问答
+
+针对企业内部的各类文档资料（产品手册、技术文档、HR 政策、财务制度），原子能力能够迅速找到相关答案，为员工提供高效、便捷的文档查询体验。
+
+相比传统关键词搜索，语义检索能理解问题的真实意图，即使是同义词表述也能准确召回。
+
+### 4.3 员工服务与工作效率提升
+
+通过构建 RAG 框架，企业可以为员工提供个性化的信息服务，解答工作相关问题，从而提高工作效率和员工满意度。
+
+典型场景：新员工入职指引、IT 问题自助排查、项目管理流程查询等。
+
+### 4.4 文档智能分析
+
+对大量 PDF、论文、报告等文档进行解析和结构化，提取关键信息，生成摘要或回答关于文档内容的问题。
+
+适用场景：法务文档审查、研报分析、合同比对等。
+
+### 4.5 车载助手
+
+结合车载系统的特点，为驾驶员提供实时响应的知识问答服务，覆盖导航、娱乐、安全等方面的信息查询需求。
+
+### 4.6 专业领域查询助手
+
+可应用于搜索引擎优化、专业领域知识检索等场景，为用户提供更精准、更全面的查询结果。
+
+典型场景：法律条文检索、医学文献查询、行业标准规范查询等。
+
+## 五、快速接入指南
+
+### 5.1 开通服务
+
+1. 进入[腾讯云知识引擎原子能力控制台](https://console.cloud.tencent.com/lkeap)，单击开通智能体开发平台
+2. 页面提示开通成功后，进入控制台
+3. 免费额度用尽后，可购买预付费资源包或在**后付费设置**开启按量计费
+
+### 5.2 获取 API Key
+
+在控制台 API Key 管理页面创建 API Key，后续调用接口时需要传入。
+
+### 5.3 调用示例
+
+**Python 调用 DeepSeek 对话接口（兼容 OpenAI SDK）：**
 
 ```python
-# 1. 创建知识库
-CreateKnowledgeBase(Name="产品文档库")
+from openai import OpenAI
 
-# 2. 上传文档（系统自动完成解析→拆分→向量化→入库）
-UploadDoc(KnowledgeBaseId="kb-xxx", FilePath="产品手册.pdf")
+client = OpenAI(
+    api_key="sk-xxxxxxxxxxx",  # 知识引擎原子能力 APIKey
+    base_url="https://api.lkeap.cloud.tencent.com/v1",
+)
 
-# 3. 查询文档处理状态
-DescribeDoc(DocId="doc-xxx")  # 等待状态变为 "processed"
-
-# 4. 检索知识
-SearchKnowledge(KnowledgeBaseId="kb-xxx", Query="如何配置连接池")
+response = client.chat.completions.create(
+    model="deepseek-r1",
+    messages=[{"role": "user", "content": "你是谁"}],
+    stream=False
+)
+print(response.choices[0].message.content)
 ```
 
-综合套件把中间步骤全部封装了，适合快速上手；原子能力 API 适合需要精细控制每个环节的场景。
+**调用文档解析接口（Python SDK）：**
 
-### 1.3 原子引擎的优势
+```python
+from tencentcloud.common import credential
+from tencentcloud.lkeap.v20241122 import lkeap_client, models
 
-- **文档解析质量高**：支持表格、公式、图片等复杂元素，不是简单的文本提取
-- **语义拆分比正则切分强**：官方数据显示回答完整性提升 20%
-- **内置重排序**：不需要自己搭 Reranker，直接调 API
-- **多轮改写**：处理多轮对话的指代消解，不需要额外写 Prompt
-- **灵活组装**：每个环节都是独立 API，可以只用你需要的部分
+cred = credential.Credential("secret_id", "secret_key")
+client = lkeap_client.LkeapClient(cred, "ap-guangzhou")
 
-## 二、OpenViking：AI Agent 的上下文操作系统
+req = models.CreateReconstructDocumentFlowRequest()
+req.FileType = "pdf"
+req.FileUrl = "https://example.com/document.pdf"
 
-### 2.1 什么是 OpenViking
+resp = client.CreateReconstructDocumentFlow(req)
+print(resp.TaskId)  # 用于后续查询解析结果
+```
 
-OpenViking 是字节跳动火山引擎 Viking 团队开源的 **AI Agent 上下文数据库**。它不是一个传统的向量数据库，而是用**虚拟文件系统范式**来统一管理 Agent 所需的记忆（Memory）、资源（Resource）和技能（Skill）。
+**调用 Embedding 向量化接口：**
 
-简单说，它是给 AI Agent 用的"文件系统 + 长期记忆 + 智能检索"一体化方案。
+```python
+req = models.GetEmbeddingRequest()
+req.Text = "如何配置数据库连接池"
 
-### 2.2 核心能力
+resp = client.GetEmbedding(req)
+print(resp.Embedding)  # 返回向量数组
+```
 
-| 能力 | 说明 |
+### 5.4 通过 API Explorer 在线调试
+
+腾讯云提供了 [API Explorer](https://console.cloud.tencent.com/api/explorer) 工具，可在线调用接口、查看请求/响应示例、生成 SDK 代码。无需写代码即可快速验证接口是否满足需求。
+
+### 5.5 计费方式
+
+知识引擎原子能力按接口调用量计费，支持**预付费资源包**和**后付费**两种模式：
+
+- **预付费**：购买资源包，有效期内抵扣用量，适合用量稳定的场景
+- **后付费**：按实际调用量日结，适合用量波动大或初期测试
+
+开通腾讯云智能体开发平台后即可获得一定量的**免费额度**。
+
+> 注意：DeepSeek API 接口（`ChatCompletions`）仅有后付费模式，请到控制台开启。
+
+各能力计费项详情参考[官方计费概述](https://cloud.tencent.com/document/product/1772/111126)。
+
+## 六、产品优势总结
+
+| 优势 | 说明 |
 |------|------|
-| **虚拟文件系统（AGFS）** | 用 `viking://` 协议统一管理所有上下文数据 |
-| **分层加载（L0/L1/L2）** | L0 摘要（~100 tokens）→ L1 概览（~2K tokens）→ L2 完整内容，按需加载 |
-| **目录递归检索** | 先通过目录结构缩小范围，再做语义匹配，比扁平 RAG 更精准 |
-| **记忆自进化** | 自动从对话中提取记忆，合并冗余信息，生成经验标签 |
-| **可视化检索轨迹** | 检索过程完全透明，方便调试和优化 |
+| **文档解析质量高** | 多模态解析大模型，识别准确率提升 30%，支持图文表混排、复杂版面 |
+| **语义切分创新** | 业界首创基于 LLM 的多级语义切分，回答完整性提升 20% |
+| **混合检索能力** | 支持向量检索 + 全文检索多种策略，可按场景灵活配置 |
+| **基于 LLM 的 Embedding** | 同时具备文本表征和文本生成能力，召回率从 85% 提升到 92% |
+| **内置重排序** | 不需要自建 Reranker，直接调 API 即可做精排 |
+| **多轮改写** | 处理指代消解和省略补全，无需额外写 Prompt |
+| **灵活组装** | 每个环节独立 API，可以只用需要的部分，按需集成 |
+| **支持 DeepSeek 全系列** | 内置 DeepSeek-V3、DeepSeek-V3-0324、DeepSeek-R1 等模型调用 |
 
-### 2.3 OpenViking 解决什么问题
-
-传统 RAG 的痛点是：所有数据都扔进一个扁平的向量库，检索时只靠语义相似度匹配。当数据量大、类型杂时，召回率和精准度都会下降。
-
-OpenViking 的做法不同——它给数据加上了**目录结构**，检索时先定位到相关目录，再在目录内做语义搜索。这就像你在电脑上找文件，不会全盘搜索，而是先进入相关的文件夹。
-
-加上分层加载机制（先看摘要，需要时再加载全文），Token 消耗可以降低 60%-90%。
-
-## 三、腾讯云原子引擎 + OpenViking：如何分工协同
-
-> ⚠️ **说明**：本节探讨的是一种**概念架构设想**，腾讯云原子引擎已在实际项目中使用，但与 OpenViking 的协同方案尚未落地验证，仅作为探索性讨论。
-
-### 3.1 定位差异
-
-| 维度 | 腾讯云原子引擎 | OpenViking |
-|------|--------------|------------|
-| **核心定位** | 企业知识库的 RAG 工具链 | AI Agent 的上下文管理系统 |
-| **数据类型** | 静态文档（PDF、Word、网页等） | 动态数据（记忆、会话、技能） |
-| **数据特点** | 更新频率低，内容固定 | 持续演化，随交互积累 |
-| **检索方式** | 扁平向量检索 + 重排序 | 目录结构 + 语义检索，分层加载 |
-| **部署方式** | 云端 SaaS，开箱即用 | 本地/自建服务，数据自主可控 |
-| **擅长场景** | 文档问答、知识检索 | 长期记忆、多轮对话、经验沉淀 |
-
-### 3.2 协同架构
+## 七、整体架构一览
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#f3e5f5', 'primaryTextColor': '#7b1fa2', 'primaryBorderColor': '#7b1fa2', 'lineColor': '#90a4ae', 'secondaryColor': '#e1bee7', 'tertiaryColor': '#fff9c4'}}}%%
-flowchart TD
-    Q["❓ 用户提问"] --> OV1
-    OV1["① OpenViking 理解上下文<br/>召回记忆"] --> OV2
-    OV2["② OpenViking 输出改写后查询"] --> TE3
-    TE3["③ 腾讯云原子引擎<br/>检索企业文档"] --> TE4
-    TE4["④ 腾讯云原子引擎<br/>重排序精排"] --> LLM
-    LLM["⑤ LLM 生成最终回答"] --> OV3
-    OV3["⑥ OpenViking 记忆沉淀"]
-    Q -->|"并行触发"| TE3
-    OV2 -->|"提供上下文"| LLM
+flowchart LR
+    subgraph 离线索引
+        A1["📄 多格式文档"] --> A2["文档解析<br/>ReconstructDocumentSSE"]
+        A2 --> A3["语义拆分<br/>CreateSplitDocumentFlow"]
+        A3 --> A4["向量化<br/>GetEmbedding"]
+        A4 --> A5["向量数据库"]
+    end
+
+    subgraph 在线检索
+        B1["❓ 用户提问"] --> B2["多轮改写<br/>QueryRewrite"]
+        B2 --> B3["查询向量化<br/>GetEmbedding"]
+        B3 --> B5["向量数据库"]
+        B5 --> B6["Top-K 召回"]
+        B6 --> B7["重排序<br/>RunRerank"]
+        B7 --> B8["LLM 生成回答"]
+    end
+
+    A5 --> B5
 ```
-**协同流程：**
 
-1. **OpenViking 负责理解上下文**：用户说"上次讨论的那个方案"，OpenViking 从长期记忆中召回 "PostgreSQL 方案"，并把模糊的指代转化为明确的查询。
-2. **腾讯云原子引擎负责知识检索**：拿到明确的查询后，在企业文档库中做精准的 RAG 检索，返回最相关的文档片段。
-3. **LLM 综合生成**：将记忆上下文和文档知识一起输入 LLM，生成完整的回答。
-4. **OpenViking 沉淀新记忆**：这次交互的关键信息（用户关注什么、讨论了什么结论）被自动提取并存入长期记忆。
-
-### 3.3 各自负责什么数据
-
-| 腾讯云原子引擎（知识库） | OpenViking（上下文库） |
-|------------------------|----------------------|
-| 产品文档（PDF/Word/网页等） | viking://user/memories/（用户偏好、历史记忆） |
-| API 文档、技术手册 | viking://agent/skills/（技能、脚本） |
-| FAQ、故障排除指南 | viking://session/（当前/历史会话上下文） |
-| 合规文档、安全规范 | viking://resources/（临时参考资料） |
-| 最佳实践、架构设计 | 用户上传的临时文件 |
-
-### 3.4 什么时候调用谁
-
-| 场景 | 调用谁 | 原因 |
-|------|--------|------|
-| "帮我查一下部署文档里关于 K8s 的配置" | 腾讯云原子引擎 | 明确的文档检索需求 |
-| "我之前说过喜欢什么数据库来着？" | OpenViking | 用户长期记忆 |
-| "继续上次的讨论" | OpenViking → 原子引擎 | 先召回记忆确定上下文，再检索知识 |
-| "总结一下这个 PDF 的核心观点" | 腾讯云原子引擎 | 文档解析和摘要 |
-| "记住：以后数据库统一用 PostgreSQL" | OpenViking | 用户偏好沉淀 |
-| "根据我们的安全规范，这段代码有什么问题？" | 原子引擎 + OpenViking | 检索安全规范 + 结合历史代码审查经验 |
-
-## 四、实际落地建议
-
-### 4.1 先跑通单侧，再做集成
-
-不要一上来就搭完整架构。建议：
-
-1. **第一步**：先用腾讯云原子引擎把企业知识库的 RAG 跑通，验证检索质量
-2. **第二步**：独立部署 OpenViking，给 Agent 加上长期记忆
-3. **第三步**：在 Agent 的调度层做集成，按场景路由到不同的系统
-
-### 4.2 模型选择
-
-两个系统可以用不同的模型：
-
-- **腾讯云原子引擎**：直接用内置的 Embedding 和 Rerank 模型，开箱即用
-- **OpenViking**：可以配置火山引擎豆包、OpenAI、智谱等任意 Embedding 和 VLM 模型
-
-### 4.3 成本考量
-
-- 腾讯云原子引擎按 API 调用量计费，适合文档量大但查询频次可控的场景
-- OpenViking 是开源自部署，计算成本取决于你选择的 Embedding/VLM 模型
+**离线索引**负责将文档解析→拆分→向量化→入库；**在线检索**负责改写→向量化→召回→重排→生成，两者共用原子能力 API，形成完整的 RAG 闭环。
 
 ## 总结
 
-腾讯云原子引擎和 OpenViking 不是竞品，而是互补关系：
+腾讯云知识引擎原子能力是企业级 RAG 建设的一个务实选择：
 
-- **原子引擎** = 企业的"图书馆"，管理和检索固定的知识文档
-- **OpenViking** = Agent 的"大脑"，管理动态的记忆、上下文和技能
+- **全链路覆盖**：从文档解析到语义切分、从向量检索到重排序，每个环节都有独立的成熟 API
+- **质量有保障**：多模态解析大模型、LLM 语义切分、基于 LLM 的 Embedding，都是经过实际业务验证的技术
+- **接入门槛低**：兼容 OpenAI SDK，API Explorer 在线调试，预付费/后付费按需选择
+- **灵活组合**：可以只用部分能力（ например 只需要文档解析），不必全盘引入
 
-把静态知识和动态记忆分开管理，既能保证知识检索的精准度，又能让 Agent 具备真正的长期记忆能力。这是当前构建企业级 AI 应用的一个务实且高效的架构选择。
+对于已有大模型应用、需要将私有知识接入 RAG 的企业和开发者，这套原子能力是目前国内云厂商中能力最完整、接入最灵活的企业级 RAG 方案之一。
 
 *参考资料：*
 - [腾讯云知识引擎原子能力 - 产品概述](https://cloud.tencent.com/document/product/1772/111122)
+- [腾讯云知识引擎原子能力 - 产品优势](https://cloud.tencent.com/document/product/1772/111123)
+- [腾讯云知识引擎原子能力 - 应用场景](https://cloud.tencent.com/document/product/1772/111124)
+- [腾讯云知识引擎原子能力 - 计费概述](https://cloud.tencent.com/document/buy-guide/1772/111126)
+- [腾讯云知识引擎原子能力 - API 概览](https://cloud.tencent.com/document/product/1772/115374)
 - [腾讯云知识引擎原子能力 - RAG 操作指南](https://cloud.tencent.com/document/product/1772/111236)
-- [OpenViking GitHub 仓库](https://github.com/volcengine/OpenViking)
