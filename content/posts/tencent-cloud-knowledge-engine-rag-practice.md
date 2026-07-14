@@ -176,7 +176,7 @@ flowchart LR
 
 这个问题被问过很多次：用了腾讯云原子能力，还需要 LangChain / LangGraph 吗？
 
-我的回答是：**它们是不同层级的东西，不是替代关系**。
+从定位看：**它们是不同层级的东西，不是替代关系**。
 
 - **LangChain / LlamaIndex**：编排框架，提供 Chain、Retriever、Memory 等抽象。它们的组件是可插拔的，理论上可以接腾讯的原子能力 API，但实际用下来默认组件质量参差不齐，关键环节还是要换
 - **LangGraph**：状态机式的 Agent 编排框架，**不专做 RAG**，而是把 RAG 作为 Agent 里的一个节点。它解决的是多步决策、人机协作、条件分支这些事
@@ -192,7 +192,7 @@ LangGraph（Agent 编排，决定什么时候调用 RAG、什么时候调用工�
 自建 LLM 调用层（模型选型、流式输出、Prompt 管理）
 ```
 
-LangChain 我个人用得越来越少——抽象太重，调试链路长，新版本 API 还经常变。LangGraph 设计更清爽，但门槛也更高。**如果项目主要是 RAG + 简单 Agent**，直接用 FastAPI 自己写编排就够，不必上 LangGraph。
+LangChain 抽象偏重，调试链路长，新版本 API 变动频繁；LangGraph 设计更清爽，但学习曲线更陡。**如果项目主要是 RAG + 简单 Agent**，直接用 FastAPI 自己写编排就够，不必上 LangGraph。
 
 ## 六、踩坑与取舍
 
