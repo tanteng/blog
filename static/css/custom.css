@@ -5,16 +5,20 @@ ul.pa0 li.list.di {
   vertical-align: middle;
 }
 
-/* 表格样式 */
+/* 表格样式：与 Ananke 主题对齐（主色 #357edd），Notion/GitHub 风格（仅水平线 + 圆角） */
 table {
   width: 100% !important;
-  border-collapse: collapse !important;
-  margin: 1.5rem 0 !important;
-  font-size: 0.9rem !important;
-  overflow-x: auto !important;
-  border: 2px solid #2c3e50 !important;
-  border-radius: 8px !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  margin: 1.75rem 0 !important;
+  font-size: 0.92rem !important;
+  line-height: 1.55 !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  background-color: #fff !important;
+  border: 1px solid #e6e8eb !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  table-layout: auto !important;
 }
 
 tbody {
@@ -27,30 +31,69 @@ thead {
 
 tr {
   display: table-row !important;
+  transition: background-color 0.15s ease !important;
 }
 
 th, td {
-  border: 1px solid #ddd !important;
-  padding: 12px 16px !important;
+  border: 0 !important;
+  border-bottom: 1px solid #e6e8eb !important;
+  padding: 14px 18px !important;
   text-align: left !important;
   display: table-cell !important;
+  vertical-align: top !important;
+}
+
+/* 表格主体最末行去掉下边框，避免与圆角重叠 */
+tbody tr:last-child td {
+  border-bottom: 0 !important;
 }
 
 th {
-  background-color: #2c3e50 !important;
+  background-color: #357edd !important;
+  background-image: linear-gradient(180deg, #357edd 0%, #2f72cc 100%) !important;
   color: #fff !important;
   font-weight: 600 !important;
-  text-transform: uppercase !important;
-  font-size: 0.8rem !important;
-  letter-spacing: 0.5px !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.2px !important;
+  white-space: nowrap !important;
 }
 
-tr:nth-child(even) {
-  background-color: #f8f9fa !important;
+/* 斑马纹（更柔和，匹配主题浅色基调） */
+tbody tr:nth-child(even) td {
+  background-color: #f7f9fc !important;
 }
 
-tr:nth-child(odd) {
+tbody tr:nth-child(odd) td {
   background-color: #fff !important;
+}
+
+/* 悬停高亮 */
+tbody tr:hover td {
+  background-color: #eef3fb !important;
+}
+
+/* 表内代码：避免被默认 pre 样式影响，保持内联感 */
+td code, th code {
+  background: rgba(53, 126, 221, 0.08);
+  color: #2f72cc;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.88em;
+}
+
+th code {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+/* 移动端：水平滚动，避免表格撑破布局 */
+@media screen and (max-width: 768px) {
+  table {
+    display: block !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
 }
 
 /* 移动端封面图样式 */
