@@ -321,5 +321,3 @@ Goroutine 泄露是 Go 开发中的"隐形杀手"。它不像内存泄漏那样�
 | Ticker 泄露 | 始终使用 defer ticker.Stop() |
 | Mutex 死锁 | 坚持使用 defer unlock |
 | 排查工具 | pprof + 监控 Goroutine 数量 |
-
-**你想针对某个具体的业务场景（比如数据库连接池、Web 接口）让我帮你做一次 Goroutine 泄露的代码审查吗？**
