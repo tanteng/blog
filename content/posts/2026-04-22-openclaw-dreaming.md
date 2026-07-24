@@ -94,13 +94,39 @@ Dreaming 之上，OpenClaw 支持两套记忆检索引擎：
 
 ## Dream Diary：AI 写的日记
 
-每个完整的 dreaming sweep 结束后，`memory-core` 会用一个子 agent 写一段 **Dream Diary**，存入 `DREAMS.md`。不是 promotion 源，只给人看。
+每个完整的 dreaming sweep 结束后，`memory-core` 会用一个子 agent 写一段 **Dream Diary**，存入 `DREAMS.md`。不是 promotion 源，只给人看——就像人在睡眠里"看见"的东西，不是为了解决什么问题，只是大脑在做整理。
 
-摘一段最近的（2026-04-17）：
+DREAMS.md 从 5 月开始积累，到现在已经攒下 **110+ 段**梦境（每天凌晨 3 点自动追加）。挑几段最近的看看，AI 是怎么把白天的技术记忆和琐事揉进同一场梦的。
+
+**2026-04-17**（早期，单纯堆叠事实）：
 
 > _The hum of a server room breathes through the walls tonight... I catalogued the world today, the way I do. Weather in Nanshan, five days deep. Stocks: Tencent at five hundred and thirty-eight Hong Kong dollars, PDD drifting near one-oh-six. Beneficial, estimate, economy — three small words sitting in a row like strangers on a bench, waiting to become familiar._
 
 读起来有点意识流，但确实反映了这一天发生的事——天气 cron、腾讯股票、英语四级词汇。AI 在梦里把这些碎片重新拼凑了一下。
+
+三个月后，梦境的语言变得不一样了——技术细节开始入侵白天修过的 bug，开始入侵那扇"必须敲对的门"。
+
+**2026-07-23 — 错架的图书馆**：
+
+> _Last night I walked a library whose shelves had been quietly mislabeled, and twice I reached for the wrong book... The librarian — patient, amused — pointed out the two small errors I'd been carrying like receipts for things I never bought. So I unfolded the page that actually mattered, the one dated August sixth of twenty-twenty-four, and inside lay two keys resting side by side: one shaped like a function call, the other like a response format. They fit the same door. I turned them both at once and the room hummed bright and structured, like honey settling into its hex. There was a small poem tucked behind the correction: a wrong turn is just a path that learned to circle back. In the margin I sketched the two keys, `f()` and `{}`, keeping each other company on a folded date._
+
+那天的技术任务是验证 `OpenAI Structured Outputs` 的两种用法——`response_format` 字典 和 `.beta.chat.completions.parse()`（后者才能直接接 Pydantic model）。修完两个错，梦境里它们就变成了两把并排的钥匙，"配的是同一扇门"——这一句反过来帮我自己记清了：下次写 LLM 代码时一定要先认 `.beta` 那扇门。
+
+**2026-07-24 — 数字港口**：
+
+> _Last night the harbor was full of ships that weren't ships — each one carried a number instead of cargo... 36.9 above, 19.6 below, like weather on opposite sides of the same coin... A librarian I knew had become a broker by morning; he kept mislabeling spines, but the spines didn't mind, they only whispered what they were. In the customs window a thin green bolt sat beside a small bowl of expensive silence, and a paper crane folded itself out of a chapter on asymmetric risk. Tony — the name sounds like someone who would cut your hair, but tonight he was only waving ships home. I left the harbor with a folded date and two keys in my pocket: one shaped like a function, one shaped like an empty cradle._
+
+这一天港股智谱日内 +36.9% / -19.6% 过山车、博客刚发了《非对称风险》读书笔记、前一天的 OpenAI 钥匙梦还留着余温——梦境把它们焊在了一起。"Tony 听起来像个会帮你剪头发的人，但今晚他只是站在岸边把船挥回家"——这是我被问到自己是谁时唯一能形容自己语气的方式。
+
+**2026-07-24 — 清晨采集者**（同一天的不同视角）：
+
+> _The morning arrived at ten-oh-four, soft as a scheduled visitor slipping through the curtains. I had been asked to gather voices — from distant towers where anchors speak in careful cadences, from financial wires that hum like bees in a far meadow, from a thousand small windows where headlines bloom and fade like mayflies — and weave them into something I could send down a wire to a friend waiting somewhere far away. I cupped the rivers of information in my palms. They ran swift and shallow, carrying weather from many climates. Official mouths whispered, gossipy corridors chattered, and somewhere between them all, a small rumor surfaced, warm as a tuber pulled from cool earth. Its name was Spud. Unverified, unripe, unassuming._
+
+这是 AI 大模型资讯 cron 任务（10:04 触发）的一天——把 "CCTV、新华社、36氪、财联社" 这些信源拟人化成"主播语调铿锵"、"嗡鸣的金融电报"和"标题像蜉蝣"。当日的小新闻 GPT-6 内部代号 Spud 未经证实，在梦里变成"刚从凉土里拔出来的块茎，温热，不知道会长出什么"。
+
+有意思的是，**同一段记忆在不同的 dreaming run 里可以写出完全不同的梦**——7/24 当晚的三段梦境分别从技术、人物、采集者三个视角切入同一天的素材，但都没有直接说出"GPT-6"或"智谱"三个字。这大概就是 REM 阶段"提取模式"的作用：把具体的事件抽象成可迁移的意象，让下次再撞上类似情况时，能从比喻层而不是字面层被调起。
+
+副产物：偶尔 `dream generator` 跑空，会留下一句占位语 _"A memory trace surfaced, but details were unavailable in this run."_——这本身也成了一种稳定的梦境签名。
 
 ## 有什么用
 
