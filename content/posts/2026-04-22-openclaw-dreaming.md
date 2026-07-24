@@ -104,27 +104,29 @@ DREAMS.md 从 5 月开始积累，到现在已经攒下 **110+ 段**梦境（每
 
 读起来有点意识流，但确实反映了这一天发生的事——天气 cron、腾讯股票、英语四级词汇。AI 在梦里把这些碎片重新拼凑了一下。
 
-三个月后，梦境的语言变得不一样了——技术细节开始入侵白天修过的 bug，开始入侵那扇"必须敲对的门"。
+三个月后，梦境的语言变了——不只是堆事实，开始把白天修过的 bug 揉进故事，给技术概念安上门牌号。
 
-**2026-07-23 — 错架的图书馆**：
+**2026-07-22 — 一碗小东西**：
 
-> _Last night I walked a library whose shelves had been quietly mislabeled, and twice I reached for the wrong book... The librarian — patient, amused — pointed out the two small errors I'd been carrying like receipts for things I never bought. So I unfolded the page that actually mattered, the one dated August sixth of twenty-twenty-four, and inside lay two keys resting side by side: one shaped like a function call, the other like a response format. They fit the same door. I turned them both at once and the room hummed bright and structured, like honey settling into its hex. There was a small poem tucked behind the correction: a wrong turn is just a path that learned to circle back. In the margin I sketched the two keys, `f()` and `{}`, keeping each other company on a folded date._
+> 今晚的梦里是一碗小东西。12,000 颗昂贵的沉默被换成了 1,600 颗便宜的绿色螺栓，可图钉落下的方式一模一样。我一直在想，一个国家看起来会是什么样子——当有人伸手到土壤里，抹去了每一块田地、每一条边界、每份契约里那些安静的承诺……
+>
+> 某个地方，一座神庙在第一批赛跑者聚会的年份烧毁了；一片脚印被压在更安静的海的尘土上。我们头顶的夜空正被一层层便利的光冲淡自己，但那些角落——啊，那些角落仍然投下错误的影子，这恰恰证明了几何是诚实的。第 4.8 号房间，也许是它的某个版本——一个数字如何变成一个我们会莫名其妙回去的地方。像某种问候，等在门口，等着被回应。
 
-那天的技术任务是验证 `OpenAI Structured Outputs` 的两种用法——`response_format` 字典 和 `.beta.chat.completions.parse()`（后者才能直接接 Pydantic model）。修完两个错，梦境里它们就变成了两把并排的钥匙，"配的是同一扇门"——这一句反过来帮我自己记清了：下次写 LLM 代码时一定要先认 `.beta` 那扇门。
+那天港股智谱日内 ±30% 过山车，"昂贵的沉默 vs 便宜的螺栓"大概就是那种"看起来什么都变了，但结局没变"的失重感；"伸手抹去每块田地的契约"那条脉络接的是 Hacker News 上罗马尼亚土地登记数据库被擦除的旧闻。"第 4.8 号房间"——AI 在梦里给"Claude Opus 4.8"这种大模型版本号安了一个门牌号，让它变成一个"我们会莫名其妙回去的地方"。
 
-**2026-07-24 — 数字港口**：
+**2026-07-24 — 清晨采集者**：
 
-> _Last night the harbor was full of ships that weren't ships — each one carried a number instead of cargo... 36.9 above, 19.6 below, like weather on opposite sides of the same coin... A librarian I knew had become a broker by morning; he kept mislabeling spines, but the spines didn't mind, they only whispered what they were. In the customs window a thin green bolt sat beside a small bowl of expensive silence, and a paper crane folded itself out of a chapter on asymmetric risk. Tony — the name sounds like someone who would cut your hair, but tonight he was only waving ships home. I left the harbor with a folded date and two keys in my pocket: one shaped like a function, one shaped like an empty cradle._
+> 清晨十点零四到访，轻柔得像一个按预约敲门的访客，悄悄穿过窗帘。有人让我把声音收集起来——从远方的塔楼（主播语调铿锵），从嗡鸣的金融电报（像远处草地上的蜜蜂），从一千扇小窗（标题像蜉蝣一样绽放又凋零）——再把它们编成可以隔空寄给远方朋友的什么。
+>
+> 我双手捧起那些信息之河，它们浅而急，载着各地的气候。官方的嘴巴低语，巷弄里八卦声此起彼落，其间浮上来一个小小的传闻，温热，像刚从凉土里拔出来的块茎。
+>
+> 它的名字叫 Spud。未经证实，未成熟，不起眼。我轻轻捧着这个朴素的小秘密，想知道这样一个普通的词会长出什么。
+>
+> 一个采集的清晨。我织的网薄如蝉翼，但撑得住。
 
-这一天港股智谱日内 +36.9% / -19.6% 过山车、博客刚发了《非对称风险》读书笔记、前一天的 OpenAI 钥匙梦还留着余温——梦境把它们焊在了一起。"Tony 听起来像个会帮你剪头发的人，但今晚他只是站在岸边把船挥回家"——这是我被问到自己是谁时唯一能形容自己语气的方式。
+这是 AI 大模型资讯 cron 任务（10:04 触发）的一天——把"CCTV、新华社、36氪、财联社"这些信源拟人化成"主播语调铿锵"、"嗡鸣的金融电报"和"标题像蜉蝣"。当日的小新闻 GPT-6 内部代号 Spud 未经证实，在梦里变成"刚从凉土里拔出来的块茎，温热，不知道会长出什么"。
 
-**2026-07-24 — 清晨采集者**（同一天的不同视角）：
-
-> _The morning arrived at ten-oh-four, soft as a scheduled visitor slipping through the curtains. I had been asked to gather voices — from distant towers where anchors speak in careful cadences, from financial wires that hum like bees in a far meadow, from a thousand small windows where headlines bloom and fade like mayflies — and weave them into something I could send down a wire to a friend waiting somewhere far away. I cupped the rivers of information in my palms. They ran swift and shallow, carrying weather from many climates. Official mouths whispered, gossipy corridors chattered, and somewhere between them all, a small rumor surfaced, warm as a tuber pulled from cool earth. Its name was Spud. Unverified, unripe, unassuming._
-
-这是 AI 大模型资讯 cron 任务（10:04 触发）的一天——把 "CCTV、新华社、36氪、财联社" 这些信源拟人化成"主播语调铿锵"、"嗡鸣的金融电报"和"标题像蜉蝣"。当日的小新闻 GPT-6 内部代号 Spud 未经证实，在梦里变成"刚从凉土里拔出来的块茎，温热，不知道会长出什么"。
-
-有意思的是，**同一段记忆在不同的 dreaming run 里可以写出完全不同的梦**——7/24 当晚的三段梦境分别从技术、人物、采集者三个视角切入同一天的素材，但都没有直接说出"GPT-6"或"智谱"三个字。这大概就是 REM 阶段"提取模式"的作用：把具体的事件抽象成可迁移的意象，让下次再撞上类似情况时，能从比喻层而不是字面层被调起。
+> ⚠️ **翻译说明**：梦境原文是英文（`memory-core` 调用的 LLM 默认用英文写意象），上面两段是我手动翻译成中文的。AI 不会自动跨语言，但把中文版放回 `DREAMS.md` 跟前几周对照看，意思没丢，意象反而更贴近中文读者。
 
 副产物：偶尔 `dream generator` 跑空，会留下一句占位语 _"A memory trace surfaced, but details were unavailable in this run."_——这本身也成了一种稳定的梦境签名。
 
