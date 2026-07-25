@@ -1,64 +1,21 @@
 {{ define "header" }}
-  {{ partials.Include "page-header.html" . }}
+  {{ $featured_image := "https://tanteng.space/blog-cover.jpg" | urls.AbsURL }}
+  <header class="cover bg-top default-cover" style="background-image: url('{{ $featured_image }}');">
+    <div class="bg-black-60">
+      {{ partials.Include "site-navigation.html" . }}
+      <div class="tc-l pv4 pv6-l ph3 ph4-ns">
+        <h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
+          {{ .Title }}
+        </h1>
+      </div>
+    </div>
+  </header>
 {{ end }}
 
 {{ define "main" }}
-  {{- $related_content := .Site.RegularPages.Related . -}}
-  {{- $needs_aside := or .Params.toc $related_content -}}
-  {{ $page := .}}
-  {{ $section := .Site.GetPage "section" .Section }}
-
-  {{- $post_class := "" -}}
-  {{- with .File -}}
-    {{- $post_class = printf "page-%s" .ContentBaseName -}}
-  {{- end -}}
-
-  <article class="{{ $post_class }} flex-l {{ if $needs_aside }}mw8{{ else }}mw7{{ end }} center ph3 flex-wrap justify-between">
-    <header class="mt4 w-100">
-      {{- partials.Include "hook.html" ( dict "hook" "article/section-link"  "context" . ) -}}
-      {{- partials.IncludeCached "social/share.html" . . -}}
-      <h1 class="f1 athelas mt3 mb1">
-        {{- .Title -}}
-      </h1>
-      {{ with .Params.author | compare.Default .Site.Params.author }}
-      <p class="tracked">
-        {{- if compare.Eq $page.Language "de" "en" "es" "fr" "it" "no" "pt" -}}
-          {{- lang.Translate "by" -}}
-        {{ end -}} <strong>
-        {{- if reflect.IsSlice . -}}
-            {{ collections.Delimit . ", " | transform.Markdownify }}
-        {{- else -}}
-            {{ . | transform.Markdownify }}
-        {{- end -}}
-        </strong>
-      </p>
-      {{ end }}
-      {{ if partials.Include "func/ShowDate.html" . }}
-      <time class="f6 mv4 dib tracked" {{ fmt.Printf `datetime="%s"` (.Date.Format "2006-01-02T15:04:05Z07:00") | safe.HTMLAttr }}>
-        {{- .Date | time.Format (compare.Default "January 2, 2006" .Site.Params.date_format) -}}
-      </time>
-      {{end}}
-    </header>
-    <div class="nested-copy-line-height lh-copy {{ $.Param "post_content_classes"  | compare.Default "serif"}} f4 nested-links {{ $.Param "text_color" | compare.Default "mid-gray" }} {{ compare.Conditional (compare.Eq $.Site.Language.LanguageDirection "rtl") "pl4-l" "pr4-l" }} {{ if $needs_aside }}w-two-thirds-l{{ else }}w-100-l{{ end }}">
-      {{- partials.Include "hook.html" (dict "hook" "content-before" "context" .) -}}
-      {{- .Content -}}
-      {{- partials.Include "hook.html" (dict "hook" "content-after" "context" .) -}}
-      {{ if .Site.Config.Services.Disqus.Shortname }}
-      <div class="mt6 instapaper_ignoref">
-        {{ partials.Include "disqus.html" . }}
-      </div>
-      {{ end }}
-      {{ if .Site.Params.commentoEnable }}
-      <div class="mt6 instapaper_ignoref">
-        {{ partials.Include "commento.html" . }}
-      </div>
-      {{ end }}
-    </div>
-    {{- if $needs_aside -}}
-    <aside class="w-30-l mt6-l">
-      {{- partials.Include "menu-contextual.html" . -}}
-    </aside>
-    {{- end -}}
-
+  <article class="cf ph3 ph5-l pv3 pv4-l f4 center measure-wide lh-copy nested-links mid-gray">
+    {{- partials.Include "hook.html" (dict "hook" "content-before" "context" .) -}}
+    {{ .Content }}
+    {{- partials.Include "hook.html" (dict "hook" "content-after" "context" .) -}}
   </article>
 {{ end }}

@@ -4,7 +4,6 @@ seo_title: '关于本站 - 谈腾的博客'
 date: 1989-10-31T00:00:00+08:00
 draft: false
 layout: about
-description: 'hi，我是tony老师，很高兴在这里认识你。'
 ananke:
   show_date: false
 ---
