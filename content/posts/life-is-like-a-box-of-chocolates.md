@@ -3,7 +3,7 @@ title: "生命就像一盒巧克力：《阿甘正传》台词解析"
 date: 2024-05-11
 draft: false
 tags: ["movie", "forrest-gump", "life", "english"]
-categories: ["life"]
+categories: ["movies"]
 description: "重读《阿甘正传》最经典的台词——「生命就像一盒巧克力，你永远不知道下一块是什么味道」，聊聊巧克力隐喻背后的人生智慧，以及一个语法小细节：为什么阿甘说的是 was 而不是 is。"
 ---
 
