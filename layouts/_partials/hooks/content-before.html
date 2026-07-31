@@ -1,3 +1,3 @@
 {{- if and (eq .Section "posts") (not .Params.original) -}}
-  {{- partials.Include "ai-tip.html" (dict "content" "本站文章多由 AI 根据作者意图生成，再按作者意见修改后自动构建发布。如有疏漏，欢迎指正。" "page" .) -}}
+  {{- partials.Include "ai-tip.html" (dict "content" "本站很多文章由 AI 根据作者意图生成，再按作者意见修改后自动构建发布。如有疏漏，欢迎指正。" "page" .) -}}
 {{- end -}}
