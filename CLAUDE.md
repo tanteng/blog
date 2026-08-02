@@ -56,7 +56,7 @@ Pagefind 默认会索引 `public/**/*.html`。要排除某个页面，**官方�
 
 ### Mermaid 图表
 
-使用 `{{< mermaid >}}...{{< /mermaid >}}` shortcode 渲染图表，**不要**使用 ` ```mermaid ` 代码块。Ananke 主题通过 shortcode 触发 `hasMermaid` 标记来条件加载 mermaid JS，代码块无法触发此机制。
+使用 ```mermaid ``` 代码块渲染图表（与现有文章一致，如 `vibe-coding-to-sdd.md`、`mcp-complete-guide.md`、`pulsar-vs-kafka-core-differences.md`）。mermaid JS 通过 `layouts/partials/head-additions.html` 全局加载，脚本会扫描页面所有 `.mermaid` div（包括 markdown 渲染后的代码块）并自动调用 `mermaid.render()` 输出 SVG。**不要使用** `{{< mermaid >}}...{{< /mermaid >}}` shortcode —— 项目未定义该 shortcode，Hugo 构建会报 `template for shortcode "mermaid" not found`。
 
 ### 文章修改规范
 

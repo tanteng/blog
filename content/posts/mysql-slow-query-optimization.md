@@ -1,5 +1,5 @@
 ---
-title: '另辟蹊径的 MySQL 慢查询优化'
+title: '10个另辟蹊径的 MySQL 慢查询优化'
 slug: 'mysql-slow-query-optimization'
 date: 2023-09-29T10:00:00+08:00
 draft: false
