@@ -10,6 +10,19 @@
 - **主题**: Ananke
 - **部署**: GitHub Actions → 腾讯云 COS → 腾讯云 EdgeOne CDN
 - **语言**: 中文为主
+- **站内搜索**: [Pagefind](https://pagefind.app/)（`package.json` 的 `npm run build` 自动跑 `hugo && pagefind --site public --force-language zh`）
+
+## Pagefind 搜索索引规范
+
+Pagefind 默认会索引 `public/**/*.html`。要排除某个页面，**官方方式是在 `<html>` 标签上加 `data-pagefind-ignore` 属性**（HTML 元素粒度同理可加 `<div data-pagefind-ignore>` 仅排除该块）。
+
+**Hard rule：以下页面永远不进搜索索引：**
+
+- `/profile.html`（个人介绍传送门 — 含联系方式 / 邮箱 / 外部链接）
+
+新增排除页面时，在 `<html>` 标签加 `data-pagefind-ignore`，并在本节列表追加；不要使用 Pagefind CLI glob 黑名单（维护性差）。
+
+> 迁移到其他搜索引擎（lunr / fuse / algolia）时也必须保留本 hard rule。
 
 ## 工作流程
 
