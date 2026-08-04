@@ -2,7 +2,7 @@
 title: "企业知识库问答 RAG：腾讯云原子引擎实战"
 date: 2026-03-02
 description: "面向已经懂 RAG 流程的 AI 应用开发者，重点讲腾讯云知识引擎原子能力在企业知识库问答场景下的实战经验，包括流程选型、与 LangChain / LangGraph 的对比，以及几个真实的踩坑和取舍。"
-categories: ['AI技术']
+categories: ['ai']
 tags: ['ai', 'rag', 'tencent-cloud', 'knowledge-engine', 'llm']
 featured_image: ""
 ---
