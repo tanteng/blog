@@ -32,7 +32,7 @@
       {{ $sorted = .Pages.ByDate.Reverse }}
     {{ end }}
     {{ $pages := .Paginate $sorted }}
-    <section class="flex-ns mt5 flex-wrap justify-around">
+    <section class="flex-ns mt3 mt5-l flex-wrap justify-around">
       {{ range $pages.Pages }}
         <div class="w-100 w-30-l mb4 relative bg-white">
           {{ .Render "summary" }}
