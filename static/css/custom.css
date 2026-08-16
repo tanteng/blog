@@ -153,3 +153,32 @@ aside.instapaper_ignoref a:visited {
 header nav[role="navigation"] a:visited:not(:hover):not(:focus) {
   color: rgba(255, 255, 255, 0.9);
 }
+
+/* notes 类型推文卡片图片网格 */
+.note-images img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-color: #f0f0f0;
+}
+.note-images.single img {
+  max-width: 360px;
+  max-height: 480px;
+}
+.note-images.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 4px;
+  max-width: 540px;
+}
+.note-images.grid img {
+  aspect-ratio: 1 / 1;
+}
+
+/* notes feed 容器与首尾卡片去掉多余边距 */
+.notes-feed > article.note:first-child {
+  padding-top: 0.25rem;
+}
+.notes-feed > article.note:last-child {
+  border-bottom: 0;
+}

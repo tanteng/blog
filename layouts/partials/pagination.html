@@ -1,4 +1,7 @@
-{{- $paginator := .Paginate (where .Site.RegularPages "Section" "in" .Site.Params.mainSections) }}
+{{- $paginator := . }}
+{{- if reflect.IsMap . -}}
+  {{- $paginator = .paginator -}}
+{{- end -}}
 {{ if gt $paginator.TotalPages 1 }}
 <nav class="pagination-nav w-100 mv4" aria-label="分页导航">
   <ul class="pagination list pl0 flex items-center justify-center flex-wrap">

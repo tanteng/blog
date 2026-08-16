@@ -12,21 +12,27 @@
     {{ .Content }}
   </article>
 
-  {{/* 使用分页 */}}
-  {{ $paginator := .Paginate (where .Site.RegularPages "Section" "in" .Site.Params.mainSections) 30 }}
+  {{/* 使用分页：合并 posts 与 notes（类微博动态）按时间倒序 */}}
+  {{ $sections := slice "posts" "notes" }}
+  {{ $pages := where .Site.RegularPages "Section" "in" $sections }}
+  {{ $paginator := .Paginate ($pages.ByDate.Reverse) 30 }}
 
   {{ if gt $paginator.TotalPages 0 }}
     <div class="pa3 pa4-ns w-100 w-70-ns center">
       <section class="w-100 mw8">
         {{ range $paginator.Pages }}
           <div class="w-100 mb4 relative">
-            {{ .Render "summary-with-image" }}
+            {{ if eq .Section "notes" }}
+              {{ .Render "summary" }}
+            {{ else }}
+              {{ .Render "summary-with-image" }}
+            {{ end }}
           </div>
         {{ end }}
       </section>
 
-      {{/* 分页导航 - 数字页码 */}}
-      {{ partial "pagination.html" . }}
+      {{/* 分页导航 - 数字页码（传入合并后的 paginator，避免子页只显示 posts） */}}
+      {{ partial "pagination.html" (dict "paginator" $paginator) }}
     </div>
   {{ end }}
 {{ end }}

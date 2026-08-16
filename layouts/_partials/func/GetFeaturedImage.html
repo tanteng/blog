@@ -1,0 +1,46 @@
+{{/*
+	GetFeaturedImage (项目覆盖版)
+
+	继承 Ananke 默认行为（featured_image → images 数组第一项 → cover 资源），
+	但对 section 在 excludeSections 列表里的页面直接返回空字符串，避免 notes
+	这类把 images 字段当作正文图片而非封面的 section 被自动套上封面。
+*/}}
+
+{{ $linkToCover := "" }}
+
+{{ $excludeSections := slice "notes" }}
+{{ $skipCover := false }}
+{{ with .Section }}
+  {{ if in $excludeSections . }}
+    {{ $skipCover = true }}
+  {{ end }}
+{{ end }}
+
+{{ if not $skipCover }}
+  {{ $matches := "feature,cover" }}
+  {{ with .Params.featured_image }}
+    {{ $linkToCover = strings.Trim . "/" | urls.AbsURL }}
+    {{ with $.Resources.GetMatch . }}
+      {{ $linkToCover = .RelPermalink }}
+    {{ end }}
+  {{ else }}
+    {{ with .Params.images }}
+      {{ range first 1 . }}
+        {{ with . }}
+          {{ $linkToCover = strings.Trim . "/" | urls.AbsURL }}
+          {{ with $.Resources.GetMatch . }}
+            {{ $linkToCover = .RelPermalink }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    {{ else }}
+      {{ with .Resources.ByType "image" }}
+        {{ with .GetMatch (fmt.Printf "**{%s}*" $matches) }}
+          {{ $linkToCover = .RelPermalink }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $linkToCover }}

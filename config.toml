@@ -38,16 +38,22 @@ weight = 1
     weight = 1
 
   [[menu.main]]
+    identifier = "notes"
+    name = "动态"
+    url = "/notes/"
+    weight = 2
+
+  [[menu.main]]
     identifier = "photos"
     name = "相册"
     url = "https://photos.tanteng.space"
-    weight = 2
+    weight = 3
 
   [[menu.main]]
     identifier = "about"
     name = "关于"
     url = "/about/"
-    weight = 5
+    weight = 10
 
 [pagination]
 pagerSize = 30
