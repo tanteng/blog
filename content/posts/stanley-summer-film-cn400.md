@@ -2,7 +2,7 @@
 title: "赤柱的夏天 [Nikon FM2, 35mm, Alien CN400]"
 date: 2026-08-08T15:00:00+08:00
 draft: false
-tags: ["photography", "film", "film-camera", "photo", "film-roll", "alien400cn"]
+tags: ["photography", "film", "film-camera", "photo", "film-roll", "alien400cn", "travel"]
 categories: ["photo"]
 slug: "stanley-summer-film-cn400"
 description: "深圳下了几个月的雨了，难得周末不下雨，虽然天气很热，但来感受一下港岛的夏天吧。用 Alien Film CN400 ProMax 胶卷记录赤柱海滨与浅水湾的夏日海滨、街景与码头"

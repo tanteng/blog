@@ -2,7 +2,7 @@
 title: "胶片济州岛 [Nikon FM2, 35mm, Kodak Ektar 100]"
 date: 2026-05-08T15:00:00+08:00
 draft: false
-tags: ["photography", "film", "film-camera", "photo", "film-roll", "ektar100"]
+tags: ["photography", "film", "film-camera", "photo", "film-roll", "ektar100", "travel"]
 categories: ["photo"]
 slug: "film-jeju-island-ektar100"
 description: "用 Kodak Ektar 100 胶卷记录济州岛的海边火山岩、咖啡馆与公路"
