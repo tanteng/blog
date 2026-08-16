@@ -1,5 +1,5 @@
 ---
-title: "赤柱的夏天 [Nikon FM2, 35m, 外星人 CN400]"
+title: "赤柱的夏天 [Nikon FM2, 35mm, Alien CN400]"
 date: 2026-08-08T15:00:00+08:00
 draft: false
 tags: ["photography", "film", "film-camera", "photo"]
