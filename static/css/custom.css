@@ -5,6 +5,13 @@ ul.pa0 li.list.di {
   vertical-align: middle;
 }
 
+/* 内联 <code>：Ananke 主题只在 p code 设了 font-size: 0.9em，
+   其他位置（li / td / h2-h6 等）会继承 body 的 1.25rem，看起来过大。
+   统一收口到 0.82em，与表格内代码保持一致。*/
+:not(pre) > code {
+  font-size: 0.82em;
+}
+
 /* 表格样式：与 Ananke 主题对齐（主色 #357edd），Notion/GitHub 风格（仅水平线 + 圆角） */
 table {
   width: 100% !important;
@@ -78,7 +85,7 @@ td code, th code {
   color: #2f72cc;
   padding: 1px 6px;
   border-radius: 4px;
-  font-size: 0.88em;
+  font-size: 0.82em;
 }
 
 th code {
