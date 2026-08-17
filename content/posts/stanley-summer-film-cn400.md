@@ -44,8 +44,6 @@ Alien Film CN400 ProMax 是一款手工分装的 135（35mm）彩色负片，感
 
 {{< figure src="https://assets.tanteng.space/photo-Kw4pNuhNGqWcXbbk.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="赤柱海边的岩石" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-dC0qIcQ9ztgXZFUx.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="赤柱海边的岩石" >}}
-
 {{< figure src="https://assets.tanteng.space/photo-JDht16IEtz8L1L7S.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="赤柱海滨长廊" >}}
 
 {{< figure src="https://assets.tanteng.space/photo-UgnS37yuofQYUR2C.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="赤柱天主教堂" >}}
