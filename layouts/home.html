@@ -13,12 +13,12 @@
   </article>
 
   {{/* 使用分页：合并 posts 与 notes（类微博动态）
-     置顶：weight > 0 的页面（posts 专用，notes 不参与置顶）按 weight 降序排到最前
+     置顶：weight > 0 的页面排到最前（按日期降序，与正文流一致）
      普通：剩余页面按日期降序 */}}
   {{ $sections := slice "posts" "notes" }}
   {{ $allPages := where .Site.RegularPages "Section" "in" $sections }}
   {{ $pinned := where $allPages "Params.weight" "gt" 0 }}
-  {{ $sorted := $pinned.ByWeight.Reverse | append $allPages.ByDate.Reverse }}
+  {{ $sorted := $pinned.ByDate.Reverse | append $allPages.ByDate.Reverse }}
   {{ $sorted = $sorted | uniq }}
   {{ $paginator := .Paginate $sorted 30 }}
 

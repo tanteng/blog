@@ -1,35 +1,18 @@
 <article class="note bb b--black-10 pv3 pv4-ns">
-  <div class="flex items-start">
-    <div class="note-avatar br-100 bg-light-gray mr3 flex items-center justify-center" style="width:48px;height:48px;flex:0 0 48px;">
-      <span class="mid-gray f5">T</span>
-    </div>
-    <div class="flex-auto" style="min-width:0;">
-      <div class="f6 mb2">
-        <span class="b near-black">{{ .Site.Params.copyright | default "Tony老师" }}</span>
-        <span class="mid-gray ml1">·</span>
-        <time class="mid-gray ml1" {{ fmt.Printf `datetime="%s"` (.Date.Format "2006-01-02T15:04:05Z07:00") | safe.HTMLAttr }}>
-          {{- .Date.Format "2006-01-02 15:04" -}}
-        </time>
-      </div>
-
-      <div class="note-content nested-copy-line-height nested-links lh-copy f5 f4-ns mid-gray">
-        {{ .Content }}
-      </div>
-
-      {{ with .Params.images }}
-        {{ $count := len . }}
-        <div class="note-images mt3 {{ if eq $count 1 }}single{{ else }}grid{{ end }}">
-          {{ range . }}
-            <img src="{{ . | relURL }}" alt="" loading="lazy" class="br2 db" />
-          {{ end }}
-        </div>
-      {{ end }}
-
-      {{ if or (.Params.tags) (.Params.categories) }}
-        <div class="f7 mt3 mid-gray">
-          {{ partials.Include "tags.html" . }}
-        </div>
-      {{ end }}
-    </div>
+  <div class="note-content nested-copy-line-height nested-links lh-copy f5 f4-ns mid-gray">
+    {{ .Content }}
   </div>
+
+  {{ with .Params.images }}
+    {{ $count := len . }}
+    <div class="note-images mt3 {{ if eq $count 1 }}single{{ else }}grid{{ end }}">
+      {{ range . }}
+        <img src="{{ . | relURL }}" alt="" loading="lazy" class="br2 db" />
+      {{ end }}
+    </div>
+  {{ end }}
+
+  <time class="f7 mt3 db mid-gray" {{ fmt.Printf `datetime="%s"` (.Date.Format "2006-01-02T15:04:05Z07:00") | safe.HTMLAttr }}>
+    {{- .Date.Format "2006-01-02 15:04" -}}
+  </time>
 </article>
