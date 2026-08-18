@@ -6,6 +6,7 @@ tags: ["photography", "film", "film-camera", "photo", "film-roll", "ektar100", "
 categories: ["photo"]
 slug: "film-jeju-island-ektar100"
 description: "用 Kodak Ektar 100 胶卷记录济州岛的海边火山岩、咖啡馆与公路"
+featured_image: "https://assets.tanteng.space/photo-vsfQDG5Zognb3Xz2.jpeg?imageMogr2/auto-orient/thumbnail/2000x/format/webp/quality/92/sharpen/100x50/strip/interlace/1"
 ---
 
 5 月初去济州岛玩了一趟，带了一卷 Kodak Ektar 100。济州岛是火山岛，海边都是黑色的玄武岩，配上 Ektar 100 高饱和的色彩，出片很「浓」。
