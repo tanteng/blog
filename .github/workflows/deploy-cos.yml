@@ -113,6 +113,35 @@ jobs:
             echo "has_articles=false" >> "$GITHUB_OUTPUT"
           fi
 
+          # 提取 content/notes/ 下的 .md 文件（修复 #15: notes 路径缓存未被 purge 的问题）
+          NOTES=$(echo "$CHANGED_FILES" | grep "^content/notes/.*\.md$" || true)
+
+          if [ -n "$NOTES" ]; then
+            echo "检测到修改的笔记:"
+            echo "$NOTES"
+
+            # 生成 JSON 数组格式的 URL 列表
+            NOTE_URLS_JSON="["
+            FIRST=true
+            for file in $NOTES; do
+              slug=$(basename "$file" .md)
+              url="https://blog.tanteng.space/notes/${slug}/"
+              if [ "$FIRST" = true ]; then
+                NOTE_URLS_JSON="${NOTE_URLS_JSON}\"${url}\""
+                FIRST=false
+              else
+                NOTE_URLS_JSON="${NOTE_URLS_JSON},\"${url}\""
+              fi
+            done
+            NOTE_URLS_JSON="${NOTE_URLS_JSON}]"
+
+            echo "note_urls=${NOTE_URLS_JSON}" >> "$GITHUB_OUTPUT"
+            echo "has_notes=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "未检测到笔记修改"
+            echo "has_notes=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Purge EdgeOne Cache
         env:
           TENCENTCLOUD_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
@@ -132,15 +161,24 @@ jobs:
             echo "✅ EdgeOne 全站缓存已清理"
           else
             # 仅文章变更，精准清理
-            COMMON_URLS='["https://blog.tanteng.space/","https://blog.tanteng.space/posts/","https://blog.tanteng.space/categories/","https://blog.tanteng.space/tags/"]'
+            COMMON_URLS='["https://blog.tanteng.space/","https://blog.tanteng.space/posts/","https://blog.tanteng.space/categories/","https://blog.tanteng.space/tags/","https://blog.tanteng.space/notes/"]'
 
             HAS_ARTICLES="${{ steps.detect-changes.outputs.has_articles }}"
+            HAS_NOTES="${{ steps.detect-changes.outputs.has_notes }}"
+            COMMON_INNER=$(echo "$COMMON_URLS" | sed 's/^\[//;s/\]$//')
+            EXTRA=""
             if [ "$HAS_ARTICLES" = "true" ]; then
               ARTICLE_URLS='${{ steps.detect-changes.outputs.article_urls }}'
-              COMMON_INNER=$(echo "$COMMON_URLS" | sed 's/^\[//;s/\]$//')
-              ARTICLE_INNER=$(echo "$ARTICLE_URLS" | sed 's/^\[//;s/\]$//')
-              ALL_URLS="[${COMMON_INNER},${ARTICLE_INNER}]"
-              echo "清理页面缓存（含文章）: ${ALL_URLS}"
+              EXTRA="${EXTRA:+${EXTRA},}$(echo "$ARTICLE_URLS" | sed 's/^\[//;s/\]$//')"
+            fi
+            if [ "$HAS_NOTES" = "true" ]; then
+              NOTE_URLS='${{ steps.detect-changes.outputs.note_urls }}'
+              EXTRA="${EXTRA:+${EXTRA},}$(echo "$NOTE_URLS" | sed 's/^\[//;s/\]$//')"
+            fi
+
+            if [ -n "$EXTRA" ]; then
+              ALL_URLS="[${COMMON_INNER},${EXTRA}]"
+              echo "清理页面缓存（含文章/笔记）: ${ALL_URLS}"
             else
               ALL_URLS="$COMMON_URLS"
               echo "清理公共页面缓存: ${ALL_URLS}"
