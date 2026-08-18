@@ -10,9 +10,9 @@ description: "详解 Next.js 部署在 Vercel 上的运行时组成：CDN 边缘
 
 RSC（React Server Components）是一套**组件渲染范式**：把只用于展示的组件留在服务端执行，结果序列化成 RSC Payload 发到浏览器；只有需要交互的部分才被打包到客户端。常见的一个误区是认为「Server Component 必须直连数据库」，其实 RSC 的能力边界只是「可以在服务端执行 Node API」，数据从数据库来还是从后端服务来完全是架构选择。
 
-Vercel 作为 Next.js 的官方部署平台，把这套范式产品化做得最好：静态页面进 CDN、动态请求进 Serverless Functions。本文从 RSC 原理出发，重点拆解 Next.js 在 Vercel 上的运行时组成——CDN 边缘缓存、Node Runtime 与 Edge Runtime 的差异、四层缓存机制，以及一个动态页面的完整请求旅程。
-
 <!--more-->
+
+Vercel 作为 Next.js 的官方部署平台，把这套范式产品化做得最好：静态页面进 CDN、动态请求进 Serverless Functions。本文从 RSC 原理出发，重点拆解 Next.js 在 Vercel 上的运行时组成——CDN 边缘缓存、Node Runtime 与 Edge Runtime 的差异、四层缓存机制，以及一个动态页面的完整请求旅程。
 
 ## 一、背景：传统渲染模式的痛点
 
