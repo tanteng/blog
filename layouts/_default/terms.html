@@ -7,13 +7,14 @@
             {{ $.Data.Singular | inflect.Humanize }}: {{ $term.Title }}
           </a>
         </h2>
-        {{ range first 5 $term.Pages }}
+        {{ $filtered := where $term.Pages "Section" "ne" "notes" }}
+        {{ range first 5 $filtered }}
           {{ .Render "summary" }}
         {{ end }}
-        {{ if gt (len $term.Pages) 5 }}
+        {{ if gt (len $filtered) 5 }}
           <p class="f5 ml4">
             <a href="{{ $term.RelPermalink }}" class="link blue hover-dark-blue">
-              查看全部 {{ len $term.Pages }} 篇 →
+              查看全部 {{ len $filtered }} 篇 →
             </a>
           </p>
         {{ end }}
