@@ -1,4 +1,4 @@
-{{- $related := .Site.RegularPages.Related . | collections.First 5 -}}
+{{- $related := where (.Site.RegularPages.Related . | collections.First 5) "Section" "ne" "notes" -}}
 {{ if not .Params.disableRelated }}
   {{ with $related }}
 <div class="related-posts bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links" data-pagefind-ignore>
