@@ -189,3 +189,18 @@ header nav[role="navigation"] a:visited:not(:hover):not(:focus) {
 .notes-feed > article.note:last-child {
   border-bottom: 0;
 }
+
+/* 文章正文里的图片（仅在 shortcode 上加了 post-img 类的 figure 生效，作用域收敛） */
+figure.post-img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+figure.post-img img {
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: 100%;
+  height: auto;
+}
