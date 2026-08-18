@@ -6,5 +6,6 @@ resources/_gen
 
 .claude/
 .workbuddy/
+.worktrees/
 node_modules/
 package-lock.json
