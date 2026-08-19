@@ -29,27 +29,27 @@ Kodak Ektar 100 是 ISO 100 的日光型彩色负片，也是柯达彩负里颗�
 
 按走的顺序，从市区街景开始。
 
-{{< figure src="https://assets.tanteng.space/photo-0JTDxDbLwNz0105B.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="济州小巷" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-0JTDxDbLwNz0105B.jpeg?imageMogr2/auto-orient/thumbnail/400x/format/webp/quality/88/interlace/1" caption="济州小巷" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-4LzwZkYbq2j8QWpX.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="商业街" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-4LzwZkYbq2j8QWpX.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="商业街" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-K2ZhyStTXccKkN1B.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="雏菊" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-K2ZhyStTXccKkN1B.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="雏菊" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-5g5BVlaM2Fd4ZCyj.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="火山岩礁石与远岛" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-5g5BVlaM2Fd4ZCyj.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="火山岩礁石与远岛" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-Z6CorSaxt1q4n8lb.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="柱状节理玄武岩" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-Z6CorSaxt1q4n8lb.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="柱状节理玄武岩" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-j5GXCuvQtXpfCv3j.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="火山岩悬崖" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-j5GXCuvQtXpfCv3j.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="火山岩悬崖" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-IIn1MQKmo75oVzJc.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="海边的咖啡馆" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-IIn1MQKmo75oVzJc.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="海边的咖啡馆" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-pszCTPWQ2LN2Jr2n.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="窗边咖啡" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-pszCTPWQ2LN2Jr2n.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="窗边咖啡" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-RM2a1UJkEPxvo5nK.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="海岸与远岛" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-RM2a1UJkEPxvo5nK.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="海岸与远岛" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-lbFBSGEjqwLThtHO.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="棕榈树与海面" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-lbFBSGEjqwLThtHO.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="棕榈树与海面" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-vsfQDG5Zognb3Xz2.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="海边公路" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-vsfQDG5Zognb3Xz2.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="海边公路" loading="lazy" >}}
 
 ## 写在最后
 

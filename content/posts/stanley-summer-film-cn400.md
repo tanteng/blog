@@ -23,33 +23,33 @@ Alien Film CN400 ProMax 是一款手工分装的 135（35mm）彩色负片，感
 
 ### 浅水湾
 
-{{< figure src="https://assets.tanteng.space/photo-OoK3B5mA5okUEtgX.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="浅水湾海滩" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-OoK3B5mA5okUEtgX.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="浅水湾海滩" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-XBqNl2lDtd7m4THh.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="浅水湾海滩" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-XBqNl2lDtd7m4THh.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="浅水湾海滩" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-7yrxKmu8z6iddPRC.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="浅水湾海滩" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-7yrxKmu8z6iddPRC.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="浅水湾海滩" loading="lazy" >}}
 
 ### 赤柱
 
-{{< figure src="https://assets.tanteng.space/photo-UtUqlwIF3R3uLMXD.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="赤柱黄色房子" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-UtUqlwIF3R3uLMXD.jpeg?imageMogr2/auto-orient/thumbnail/400x/format/webp/quality/88/interlace/1" caption="赤柱黄色房子" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-h5C7Ug5XlR3HwWIA.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="赤柱海滨街道" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-h5C7Ug5XlR3HwWIA.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="赤柱海滨街道" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-96RF5zop02mOLPf5.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="美利楼对岸海湾" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-96RF5zop02mOLPf5.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="美利楼对岸海湾" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-fX2JwLtJwAEdNqsd.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="美利楼长廊" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-fX2JwLtJwAEdNqsd.jpeg?imageMogr2/auto-orient/thumbnail/400x/format/webp/quality/88/interlace/1" caption="美利楼长廊" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-L2k2svtKUxL5ywdS.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="卜公码头" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-L2k2svtKUxL5ywdS.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="卜公码头" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-1ofgyFsSJJYZJAvK.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="赤柱海滩" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-1ofgyFsSJJYZJAvK.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="赤柱海滩" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-Kw4pNuhNGqWcXbbk.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="赤柱海边的岩石" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-Kw4pNuhNGqWcXbbk.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="赤柱海边的岩石" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-JDht16IEtz8L1L7S.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="赤柱海滨长廊" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-JDht16IEtz8L1L7S.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="赤柱海滨长廊" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-UgnS37yuofQYUR2C.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="赤柱天主教堂" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-UgnS37yuofQYUR2C.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="赤柱天主教堂" loading="lazy" >}}
 
-{{< figure src="https://assets.tanteng.space/photo-0eb9ezCPFmrGYN0U.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" title="赤柱小巷" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-0eb9ezCPFmrGYN0U.jpeg?imageMogr2/auto-orient/thumbnail/400x/format/webp/quality/88/interlace/1" caption="赤柱小巷" loading="lazy" >}}
 
 ## 写在最后
 
