@@ -5,13 +5,6 @@ ul.pa0 li.list.di {
   vertical-align: middle;
 }
 
-/* 内联 <code>：Ananke 主题只在 p code 设了 font-size: 0.9em，
-   其他位置（li / td / h2-h6 等）会继承 body 的 1.25rem，看起来过大。
-   统一收口到 0.82em，与表格内代码保持一致。*/
-:not(pre) > code {
-  font-size: 0.82em;
-}
-
 /* 表格样式：与 Ananke 主题对齐（主色 #357edd），Notion/GitHub 风格（仅水平线 + 圆角） */
 table {
   width: 100% !important;
@@ -79,20 +72,6 @@ tbody tr:hover td {
   background-color: #eef3fb !important;
 }
 
-/* 表内代码：避免被默认 pre 样式影响，保持内联感 */
-td code, th code {
-  background: rgba(53, 126, 221, 0.08);
-  color: #2f72cc;
-  padding: 1px 6px;
-  border-radius: 4px;
-  font-size: 0.82em;
-}
-
-th code {
-  background: rgba(255, 255, 255, 0.18);
-  color: #fff;
-}
-
 /* 移动端：水平滚动，避免表格撑破布局 */
 @media screen and (max-width: 768px) {
   table {
@@ -122,17 +101,6 @@ th code {
   body > main {
     padding-bottom: 1rem !important;
   }
-}
-
-/* 代码块修复：去掉主题默认 overflow:scroll 产生的白色滚动条区域 */
-pre, .pre {
-  overflow: auto !important;
-}
-
-.highlight {
-  background-color: #272822;
-  border-radius: 6px;
-  margin: 1.5rem 0;
 }
 
 /* 视频 iframe 响应式自适应 */
