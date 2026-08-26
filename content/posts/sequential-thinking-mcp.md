@@ -1,7 +1,7 @@
 ---
 title: "Sequential Thinking MCP：CoT 时代的一个过渡性 MCP Server"
 date: 2026-07-22T10:00:00+08:00
-draft: true
+draft: false
 tags: ["ai", "mcp", "agent", "llm"]
 categories: ["ai"]
 description: "Anthropic 官方 MCP servers 仓库里的 sequentialthinking 已标 archived。它在 Claude 没有原生 extended thinking 的窗口期，把 CoT 过程外化到 tool call，今天再看更像 MCP 协议的一个示范工程，而非生产级工具。"
