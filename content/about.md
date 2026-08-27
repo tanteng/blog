@@ -1,6 +1,6 @@
 ---
-title: '关于本站 | 谈腾 | Tony老师的博客'
-seo_title: '关于本站 - 谈腾 - Tony老师的博客'
+title: '关于本站'
+seo_title: '关于本站 | 谈腾'
 date: 1989-10-31T00:00:00+08:00
 draft: false
 layout: about
