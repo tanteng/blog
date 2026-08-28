@@ -35,7 +35,9 @@ jobs:
           hugo version
 
       - name: Build
-        run: hugo --minify
+        # --cleanDestinationDir 清空 public/ 中上一次 build 留下的 orphan 输出
+        # （如 front matter 的 url 字段变更后，旧路径 HTML 不会被自动删除）
+        run: hugo --minify --cleanDestinationDir
 
       - name: Build search index
         run: npx pagefind --site public --force-language zh
