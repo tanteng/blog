@@ -1,11 +1,11 @@
 ---
 title: "ReAct 论文解读：在语言模型中协同推理与行动"
-date: 2026-08-27T10:00:00+08:00
+date: 2025-11-15T10:00:00+08:00
 draft: false
 tags: ["ai", "agent", "llm"]
 categories: ["ai"]
 description: "ReAct（arXiv 2210.03629，ICLR 2023 Oral）把'思考'显式作为动作空间的一个元素，让 LLM 在同一个轨迹里交替生成 Thought / Action / Observation。本文按论文结构拆解方法、实验与失败模式。"
-url: /2026/08/react-paper-yao-shunyu/
+url: /2025/11/react-paper-yao-shunyu/
 ---
 
 ReAct（[arXiv 2210.03629](https://arxiv.org/abs/2210.03629)）是姚顺雨 2022 年 10 月发表、2023 年 5 月在 Kigali 的 [ICLR 2023 Oral](https://iclr.cc/virtual/2023/oral/12647)（Notable Top 5%）上正式宣读的论文。它解决的问题很朴素：**让大语言模型在同一个轨迹里同时"想"和"做"**。在此之前，Chain-of-Thought（CoT）和"只行动"（Act-only）是两条互不往来的研究脉络，ReAct 是第一条把它们显式缝合起来的路径。
