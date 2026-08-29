@@ -1,6 +1,6 @@
 ---
-title: '关于本站'
-seo_title: '关于本站 | 谈腾'
+title: '关于我'
+seo_title: '关于我 | 谈腾'
 date: 1989-10-31T00:00:00+08:00
 draft: false
 layout: about
@@ -8,25 +8,25 @@ ananke:
   show_date: false
 ---
 
-hi，我是 tony 老师，欢迎来到我的个人博客。
+👋 hi，我是 tony 老师，欢迎来到我的个人博客。
 
-博客的内容主要是 Golang、K8S、数据库等后端技术，AI 技术以及读书笔记，生活随想等。文章多由 AI 根据作者意图生成，再按作者意见修改后自动构建发布。
+博客内容主要是技术沉淀和生活随笔，文章多由 AI 根据作者意图生成，再按作者意见修改后自动构建发布。
 
 ## 关于我
 
-我是一名后台开发工程师，平时喜欢咖啡、旅行、摄影。常驻深圳，来自湖北黄石。
+- 🧑‍💻 后台开发工程师，关注 Golang，K8S，AI，Agent 等技术
+- 📷 喜欢摄影（[作品集](https://photos.tanteng.space)），咖啡，旅行
+- 📍 常驻深圳，来自湖北黄石
 
-### 摄影装备
+### 📷 摄影装备
 
 - 📷 **Sony A7M4** — 主力微单，索尼大法
 - 📷 **Nikon FM2** — 尼康经典全机械胶片单反
 - 📷 **Pentax 17** — 半格胶片，2024 年新发布的复刻机型
 
-🖼️ 我的作品集：[photos.tanteng.space](https://photos.tanteng.space)
+### ✈️ 旅行足迹
 
-### 旅行足迹
-
-#### 去过的国家
+去过的国家：
 
 - 🇹🇭 泰国：清迈、曼谷、芭提雅
 - 🇮🇩 印尼：巴厘岛
@@ -34,9 +34,9 @@ hi，我是 tony 老师，欢迎来到我的个人博客。
 - 🇷🇺 俄罗斯：莫斯科、圣彼得堡
 - 🇰🇷 韩国：济州等
 
-### 喜欢的名言
+### ✨ 喜欢的名言
 
-最喜欢的名人是 **Steve Jobs**（史蒂夫·乔布斯，1955–2011），苹果公司联合创始人。
+最喜欢名人是 **Steve Jobs**（史蒂夫·乔布斯，1955–2011），苹果公司联合创始人。
 
 1. **["Stay Hungry, Stay Foolish."](/posts/steve-jobs-stay-hungry-stay-foolish/)** — 求知若饥，虚心若愚。
 
@@ -48,7 +48,7 @@ hi，我是 tony 老师，欢迎来到我的个人博客。
 
 5. **["Your time is limited, so don't waste it living someone else's life."](/posts/your-time-is-limited-live-your-own-life/)** — 你的时间是有限的，不要浪费它去过别人的生活。
 
-### 联系方式
+### 📮 联系方式
 
 - [{{< social "instagram" >}} Instagram · tanteng1031](https://www.instagram.com/tanteng1031/)
 - {{< social "tiktok" >}} 抖音 · tonytony1031

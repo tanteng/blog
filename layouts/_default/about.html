@@ -13,7 +13,7 @@
 {{ end }}
 
 {{ define "main" }}
-  <article class="cf ph3 ph5-l pv3 pv4-l f4 center mw7 mw8-l lh-copy nested-links mid-gray">
+  <article class="cf ph3 ph5-l pv3 pv4-l f4 center mw7 lh-copy nested-links mid-gray">
     {{- partials.Include "hook.html" (dict "hook" "content-before" "context" .) -}}
     {{ .Content }}
     {{- partials.Include "hook.html" (dict "hook" "content-after" "context" .) -}}
