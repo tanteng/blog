@@ -1,10 +1,10 @@
 ---
 title: "Vercel 上的 Next.js 架构：CDN、Serverless 与 RSC 原理"
-date: 2026-08-17T10:00:00+08:00
+date: 2026-03-15T10:00:00+08:00
 draft: false
 tags: ["next.js", "vercel", "architecture", "ssr"]
 categories: ["tech"]
-url: /2026/08/react-server-components-vercel-architecture/
+url: /2026/03/react-server-components-vercel-architecture/
 description: "详解 Next.js 部署在 Vercel 上的运行时组成：CDN 边缘缓存、Serverless Functions、Node 与 Edge Runtime 的差异，以及 RSC 在这套架构里是如何被执行的。"
 ---
 
