@@ -3,7 +3,7 @@ title: "昨夜梦见的美景"
 date: 2015-03-14T04:07:15+08:00
 draft: false
 original: true
-tags: ['life', 'wuhan']
+tags: ['life', 'wuhan', 'dream']
 categories: ["life"]
 slug: "dream-of-beautiful-scenery"
 description: "昨夜做了一个梦，梦见了非常壮观的美景。"
