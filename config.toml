@@ -63,22 +63,6 @@ open_graph_title = "Tony老师的博客"
 open_graph_description = "Hi，我是Tony老师"
 open_graph_image = "https://tanteng.space/blog-cover.jpg"
 
-[params.ananke.social.follow]
-networks = [
-  "instagram",
-  "facebook",
-  "linkedin"
-]
-
-[params.ananke.social.instagram]
-username = "tanteng1031"
-
-[params.ananke.social.facebook]
-username = "tanteng001"
-
-[params.ananke.social.linkedin]
-username = "tanteng"
-
 [minify]
   [minify.tdewolff]
     [minify.tdewolff.js]
