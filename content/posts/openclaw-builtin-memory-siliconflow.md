@@ -7,7 +7,7 @@ categories: ['tech']
 description: '折腾了 QMD、OpenViking 等方案后，最终用 OpenClaw 内置引擎 + 硅基流动免费的 bge-m3 模型，在低配服务器上实现了够用的向量混合搜索。'
 ---
 
-上一篇[《OpenClaw 的 QMD 记忆引擎：从尝鲜到放弃》](/posts/openclaw-qmd-memory-engine/)里，我因为 2 核 4G 服务器跑不动 QMD 的 3 个本地 LLM 模型，切回了内置引擎。当时以为内置引擎只有关键词搜索——其实不是。
+之前折腾 QMD 记忆引擎时，因为 2 核 4G 服务器跑不动 QMD 的 3 个本地 LLM 模型，最终切回了内置引擎。当时以为内置引擎只有关键词搜索——其实不是。
 
 <!--more-->
 
