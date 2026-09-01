@@ -117,7 +117,7 @@ Go 在**编译期**就检查类型错误，把 bug 拦在运行之前。
 | `count($arr)` | `len(arr)` | 内置函数只对特定类型有效 |
 | `$obj->prop` | `obj.prop` | 结构体访问字段 |
 | 关联数组 `["name" => "Tom"]` | 结构体或 `map[string]string` | 结构体是首选 |
-| `mixed` 参数 | interface{} | Go 1.18 后可用 `any` |
+| `mixed` 参数 | interface{} | 接受任意类型 |
 | 类型自动转换 | 必须显式转换 | `int(x)` 而不是 `(int)$x` |
 
 ### 2.4 接口设计哲学
@@ -316,7 +316,7 @@ var ErrUserNotFound = errors.New("user not found")
 
 简单场景直接比较 `errors.Is(err, ErrUserNotFound)`。
 
-## 五、依赖管理：从 Composer 到 go mod
+## 五、依赖管理：从 Composer 到 GOPATH + vendor
 
 ### 5.1 PHP 的 Composer
 
@@ -337,39 +337,74 @@ composer require    # 添加新依赖
 
 Composer 把依赖安装到 `vendor/` 目录，部署时通过 `composer install` 重装。
 
-### 5.2 Go 的 go mod（Go 1.11+）
+### 5.2 Go 的 GOPATH + vendor（当前主流）
+
+Go 当前的依赖管理与 PHP 思路类似——代码集中放在 `$GOPATH/src` 下，依赖通过工具管理并 vendor 化：
 
 ```bash
-go mod init github.com/myuser/myproject  # 初始化
-go get github.com/gin-gonic/gin          # 添加依赖
-go mod tidy                              # 整理依赖
+# 1. 项目必须放在 $GOPATH/src/github.com/myuser/myproject 下
+mkdir -p $GOPATH/src/github.com/myuser/myproject
+cd $GOPATH/src/github.com/myuser/myproject
+
+# 2. 用 dep（见 5.3）锁定依赖版本，自动生成 vendor/ 目录
+dep ensure
+
+# 3. 部署时直接 go build 即可，无需联网拉取
+go build -o myapp
 ```
 
-`go.mod` 文件：
+工作目录结构：
 
 ```
-module github.com/myuser/myproject
-
-go 1.17
-
-require (
-    github.com/gin-gonic/gin v1.7.0
-    github.com/go-redis/redis v8.0.0
-)
+$GOPATH/src/github.com/myuser/myproject/
+├── main.go
+├── vendor/              # 第三方依赖（连同仓库一起提交到 git）
+│   └── github.com/
+│       └── gin-gonic/gin/
+├── Gopkg.lock           # 依赖清单（类似 composer.lock）
+└── Gopkg.toml           # 依赖约束（类似 composer.json）
 ```
 
-`go.sum` 记录每个依赖的哈希，确保版本一致性。
+构建时 Go 优先读取 `vendor/` 里的代码，部署无需联网拉取——和 Composer `vendor/` 思路一致。
 
-### 5.3 关键差异
+### 5.3 dep：官方推荐的依赖管理工具
 
-| 维度 | Composer | go mod |
-|------|----------|--------|
-| 依赖目录 | vendor/ | 默认全局缓存（`$GOPATH/pkg/mod`） |
-| 版本管理 | composer.lock | go.sum |
-| 部署方式 | git clone + composer install | go build（依赖打入二进制） |
-| 多版本并存 | 通过 alias 或 docker | 同时支持，多 GOPATH 切换 |
+Go 1.9 之后，社区推出 [golang/dep](https://github.com/golang/dep)（2017 年中达到 GA）作为官方实验性的依赖管理工具：
+
+```toml
+# Gopkg.toml
+[[constraint]]
+  name = "github.com/gin-gonic/gin"
+  version = "1.7.0"
+
+[[constraint]]
+  name = "github.com/go-redis/redis"
+  version = "8.0.0"
+```
+
+```bash
+dep init                # 在已有项目中初始化 dep
+dep ensure              # 根据 Gopkg.toml 同步依赖到 vendor/
+dep ensure -update      # 升级到符合 constraint 的最新版
+```
+
+`dep ensure` 会读取 `Gopkg.toml` 的版本约束，把依赖下载到 `vendor/` 并生成 `Gopkg.lock`（类似 composer.lock），锁定每个依赖的具体版本和哈希。`vendor/` 由 dep 自动维护，可直接提交到 git。
+
+### 5.4 关键差异
+
+| 维度 | Composer | Go GOPATH + vendor |
+|------|----------|--------------------|
+| 依赖目录 | vendor/ | vendor/（由 dep 维护） |
+| 版本锁定 | composer.lock | Gopkg.lock |
+| 部署方式 | git clone + composer install | git clone（vendor 已提交）+ go build |
+| 多版本并存 | 通过 alias 或 docker | 多 GOPATH 切换 |
+| 编译产物 | PHP 源码 + 运行时 | 单一二进制（vendor 被打入） |
 
 Go 的最大优势：**编译出来的二进制就是完整的运行时**，不依赖系统库、不需要装运行时，部署极其简单。
+
+### 5.5 展望：go mod（Go 1.11+ 预览）
+
+Go 团队正在开发下一代依赖管理方案 `go mod`（Go 1.11 引入预览），届时项目可以放在 GOPATH 之外，`go.mod` 替代 `Gopkg.toml`，`go.sum` 替代 `Gopkg.lock`。不过该特性当前仍在实验阶段，本文以生产可用的 GOPATH + dep 为主。
 
 ## 六、工程化：从脚本到项目
 
@@ -549,3 +584,10 @@ for i := 0; i < 3; i++ {
 - [Effective Go](https://go.dev/doc/effective_go)
 - [Go by Example](https://gobyexample.com/)
 - [PHP 程序员如何学习 Go 语言](https://learnku.com/go/t/39201)
+
+## 更新记录
+
+- **2018-02**：本文首次发表，Go 1.10 时代（GOPATH + dep 为生产主流，`interface{}` 用于接受任意类型）。
+- **2019**：Go 1.13 完善 `errors.Is/As` 错误链判断，与本文 4.4 节配合使用。
+- **2020**：Go 1.14 大幅优化调度器，goroutine 切换开销显著降低。
+- **2022-03**：Go 1.18 引入 `any` 作为 `interface{}` 的别名，本文 2.3 节表格中"接受任意类型"一行可改写为 `any`，二者完全等价。
