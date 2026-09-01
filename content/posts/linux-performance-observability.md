@@ -383,8 +383,6 @@ $ ethtool -g eth0
 
 `rx_dropped` 涨通常意味着**网卡接收速度跟不上 CPU 处理速度**——可以通过多队列绑核、调大 `net.core.netdev_max_backlog` 缓解。
 
-## 八、命令速查表
-
 ## 八、实战：用脚本做 5 秒快速体检
 
 ```bash
@@ -436,19 +434,6 @@ dmesg --since="24 hours ago" | grep -iE "out of memory|killed process" | tail -5
 - 2019 年后 bpftrace 把很多原本 `strace` 才能做的追踪变成脚本化、低开销，对生产环境的"线上 debug"友好很多
 
 USE 方法本身没有过时，但工具栈在持续演进：当年（2016）的 `strace + perf` 组合，现在被 `bpftrace + eBPF + prometheus` 部分替代。掌握 USE 的思维框架（先资源后应用），再追新工具的细节，会轻松很多。
-
-## 十一、扩展：USE 之外的辅助方法
-
-- 2016-08 初稿（基于 Linux 4.4 内核，sysstat 11.x）
-- Linux 4.x 后续版本 eBPF 工具（`bcc`、`bpftrace`）成为更强大的观测手段，但 `vmstat`/`iostat` 仍是入门首选
-- 2018 年后 `perf` 成为 CPU profiling 的标配
-
-## 参考资料
-
-- Brendan Gregg, *Systems Performance*, Prentice Hall, 2013
-- [The USE Method](https://www.brendangregg.com/usemethod.html)
-- [Linux Performance Tools - Brendan Gregg](http://www.brendangregg.com/linuxperf.html)
-- `man` pages: `vmstat(8)`、`iostat(1)`、`mpstat(1)`、`pidstat(1)`、`top(1)`
 
 ## 十一、扩展：USE 之外的辅助方法
 
@@ -507,3 +492,10 @@ time_total:         0.380s
 Cary Millsap 提出的 Method R 核心思路：**把所有响应时间分解为时间块，按耗时排序找到最大的"罪魁"**。MySQL 的 `performance_schema`、PostgreSQL 的 `pg_stat_statements` 都提供类似数据。
 
 USE 看资源、RED 看服务、TSA 看单请求、Method R 看数据库——**不同方法关注不同层级，配合使用才能从"哪个资源慢了"问到"哪行代码慢了"**。
+
+## 参考资料
+
+- Brendan Gregg, *Systems Performance*, Prentice Hall, 2013
+- [The USE Method](https://www.brendangregg.com/usemethod.html)
+- [Linux Performance Tools - Brendan Gregg](http://www.brendangregg.com/linuxperf.html)
+- `man` pages: `vmstat(8)`、`iostat(1)`、`mpstat(1)`、`pidstat(1)`、`top(1)`

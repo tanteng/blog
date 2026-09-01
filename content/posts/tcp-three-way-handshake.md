@@ -207,18 +207,6 @@ cat /proc/net/netstat | grep -i tw
 
 ## 八、动手：观察一次连接的真实生命周期
 
-- 2015-03 初稿（基于 RFC 793 与 Linux 3.x 内核实现）
-- TLS 1.3（RFC 8446，2018）将握手简化到 1-RTT，QUIC（RFC 9000，2021）进一步把握手集成到传输层握手，本质上都是在三次握手的"信息冗余"上做减法——它们能这么做的前提是底层不再有"历史滞留 SYN"这一类问题
-
-## 参考资料
-
-- [RFC 793 - Transmission Control Protocol](https://datatracker.ietf.org/doc/html/rfc793)
-- [RFC 1323 - TCP Extensions for High Performance](https://datatracker.ietf.org/doc/html/rfc1323)
-- [《TCP/IP 详解 卷1》](https://www.ituring.com.cn/book/1194) — W. Richard Stevens
-- Linux man page: `tcp(7)`、`ip(7)`
-
-## 八、动手：观察一次连接的真实生命周期
-
 光看时序图不够直观。把下面这段 shell 在自己的机器上跑一遍，能亲眼看到三次握手、HTTP 往返、四次挥手的全流程。
 
 ```bash
@@ -251,3 +239,10 @@ $ sudo tcpdump -i lo -nn -S -tttt port 8080
 - 关闭顺序有点不对称：服务端先发 FIN，客户端回了 FIN+ACK——这是因为 `nc` 退出会触发本地半关闭
 
 如果想看 HTTP 完整过程，把命令换成 `curl -v http://127.0.0.1:8080/` 并在终端 A 跑一个简单的 HTTP 服务即可。`tcpdump` 的 `-S` 选项禁止相对序列号（输出原始 seq），`-tttt` 输出易读的绝对时间戳，这两个选项是排查 TCP 问题的标配。
+
+## 参考资料
+
+- [RFC 793 - Transmission Control Protocol](https://datatracker.ietf.org/doc/html/rfc793)
+- [RFC 1323 - TCP Extensions for High Performance](https://datatracker.ietf.org/doc/html/rfc1323)
+- [《TCP/IP 详解 卷1》](https://www.ituring.com.cn/book/1194) — W. Richard Stevens
+- Linux man page: `tcp(7)`、`ip(7)`
