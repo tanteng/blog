@@ -255,7 +255,7 @@ public class InventoryTcc implements TccAction {
 
 ## 五、Seata 实战
 
-Seata（Simple Extensible Autonomous Transaction Architecture）是 2019 年由阿里开源的分布式事务框架，2019-12 发布 1.0 GA，**Seata 1.5.0** 于 2021-07-06 GA。它整合了四种模式：
+Seata（Simple Extensible Autonomous Transaction Architecture）是 2019 年由阿里开源的分布式事务框架，2019-12 发布 1.0 GA，**Seata 1.5.0** 于 2022-05-17 GA。它整合了四种模式：
 
 ```mermaid
 graph TB

@@ -153,7 +153,7 @@ Prometheus 的核心设计哲学是**坚持 Pull 模型**，但工业界对 Push
 
 - **target 健康发现**：Prometheus 主动拉取，未被拉取到的 target 自然暴露为 `up == 0`，无需额外健康探测
 - **频率可控**：Prometheus 端统一配置 `scrape_interval`，不会因为某个应用写得太快就压垮 TSDB
-- **防火墙友好**：应用只需暴露 HTTP 出站端口，无需入站白名单——Kubernetes 环境下尤为关键
+- **防火墙友好**：运维只需放行 Prometheus→target 的出站访问，target 端无需对 Prometheus 配置入站白名单——Kubernetes 环境下尤为关键（注意 Prometheus 自身仍要监听 :9090、:9093 等入站端口供 API/Alertmanager 使用）
 
 **Pull 的局限：** 短生命周期任务（cron、batch job）来不及被抓取就退出。Prometheus 官方为此提供了 **Pushgateway**——但它只能算"补丁"，长期运行应用一旦用 Pushgateway，就失去 `up` 维度与 instance 归属。
 
@@ -332,7 +332,25 @@ Thanos 2018 年由 Improbable 开源，是 CNCF Incubating 项目（2020-08）�
 
 选型决策：**K8s 中小规模** → Thanos；**多租户 SaaS** → Mimir；**不想运维** → VictoriaMetrics；**极致写入量** → M3DB。
 
-无论选哪一种，都建议在 `prometheus.yml` 里开启 `--enable-feature=remote-write-receiver` 兼容项，以便日后切换或双写验证。长存储方案一旦上线，迁移成本极高，前期做好灰度验证。此外，Remote Write 链路本身也要纳入监控——记录每条样本的发送延迟、失败重试次数、对象存储写入吞吐量，避免出现"采集正常但远程写失败"的盲区。
+无论选哪一种，都建议开启 Remote Write 双写路径以便日后切换或灰度验证。需要区分两个角色：
+
+- **接收端（receiver）**：在 Prometheus 启动命令行加 `--enable-feature=remote-write-receiver`（这是一个**命令行参数**，不是 `prometheus.yml` 里的字段）
+- **发送端（sender）**：在 `prometheus.yml` 里配置 `remote_write` 块，例如：
+
+```yaml
+# prometheus.yml —— 发送端配置
+remote_write:
+  - url: http://thanos-receive:19291/api/v1/receive
+    basic_auth:
+      username: '<thanos-user>'
+      password_file: /etc/prometheus/remote-write.password
+    write_relabel_configs:
+      - source_labels: [__name__]
+        regex: 'go_.*|process_.*'
+        action: drop
+```
+
+长存储方案一旦上线，迁移成本极高，前期做好灰度验证。此外，Remote Write 链路本身也要纳入监控——记录每条样本的发送延迟、失败重试次数、对象存储写入吞吐量，避免出现"采集正常但远程写失败"的盲区。
 
 ## 六、生产落地清单
 
