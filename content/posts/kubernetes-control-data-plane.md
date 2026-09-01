@@ -271,7 +271,7 @@ graph LR
 - **containerd**：Docker 捐给 CNCF 的核心运行时，是 Kubernetes 1.20+ 的默认推荐
 - **CRI-O**：Red Hat 主导，专为 Kubernetes 设计的轻量级运行时
 
-注意 **Kubernetes 1.20 (2020-12) 已经宣布弃用 dockershim**，但 1.20 仍兼容 Docker，1.22 (2021) 才正式移除。这篇文章写于 2020 年中期，集群仍可正常使用 Docker。
+注意 dockershim 的弃用与移除走的是一条较长的路径：1.20 (2020-12) → 1.21 (2021-04) → 1.22 (2021-08) → 1.23 (2021-12) 连续四个版本都只是 deprecated，直到 **K8s 1.24 (2022-05) 才正式移除**。截至 2020-10-20 文章发布时，社区已通过 KEP-2221 提案、1.20 即将于 2020-12 发布正式公告 deprecated，集群仍可正常使用 Docker。
 
 ## 四、Pod 生命周期：从 kubectl apply 到 Running
 
@@ -418,7 +418,7 @@ livenessProbe:
   failureThreshold: 3
 ```
 
-启动探针（`startupProbe`）在 K8s 1.16 (2019-09) GA，1.18 (2020-03) 进一步成熟，专门用于解决"慢启动应用被 liveness 误杀"的问题。
+启动探针（`startupProbe`）历经三个版本才稳定：1.16 (2019-09) alpha → 1.18 (2020-03) beta → **1.20 (2020-12) GA**，专门用于解决"慢启动应用被 liveness 误杀"的问题。
 
 ## 七、小结
 
