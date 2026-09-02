@@ -78,7 +78,7 @@ flowchart TB
 | Context Precision | 检索到的 context 排序质量（相关块是否在前面） | rerank 效果 |
 | Context Recall | ground truth 涉及的事实是否被检索到 | 召回率 |
 
-RAGAS 的核心创新是 **reference-free**——前两项指标**不需要 ground truth 答案**，仅靠 LLM 自身就能评估。这点极大降低了评估门槛，详见 [Es et al. 2023 arXiv:2309.15217](https://arxiv.org/abs/2309.15217)。
+RAGAS 的核心创新是 **reference-free**——前两项指标**不需要 ground truth 答案**，仅靠 LLM 自身就能评估。这点极大降低了评估门槛，详见 [Es et al. EACL 2024 "RAGAS: Automated Evaluation of Retrieval Augmented Generation"](https://arxiv.org/abs/2309.15217)（arXiv 2023-09，EACL 2024 发表）。
 
 ### 1.4 端到端 A/B：唯一真实场景
 
@@ -176,7 +176,7 @@ LLM judge 不是完美的。已知的几种系统性偏差：
 
 ## 四、进阶：ARES 自动 prompt 选择
 
-[RAGAS 适合单次评估](https://arxiv.org/abs/2309.15217)，但如果你想**自动选择最好的 RAG 配置**（chunk size、embedding 模型、rerank 权重），可以用 [Saad-Falcon et al. 2024 "ARES"](https://aclanthology.org/2024.acl-long.624/)。
+[RAGAS（Es et al. EACL 2024）](https://arxiv.org/abs/2309.15217) 适合单次评估，但如果你想**自动选择最好的 RAG 配置**（chunk size、embedding 模型、rerank 权重），可以用 [Saad-Falcon et al. ACL 2024 "ARES"](https://aclanthology.org/2024.acl-long.624/)。
 
 ARES 的核心创新是**用少量人工标注样本 + 自合成数据，训练一个针对你领域的 LM judge**：
 

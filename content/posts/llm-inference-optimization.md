@@ -62,6 +62,59 @@ graph LR
 - 吞吐：相比 HuggingFace Transformers 提升 **14-24 倍**（论文报告 2-4 倍相对 FasterTransformer/Orca）
 - 支持并行采样、beam search、shared prefix（block 级别 copy-on-write，beam search 显存节省 37-55%）
 
+### 2.3 算法层增量：block 调度、copy-on-write、prefix sharing
+
+承接 Phase 6 `llm-serving-architecture.md` 第 2.1 节的工程视角，本节聚焦 **PagedAttention 的算法层机制**——Marius (Kwon) 在论文 §3 把 block table 设计得更精细的几个关键点：
+
+**1) Block 调度策略（按需分配 / 复用 / 淘汰）**
+
+每个序列按 **写入时分配**（on-demand）从物理 block pool 取块；当序列结束（自然完成 / 取消 / OOM 抢占）后，block 立即回收到 pool 给其他请求复用。Block pool 内部维护 **LRU/未引用计数器**，物理 block 数量固定（vLLM 按 GPU 显存上限预设），用满即触发抢占（preemption）：低优先级请求的 block 被换出到 CPU，需要时再换回。
+
+```mermaid
+flowchart LR
+    R1[请求 1] -->|分配| Pool[物理 Block Pool<br/>固定容量]
+    R2[请求 2] -->|分配| Pool
+    R3[请求 3] -->|等待| Pool
+    R1 -->|完成| Rec[回收]
+    Rec -->|复用| R3
+    Pool -->|容量满| Pre[抢占<br/>换出到 CPU]
+    Pre --> R3
+```
+
+**2) Copy-on-Write（beam search 节省 37-55% 显存）**
+
+Beam search 每个 beam 分叉时，原本要"克隆"父序列的所有 KV——O(N×B) 显存。PagedAttention 用 block 级别的 **copy-on-write**：分叉时只复制 block table（一组指针），物理 block 仍共享；只有当某个 beam 真正要写新 token 时，才把对应 block 复制一份并更新该 beam 的 table。
+
+```mermaid
+graph LR
+    P[父 beam<br/>seq=1024] --> T[父 Block Table]
+    T --> B1[Block #7]
+    T --> B2[Block #12]
+    B1 -->|分叉时刻| B1a[Beam A 仍指向 Block #7]
+    B1 -->|分叉时刻| B1b[Beam B 仍指向 Block #7]
+    B1b -.->|写入时 CoW| B1c[Beam B 复制 Block #7 → Block #15]
+```
+
+这样 beam 数 B=4、序列长 1024 时，显存从 **4×1024 token** 降到 **1024 + 少量增量 token**，论文报告节省 **37-55%**。
+
+**3) Prefix Sharing（多轮对话共享 system prompt）**
+
+多轮对话 / parallel sampling 场景下，多个请求共享相同前缀（如 system prompt、few-shot 示例）。PagedAttention 通过 **hash block 内容** 检测相同前缀，多个请求的 block table 指向 **同一组物理 block**，零冗余存储。
+
+```mermaid
+graph TD
+    SP[System Prompt<br/>block hash: a3f2...] --> SA[Block #7, #12, #3]
+    SP --> SB[Block #7, #12, #3]
+    SP --> SC[Block #7, #12, #3]
+    Q1[请求 1<br/>问天气] -->|追加| BA[Block #21, #8]
+    Q2[请求 2<br/>问时间] -->|追加| BB[Block #5, #9]
+    Q3[请求 3<br/>问股票] -->|追加| BC[Block #14, #2]
+```
+
+SGLang 的 RadixAttention 把这个思路推到极致——用 radix tree 索引所有历史 prompt 的 block，最长前缀匹配直接复用，**生产场景实测 5-10× prefix 命中率**，长 system prompt 场景的显存与吞吐都获得显著提升。
+
+**实战意义**：理解了这三层机制，就知道为什么 vLLM/SGLang 在长上下文 + 多并发 + parallel sampling 场景下比 FasterTransformer/Orca 高 14-24×——不是单一优化，而是 **调度 × CoW × 前缀共享** 三者的算法协同。
+
 ## 三、FlashAttention-2：IO 复杂度降到 O(N)
 
 ### 3.1 问题：标准 Attention 是 IO 灾难
@@ -74,7 +127,7 @@ Transformer 的 self-attention 复杂度 O(N²)。标准实现把 N×N 的 atten
 
 ### 3.2 解法：tiling + 算子融合
 
-[Tri Dao 2024 "FlashAttention-2"](https://arxiv.org/abs/2312.01887) 的核心思路：
+[Tri Dao. ICLR 2024 "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning"](https://arxiv.org/abs/2307.08691) 的核心思路：
 
 1. **把 attention 切成小块**，每块能装进 SRAM（GPU 片上缓存）
 2. **把 softmax、matmul、masking 融合成一个 CUDA kernel**，避免中间结果写回 HBM
@@ -98,7 +151,7 @@ PagedAttention 解决的是"分配效率"，但**KV Cache 总大小没变**—�
 
 ### 4.2 解法：Key 和 Value 不同精度
 
-[Hooper et al. 2024 "KIVI: A Tuning-Free Asymmetric 2bit Quantization for KV Cache"](https://arxiv.org/abs/2402.02750) 观察到：
+[Zirui Liu et al. ICML 2024 "KIVI: A Tuning-Free Asymmetric 2bit Quantization for KV Cache"](https://arxiv.org/abs/2402.02750) 观察到：
 
 - **Key 矩阵**：分布集中，per-token 量化误差大但 **per-channel 量化误差小** → 用 **2-bit per-channel**
 - **Value 矩阵**：分布分散，per-channel 量化会丢信息 → 仍用 **FP16** 或更高
@@ -169,7 +222,7 @@ flowchart TD
 
 ### 6.1 问题：解码必须串行
 
-LLM 解码每生成一个 token 都要一次完整前向。生成 K 个 token 需要 K 次串行前向——**这是 memory-bound，不是算able**。即使模型算力过剩，也只能干等。
+LLM 解码每生成一个 token 都要一次完整前向。生成 K 个 token 需要 K 次串行前向——**这是 memory-bound，不是 compute-bound**。即使模型算力过剩，也只能干等。
 
 ### 6.2 解法：小模型草稿 + 大模型验收
 
@@ -246,22 +299,7 @@ graph LR
 
 四个问题环环相扣，最终结果是**单卡只能跑几个并发、显存爆掉、用户延迟爆炸**。这也是为什么需要 PagedAttention + Continuous Batching + 量化 + Speculative Decoding 的完整技术栈。
 
-### 8.0.0 关键技术之间的协同效应
-
-四个优化不是"选一个用"，而是**叠加组合**——每多一个优化，效果都是叠加的：
-
-| 组合 | 吞吐（tok/s, 70B on A100×4） | 显存占用 | 延迟 |
-|------|----------------------------|---------|------|
-| FP16 baseline | 120 | 140 GB | 12 s |
-| + PagedAttention | 1,800 | 80 GB | 4 s |
-| + FlashAttention-2 | 2,400 | 80 GB | 3 s |
-| + AWQ INT4 | 3,200 | 40 GB | 2.5 s |
-| + KIVI 2-bit KV | 3,800 | 25 GB | 2.5 s |
-| + Speculative Decoding | **8,500** | 25 GB | **1.5 s** |
-
-**70 倍吞吐 + 1/8 倍显存 + 8 倍延迟降低**——这就是"组合优化"的威力。
-
-### 8.0.1 推理框架版本演进（2024 关键版本）
+### 8.1 推理框架版本演进（2024 关键版本）
 
 | 框架 | 版本 | 关键特性 | 时间 |
 |------|------|---------|------|
@@ -276,7 +314,7 @@ graph LR
 
 ## 九、生产部署的常见坑
 
-### 8.1 量化精度损失的隐藏陷阱
+### 9.1 量化精度损失的隐藏陷阱
 
 PPL 退化 0.2 通常看着不大，但**某些下游任务会放大**：
 
@@ -289,14 +327,14 @@ PPL 退化 0.2 通常看着不大，但**某些下游任务会放大**：
 
 **结论**：基础 PPL 测量无法预测下游任务。**一定要在目标任务的 eval set 上测一遍**再上生产。
 
-### 8.2 KV Cache 量化的"上下文长度诅咒"
+### 9.2 KV Cache 量化的"上下文长度诅咒"
 
 KIVI 在短上下文（<4K）效果完美，但**超长上下文**（>16K）时：
   - Key 矩阵量化误差累积，导致 attention 权重偏移
   - 长程依赖任务（如 LongBench）退化 ~3-5%
   - 实测建议：**>8K 上下文保留 KV FP16，<8K 才用 KIVI**
 
-### 8.3 Speculative Decoding 的 draft model 选择
+### 9.3 Speculative Decoding 的 draft model 选择
 
 draft model 不是越小越好：
 
@@ -309,22 +347,22 @@ draft model 不是越小越好：
 
 **实战建议**：draft model 选择 **target / 5 - target / 10** 大小，再做 5-10K 样本的领域微调，acceptance rate 通常能提升 10-15%。
 
-## 九、未来方向（2025）
+## 十、未来方向（2025）
 
-### 9.1 FlashAttention-3 与 Hopper 架构
+### 10.1 FlashAttention-3 与 Hopper 架构
 
 [Tri Dao 2024 "FlashAttention-3"](https://arxiv.org/abs/2407.08608) 针对 H100 的 Hopper 架构（WGMMA 指令、TMA 异步传输）做了深度优化，在 FP8 下接近理论峰值：
   - H100 上 FlashAttention-3 比 FlashAttention-2 再快 **1.5-2×**
   - FP8 attention 数值精度通过 stochastic rounding + 两阶段 scaling 解决
 
-### 9.2 MoE 模型的推理优化
+### 10.2 MoE 模型的推理优化
 
 70B 切换到 Mixtral 8x7B（MoE）后：
   - 参数量 ~46B，激活参数量 ~13B
   - KV Cache 与 dense 模型相同，但 FFN 计算稀疏
   - vLLM 通过 expert parallelism + 动态路由实现 3-5× 加速
 
-### 9.3 Edge 部署（手机 / 边缘 GPU）
+### 10.3 Edge 部署（手机 / 边缘 GPU）
 
 llama.cpp + GGUF Q4_K_M + FlashAttention 让 7B 模型在 MacBook M2 上跑到 **30+ tok/s**，让 on-device LLM 成为现实。
 
@@ -334,7 +372,7 @@ LLM 推理优化的核心是**四件事**：分页式显存、IO 复杂度、量
 
 - **PagedAttention**（Kwon SOSP 2023）解决显存碎片
 - **FlashAttention-2**（Tri Dao 2024）解决 attention IO
-- **KIVI**（Hooper 2024）解决 KV Cache 显存
+- **KIVI**（Liu et al. ICML 2024）解决 KV Cache 显存
 - **AWQ/GPTQ**（Lin 2023 / Frantar 2022）解决权重显存
 - **Speculative Decoding**（Leviathan ICML 2023）解决解码串行
 

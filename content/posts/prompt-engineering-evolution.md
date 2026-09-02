@@ -5,7 +5,7 @@ draft: false
 url: /2025/05/prompt-engineering-evolution/
 tags: ['prompt-engineering', 'llm', 'agent', 'ai']
 categories: ['tech']
-description: "Prompt Engineering 范式演进史：Zero-shot → Few-shot → Chain-of-Thought → ReAct → Reflexion → Tree of Thoughts → DSPy。从手工调 prompt 到自动优化 prompt 的工程化路径。"
+description: "Prompt Engineering 范式演进史：Zero-shot → Few-shot → Chain-of-Thought → ReAct → Reflexion → Tree of Thoughts → DSPy。从手工 prompt 到自动优化的工程化路径。"
 ---
 
 > 2022 年 LLM 刚出时，"会写 prompt"还是简历上的加分项；到 2025 年，"手写 prompt 调优"已经是低效的代名词——DSPy、Reflexion、ReAct 把 prompt 从"手艺"变成"工程"。但**演进不是替代，而是叠加**：CoT 仍在用、ReAct 仍是 Agent 基础，只是被更上层范式包裹。
@@ -428,8 +428,6 @@ flowchart TD
     Opt -->|是| DSPy[DSPy 包装]
     Opt -->|否| Manual[手工 prompt]
 ```
-
-### 9.1 推理成本与质量
 
 ### 9.1 推理成本与质量
 

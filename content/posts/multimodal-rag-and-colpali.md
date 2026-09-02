@@ -5,7 +5,7 @@ draft: false
 url: /2025/07/multimodal-rag-and-colpali/
 tags: ['multimodal', 'vlm', 'rag', 'ai']
 categories: ['tech']
-description: "多模态 RAG 检索架构革命：ColPali/ColQwen 直接用 VLM 对 PDF 页面 patch embedding，跳过 OCR + layout + chunking 传统管线。ViDoRe benchmark + late interaction + 实战索引构建。"
+description: "多模态 RAG 检索架构革命：ColPali/ColQwen 直接用 VLM 对 PDF 页面 patch embedding，跳过 OCR + layout + chunking 传统管线。ViDoRe benchmark、late interaction、实战索引构建。"
 ---
 
 > 2023 年我们做合同 RAG，要先 OCR 提取文本，再做 layout 分析识别表格，再用 PyMuPDF 切 chunk，最后 embedding 入库。整条管线 6 个组件，每个都可能丢信息——表格合并了、数字 OCR 错了、扫描件直接卡死。**到 2024 年 ColPali 出现，这条管线被彻底推翻**：把 PDF 当图片扔给 VLM，模型同时理解文字、表格、图表、手写体，**直接出 patch embedding**。
@@ -50,7 +50,7 @@ flowchart LR
 
 ### 2.1 核心思想：把 PDF 当图片
 
-[Faysse et al. 2024 "ColPali: Efficient Document Retrieval with Vision Language Models"](https://arxiv.org/abs/2407.01449) 提出了一个大胆的想法：**让 VLM 直接处理 PDF 页面截图，输出 patch embedding 供检索**。
+[Faysse et al. ICLR 2025 "ColPali: Efficient Document Retrieval with Vision Language Models"](https://arxiv.org/abs/2407.01449)（arXiv 2024-06，ICLR 2025 发表）提出了一个大胆的想法：**让 VLM 直接处理 PDF 页面截图，输出 patch embedding 供检索**。
 
 ```mermaid
 flowchart LR
@@ -368,7 +368,7 @@ def hybrid_retrieve(query, k=10):
 
 ## 八、性能优化：生产部署的关键决策
 
-### 8.0 部署架构概览
+### 8.1 部署架构概览
 
 完整的多模态 RAG 系统由四个模块组成：
 
@@ -387,9 +387,7 @@ graph LR
 
 每个模块都可以独立扩展和优化。
 
-### 8.1 索引存储压缩
-
-### 8.1 索引存储压缩
+### 8.2 索引存储压缩
 
 每个 patch 128 维向量 FP16 是 256 bytes。10k 页 PDF 索引 ~8-12 GB 是合理的。优化方向：
 
@@ -402,7 +400,7 @@ graph LR
 
 **实战推荐**：先用 INT8 patch embedding，能在不显著损失质量的前提下减半存储。
 
-### 8.2 检索速度优化
+### 8.3 检索速度优化
 
 Late Interaction 在 10K pages 上的检索延迟：
 
@@ -426,7 +424,7 @@ def fast_retrieval(query, top_k=10):
 
 **延迟分解**：粗筛 5ms + late interaction 100ms + GPT-4o 生成 1.5s = 总延迟 ~1.6s。
 
-### 8.3 增量更新
+### 8.4 增量更新
 
 实际场景中 PDF 经常更新。增量索引策略：
 
