@@ -105,7 +105,7 @@ Envoy 通过长连接 + 增量更新（delta xDS）拿到变更。配置生效�
 |------|------|--------|-------|
 | 插件语言 | Lua（主），JS/Go（Plugin Server） | Lua（主），Go（Plugin Server） | C++（主），Wasm（1.11 起 alpha） |
 | 官方插件数 | ~80+ | ~70+ | ~50+ 原生 filter |
-| 热加载插件 | ✅ Admin API 启用/禁用 | ✅ Admin API 启用/禁用 | ⚠️ Wasm 插件 1.11 起 alpha |
+| 热加载插件 | Admin API 启用/禁用 | Admin API 启用/禁用 | Wasm 插件 1.11 起 alpha |
 | 自定义插件 | Lua + PDK（`kong.request`、`kong.response` 等命名空间） | Lua + APISIX 私有 API | C++ filter（重）或 Wasm（轻） |
 | 学习曲线 | Lua + OpenResty 哲学 | Lua + APISIX 私有 API + Nginx | C++ Envoy ABI 或 Wasm 工具链 |
 

@@ -121,13 +121,13 @@ graph TB
 
 | 场景 | Istio | Linkerd 2 |
 |------|-------|-----------|
-| HTTP/gRPC 流量管理（金丝雀、A/B、镜像） | ✅ 完整 | ✅ 完整 |
-| TCP/MySQL/Redis 协议级路由 | ✅ EnvoyFilter 可调 | ❌ 只走 L4 |
-| Wasm 插件热加载 | ✅ 1.11 起 WasmPlugin alpha | ❌ |
-| 多协议（Thrift/Dubbo） | ✅ | ❌ |
-| AuthorizationPolicy（细粒度 RBAC） | ✅ L4+L7 | ✅ L4 起步 |
-| 多集群网格（东西向） | ✅ | ⚠️ 2.10+ 引入实验性 |
-| 可视化（Kiali / dashboard） | ✅ Kiali | ✅ dashboard + viz |
+| HTTP/gRPC 流量管理（金丝雀、A/B、镜像） | 完整 | 完整 |
+| TCP/MySQL/Redis 协议级路由 | EnvoyFilter 可调 | 只走 L4 |
+| Wasm 插件热加载 | 1.11 起 WasmPlugin alpha | 不支持 |
+| 多协议（Thrift/Dubbo） | 支持 | 不支持 |
+| AuthorizationPolicy（细粒度 RBAC） | L4+L7 | L4 起步 |
+| 多集群网格（东西向） | 支持 | 2.10+ 引入实验性 |
+| 可视化（Kiali / dashboard） | Kiali | dashboard + viz |
 
 **性能不是唯一指标**。当我们梳理出 30+ 个微服务里有 8 个是 Thrift、3 个是自定义 TCP 协议时，Linkerd 直接出局 —— 它根本看不到这些流量的内容，谈不上治理。
 

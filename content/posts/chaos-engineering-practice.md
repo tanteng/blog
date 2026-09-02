@@ -193,10 +193,10 @@ ChaosBlade 的实验维度约 200+ 种、参数 3000+。典型场景：
 
 | 维度 | Chaos Mesh | ChaosBlade | LitmusChaos |
 |------|------------|------------|-------------|
-| K8s 支持 | ★★★★★ 原生设计 | ★★★ 有 Operator | ★★★★★ 原生设计 |
-| 多语言应用层故障 | ★★ 弱（仅 JVM） | ★★★★★ Java/C++/Node/Go | ★★ 弱 |
-| 实验编排 | ★★★★★ Workflow/Schedule | ★★★ Box 工作流 | ★★★ 实验模板 |
-| Dashboard | ★★★★★ Chaos Dashboard | ★★★★ Box UI | ★★★ Litmus UI |
+| K8s 支持 | 5/5 原生设计 | 3/5 有 Operator | 5/5 原生设计 |
+| 多语言应用层故障 | 2/5 弱（仅 JVM） | 5/5 Java/C++/Node/Go | 2/5 弱 |
+| 实验编排 | 5/5 Workflow/Schedule | 3/5 Box 工作流 | 3/5 实验模板 |
+| Dashboard | 5/5 Chaos Dashboard | 4/5 Box UI | 3/5 Litmus UI |
 | CNCF 状态 | Incubating（2022） | Sandbox（2021） | Incubating（2022） |
 | 学习曲线 | 中（CRD + YAML） | 中（CLI + YAML） | 中（CRD + 实验模板） |
 | 社区活跃度 | 高（PingCAP 主推） | 高（阿里 + 40+ 企业） | 高（MayaData 主导） |
