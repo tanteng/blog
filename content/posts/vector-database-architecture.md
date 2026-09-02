@@ -85,6 +85,8 @@ sequenceDiagram
 - **WAL 解耦**：增量数据先写日志流（保证不丢），再异步落盘
 - **冷热分层**：热数据（growing + 最近 sealed）放内存/SSD，冷数据（老 sealed）放对象存储
 
+**四层职责细节补充**：Proxy 节点无状态、可以独立扩缩，理论上无限水平扩展；Coordinator 是有状态服务，运行在不同角色（Root/Query/Data/Index）上，**至少 3 副本做 Raft 共识**才能保证 TSO 与 DDL 的一致性；Worker 节点分 Query Node（常驻，加载 sealed segment 跑搜索）和 Data Node（处理写入、flush、compact），各自分别 HPA 伸缩；Object Storage 只存不可变 sealed segment 文件（元数据在 etcd），通过 mmap / page cache 加载到 Query Node，存储与计算完全解耦 —— 这就是 Milvus 能"无限扩"的根本原因。
+
 ### 2.3 索引与过滤
 
 Milvus 支持的索引：

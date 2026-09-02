@@ -103,7 +103,12 @@ graph TB
 
 ```python
 from vllm import LLM, SamplingParams
-from vllm.entrypoints.openai.api_server import serve
+
+# OpenAI 兼容服务推荐用 CLI 启动（v0.5+ 标准用法）:
+#   vllm serve meta-llama/Llama-3-70B-Instruct \
+#     --tensor-parallel-size 4 \
+#     --max-model-len 8192 \
+#     --enable-prefix-caching
 
 llm = LLM(
     model="meta-llama/Llama-3-70B-Instruct",

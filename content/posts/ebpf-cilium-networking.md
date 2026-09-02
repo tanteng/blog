@@ -39,6 +39,8 @@ graph LR
 4. 挂载到指定 hook 点（XDP、tc、kprobe、tracepoint 等）
 5. 事件触发时执行，通过 **ring buffer / perf event** 回传数据
 
+**安全保证与卸载机制**：Verifier 在加载阶段完成路径可达性、栈深度（≤512 字节）、map 访问越界、循环边界等检查 —— 不通过则直接拒绝加载（"fail closed"）。运行时通过 **BPF_PROG_ATTACH / DETACH** 显式控制挂载与卸载，旧程序引用计数归零后才真正释放；Map 由内核 **pin** 到 `/sys/fs/bpf/` 持久化，进程退出后仍可被其他程序复用。Tail call、kfunc、ring buffer 等新能力（5.x 后）受 **CAP_BPF / CAP_SYS_ADMIN** 细粒度权限控制，非 root 用户也能加载只读观测型程序。这些机制共同保证：eBPF 程序既能热加载，又能保证内核稳定不 panic。
+
 ### 1.2 关键 hook 点
 
 | Hook 点 | 触发时机 | 典型用途 |
@@ -102,8 +104,8 @@ Cilium 用两张 eBPF Map 做"服务-后端"映射：
 | 版本 | 关键里程碑 |
 |------|-----------|
 | 1.10 (2022) | kube-proxy 替换 beta |
-| **1.13 (2023-06)** | **kube-proxy 替换 GA**；socket-level LB 仍 beta |
-| **1.14 (2023-10)** | **socket-level 加速 GA**；Socket LB 绕过 host stack，性能再提升 10-30% |
+| **1.13 (2023-02-15)** | **kube-proxy 替换 GA**；socket-level LB 仍 beta |
+| **1.14 (2023-07-25)** | **socket-level 加速 GA**；Socket LB 绕过 host stack，性能再提升 10-30% |
 | 1.15 (2024-03) | 网络可观测性增强；egress gateway 改进 |
 | 1.16 (2024-08) | Egress Gateway GA；Cilium Service Mesh 成熟 |
 
@@ -243,7 +245,7 @@ helm install cilium cilium/cilium --version 1.16.1 \
 - `bpf.masquerade=true`：SNAT 走 eBPF
 - `hubble.enabled=true` + `hubble.relay.enabled=true`：开启可观测性
 
-### 5.2 替代 kube-proxy
+### 5.3 替代 kube-proxy
 
 ```bash
 # 1. 备份 kube-proxy 配置
@@ -260,7 +262,7 @@ kubectl -n kube-system exec -it <kube-proxy-pod> -- iptables-save | \
 helm install cilium cilium/cilium ... --set kubeProxyReplacement=true
 ```
 
-### 5.3 L7 策略示例
+### 5.4 L7 策略示例
 
 ```yaml
 apiVersion: cilium.io/v2
