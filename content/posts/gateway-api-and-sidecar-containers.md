@@ -174,7 +174,7 @@ spec:
 
 | Gateway API 实现 | 维护方 | 特点 |
 |-----------------|--------|------|
-| **Envoy Gateway** | Envoy 社区 + Tetrate | Envoy 内核，生产最成熟，**1.0 (2024-04) GA** |
+| **Envoy Gateway** | Envoy 社区 + Tetrate | Envoy 内核，生产最成熟，**1.0 (2024-03) GA** |
 | Istio | Istio 社区 | Mesh + Ingress 统一 |
 | NGINX Gateway Fabric | NGINX | 基于 NGINX 数据面 |
 | Cilium Gateway API | Isovalent/Cisco | 与 eBPF 集成 |
@@ -183,7 +183,7 @@ spec:
 | Contour | VMware/Heptio | Envoy 内核，老牌实现 |
 | Traefik | Traefik Labs | 轻量、配置友好 |
 
-**Envoy Gateway 1.0（2024-04-22 GA）**是 2024 年事实标准：完整 Gateway API conformance、90+ 贡献者、内置 Rate Limiting / OAuth 2.0 / ClientTrafficPolicy / BackendTrafficPolicy / SecurityPolicy。
+**Envoy Gateway 1.0（2024-03-13 GA）**是 2024 年事实标准：完整 Gateway API conformance、90+ 贡献者、内置 Rate Limiting / OAuth 2.0 / ClientTrafficPolicy / BackendTrafficPolicy / SecurityPolicy。
 
 ## 三、Native Sidecar Containers：1.28 beta → 1.29 GA
 
@@ -368,7 +368,7 @@ K8s 1.28 升 1.29+ 启用 native sidecar 后，需要确认：
 
 1. **GatewayClass 未注册就创 Gateway**：`kubectl get gatewayclass` 看不到 `envoy-gateway` 时，先装 controller（不是 controller 自己创建，是 Helm chart 装的）。常见错误是只装了 CRD 没装 controller
 2. **HTTPRoute `parentRefs` 跨 namespace 没授权**：Gateway 在 `gateway-system` 命名空间，HTTPRoute 在业务命名空间，需要先建 `ReferenceGrant` 显式授权，否则 HTTPRoute 一直 Pending
-3. **Gateway API 字段版本不匹配**：v1（GA）和 v1beta1（beta）字段不同，HTTPRoute 升级 v1beta1 → v1 要改 `apiVersion`，部分字段有变化（如 `matches[].path.type` 从 `Prefix` → `PathPrefix`、`filters[].type` 从 `RequestMirror` → `RequestMirror`，且部分字段强制 Required）
+3. **Gateway API 字段版本不匹配**：v1（GA）和 v1beta1（beta）字段不同，HTTPRoute 升级 v1beta1 → v1 要改 `apiVersion`，部分字段有变化（如 `matches[].path.type` 从 `Prefix` → `PathPrefix`；`filters[].requestMirror.backendRef.name` 由可选变 Required；新增 `URLRewrite.path.replacePrefixMatch` 必须显式指定 type）
 4. **Sidecar `restartPolicy: Always` 写到 containers** 错：必须写到 initContainers，否则就是普通容器，K8s 1.28 之前报 schema 错，1.28+ 是合法但不再是 sidecar
 5. **Mesh 1.20 之前用 native sidecar**：Istio < 1.20 注入器识别不了 `restartPolicy: Always`，可能部署后 sidecar 不启动；升级 Istio 前先看 release notes
 6. **Pod terminationGracePeriodSeconds 太小**：native sidecar 优雅关闭可能要 5-10s，30s 默认够，5s 容易触发 SIGKILL，in-flight 请求丢失
