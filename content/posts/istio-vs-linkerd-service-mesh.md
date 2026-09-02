@@ -220,7 +220,7 @@ Istio 与 Linkerd 2 的差异，本质是"通用 L7 代理"与"专用 mesh 代�
 - **Istio**：把 Envoy 这个"瑞士军刀"塞进每个 Pod，换来协议全覆盖和扩展能力，代价是 6-8x 的内存和 3-8x 的 CPU
 - **Linkerd**：用 Rust 写一个"只为切菜"的刀，每个 Pod 省 100+ MB，代价是不支持非 HTTP 协议
 
-我们的 200+ Pod 电商中台最终选了 Istio —— 因为业务里有 11 个 Thrift 服务，Linkerd 看不到它们的请求方法。但如果是纯 Web 业务、追求资源效率，Linkerd 2 是更轻松的选择。
+我们的 200+ Pod 电商中台最终选了 Istio —— 因为业务里有 8 个 Thrift + 3 个自定义 TCP 共 11 个非 HTTP 服务，Linkerd 看不到这些流量的内容，谈不上治理。但如果是纯 Web 业务、追求资源效率，Linkerd 2 是更轻松的选择。
 
 参考：
 
