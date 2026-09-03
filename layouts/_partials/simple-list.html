@@ -1,11 +1,17 @@
 {{/* simple-list.html — minimal article list
    ctx: .pages — array of pages to render
    shows: chinese category title (linked, left color bar) + date + post title (linked)
-   Each row is a flex container with two separate anchors — one for category, one for the article —
-   so clicking the category actually navigates to the category page.
+   Each row has two anchors — one for category, one for the whole title link (date + title text
+   inside) — so clicking either the cat or the date/title navigates as expected.
 
-   Mobile (< 30em): stacked layout — category chip → date → title (each on its own line, tighter padding)
-   Desktop (≥ 30em): single row — category | date | title (flex-baseline)
+   布局（桌面端 ≥ 30em）：
+     [cat (flex 0 0 4em，与 .posts-taxonomy-label 列宽一致)]
+     [title-link (flex 1，左边缘与 taxonomy items 左边缘对齐，都在 x = 4em)
+       → [date (inline)] [title-text (flex 1，truncate)]]
+   把日期内联进标题链接，是为了让标题链接左边缘 = 4em，与 taxonomy items 视觉对齐。
+   若日期仍在标题之前单独占一列，标题会被推得偏右，与上方的 taxonomy items 错位。
+
+   Mobile (< 30em): cat on first line, date + title text on second line
 */}}
 {{ $pages := .pages }}
 <div class="simple-list mw7 center ph2 ph3-l">
@@ -14,66 +20,28 @@
       {{ with .Params.categories }}
         {{ $cat := index . 0 }}
         {{ with site.GetPage (printf "/categories/%s" $cat) }}
-          <a href="{{ .RelPermalink }}" class="simple-list-cat dib mr3 nowrap link" style="border-left: 3px solid currentColor; padding-left: 8px;">
+          <a href="{{ .RelPermalink }}" class="simple-list-cat nowrap link" style="border-left: 3px solid currentColor; padding-left: 8px;">
             {{ .Title }}
           </a>
         {{ end }}
       {{ end }}
-      {{ if not .Date.IsZero }}
-        <time class="simple-list-date f7 gray mv0 mr3 nowrap" {{ fmt.Printf `datetime="%s"` (.Date.Format "2006-01-02T15:04:05Z07:00") | safe.HTMLAttr }}>
-          {{- .Date.Format "2006-01-02" -}}
-        </time>
-      {{ end }}
-      <a href="{{ .RelPermalink }}" class="simple-list-title f5 fw5 black mv0 truncate link">
-        {{ .Title }}
+      <a href="{{ .RelPermalink }}" class="simple-list-title f5 fw5 black mv0 link">
+        {{ if not .Date.IsZero }}
+          <time class="simple-list-date f7 gray mr3" {{ fmt.Printf `datetime="%s"` (.Date.Format "2006-01-02T15:04:05Z07:00") | safe.HTMLAttr }}>
+            {{- .Date.Format "2006-01-02" -}}
+          </time>
+        {{ end }}
+        <span class="simple-list-title-text">{{ .Title }}</span>
       </a>
     </div>
   {{ end }}
 </div>
 
 <style>
-  /* Mobile: stacked layout — date above title, tighter padding */
-  @media (max-width: 30em) {
-    .simple-list-row {
-      display: block;
-      padding-top: 0.6rem;
-      padding-bottom: 0.6rem;
-    }
-    .simple-list-cat,
-    .simple-list-date {
-      display: inline-block;
-      margin-bottom: 0.2rem;
-    }
-    .simple-list-cat {
-      font-size: 0.8rem;
-      margin-right: 0.5rem;
-    }
-    .simple-list-date {
-      margin-right: 0;
-    }
-    .simple-list-title {
-      display: block;
-      font-size: 1.05rem;
-      line-height: 1.35;
-      margin-top: 0.15rem;
-    }
-  }
-
-  /* Desktop and up: flex-baseline row */
-  @media (min-width: 30em) {
-    .simple-list-row {
-      display: flex;
-      align-items: baseline;
-    }
-  }
-
+  /* Base */
   .simple-list-row {
     color: inherit;
     transition: background-color 0.15s ease;
-  }
-  .simple-list-row:hover .simple-list-title {
-    color: #1a1a1a;
-    font-weight: 600;
   }
   .simple-list-cat {
     color: #666;
@@ -85,5 +53,58 @@
   }
   .simple-list-title {
     color: #222;
+  }
+  .simple-list-row:hover .simple-list-title-text {
+    color: #1a1a1a;
+    font-weight: 600;
+  }
+
+  /* Mobile: cat on first line, date+title text on second line */
+  @media (max-width: 30em) {
+    .simple-list-row {
+      display: block;
+      padding-top: 0.6rem;
+      padding-bottom: 0.6rem;
+    }
+    .simple-list-cat {
+      display: inline-block;
+      font-size: 0.8rem;
+      margin-right: 0.5rem;
+      margin-bottom: 0.2rem;
+    }
+    .simple-list-title {
+      display: block;
+      font-size: 1.05rem;
+      line-height: 1.35;
+      margin-top: 0.15rem;
+    }
+  }
+
+  /* Desktop: cat 固定 4em 列（与 .posts-taxonomy-label 同宽），title-link flex 1，
+     左边缘 = 4em = taxonomy items 左边缘 → 标题与 taxonomy items 视觉对齐 */
+  @media (min-width: 30em) {
+    .simple-list-row {
+      display: flex;
+      align-items: baseline;
+    }
+    .simple-list-cat {
+      flex: 0 0 4em;
+    }
+    .simple-list-title {
+      flex: 1 1 0%;
+      min-width: 0;
+      display: flex;
+      align-items: baseline;
+    }
+    .simple-list-date {
+      flex: 0 0 auto;
+    }
+    .simple-list-title-text {
+      flex: 1 1 0%;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 </style>

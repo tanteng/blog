@@ -1,6 +1,9 @@
 {{ define "main" }}
   <article class="cf pa2 pa4-m pa4-l">
     {{ $pages := where .Pages "Section" "ne" "notes" }}
-    {{ partial "simple-list.html" (dict "pages" $pages) }}
+    {{/* 分页：使用全局 pagerSize（config.toml: pagerSize = 30），与 /posts/ 列表一致 */}}
+    {{ $paginator := .Paginate $pages }}
+    {{ partial "simple-list.html" (dict "pages" $paginator.Pages) }}
+    {{ partial "pagination.html" (dict "paginator" $paginator) }}
   </article>
 {{ end }}
