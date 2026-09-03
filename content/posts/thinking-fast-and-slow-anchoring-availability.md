@@ -7,7 +7,7 @@ categories: ["reading-notes"]
 description: "卡尼曼在《思考，快与慢》中描述了两种最隐蔽的认知偏差：锚定效应（被无关信息影响判断）和可得性启发（把容易想到等同于概率更高）。它们在投资、营销、谈判中无处不在。"
 ---
 
-前两篇笔记聊了系统1/系统2（[系统1与系统2](/2022/05/thinking-fast-and-slow-system1-system2/)）和前景理论（[前景理论](/2024/01/thinking-fast-and-slow-prospect-theory/)）。这一篇聊《思考，快与慢》里另外两个对日常生活影响最大的认知偏差：**锚定效应** 和 **可得性启发**。
+前两篇笔记聊了系统1/系统2（[系统1与系统2](/posts/thinking-fast-and-slow-system1-system2/)）和前景理论（[前景理论](/posts/thinking-fast-and-slow-prospect-theory/)）。这一篇聊《思考，快与慢》里另外两个对日常生活影响最大的认知偏差：**锚定效应** 和 **可得性启发**。
 
 <!--more-->
 

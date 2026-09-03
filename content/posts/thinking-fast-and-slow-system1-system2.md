@@ -1,6 +1,7 @@
 ---
 title: "《思考，快与慢》读书笔记：系统1 与系统2"
 date: 2022-05-20T10:00:00+08:00
+url: /posts/thinking-fast-and-slow-system1-system2/
 draft: false
 tags: ["reading", "reading-notes", "thinking", "psychology"]
 categories: ["reading-notes"]

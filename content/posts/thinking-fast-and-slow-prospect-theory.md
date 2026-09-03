@@ -1,13 +1,14 @@
 ---
 title: "《思考，快与慢》读书笔记：前景理论"
 date: 2024-01-15T10:00:00+08:00
+url: /posts/thinking-fast-and-slow-prospect-theory/
 draft: false
 tags: ["reading", "reading-notes", "thinking", "psychology"]
 categories: ["reading-notes"]
 description: "前景理论是卡尼曼最重要的学术贡献，它解释了人类在面对收益和损失时的非理性决策。文章通过几个经典实验说明：人在输钱时的痛苦是赢钱时的快乐的两倍。"
 ---
 
-上一篇读书笔记聊了系统1与系统2（[《思考，快与慢》读书笔记：系统1 与系统2](/2022/05/thinking-fast-and-slow-system1-system2/)），这篇接着聊卡尼曼更重要的学术贡献——**前景理论（Prospect Theory）**。这个理论为他赢得了 2002 年的诺贝尔经济学奖。
+上一篇读书笔记聊了系统1与系统2（[《思考，快与慢》读书笔记：系统1 与系统2](/posts/thinking-fast-and-slow-system1-system2/)），这篇接着聊卡尼曼更重要的学术贡献——**前景理论（Prospect Theory）**。这个理论为他赢得了 2002 年的诺贝尔经济学奖。
 
 <!--more-->
 
