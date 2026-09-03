@@ -2,7 +2,7 @@
 title: "天蝎座的生日玄学"
 date: 2023-01-01
 draft: false
-tags: ["tech", "history", "science", "星座"]
+tags: ["tech", "history", "science", "zodiac"]
 categories: ["tech"]
 description: "10月31日前后七天，密集诞生了半个科技世界的祖师爷，以及一批统治好莱坞和音乐界的超级巨星。这不是巧合，而是天蝎座配置清单。"
 ---

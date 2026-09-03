@@ -1,0 +1,102 @@
+{{/*
+  posts-taxonomy-bar.html
+  /posts/ 列表页顶部的「分类 / 标签」导航条。
+
+  - 分类、标签各取文章数最多的 20 个
+  - 只统计 posts 分区，与 /categories/xx/、/tags/xx/ 的口径一致（排除 notes）
+  - 所有 class 统一 posts-taxonomy- 前缀，样式内联且仅随本 partial 输出，
+    因此只在引用它的页面（/posts/）生效，不影响其他页面
+
+  ctx: . — 页面上下文
+*/}}
+{{ $limit := 20 }}
+{{ $current := .RelPermalink }}
+
+{{ $cats := slice }}
+{{ range $name, $weighted := .Site.Taxonomies.categories }}
+  {{ with len (where $weighted.Pages "Section" "posts") }}
+    {{ $cats = $cats | append (dict "title" $weighted.Page.Title "count" . "href" $weighted.Page.RelPermalink) }}
+  {{ end }}
+{{ end }}
+{{ $cats = first $limit (sort $cats "count" "desc") }}
+
+{{ $tags := slice }}
+{{ range $name, $weighted := .Site.Taxonomies.tags }}
+  {{ with len (where $weighted.Pages "Section" "posts") }}
+    {{ $tags = $tags | append (dict "title" $weighted.Page.Title "count" . "href" $weighted.Page.RelPermalink) }}
+  {{ end }}
+{{ end }}
+{{ $tags = first $limit (sort $tags "count" "desc") }}
+
+<nav class="posts-taxonomy-bar mw7 center ph2 ph3-l mt3 mt4-l mb3" aria-label="分类与标签导航">
+
+  <div class="posts-taxonomy-row flex flex-column flex-row-ns bb b--light-gray pv3 ph2 ph3-l">
+    <div class="posts-taxonomy-label f6 fw6 mb2 mb0-ns nowrap">分类</div>
+    <div class="posts-taxonomy-items flex flex-wrap items-baseline">
+      {{ range $cats }}
+        <a href="{{ .href }}" class="posts-taxonomy-item link dib f6 mr3 mb1{{ if eq $current .href }} is-active{{ end }}">
+          {{ .title }}<span class="posts-taxonomy-count f7 ml1">{{ .count }}</span>
+        </a>
+      {{ end }}
+    </div>
+  </div>
+
+  <div class="posts-taxonomy-row flex flex-column flex-row-ns bb b--light-gray pv3 ph2 ph3-l">
+    <div class="posts-taxonomy-label f6 fw6 mb2 mb0-ns nowrap">标签</div>
+    <div class="posts-taxonomy-items flex flex-wrap items-baseline">
+      {{ range $tags }}
+        <a href="{{ .href }}" class="posts-taxonomy-item link dib f6 mr3 mb1{{ if eq $current .href }} is-active{{ end }}">
+          {{ .title }}<span class="posts-taxonomy-count f7 ml1">{{ .count }}</span>
+        </a>
+      {{ end }}
+    </div>
+  </div>
+
+</nav>
+
+<style>
+  /* 与 simple-list 对齐：页面底色 #f4f4f4，行高 pv3 + b--light-gray 发丝线，
+     正文色 #666、hover 变深 #1a1a1a、角标/日期 f7 浅灰 —— 共用一套排版语言。
+     注意：不要给导航项加浅色填充，#f5f5f5 与页面底色 #f4f4f4 几乎同色，填了也看不见。 */
+  .posts-taxonomy-label {
+    flex: 0 0 4em;
+    color: #666;
+    letter-spacing: .04em;
+  }
+
+  .posts-taxonomy-items {
+    flex: 1 1 0%;
+    min-width: 0;
+  }
+
+  .posts-taxonomy-item {
+    color: #666;
+    line-height: 1.7;
+    transition: color .15s ease;
+  }
+
+  .posts-taxonomy-item:hover,
+  .posts-taxonomy-item:focus {
+    color: #1a1a1a;
+  }
+
+  .posts-taxonomy-item.is-active {
+    color: #357edd;
+    font-weight: 600;
+  }
+
+  .posts-taxonomy-count {
+    color: #aaa;
+    font-weight: 400;
+  }
+
+  .posts-taxonomy-item.is-active .posts-taxonomy-count {
+    color: #357edd;
+  }
+
+  @media (max-width: 50em) {
+    .posts-taxonomy-label {
+      flex: 0 0 auto;
+    }
+  }
+</style>

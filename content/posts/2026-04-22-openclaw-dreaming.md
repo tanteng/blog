@@ -3,7 +3,7 @@ title: "OpenClaw Dreaming：让AI在睡眠中整理记忆"
 date: 2026-04-22T10:00:00+08:00
 draft: false
 tags: ["openclaw", "AI", "memory", "agent", "life", "dream"]
-categories: ["技术"]
+categories: ["tech"]
 featured_image: ""
 slug: "openclaw-dreaming-memory-consolidation"
 description: "深入解析OpenClaw的Dreaming后台记忆整理系统——让AI在夜间自动将短期记忆晋升为长期知识。"

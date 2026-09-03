@@ -1,5 +1,7 @@
 {{ define "main" }}
   <article class="pa2 pa4-ns nested-copy-line-height">
+
+    {{ partial "posts-taxonomy-bar.html" . }}
     {{ partial "simple-list.html" (dict "pages" .Paginator.Pages) }}
     {{ partial "pagination.html" (dict "paginator" .Paginator) -}}
   </article>
