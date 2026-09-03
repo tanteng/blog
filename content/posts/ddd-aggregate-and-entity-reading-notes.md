@@ -4,7 +4,7 @@ date: 2023-02-18T10:00:00+08:00
 draft: false
 tags: ["ddd", "reading", "reading-notes", "architecture"]
 categories: ["reading-notes"]
-description: "Eric Evans 的 DDD 已经出版 20 年，但其中"聚合根"的设计原则至今仍是复杂业务系统的关键。本文重读聚合根的概念，结合实际项目经验谈谈它的精妙之处。"
+description: "Eric Evans 的 DDD 已经出版 20 年，但其中「聚合根」的设计原则至今仍是复杂业务系统的关键。本文重读聚合根的概念，结合实际项目经验谈谈它的精妙之处。"
 ---
 
 Eric Evans 的《领域驱动设计》（Domain-Driven Design）出版于 2003 年，到现在已经 20 多年。但每次重读这本书，都能从中学到新的东西。这一次我想专门聊聊"聚合根"这个概念——它是我在复杂业务系统里最常用、也最容易用错的设计工具。

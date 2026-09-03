@@ -4,7 +4,7 @@ date: 2024-09-25T10:00:00+08:00
 draft: false
 tags: ["reading", "reading-notes", "observability", "reliability"]
 categories: ["reading-notes"]
-description: "Google SRE 第二个核心实践：把错误预算当成可靠性管理的"货币"，用无指责的事后总结建立学习型组织。这套体系把"故障"从追责对象变成改进机会。"
+description: "Google SRE 第二个核心实践：把错误预算当成可靠性管理的「货币」，用无指责的事后总结建立学习型组织。这套体系把「故障」从追责对象变成改进机会。"
 ---
 
 上一篇（[《SRE》读书笔记：SLI 与 SLO](/2023/11/sre-sli-slo-reading-notes/)）聊了 SLI/SLO 的概念，这篇继续聊 SRE 的另外两个核心实践：**错误预算（Error Budget）** 和 **事后总结（Postmortem）**。这两个实践一起，把"故障"从追责对象变成了改进机会。
