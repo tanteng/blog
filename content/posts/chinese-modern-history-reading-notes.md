@@ -1,6 +1,7 @@
 ---
 title: "《中国近代史》读书笔记（蒋廷黻）"
 date: 2023-08-12T10:00:00+08:00
+url: /posts/chinese-modern-history-reading-notes/
 draft: false
 tags: ["reading", "reading-notes", "thinking"]
 categories: ["reading-notes"]
