@@ -3,7 +3,7 @@ title: '那些反直觉的有趣现象'
 date: 2026-02-28T21:30:00+08:00
 draft: false
 tags: ['science', 'psychology', 'thinking', 'common-sense']
-categories: []
+categories: ['science']
 description: '电车起火概率低于油车？飞机比汽车更安全？热水比冷水结冰更快？盘点9个反直觉的有趣现象，带你重新认识世界的运作方式。'
 ---
 
