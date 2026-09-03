@@ -1,5 +1,5 @@
 {{ define "main" }}
-  <article class="cf pa3 pa4-m pa4-l">
+  <article class="cf pa2 pa4-m pa4-l">
     {{ $pages := where .Pages "Section" "ne" "notes" }}
     {{ partial "simple-list.html" (dict "pages" $pages) }}
   </article>

@@ -3,11 +3,14 @@
    shows: chinese category title (linked, left color bar) + date + post title (linked)
    Each row is a flex container with two separate anchors — one for category, one for the article —
    so clicking the category actually navigates to the category page.
+
+   Mobile (< 30em): stacked layout — category chip → date → title (each on its own line, tighter padding)
+   Desktop (≥ 30em): single row — category | date | title (flex-baseline)
 */}}
 {{ $pages := .pages }}
-<div class="simple-list mw7 center ph3 ph0-l">
+<div class="simple-list mw7 center ph2 ph3-l">
   {{ range $pages }}
-    <div class="simple-list-row db pv3 ph3 ph0-l bb b--light-gray flex items-baseline hover-bg-near-white">
+    <div class="simple-list-row db pv3 ph2 ph3-l bb b--light-gray hover-bg-near-white">
       {{ with .Params.categories }}
         {{ $cat := index . 0 }}
         {{ with site.GetPage (printf "/categories/%s" $cat) }}
@@ -17,7 +20,7 @@
         {{ end }}
       {{ end }}
       {{ if not .Date.IsZero }}
-        <time class="f7 gray mv0 mr3 nowrap" {{ fmt.Printf `datetime="%s"` (.Date.Format "2006-01-02T15:04:05Z07:00") | safe.HTMLAttr }}>
+        <time class="simple-list-date f7 gray mv0 mr3 nowrap" {{ fmt.Printf `datetime="%s"` (.Date.Format "2006-01-02T15:04:05Z07:00") | safe.HTMLAttr }}>
           {{- .Date.Format "2006-01-02" -}}
         </time>
       {{ end }}
@@ -29,6 +32,41 @@
 </div>
 
 <style>
+  /* Mobile: stacked layout — date above title, tighter padding */
+  @media (max-width: 30em) {
+    .simple-list-row {
+      display: block;
+      padding-top: 0.6rem;
+      padding-bottom: 0.6rem;
+    }
+    .simple-list-cat,
+    .simple-list-date {
+      display: inline-block;
+      margin-bottom: 0.2rem;
+    }
+    .simple-list-cat {
+      font-size: 0.8rem;
+      margin-right: 0.5rem;
+    }
+    .simple-list-date {
+      margin-right: 0;
+    }
+    .simple-list-title {
+      display: block;
+      font-size: 1.05rem;
+      line-height: 1.35;
+      margin-top: 0.15rem;
+    }
+  }
+
+  /* Desktop and up: flex-baseline row */
+  @media (min-width: 30em) {
+    .simple-list-row {
+      display: flex;
+      align-items: baseline;
+    }
+  }
+
   .simple-list-row {
     color: inherit;
     transition: background-color 0.15s ease;
