@@ -20,7 +20,7 @@
   {{ $pinned := where $allPages "Params.weight" "gt" 0 }}
   {{ $sorted := $pinned.ByDate.Reverse | append $allPages.ByDate.Reverse }}
   {{ $sorted = $sorted | uniq }}
-  {{ $paginator := .Paginate $sorted 30 }}
+  {{ $paginator := .Paginate $sorted 15 }}
 
   {{ if gt $paginator.TotalPages 0 }}
     <div class="pa3 pa4-ns w-100 w-70-ns center">
