@@ -1,0 +1,6 @@
+{{ define "main" }}
+  <article class="pa3 pa4-ns nested-copy-line-height">
+    {{ partial "simple-list.html" (dict "pages" .Paginator.Pages) }}
+    {{ partial "pagination.html" (dict "paginator" .Paginator) -}}
+  </article>
+{{ end }}

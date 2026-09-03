@@ -1,0 +1,51 @@
+{{/* simple-list.html — minimal article list
+   ctx: .pages — array of pages to render
+   shows: chinese category title (linked, left color bar) + date + post title (linked)
+   Each row is a flex container with two separate anchors — one for category, one for the article —
+   so clicking the category actually navigates to the category page.
+*/}}
+{{ $pages := .pages }}
+<div class="simple-list mw7 center ph3 ph0-l">
+  {{ range $pages }}
+    <div class="simple-list-row db pv3 ph3 ph0-l bb b--light-gray flex items-baseline hover-bg-near-white">
+      {{ with .Params.categories }}
+        {{ $cat := index . 0 }}
+        {{ with site.GetPage (printf "/categories/%s" $cat) }}
+          <a href="{{ .RelPermalink }}" class="simple-list-cat dib mr3 nowrap link" style="border-left: 3px solid currentColor; padding-left: 8px;">
+            {{ .Title }}
+          </a>
+        {{ end }}
+      {{ end }}
+      {{ if not .Date.IsZero }}
+        <time class="f7 gray mv0 mr3 nowrap" {{ fmt.Printf `datetime="%s"` (.Date.Format "2006-01-02T15:04:05Z07:00") | safe.HTMLAttr }}>
+          {{- .Date.Format "2006-01-02" -}}
+        </time>
+      {{ end }}
+      <a href="{{ .RelPermalink }}" class="simple-list-title f5 fw5 black mv0 truncate link">
+        {{ .Title }}
+      </a>
+    </div>
+  {{ end }}
+</div>
+
+<style>
+  .simple-list-row {
+    color: inherit;
+    transition: background-color 0.15s ease;
+  }
+  .simple-list-row:hover .simple-list-title {
+    color: #1a1a1a;
+    font-weight: 600;
+  }
+  .simple-list-cat {
+    color: #666;
+    font-size: 0.85rem;
+  }
+  .simple-list-cat:hover {
+    color: #1a1a1a;
+    font-weight: 600;
+  }
+  .simple-list-title {
+    color: #222;
+  }
+</style>
