@@ -27,8 +27,6 @@ Kodak Ektar 100 是 ISO 100 的日光型彩色负片，也是柯达彩负里颗�
 
 ## 照片
 
-按走的顺序，从市区街景开始。
-
 {{< figure class="post-img" src="https://assets.tanteng.space/photo-0JTDxDbLwNz0105B.jpeg?imageMogr2/auto-orient/thumbnail/400x/format/webp/quality/88/interlace/1" caption="济州小巷" loading="lazy" >}}
 
 {{< figure class="post-img" src="https://assets.tanteng.space/photo-4LzwZkYbq2j8QWpX.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="商业街" loading="lazy" >}}
@@ -49,8 +47,26 @@ Kodak Ektar 100 是 ISO 100 的日光型彩色负片，也是柯达彩负里颗�
 
 {{< figure class="post-img" src="https://assets.tanteng.space/photo-lbFBSGEjqwLThtHO.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="棕榈树与海面" loading="lazy" >}}
 
-{{< figure class="post-img" src="https://assets.tanteng.space/photo-vsfQDG5Zognb3Xz2.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="海边公路" loading="lazy" >}}
+{{< figure class="post-img" src="https://assets.tanteng.space/photo-vsfQDG5Zognb3Xz2.jpeg?imageMogr2/auto-orient/thumbnail/1000x/format/webp/quality/88/interlace/1" caption="海豚公路" loading="lazy" >}}
+
+最后一天下午，来到“海豚公路”碰碰运气，看能不能看到海豚。
+
+本来这次行程就叫”济州岛海豚之旅”，前天在 M1971 游艇俱乐部坐船出海没看到海豚，结果没看到海豚的影子，觉得有点遗憾。
+
+我沿着海边公路走，看到一家咖啡店，先进来喝杯咖啡吃点东西。
+
+喝完咖啡继续往前走，来到一家 711 附近的岸边，等了半天，海面上依然没有动静。
+
+然后在岸边碰到一个韩国人，我问这里是否有海豚，他喊了远处的他哥哥，说我也是来看海豚的。
+
+我跟他哥哥用蹩脚的英语聊了好半天，不会说的用翻译软件交流，我们聊了很多，他也来过中国，总之聊得很开心。他说他也是来看海豚的，说每次来都会看见，我说前天追海豚没看到，他让我继续等。
+
+果不其然，远处海面真的冒出了海豚的身影，我激动地端起相机就拍，而且海豚在水面跳跃了好长一段时间。
+
+他对我说 "You are lucky man"，这句话我印象很深刻。我们还互加了 ins 好友。
+
+看到了海豚，才感觉这一趟没有白来。
 
 ## 写在最后
 
-Ektar 100 拍出来确实惊艳——色彩浓、颗粒细、宽容度高，海岛风光配 Ektar 100 是「天作之合」。这一卷冲扫出来几乎是 36 张张都想留的程度。
+Ektar 100 拍出来确实惊艳——色彩浓、颗粒细、宽容度高，海岛风光配 Ektar 100 是「天作之合」。这一卷冲扫出来，照片的效果超出我的期望。
