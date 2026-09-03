@@ -58,6 +58,11 @@
   /* 与 simple-list 对齐：页面底色 #f4f4f4，行高 pv3 + b--light-gray 发丝线，
      正文色 #666、hover 变深 #1a1a1a、角标/日期 f7 浅灰 —— 共用一套排版语言。
      注意：不要给导航项加浅色填充，#f5f5f5 与页面底色 #f4f4f4 几乎同色，填了也看不见。 */
+  .posts-taxonomy-row {
+    /* 标签和 items 必须同一行高，否则基线错位 ≈ 4px */
+    line-height: 1.7;
+  }
+
   .posts-taxonomy-label {
     flex: 0 0 4em;
     color: #666;
@@ -71,7 +76,6 @@
 
   .posts-taxonomy-item {
     color: #666;
-    line-height: 1.7;
     transition: color .15s ease;
   }
 
