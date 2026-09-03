@@ -1,3 +1,3 @@
 ---
-title: "AI技术"
+title: "AI"
 ---
