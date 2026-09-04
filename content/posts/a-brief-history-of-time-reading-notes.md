@@ -1,6 +1,6 @@
 ---
 title: "《时间简史》：从大爆炸到黑洞的宇宙图景"
-date: 2026-06-15T10:00:00+08:00
+date: 2024-06-15T10:00:00+08:00
 draft: false
 tags: ["reading", "reading-notes", "science", "physics"]
 categories: ["reading-notes"]

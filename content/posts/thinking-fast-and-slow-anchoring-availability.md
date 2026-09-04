@@ -1,6 +1,6 @@
 ---
 title: "《思考，快与慢》读书笔记：锚定效应与可得性启发"
-date: 2026-02-10T10:00:00+08:00
+date: 2024-02-10T10:00:00+08:00
 draft: false
 tags: ["reading", "reading-notes", "thinking", "psychology"]
 categories: ["reading-notes"]
