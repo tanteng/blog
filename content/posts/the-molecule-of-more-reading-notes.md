@@ -1,5 +1,5 @@
 ---
-title: "《贪婪的多巴胺》读书笔记"
+title: "《贪婪的多巴胺》：欲望回路与控制回路"
 date: 2022-09-15T10:00:00+08:00
 draft: false
 tags: ["reading", "reading-notes", "neuroscience", "dopamine"]

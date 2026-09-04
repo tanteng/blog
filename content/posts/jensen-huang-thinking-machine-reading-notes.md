@@ -1,5 +1,5 @@
 ---
-title: "《黄仁勋：英伟达之芯》读书笔记"
+title: "《黄仁勋：英伟达之芯》：从 Denny's 到万亿美元市值"
 date: 2025-06-10T10:00:00+08:00
 draft: false
 tags: ["reading", "reading-notes", "ai", "thinking"]

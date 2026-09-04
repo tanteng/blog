@@ -1,5 +1,5 @@
 ---
-title: "《长期主义》读书笔记：与时间为友"
+title: "《长期主义》：与时间为友的反本能修炼"
 date: 2024-04-08T10:00:00+08:00
 draft: false
 tags: ["reading", "reading-notes", "thinking", "growth"]
