@@ -80,8 +80,7 @@ jobs:
           echo "变更文件列表:"
           echo "$CHANGED_FILES"
 
-          # 检测是否有全局文件变更（模板、样式、配置等）
-          # 这些文件影响所有页面，需要清理全站缓存
+          # 1. 全局文件检测：模板/样式/配置等变更影响所有页面，需全站清理
           GLOBAL_CHANGES=$(echo "$CHANGED_FILES" | grep -E "^(layouts/|static/|config\.|themes/|assets/|i18n/|\.github/)" || true)
           if [ -n "$GLOBAL_CHANGES" ]; then
             echo "🔄 检测到全局文件变更（模板/样式/配置），需清理全站缓存"
@@ -91,62 +90,110 @@ jobs:
             echo "purge_all=false" >> "$GITHUB_OUTPUT"
           fi
 
-          # 提取 content/posts/ 下的 .md 文件
-          POSTS=$(echo "$CHANGED_FILES" | grep "^content/posts/.*\.md$" || true)
-
-          if [ -n "$POSTS" ]; then
-            echo "检测到修改的文章:"
-            echo "$POSTS"
-
-            # 生成 JSON 数组格式的 URL 列表
-            URLS_JSON="["
-            FIRST=true
-            for file in $POSTS; do
-              slug=$(basename "$file" .md)
-              url="https://blog.tanteng.space/posts/${slug}/"
-              if [ "$FIRST" = true ]; then
-                URLS_JSON="${URLS_JSON}\"${url}\""
-                FIRST=false
+          # 2. URL 列表生成函数：根据文件列表输出 JSON 数组
+          # 参数1: 匹配的文件列表; 参数2: URL 前缀（含域名和路径段，如 https://blog.tanteng.space/posts/）
+          # 规则：basename 为 _index.md 时，slug 取父目录名；否则取 basename 去扩展名
+          build_url_list() {
+            local files="$1"
+            local base_url="$2"
+            [ -z "$files" ] && { echo "[]"; return; }
+            local json="["
+            local first=true
+            for file in $files; do
+              local base=$(basename "$file")
+              local slug
+              if [ "$base" = "_index.md" ]; then
+                slug=$(basename "$(dirname "$file")")
               else
-                URLS_JSON="${URLS_JSON},\"${url}\""
+                slug="${base%.md}"
+              fi
+              local url="${base_url}${slug}/"
+              if [ "$first" = true ]; then
+                json="${json}\"${url}\""
+                first=false
+              else
+                json="${json},\"${url}\""
               fi
             done
-            URLS_JSON="${URLS_JSON}]"
+            json="${json}]"
+            echo "$json"
+          }
 
-            echo "article_urls=${URLS_JSON}" >> "$GITHUB_OUTPUT"
+          BASE="https://blog.tanteng.space"
+
+          # 3. 文章（content/posts/*.md）→ /posts/<slug>/
+          POSTS=$(echo "$CHANGED_FILES" | grep "^content/posts/[^/]*\.md$" || true)
+          if [ -n "$POSTS" ]; then
+            echo "检测到修改的文章:"; echo "$POSTS"
+            ARTICLE_URLS=$(build_url_list "$POSTS" "$BASE/posts/")
+            echo "article_urls=${ARTICLE_URLS}" >> "$GITHUB_OUTPUT"
             echo "has_articles=true" >> "$GITHUB_OUTPUT"
           else
-            echo "未检测到文章修改"
             echo "has_articles=false" >> "$GITHUB_OUTPUT"
           fi
 
-          # 提取 content/notes/ 下的 .md 文件（修复 #15: notes 路径缓存未被 purge 的问题）
-          NOTES=$(echo "$CHANGED_FILES" | grep "^content/notes/.*\.md$" || true)
-
+          # 4. 笔记（content/notes/*.md）→ /notes/<slug>/（修复 #15: notes 路径缓存未被 purge）
+          NOTES=$(echo "$CHANGED_FILES" | grep "^content/notes/[^/]*\.md$" || true)
           if [ -n "$NOTES" ]; then
-            echo "检测到修改的笔记:"
-            echo "$NOTES"
-
-            # 生成 JSON 数组格式的 URL 列表
-            NOTE_URLS_JSON="["
-            FIRST=true
-            for file in $NOTES; do
-              slug=$(basename "$file" .md)
-              url="https://blog.tanteng.space/notes/${slug}/"
-              if [ "$FIRST" = true ]; then
-                NOTE_URLS_JSON="${NOTE_URLS_JSON}\"${url}\""
-                FIRST=false
-              else
-                NOTE_URLS_JSON="${NOTE_URLS_JSON},\"${url}\""
-              fi
-            done
-            NOTE_URLS_JSON="${NOTE_URLS_JSON}]"
-
-            echo "note_urls=${NOTE_URLS_JSON}" >> "$GITHUB_OUTPUT"
+            echo "检测到修改的笔记:"; echo "$NOTES"
+            NOTE_URLS=$(build_url_list "$NOTES" "$BASE/notes/")
+            echo "note_urls=${NOTE_URLS}" >> "$GITHUB_OUTPUT"
             echo "has_notes=true" >> "$GITHUB_OUTPUT"
           else
-            echo "未检测到笔记修改"
             echo "has_notes=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          # 5. 分类页（content/categories/<slug>/_index.md）→ /categories/<slug>/
+          CATEGORIES=$(echo "$CHANGED_FILES" | grep "^content/categories/[^/]*/_index\.md$" || true)
+          if [ -n "$CATEGORIES" ]; then
+            echo "检测到修改的分类页:"; echo "$CATEGORIES"
+            CATEGORY_URLS=$(build_url_list "$CATEGORIES" "$BASE/categories/")
+            echo "category_urls=${CATEGORY_URLS}" >> "$GITHUB_OUTPUT"
+            echo "has_categories=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_categories=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          # 6. 标签页（content/tags/<slug>/_index.md）→ /tags/<slug>/
+          TAGS=$(echo "$CHANGED_FILES" | grep "^content/tags/[^/]*/_index\.md$" || true)
+          if [ -n "$TAGS" ]; then
+            echo "检测到修改的标签页:"; echo "$TAGS"
+            TAG_URLS=$(build_url_list "$TAGS" "$BASE/tags/")
+            echo "tag_urls=${TAG_URLS}" >> "$GITHUB_OUTPUT"
+            echo "has_tags=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_tags=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          # 7. 顶层页面（content/_index.md, about.md, search.md）→ 各自固定 URL
+          TOP_URLS_JSON="["
+          TOP_FIRST=true
+          for f in $CHANGED_FILES; do
+            case "$f" in
+              content/_index.md)
+                url="$BASE/";;
+              content/about.md)
+                url="$BASE/about/";;
+              content/search.md)
+                url="$BASE/search/";;
+              *)
+                continue;;
+            esac
+            if [ "$TOP_FIRST" = true ]; then
+              TOP_URLS_JSON="${TOP_URLS_JSON}\"${url}\""
+              TOP_FIRST=false
+            else
+              TOP_URLS_JSON="${TOP_URLS_JSON},\"${url}\""
+            fi
+          done
+          TOP_URLS_JSON="${TOP_URLS_JSON}]"
+          if [ "$TOP_FIRST" = false ]; then
+            echo "检测到修改的顶层页面:"
+            echo "$TOP_URLS_JSON"
+            echo "top_urls=${TOP_URLS_JSON}" >> "$GITHUB_OUTPUT"
+            echo "has_top_pages=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_top_pages=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Purge EdgeOne Cache
@@ -166,35 +213,36 @@ jobs:
               --Type purge_prefix \
               --Targets '["https://blog.tanteng.space/"]'
             echo "✅ EdgeOne 全站缓存已清理"
-          else
-            # 仅文章变更，精准清理
-            COMMON_URLS='["https://blog.tanteng.space/","https://blog.tanteng.space/posts/","https://blog.tanteng.space/categories/","https://blog.tanteng.space/tags/","https://blog.tanteng.space/notes/"]'
-
-            HAS_ARTICLES="${{ steps.detect-changes.outputs.has_articles }}"
-            HAS_NOTES="${{ steps.detect-changes.outputs.has_notes }}"
-            COMMON_INNER=$(echo "$COMMON_URLS" | sed 's/^\[//;s/\]$//')
-            EXTRA=""
-            if [ "$HAS_ARTICLES" = "true" ]; then
-              ARTICLE_URLS='${{ steps.detect-changes.outputs.article_urls }}'
-              EXTRA="${EXTRA:+${EXTRA},}$(echo "$ARTICLE_URLS" | sed 's/^\[//;s/\]$//')"
-            fi
-            if [ "$HAS_NOTES" = "true" ]; then
-              NOTE_URLS='${{ steps.detect-changes.outputs.note_urls }}'
-              EXTRA="${EXTRA:+${EXTRA},}$(echo "$NOTE_URLS" | sed 's/^\[//;s/\]$//')"
-            fi
-
-            if [ -n "$EXTRA" ]; then
-              ALL_URLS="[${COMMON_INNER},${EXTRA}]"
-              echo "清理页面缓存（含文章/笔记）: ${ALL_URLS}"
-            else
-              ALL_URLS="$COMMON_URLS"
-              echo "清理公共页面缓存: ${ALL_URLS}"
-            fi
-
-            tccli teo CreatePurgeTask \
-              --region ap-guangzhou \
-              --ZoneId "$ZONE_ID" \
-              --Type purge_url \
-              --Targets "$ALL_URLS"
-            echo "✅ EdgeOne 缓存已清理"
+            exit 0
           fi
+
+          BASE="https://blog.tanteng.space"
+          # 公共列表页：任何内容变更都需要刷新（首页/文章列表/分类列表/标签列表/笔记列表）
+          ALL_URLS="[\"${BASE}/\",\"${BASE}/posts/\",\"${BASE}/categories/\",\"${BASE}/tags/\",\"${BASE}/notes/\"]"
+
+          # 拼装完整 URL 列表：通用 + 各类特定 URL
+          append_urls() {
+            local label="$1"
+            local value="$2"
+            [ -z "$value" ] && return
+            [ "$value" = "[]" ] && return
+            local inner=$(echo "$value" | sed 's/^\[//;s/\]$//')
+            ALL_URLS="[$(echo "$ALL_URLS" | sed 's/^\[//;s/\]$//'),${inner}]"
+            echo "  + ${label}: ${value}"
+          }
+
+          echo "🧹 准备清理 EdgeOne 缓存..."
+          append_urls "文章"   "${{ steps.detect-changes.outputs.article_urls }}"
+          append_urls "笔记"   "${{ steps.detect-changes.outputs.note_urls }}"
+          append_urls "分类页" "${{ steps.detect-changes.outputs.category_urls }}"
+          append_urls "标签页" "${{ steps.detect-changes.outputs.tag_urls }}"
+          append_urls "顶层页" "${{ steps.detect-changes.outputs.top_urls }}"
+
+          echo "📋 最终清理列表: ${ALL_URLS}"
+
+          tccli teo CreatePurgeTask \
+            --region ap-guangzhou \
+            --ZoneId "$ZONE_ID" \
+            --Type purge_url \
+            --Targets "$ALL_URLS"
+          echo "✅ EdgeOne 缓存已清理"
