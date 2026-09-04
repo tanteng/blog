@@ -130,14 +130,6 @@ SLO 思维不只适用于互联网服务。它可以迁移到任何需要"可靠
 
 这种思维转变比任何具体技术都重要。当我们把可靠性当成工程问题，它就变成了可解决的问题。
 
-## 推荐阅读
-
-- Google《Site Reliability Engineering》—— 原始经典
-- Google《The Site Reliability Workbook》—— 配套实践指南
-- Alex Hidalgo《Implementing Service Level Objectives》—— 更现代的实践视角
-
-SRE 是一套完整的体系，SLI/SLO 只是入口。后续还有很多概念：错误预算、事后总结、消除琐事、On-call 轮值……每一样都值得深入学习。
-
 ## 补充：微信读书里我划过的句子
 
 > 只要仍然有剩余的错误预算，就可以发布新的版本。
@@ -151,3 +143,12 @@ SRE 是一套完整的体系，SLI/SLO 只是入口。后续还有很多概念�
 Google 的过载保护不是基于"请求数"或"队列长度"——而是基于资源利用率。这避免了"打满 CPU 但内存还有空余"这种浪费情况。**过载保护的本质是"硬件资源成为瓶颈时才触发"，而不是"请求堆积"**。这种思路让保护更精准、更高效。
 
 虽然只有两句话，但每一句都体现了 SRE 的核心思想：**用工程化方法解决可靠性问题，让数据驱动决策**。
+
+
+## 推荐阅读
+
+- Google《Site Reliability Engineering》—— 原始经典
+- Google《The Site Reliability Workbook》—— 配套实践指南
+- Alex Hidalgo《Implementing Service Level Objectives》—— 更现代的实践视角
+
+SRE 是一套完整的体系，SLI/SLO 只是入口。后续还有很多概念：错误预算、事后总结、消除琐事、On-call 轮值……每一样都值得深入学习。

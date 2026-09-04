@@ -160,17 +160,6 @@ description: "重读《贪婪的多巴胺》，重点理解「想要」和「喜
 
 不同传统从不同角度描述了同一件事：**活在当下，才能真正快乐**。
 
-## 推荐延伸阅读
-
-- Daniel Lieberman, Michael Long《The Molecule of More》—— 完整原书
-- Mihaly Csikszentmihalyi《Flow》—— 心流理论
-- Tara Brach《Radical Acceptance》—— 正念与接受
-- Robert Sapolsky《Behave》—— 更全面的神经科学视角
-
-《贪婪的多巴胺》给我最大的礼物不是让我"戒掉多巴胺"，而是让我看清欲望的机制。一旦看清，你就有了选择：是被欲望牵着走，还是有意识地生活。
-
-> 知道多巴胺是什么，是迈向自由的第一步。
-
 ## 补充：微信读书里我划过的句子
 
 这本书的第 4 章《天才与疯子》让我划了很多句子，集中在一句话上：
@@ -196,3 +185,15 @@ description: "重读《贪婪的多巴胺》，重点理解「想要」和「喜
 这是这本书的总结——**多巴胺的最高境界不是"想要更多"，而是让两种分子恢复平衡**。当欲望和控制、当抽象和感官、当未来和当下同时活跃时，大脑在巅峰运作。
 
 这和东方哲学里的"中庸"异曲同工——不是压制欲望，而是让它与节制并存。
+
+
+## 推荐延伸阅读
+
+- Daniel Lieberman, Michael Long《The Molecule of More》—— 完整原书
+- Mihaly Csikszentmihalyi《Flow》—— 心流理论
+- Tara Brach《Radical Acceptance》—— 正念与接受
+- Robert Sapolsky《Behave》—— 更全面的神经科学视角
+
+《贪婪的多巴胺》给我最大的礼物不是让我"戒掉多巴胺"，而是让我看清欲望的机制。一旦看清，你就有了选择：是被欲望牵着走，还是有意识地生活。
+
+> 知道多巴胺是什么，是迈向自由的第一步。

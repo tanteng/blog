@@ -150,14 +150,6 @@ Google 的实践表明：**心理安全感越高的团队，事故发现得越�
 
 相反，**一个不断有事故记录、不断有 Postmortem、不断有改进的团队，才是真正成熟的团队**。
 
-## 推荐阅读
-
-- Google《Site Reliability Engineering》第 3 章（消除琐事）、第 6 章（监控）、第 7 章（紧急响应）、第 11 章（Postmortem）
-- Google《The Site Reliability Workbook》—— 配套实践
-- Etsy《Debriefing Facilitation Guide》—— 怎么主持无指责复盘会议
-
-SRE 是一套完整的"可靠性工程"实践。SLI/SLO、错误预算、Postmortem、消除琐事、On-call 轮值……每一项都值得深入学习。但最根本的是它的思维方式：**把可靠性当成工程问题，而不是人品问题**。
-
 ## 补充：微信读书里我划过的句子
 
 > 只要仍然有剩余的错误预算，就可以发布新的版本。
@@ -173,3 +165,12 @@ SRE 是一套完整的"可靠性工程"实践。SLI/SLO、错误预算、Postmor
 这一句体现了 SRE 的工程化思维——**基于客观指标，而不是主观感受**。当 CPU 利用率、内存使用、磁盘 IO 等指标接近阈值时，系统主动降级或拒绝请求，而不是等到请求堆积、用户报障才反应过来。
 
 **预先保护** vs **事后修复**，是 SRE 系统和传统系统的根本差异。
+
+
+## 推荐阅读
+
+- Google《Site Reliability Engineering》第 3 章（消除琐事）、第 6 章（监控）、第 7 章（紧急响应）、第 11 章（Postmortem）
+- Google《The Site Reliability Workbook》—— 配套实践
+- Etsy《Debriefing Facilitation Guide》—— 怎么主持无指责复盘会议
+
+SRE 是一套完整的"可靠性工程"实践。SLI/SLO、错误预算、Postmortem、消除琐事、On-call 轮值……每一项都值得深入学习。但最根本的是它的思维方式：**把可靠性当成工程问题，而不是人品问题**。
