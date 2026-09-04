@@ -1,4 +1,15 @@
-{{- $related := where (.Site.RegularPages.Related . | collections.First 10) "Section" "ne" "notes" -}}
+{{- $related := slice -}}
+{{- if .Params.related_posts -}}
+  {{- range .Params.related_posts -}}
+    {{- with $.Site.GetPage . -}}
+      {{- if ne .Section "notes" -}}
+        {{- $related = $related | append . -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- else -}}
+  {{- $related = where (.Site.RegularPages.Related . | collections.First 10) "Section" "ne" "notes" -}}
+{{- end -}}
 {{ if not .Params.disableRelated }}
   {{ with $related }}
 <div class="related-posts bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links" data-pagefind-ignore>

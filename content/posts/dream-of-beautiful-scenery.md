@@ -7,6 +7,17 @@ tags: ['life', 'wuhan', 'dream']
 categories: ["life"]
 slug: "dream-of-beautiful-scenery"
 description: "昨夜做了一个梦，梦见了非常壮观的美景。"
+related_posts:
+  - posts/vibe-coding-to-sdd.md
+  - posts/4-recommended-options-strategies.md
+  - posts/2022-03-27-fry-steak.md
+  - posts/stanley-summer-film-cn400.md
+  - posts/film-jeju-island-ektar100.md
+  - posts/jensen-huang-thinking-machine-reading-notes.md
+  - posts/what-is-separation-of-tasks.md
+  - posts/steve-jobs-remembering-death.md
+  - posts/steve-jobs-intuition.md
+  - posts/your-time-is-limited-live-your-own-life.md
 ---
 
 昨晚做了一个梦，梦见了非常壮观的美景。
