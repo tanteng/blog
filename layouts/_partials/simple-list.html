@@ -4,14 +4,9 @@
    Each row has two anchors — one for category, one for the whole title link (date + title text
    inside) — so clicking either the cat or the date/title navigates as expected.
 
-   布局（桌面端 ≥ 30em）：
-     [cat (flex 0 0 4em，与 .posts-taxonomy-label 列宽一致)]
-     [title-link (flex 1，左边缘与 taxonomy items 左边缘对齐，都在 x = 4em)
-       → [date (inline)] [title-text (flex 1，truncate)]]
-   把日期内联进标题链接，是为了让标题链接左边缘 = 4em，与 taxonomy items 视觉对齐。
-   若日期仍在标题之前单独占一列，标题会被推得偏右，与上方的 taxonomy items 错位。
-
-   Mobile (< 30em): cat on first line, date + title text on second line
+   统一布局（PC + H5）：cat 左列锚点（4em，与 taxonomy bar 视觉对齐），
+   右侧两行 — 日期（小灰字）在上、标题（黑字、整行宽度）在下。
+   H5 cat 改为 inline-block 顶首行；分类和标题形成左侧条视觉组，日期独占第二行。
 */}}
 {{ $pages := .pages }}
 <div class="simple-list mw7 center ph2 ph3-l">
@@ -59,7 +54,34 @@
     font-weight: 600;
   }
 
-  /* Mobile: cat on first line, date on second line, title text on third line */
+  /* Desktop (≥ 30em): cat 左列 4em 锚点（与 taxonomy bar 对齐），
+     右侧两行：日期（顶）+ 标题（底，flex 1 整行） */
+  @media (min-width: 30em) {
+    .simple-list-row {
+      display: grid;
+      grid-template-columns: 4em 1fr;
+      column-gap: 0;
+      align-items: start;
+    }
+    .simple-list-cat {
+      grid-column: 1;
+      align-self: start;
+    }
+    .simple-list-title {
+      grid-column: 2;
+      display: flex;
+      flex-direction: column;
+    }
+    .simple-list-date {
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+    .simple-list-title-text {
+      display: block;
+    }
+  }
+
+  /* Mobile (< 30em): cat 顶部、日期中、标题下 —— 同样的三行堆叠 */
   @media (max-width: 30em) {
     .simple-list-row {
       display: block;
@@ -70,7 +92,7 @@
       display: inline-block;
       font-size: 0.8rem;
       margin-right: 0.5rem;
-      margin-bottom: 0.2rem;
+      margin-bottom: 0.25rem;
     }
     .simple-list-title {
       display: block;
@@ -80,38 +102,10 @@
     }
     .simple-list-date {
       display: block;
-      margin-bottom: 0.1rem;
+      margin-bottom: 0.15rem;
     }
     .simple-list-title-text {
       display: block;
-    }
-  }
-
-  /* Desktop: cat 固定 4em 列（与 .posts-taxonomy-label 同宽），title-link flex 1，
-     左边缘 = 4em = taxonomy items 左边缘 → 标题与 taxonomy items 视觉对齐 */
-  @media (min-width: 30em) {
-    .simple-list-row {
-      display: flex;
-      align-items: baseline;
-    }
-    .simple-list-cat {
-      flex: 0 0 4em;
-    }
-    .simple-list-title {
-      flex: 1 1 0%;
-      min-width: 0;
-      display: flex;
-      align-items: baseline;
-    }
-    .simple-list-date {
-      flex: 0 0 auto;
-    }
-    .simple-list-title-text {
-      flex: 1 1 0%;
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
     }
   }
 </style>
