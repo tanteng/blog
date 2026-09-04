@@ -505,15 +505,6 @@ Prompt 工程的"边际收益"快速递减。下表展示了质量提升与成�
 
 **核心结论**：不要为了"用 CoT 而用 CoT"。先用 Zero-shot 跑 baseline，**只在质量不够时升级**。ReAct 和 Reflexion 在简单任务上不仅不会更好，反而会因为 prompt 复杂导致模型困惑。
 
-### 10.1 与已有文章的边界
-
-本系列已有多篇 prompt 相关文章，避免重复：
-  - `prompt-template-structured-output.md`：聚焦 JSON/YAML 输出格式与 JSON mode
-  - `prompt-injection-defense.md`：聚焦 Prompt 注入攻击与防御
-  - `dspy-prompt-optimization.md`：聚焦 DSPy 自动优化的工程细节
-
-本文聚焦**"为什么"和"演进史"**——讲清楚每个范式的来历、解决的问题、组合关系，是 prompt 文章系列的"路线图"。
-
 ## 小结
 
 Prompt Engineering 从 2020 年到 2025 年的演进路径，本质是**"控制粒度"逐步提升**：
