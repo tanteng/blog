@@ -172,3 +172,28 @@ figure.post-img img {
   max-width: 100%;
   height: auto;
 }
+
+/* 文章正文里的并排图片画廊（响应式：桌面 3 列，平板 2 列，手机 1 列）
+   保持图片原比例，不做正方形裁剪
+   用法：<div class="image-gallery"> ... 若干 figure.post-img ... </div> */
+.image-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.image-gallery > figure.post-img {
+  flex: 1 1 calc(33.333% - 1rem);
+  min-width: 0;
+  margin: 0;
+}
+@media (max-width: 768px) {
+  .image-gallery > figure.post-img {
+    flex-basis: calc(50% - 0.5rem);
+  }
+}
+@media (max-width: 480px) {
+  .image-gallery > figure.post-img {
+    flex-basis: 100%;
+  }
+}
