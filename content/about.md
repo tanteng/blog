@@ -15,7 +15,7 @@ ananke:
 ## 关于我
 
 - 🧑‍💻 后台开发工程师，关注 Golang，K8S，AI，Agent 等技术
-- 📷 喜欢摄影（[作品集](https://photos.tanteng.space)），咖啡，旅行
+- 📷 喜欢 [摄影](/categories/photo/)，咖啡，旅行
 - 📍 常驻深圳，来自湖北黄石
 
 ### 📷 摄影装备
