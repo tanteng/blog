@@ -13,8 +13,8 @@
     {{- $post_class = printf "page-%s" .ContentBaseName -}}
   {{- end -}}
 
-  <article class="{{ $post_class }} flex-l {{ if $needs_aside }}mw8{{ else }}mw7{{ end }} center ph3 flex-wrap justify-between">
-    <header class="mt4 w-100">
+  <article class="{{ $post_class }} center mw8 ph3">
+    <header class="mt4">
       {{- partials.Include "hook.html" ( dict "hook" "article/section-link"  "context" . ) -}}
       {{- partials.IncludeCached "social/share.html" . . -}}
       <h1 class="f1 athelas mt3 mb1">
@@ -52,10 +52,11 @@
         <span class="f6 mv4 dib tracked"> - {{ lang.Translate "wordCount" .WordCount }} </span>
       {{ end }}
     </header>
-    <div class="nested-copy-line-height lh-copy {{ $.Param "post_content_classes"  | compare.Default "serif"}} f4 nested-links {{ $.Param "text_color" | compare.Default "mid-gray" }} {{ compare.Conditional (compare.Eq $.Site.Language.LanguageDirection "rtl") "pl4-l" "pr4-l" }} {{ if $needs_aside }}w-two-thirds-l{{ else }}w-100-l{{ end }}">
+    <div class="nested-copy-line-height lh-copy {{ $.Param "post_content_classes"  | compare.Default "serif"}} f4 nested-links {{ $.Param "text_color" | compare.Default "mid-gray" }}">
       {{- partials.Include "hook.html" (dict "hook" "content-before" "context" .) -}}
       {{- .Content -}}
       {{- partials.Include "tags.html" . -}}
+      {{- partials.Include "posts-prev-next.html" . -}}
       {{ if .Site.Config.Services.Disqus.Shortname }}
       <div class="mt6 instapaper_ignoref">
         {{ partials.Include "disqus.html" . }}
@@ -67,11 +68,10 @@
       </div>
       {{ end }}
     </div>
-    {{- if $needs_aside -}}
-    <aside class="w-30-l mt6-l">
-      {{- partials.Include "menu-contextual.html" . -}}
-    </aside>
-    {{- end -}}
-
   </article>
+  {{- if $needs_aside -}}
+  <aside class="aside-fixed-l pa3">
+    {{- partials.Include "menu-contextual.html" . -}}
+  </aside>
+  {{- end -}}
 {{ end }}
