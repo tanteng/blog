@@ -1,6 +1,5 @@
 ---
 title: "使用 Docker 搭建 Laravel 本地开发环境"
-type: post
 date: 2017-10-14T11:28:48+08:00
 draft: false
 tags: ['laravel', 'docker', 'containerization']
