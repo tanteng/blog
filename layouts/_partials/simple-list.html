@@ -1,11 +1,9 @@
 {{/* simple-list.html — minimal article list
    ctx: .pages — array of pages to render
    shows: chinese category title (linked, left color bar) + date + post title (linked)
-   Each row has two anchors — one for category, one for the whole title link (date + title text
-   inside) — so clicking either the cat or the date/title navigates as expected.
-
+   链接区域只有标题文字本身；日期用一个独立的 a 单独可点（覆盖在 time 上）。
    统一布局（PC + H5）：cat 左列锚点（4em，与 taxonomy bar 视觉对齐），
-   右侧两行 — 日期（小灰字）在上、标题（黑字、整行宽度）在下。
+   右侧两行 — 日期（小灰字）在上、标题（黑字）在下。
    H5 cat 改为 inline-block 顶首行；分类和标题形成左侧条视觉组，日期独占第二行。
 */}}
 {{ $pages := .pages }}
@@ -20,14 +18,18 @@
           </a>
         {{ end }}
       {{ end }}
-      <a href="{{ .RelPermalink }}" class="simple-list-title f5 fw5 black mv0 link">
+      <div class="simple-list-meta">
         {{ if not .Date.IsZero }}
-          <time class="simple-list-date f7 gray mr3" {{ fmt.Printf `datetime="%s"` (.Date.Format "2006-01-02T15:04:05Z07:00") | safe.HTMLAttr }}>
-            {{- .Date.Format "2006-01-02" -}}
-          </time>
+          <a href="{{ .RelPermalink }}" class="simple-list-date-link">
+            <time class="simple-list-date f7 gray" {{ fmt.Printf `datetime="%s"` (.Date.Format "2006-01-02T15:04:05Z07:00") | safe.HTMLAttr }}>
+              {{- .Date.Format "2006-01-02" -}}
+            </time>
+          </a>
         {{ end }}
-        <span class="simple-list-title-text">{{ .Title }}</span>
-      </a>
+        <a href="{{ .RelPermalink }}" class="simple-list-title f5 fw5 black mv0 link">
+          <span class="simple-list-title-text">{{ .Title }}</span>
+        </a>
+      </div>
     </div>
   {{ end }}
 </div>
@@ -52,9 +54,15 @@
     color: #1a1a1a;
     font-weight: 600;
   }
+  .simple-list-date-link {
+    text-decoration: none;
+  }
+  .simple-list-date-link:hover .simple-list-date {
+    color: #1a1a1a;
+  }
 
   /* Desktop (≥ 30em): cat 左列 4em 锚点（与 taxonomy bar 对齐），
-     右侧两行：日期（顶）+ 标题（底，flex 1 整行） */
+     右侧两行：日期（顶）+ 标题（底） */
   @media (min-width: 30em) {
     .simple-list-row {
       display: grid;
@@ -66,7 +74,7 @@
       grid-column: 1;
       align-self: start;
     }
-    .simple-list-title {
+    .simple-list-meta {
       grid-column: 2;
       display: block;
     }
@@ -92,18 +100,18 @@
       margin-right: 0.5rem;
       margin-bottom: 0.25rem;
     }
+    .simple-list-date {
+      display: block;
+      margin-bottom: 0.15rem;
+    }
     .simple-list-title {
       display: block;
       font-size: 1.05rem;
       line-height: 1.35;
       margin-top: 0.15rem;
     }
-    .simple-list-date {
-      display: block;
-      margin-bottom: 0.15rem;
-    }
     .simple-list-title-text {
-      display: block;
+      display: inline;
     }
   }
 </style>
