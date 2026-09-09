@@ -9,9 +9,9 @@
    H5 cat 改为 inline-block 顶首行；分类和标题形成左侧条视觉组，日期独占第二行。
 */}}
 {{ $pages := .pages }}
-<div class="simple-list mw7 center ph2 ph3-l">
+<div class="simple-list mw8 center ph2 ph3-l">
   {{ range $pages }}
-    <div class="simple-list-row db pv3 ph2 ph3-l bb b--light-gray hover-bg-near-white">
+    <div class="simple-list-row pv3 ph2 ph3-l bb b--light-gray">
       {{ with .Params.categories }}
         {{ $cat := index . 0 }}
         {{ with site.GetPage (printf "/categories/%s" $cat) }}
@@ -36,7 +36,6 @@
   /* Base */
   .simple-list-row {
     color: inherit;
-    transition: background-color 0.15s ease;
   }
   .simple-list-cat {
     color: #666;
@@ -49,7 +48,7 @@
   .simple-list-title {
     color: #222;
   }
-  .simple-list-row:hover .simple-list-title-text {
+  .simple-list-title:hover .simple-list-title-text {
     color: #1a1a1a;
     font-weight: 600;
   }
@@ -69,15 +68,14 @@
     }
     .simple-list-title {
       grid-column: 2;
-      display: flex;
-      flex-direction: column;
+      display: block;
     }
     .simple-list-date {
       display: block;
       margin-bottom: 0.15rem;
     }
     .simple-list-title-text {
-      display: block;
+      display: inline;
     }
   }
 
