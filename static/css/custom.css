@@ -198,24 +198,5 @@ figure.post-img img {
   }
 }
 
-/* 文章页右侧栏：桌面端 fixed 到 viewport 右侧，不挤压居中的 article */
-.aside-fixed-l {
-  display: none;
-}
-@media (min-width: 1000px) {
-  .aside-fixed-l {
-    display: block;
-    position: fixed;
-    top: 6rem;
-    right: 1.5rem;
-    width: 16rem;
-    max-height: calc(100vh - 8rem);
-    overflow-y: auto;
-    z-index: 10;
-  }
-}
-@media (min-width: 1440px) {
-  .aside-fixed-l {
-    width: 18rem;
-  }
-}
+/* 文章页右侧栏样式已废弃（相关文章移至正文底部、桌面端不再使用 fixed aside），
+   保留此注释以便日后若恢复右侧栏时参考。 */

@@ -3,7 +3,6 @@ title: '关于我'
 seo_title: '关于我 | 谈腾'
 date: 1989-10-31T00:00:00+08:00
 draft: false
-layout: about
 ananke:
   show_date: false
 ---

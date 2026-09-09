@@ -4,8 +4,6 @@
 {{ end }}
 
 {{ define "main" }}
-  {{- $related_content := .Site.RegularPages.Related . -}}
-  {{- $needs_aside := and .Params.toc (not $related_content) -}}
   {{ $page := .}}
   {{ $section := .Site.GetPage "section" .Section }}
 
@@ -80,9 +78,4 @@
       {{ end }}
     </div>
   </article>
-  {{- if $needs_aside -}}
-  <aside class="aside-fixed-l pa3">
-    {{- partials.Include "menu-contextual.html" . -}}
-  </aside>
-  {{- end -}}
 {{ end }}
