@@ -2,7 +2,7 @@
 title: "过程就是奖励"
 date: 2012-08-14T05:22:53+08:00
 draft: false
-tags: ['stevejobs', 'reading']
+tags: ['stevejobs']
 categories: ["reading-notes"]
 description: "过程就是奖励——乔布斯最爱的格言，源自1982年麦金塔团队的一次退思会。"
 ---

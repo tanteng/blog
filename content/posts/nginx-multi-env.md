@@ -2,7 +2,7 @@
 title: "Nginx 基于 User-Agent 实现多环境测试"
 date: 2016-12-17T06:19:44+08:00
 draft: false
-tags: ['nginx']
+tags: ['nginx', 'devops']
 categories: ['tech']
 description: "使用 Nginx 基于 User-Agent 实现多环境测试"
 ---

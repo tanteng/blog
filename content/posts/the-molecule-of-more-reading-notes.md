@@ -2,7 +2,7 @@
 title: "《贪婪的多巴胺》：欲望回路与控制回路"
 date: 2022-09-15T10:00:00+08:00
 draft: false
-tags: ["reading", "reading-notes", "neuroscience", "dopamine"]
+tags: ["reading-notes", "neuroscience", "dopamine"]
 categories: ["reading-notes"]
 description: "多巴胺不是快乐分子，而是欲望分子。它让我们追逐、期待、想拥有更多——但从不让我们满足。理解这一点，能解释上瘾、成瘾、社交媒体、消费主义背后的神经机制。"
 ---

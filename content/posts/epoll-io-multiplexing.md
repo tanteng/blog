@@ -3,7 +3,7 @@ title: "epoll 到底解决了什么问题"
 date: 2019-06-18T10:00:00+08:00
 draft: false
 url: /posts/epoll-io-multiplexing/
-tags: ['linux', 'networking', 'async', 'performance-optimization']
+tags: ['linux', 'networking', 'performance-optimization']
 categories: ['tech']
 description: "从一连接一线程的代价出发，沿阻塞/非阻塞/同步/异步四个词的定义，逐代拆解 select → poll → epoll 的瓶颈与设计，最后落到 Redis 单线程事件循环与 Go netpoller 两种上层用法的对比。"
 ---

@@ -3,7 +3,7 @@ title: "API 网关对比：Kong、APISIX、Envoy 的工程抉择"
 date: 2021-11-12T14:00:00+08:00
 draft: false
 url: /2021/11/api-gateway-comparison/
-tags: ['kong', 'apisix', 'api-gateway', 'architecture']
+tags: ['kong', 'apisix', 'api-gateway', 'microservices']
 categories: ['tech']
 description: "Kong、APISIX、Envoy 三种主流 API 网关在数据平面、控制平面、插件生态、性能与学习曲线上的工程对比。"
 ---

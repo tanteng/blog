@@ -2,7 +2,7 @@
 title: "使用 Docker 搭建 Laravel 本地开发环境"
 date: 2017-10-14T11:28:48+08:00
 draft: false
-tags: ['laravel', 'docker', 'containerization']
+tags: ['laravel', 'docker', 'php', 'containerization']
 categories: ['tech']
 description: "使用 Docker 和 Laradock 搭建 Laravel 本地开发环境指南"
 ---

@@ -6,6 +6,7 @@ categories: ['tech']
 tags:
  - ddd
  - architecture
+ - microservices
 
 ---
 

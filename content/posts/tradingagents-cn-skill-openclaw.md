@@ -2,7 +2,7 @@
 title: "一个基于 TradingAgents 框架打造的股票分析 Skill"
 date: 2026-04-11T00:30:00+08:00
 draft: false
-tags: ["ai", "agent", "llm", "investment", "openclaw", "tradingagents"]
+tags: ["ai", "agent", "investment", "openclaw", "stock"]
 categories: ["tech"]
 description: "记录如何将 TradingAgents 框架的核心思想落地为 OpenClaw Skill，实现 4 位分析师 + 2 轮多空辩论 + 风控三方辩论 + 五级评级的完整中文股票分析流水线。"
 ---

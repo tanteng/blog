@@ -4,7 +4,7 @@ date: 2020-09-22T21:00:00+08:00
 draft: false
 original: true
 url: /2020/09/the-shawshank-redemption-analysis/
-tags: ['shawshank', 'film']
+tags: ['shawshank', 'film-review']
 categories: ['movies']
 ---
 

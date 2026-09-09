@@ -2,7 +2,7 @@
 title: 英语里那些"哑巴"字母
 date: 2022-03-02T10:00:00+08:00
 url: /2022/03/english-silent-letters/
-tags: ['life', 'science', 'reading']
+tags: ['life', 'science']
 categories: ['life']
 ---
 

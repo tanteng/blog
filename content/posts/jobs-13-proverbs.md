@@ -2,7 +2,7 @@
 title: "乔布斯13条箴言"
 date: 2013-10-21T12:29:52+08:00
 draft: false
-tags: ['stevejobs']
+tags: ['stevejobs', 'reading-notes']
 categories: ['reading-notes']
 description: "乔布斯13条箴言"
 ---

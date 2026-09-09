@@ -2,7 +2,7 @@
 title: "从 IO 五种模型到 Reactor 模式：高性能网络编程基石"
 date: 2018-07-15T10:00:00+08:00
 draft: false
-tags: ["linux", "networking", "async"]
+tags: ["linux", "networking", "architecture"]
 categories: ["tech"]
 description: "理解 Linux IO 多路复用（select/poll/epoll/kqueue）是编写高性能服务的基石。本文从阻塞 IO 出发，逐步拆解五种 IO 模型，最终剖析 Redis、Nginx、Netty 等知名框架背后的 Reactor 模式。"
 url: /2018/07/io-models-reactor-pattern/

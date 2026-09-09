@@ -4,7 +4,7 @@ date: 2022-04-12T21:00:00+08:00
 draft: false
 original: true
 url: /2022/04/pulp-fiction-analysis/
-tags: ['pulp-fiction', 'film']
+tags: ['pulp-fiction', 'film-review']
 categories: ['movies']
 ---
 

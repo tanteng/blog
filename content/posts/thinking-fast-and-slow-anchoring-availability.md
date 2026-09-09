@@ -2,7 +2,7 @@
 title: "《思考，快与慢》读书笔记：锚定效应与可得性启发"
 date: 2024-02-10T10:00:00+08:00
 draft: false
-tags: ["reading", "reading-notes", "thinking", "psychology"]
+tags: ["reading-notes", "thinking", "psychology"]
 categories: ["reading-notes"]
 description: "卡尼曼在《思考，快与慢》中描述了两种最隐蔽的认知偏差：锚定效应（被无关信息影响判断）和可得性启发（把容易想到等同于概率更高）。它们在投资、营销、谈判中无处不在。"
 ---

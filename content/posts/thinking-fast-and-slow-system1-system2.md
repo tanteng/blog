@@ -3,7 +3,7 @@ title: "《思考，快与慢》读书笔记：系统1 与系统2"
 date: 2022-05-20T10:00:00+08:00
 url: /posts/thinking-fast-and-slow-system1-system2/
 draft: false
-tags: ["reading", "reading-notes", "thinking", "psychology"]
+tags: ["reading-notes", "thinking", "psychology"]
 categories: ["reading-notes"]
 description: "卡尼曼把人类的认知系统拆成两个模块：直觉的系统1和理性的系统2。这套框架解释了为什么聪明人会犯蠢——因为大部分决策其实都是系统1在自动运行。"
 ---

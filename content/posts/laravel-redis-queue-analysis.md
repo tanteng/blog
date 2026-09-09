@@ -2,7 +2,7 @@
 title: "Laravel Redis 队列原理分析"
 date: 2017-12-23T11:26:19+08:00
 draft: false
-tags: ['laravel', 'redis']
+tags: ['laravel', 'redis', 'queue']
 categories: ['tech']
 description: "Laravel Redis 队列原理分析"
 ---

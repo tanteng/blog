@@ -2,7 +2,7 @@
 title: "《股票大作手回忆录》核心要点提炼"
 date: 2026-03-07
 draft: false
-tags: ["investment", "stock", "reading-notes", "thinking"]
+tags: ["investment", "stock", "reading-notes"]
 categories: ["investment"]
 featured_image: 'https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/03/03b114fb043d99f7d1981260e7abeda6.png'
 ---

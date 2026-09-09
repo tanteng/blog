@@ -4,7 +4,7 @@ date: 2014-03-28T22:00:00+08:00
 draft: false
 original: true
 url: /2014/03/grand-budapest-hotel-analysis/
-tags: ['grand-budapest-hotel', 'film']
+tags: ['grand-budapest-hotel', 'film-review']
 categories: ['movies']
 ---
 

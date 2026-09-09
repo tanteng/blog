@@ -2,7 +2,7 @@
 title: "Hermes Agent 如何实现自进化：一个内置学习闭环的 AI 智能体"
 date: 2026-05-06
 draft: false
-tags: ["agent", "hermes", "ai", "memory", "self-evolution"]
+tags: ["agent", "ai", "memory", "llm"]
 categories: ["ai"]
 description: "深度拆解 Hermes Agent 的自进化机制：三层记忆系统、Nudge 周期自省、Skill 程序性记忆、Honcho 辩证用户建模，以及 GEPA 进化引擎如何把'越用越聪明'从口号变成工程现实。"
 ---

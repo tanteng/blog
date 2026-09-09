@@ -3,7 +3,7 @@ title: "服务网格对比：Istio 与 Linkerd 2 的工程取舍"
 date: 2021-06-20T10:00:00+08:00
 draft: false
 url: /2021/06/istio-vs-linkerd-service-mesh/
-tags: ['service-mesh', 'istio', 'linkerd', 'microservices']
+tags: ['service-mesh', 'istio', 'linkerd', 'microservices', 'kubernetes']
 categories: ['tech']
 description: "Istio 与 Linkerd 2 在数据平面代理、控制平面架构、性能开销与生产可运维性的对比。"
 ---

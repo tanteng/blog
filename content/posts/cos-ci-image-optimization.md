@@ -2,7 +2,7 @@
 title: "用腾讯云数据万象替代 Next.js 图片优化"
 date: 2026-03-29T21:00:00+08:00
 draft: false
-tags: ['next.js', 'performance', 'tencent-cloud', 'cos', 'image-optimization']
+tags: ['next.js', 'performance-optimization', 'tencent-cloud']
 categories: ['tech']
 description: "Next.js 内置图片优化在 2 核服务器上并发处理 80+ 张图片时 CPU 打满，响应时间飙升到 10 秒。通过自定义 Image Loader 将图片处理卸载到腾讯云 COS 数据万象，实现零服务端 CPU 消耗的图片优化"
 ---

@@ -4,7 +4,7 @@ date: 2018-11-16T20:30:00+08:00
 draft: false
 original: true
 url: /2018/11/green-book-analysis/
-tags: ['green-book', 'film']
+tags: ['green-book', 'film-review']
 categories: ['movies']
 ---
 

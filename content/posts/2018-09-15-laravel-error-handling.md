@@ -4,6 +4,9 @@ date: 2018-09-15T05:41:51+00:00
 url: /2018/09/laravel-error-handling/
 categories:
  - tech
+tags:
+ - laravel
+ - principle
 
 ---
 Laravel 自带错误和异常处理，App\Exceptions\Handler 负责上报异常和如何返回内容，以及未登录的处理。

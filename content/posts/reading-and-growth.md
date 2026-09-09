@@ -2,7 +2,7 @@
 title: "阅读与心智的成长"
 date: 2016-12-05T13:31:46+08:00
 draft: false
-tags: ['reading']
+tags: ['reading-notes', 'growth']
 categories: ['reading-notes']
 description: "阅读与心智的成长"
 ---

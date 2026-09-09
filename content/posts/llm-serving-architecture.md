@@ -3,7 +3,7 @@ title: "LLM 推理服务架构：vLLM、TGI 与 Triton 的工程对比"
 date: 2024-04-12T10:00:00+08:00
 draft: false
 url: /2024/04/llm-serving-architecture/
-tags: ['vllm', 'tgi', 'triton', 'ai', 'llm']
+tags: ['vllm', 'tgi', 'triton', 'ai', 'llm-inference']
 categories: ['tech']
 description: "三大 LLM 推理服务（vLLM PagedAttention / HuggingFace TGI / NVIDIA Triton）的架构、性能与生产部署对比。"
 ---

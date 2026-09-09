@@ -2,7 +2,7 @@
 title: "《黄仁勋：英伟达之芯》：从 Denny's 到万亿美元市值"
 date: 2025-06-10T10:00:00+08:00
 draft: false
-tags: ["reading", "reading-notes", "ai", "thinking"]
+tags: ["reading-notes", "ai", "thinking"]
 categories: ["reading-notes"]
 description: "Stephen Witt 的这本传记讲述了 NVIDIA 从濒临破产到全球市值第一的历程。黄仁勋的故事不是科技成功学，而是一个边缘创新者如何用 25 年时间等到了自己的时代。"
 ---

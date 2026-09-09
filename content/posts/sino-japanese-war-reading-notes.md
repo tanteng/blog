@@ -2,7 +2,7 @@
 title: "《中国近代史》读书笔记：甲午战争与自强运动的失败"
 date: 2025-11-15T10:00:00+08:00
 draft: false
-tags: ["reading", "reading-notes", "thinking"]
+tags: ["reading-notes", "thinking"]
 categories: ["reading-notes"]
 description: "甲午战争不只是中日之间的胜负，更是中国现代化路径选择的分水岭。蒋廷黻的分析揭示了为什么「中体西用」的洋务运动注定失败，而真正的现代化必须触动制度。"
 ---

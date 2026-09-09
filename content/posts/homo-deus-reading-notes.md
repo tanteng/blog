@@ -2,7 +2,7 @@
 title: "《未来简史》：从智人到智神的算法统治"
 date: 2024-06-25T10:00:00+08:00
 draft: false
-tags: ["reading", "reading-notes", "thinking", "philosophy"]
+tags: ["reading-notes", "thinking", "philosophy"]
 categories: ["reading-notes"]
 description: "赫拉利的《未来简史》是《人类简史》的续作，但更激进、更具预言性。核心论点：智人正在失去「讲故事」的能力——算法可能比人类更懂自己，而 21 世纪的议题不再是饥荒瘟疫，而是「不死、幸福、神性」。"
 ---

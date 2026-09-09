@@ -2,7 +2,7 @@
 title: "马斯克的闭环战略：从 Tesla 到 Starship 的完整拼图"
 date: 2026-06-14
 draft: false
-tags: ["tech", "space"]
+tags: ["space", "technews"]
 categories: ["tech"]
 description: "从技术、商业、地缘政治到人类未来的太空探索，深入理解埃隆·马斯克的星链计划到底在布一个怎样的大局。"
 ---

@@ -2,7 +2,7 @@
 title: "《黑客与画家》：独立思考者的工作哲学"
 date: 2018-09-15T10:00:00+08:00
 draft: false
-tags: ["reading", "reading-notes", "thinking", "philosophy"]
+tags: ["reading-notes", "thinking", "philosophy"]
 categories: ["reading-notes"]
 description: "Paul Graham 的《黑客与画家》是一本不太像「技术书」的文集——它不谈具体技术，谈的是黑客的思维方式、创造财富的逻辑、以及为什么独立思考比聪明更重要。"
 ---

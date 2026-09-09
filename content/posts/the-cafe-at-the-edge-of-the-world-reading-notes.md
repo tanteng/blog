@@ -2,7 +2,7 @@
 title: "《世界尽头的咖啡馆》：在 PFE 之前，我从未认真问过自己"
 date: 2022-04-20T10:00:00+08:00
 draft: false
-tags: ["reading", "reading-notes", "life", "philosophy"]
+tags: ["reading-notes", "life", "philosophy"]
 categories: ["reading-notes"]
 description: "约翰·史崔勒基的《世界尽头的咖啡馆》用一个小故事讲了三个成年人一辈子都该问自己的问题：你为什么来这里？害怕死亡吗？满足吗？书里给了一个解药：找到你的 PFE（Purpose For Existing），然后为之全力奔跑。"
 ---

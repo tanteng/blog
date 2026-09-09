@@ -4,7 +4,7 @@ date: 2021-08-08T14:00:00+08:00
 draft: false
 url: /2021/08/prometheus-production-monitoring/
 categories: ['tech']
-tags: ['observability', 'prometheus', 'monitoring', 'architecture', 'performance-optimization']
+tags: ['observability', 'prometheus', 'monitoring', 'architecture']
 description: "从 Prometheus 2.x 架构、Exporter 设计、Recording Rule 到 Alertmanager 分级告警与高可用，生产级监控体系全流程。"
 ---
 

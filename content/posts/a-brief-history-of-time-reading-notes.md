@@ -2,7 +2,7 @@
 title: "《时间简史》：从大爆炸到黑洞的宇宙图景"
 date: 2024-06-15T10:00:00+08:00
 draft: false
-tags: ["reading", "reading-notes", "science", "physics"]
+tags: ["reading-notes", "science", "physics"]
 categories: ["reading-notes"]
 description: "霍金的《时间简史》是史上最畅销的科学书之一。它的野心是回答三个终极问题：宇宙从哪里来？时间有没有尽头？我们能不能理解宇宙？这本书不只讲物理，更讲科学如何理解「存在」。"
 ---

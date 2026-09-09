@@ -1,7 +1,7 @@
 ---
 title: "意图识别两条路：SLM 微调与 LLM Function-calling 横评与选型指南"
 date: 2026-07-08T09:00:00+08:00
-tags: ["ai", "intent-recognition", "nlp", "llm", "agent", "bert", "function-calling"]
+tags: ["ai", "llm", "nlp", "agent", "function-calling"]
 categories: ["ai"]
 description: "对话系统的'听懂人话'问题，2026 年有两种主流解法：微调 BERT / Qwen2.5 小模型，或者直接用 LLM Function-calling + 结构化输出（Pydantic / Zod）。本文从多轮对话视角做横评，给出按数据量、QPS、延迟、成本四象限的选型决策树，以及工业界常见的 SLM 粗排 + LLM 精排混合架构。"
 ---

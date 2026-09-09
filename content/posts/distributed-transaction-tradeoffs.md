@@ -4,7 +4,7 @@ date: 2022-09-18T15:00:00+08:00
 draft: false
 url: /2022/09/distributed-transaction-tradeoffs/
 categories: ['tech']
-tags: ['distributed', 'transaction', 'architecture', 'microservices', 'database']
+tags: ['distributed', 'transaction', 'microservices', 'database', 'algorithm']
 description: "2PC、SAGA、TCC 三种分布式事务方案的原理、一致性边界与生产级取舍，含 Seata 实战。"
 ---
 

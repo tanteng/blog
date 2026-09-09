@@ -4,7 +4,7 @@ date: 2022-02-22T11:00:00+08:00
 draft: false
 url: /2022/02/distributed-lock-comparison/
 categories: ['tech']
-tags: ['distributed', 'redis', 'etcd', 'zookeeper', 'concurrency']
+tags: ['distributed', 'redis', 'etcd', 'zookeeper', 'algorithm']
 description: "Redis SETNX、etcd lease、ZooKeeper ephemeral node 三种分布式锁实现的正确性边界、生产级陷阱与选型建议。"
 ---
 

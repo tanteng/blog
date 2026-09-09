@@ -3,7 +3,7 @@ title: "eBPF 与 Cilium：Linux 内核网络的可编程时代"
 date: 2024-07-25T11:00:00+08:00
 draft: false
 url: /2024/07/ebpf-cilium-networking/
-tags: ['ebpf', 'cilium', 'kubernetes', 'linux']
+tags: ['ebpf', 'cilium', 'kubernetes', 'linux', 'networking']
 categories: ['tech']
 description: "eBPF 是什么、Cilium 如何用 eBPF 重写 K8s 网络栈、kube-proxy 替换、Service Mesh 演进。"
 ---

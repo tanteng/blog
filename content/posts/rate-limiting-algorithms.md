@@ -3,7 +3,7 @@ title: "限流四算法：从计数器到令牌桶的工程取舍"
 date: 2019-10-16T10:00:00+08:00
 draft: false
 url: /posts/rate-limiting-algorithms/
-tags: ['performance-optimization', 'redis', 'nginx', 'reliability']
+tags: ['algorithm', 'reliability', 'redis', 'nginx', 'distributed']
 categories: ['tech']
 description: "限流的真正难点从来不在计数器、漏桶还是令牌桶本身，而在分布式环境下如何让算法依然成立——单机到多机，每一步都在重新定义问题。"
 ---

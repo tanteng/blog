@@ -2,7 +2,7 @@
 title: "HTTP/2 多路复用、帧结构与 HoL 阻塞"
 date: 2018-08-15T10:00:00+08:00
 draft: false
-tags: ["http", "protocol"]
+tags: ["http", "protocol", "networking"]
 categories: ["tech"]
 description: "HTTP/2 通过二进制分帧和多路复用解决了 HTTP/1.1 的队头阻塞，但代价是引入 TCP 层的 HoL 阻塞。本文剖析 HTTP/2 的二进制帧、HPACK 压缩、Stream 优先级，以及为何它仍是同步阻塞协议。"
 url: /2018/08/http2-multiplexing-head-of-line-blocking/

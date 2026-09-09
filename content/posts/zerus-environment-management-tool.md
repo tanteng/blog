@@ -2,7 +2,7 @@
 title: "Zerus 环境管理工具的实现原理"
 date: 2025-06-22
 draft: false
-tags: ["kubernetes", "istio", "service-mesh", "devops", "environment-management"]
+tags: ["kubernetes", "istio", "service-mesh", "devops", "microservices"]
 categories: ["tech"]
 description: "深入解析 Zerus 环境管理工具的实现原理，探讨基于 Istio 的流量染色与路由调度机制。"
 ---

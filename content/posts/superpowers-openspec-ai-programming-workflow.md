@@ -2,7 +2,7 @@
 title: "Superpowers + OpenSpec：AI 编程黄金搭档工作流"
 date: 2026-03-15T10:00:00+08:00
 draft: false
-tags: ['ai', 'claude-code', 'agent', 'workflow']
+tags: ['ai', 'agent', 'openspec', 'sdd']
 categories: ['tech']
 description: "深入解析 Superpowers 技能框架与 OpenSpec 规范驱动开发的互补关系，探讨如何构建高效可靠的 AI 编程闭环。"
 ---

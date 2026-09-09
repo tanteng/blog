@@ -2,7 +2,7 @@
 title: "期权卖方组合拳：卖 Put 与卖 Call 的经典搭配策略"
 date: 2026-04-09
 draft: false
-tags: ["options", "trading", "investment", "wheel", "iron-condor", "covered-call"]
+tags: ["options", "trading", "investment"]
 categories: ["investment"]
 description: "深入解析期权卖方的经典组合策略：Wheel 轮动、Bull Put Spread、Bear Call Spread、Iron Condor、Poor Man's Covered Call 等，帮助投资者找到最适合自身的卖方策略。"
 ---

@@ -4,7 +4,7 @@ date: 1999-06-05T22:00:00+08:00
 draft: false
 original: true
 url: /1999/06/kikujiro-analysis/
-tags: ['kikujiro', 'film']
+tags: ['kikujiro', 'film-review']
 categories: ['movies']
 ---
 

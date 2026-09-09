@@ -3,7 +3,7 @@ title: "channel 与 sync：Go 并发原语的实现代价"
 date: 2019-07-22T10:00:00+08:00
 draft: false
 url: /posts/go-channel-sync-primitives/
-tags: ['golang', 'concurrency', 'async', 'memory-management']
+tags: ['golang', 'concurrency', 'scheduler', 'memory-management']
 categories: ['tech']
 description: "Go 的 channel 不是魔法，而是带锁的环形队列 + 调度器协作；mutex/WaitGroup/Once/Pool 各自有取舍。本文按 1.12 源码讲清每一类原语的实现代价、常见误用与选型标准。"
 ---

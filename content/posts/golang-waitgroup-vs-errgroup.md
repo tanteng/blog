@@ -3,7 +3,7 @@ title: "Go 并发进阶：WaitGroup vs ErrGroup 详解"
 date: 2024-08-23
 categories: ['tech']
 tags:
-  - go
+  - golang
   - concurrency
   - goroutine
 ---

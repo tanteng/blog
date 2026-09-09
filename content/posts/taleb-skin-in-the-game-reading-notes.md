@@ -1,7 +1,7 @@
 ---
 title: "风险共担的反脆弱哲学——读塔勒布《非对称风险》"
 date: 2026-07-16T13:30:00+08:00
-tags: ["taleb", "incerto", "reading-notes", "options", "risk-management"]
+tags: ["reading-notes", "philosophy", "options", "investment"]
 categories: ["reading-notes"]
 description: "塔勒布《非对称风险》读书笔记：从遍历性、对称性、凸性到林迪效应，系统拆解 Incerto 五部曲中最像「道德哲学」的一本，并给出股票与期权操作的 Taleb 视角立场——杠铃策略推荐、裸卖期权强烈反对、机械止损反对、2/20 基金结构是骗局。"
 ---

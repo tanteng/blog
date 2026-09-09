@@ -4,9 +4,8 @@ date: 2018-03-26T00:00:00+00:00
 url: /2018/03/copy-on-write/
 categories: ['tech']
 tags:
- - programming
- - memory-management
  - linux
+ - memory-management
 
 ---
 

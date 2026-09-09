@@ -3,7 +3,7 @@ title: "提升 RAG 召回率的最低成本方案：3 个 Query 改写范式"
 date: 2025-09-03T08:00:00+08:00
 description: "RAG 召回率不高的常见原因不是 Embedding 不行，而是用户问得太模糊。本文讲 3 个 Query 改写实战范式：单查询改写、Multi-Query、Step-back Prompting，附实现代码和成本对比。"
 categories: ['tech']
-tags: ['ai', 'rag', 'llm', 'query-rewriting', 'multi-query', 'advanced']
+tags: ['ai', 'rag', 'llm', 'embedding']
 ---
 
 跑过 RAG 的同学大概率踩过这个坑：**Embedding 模型选得很好、向量库也没问题，但召回质量就是不行**。

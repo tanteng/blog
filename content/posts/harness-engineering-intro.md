@@ -2,7 +2,7 @@
 title: "Harness Engineering 入门：让 AI Coding Agent 稳定工作的工程实践"
 date: 2026-03-27
 draft: false
-tags: ["ai", "engineering", "tool"]
+tags: ["ai", "agent", "methodology"]
 categories: ["tech"]
 ---
 

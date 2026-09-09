@@ -4,7 +4,7 @@ date: 2020-05-10T11:00:00+08:00
 draft: false
 url: /2020/05/docker-containerization-fundamentals/
 categories: ['tech']
-tags: ['docker', 'containerization', 'linux', 'performance-optimization']
+tags: ['docker', 'containerization', 'linux', 'architecture']
 description: "Docker 不只是换个命令行：深入理解镜像分层、容器进程模型、网络驱动、存储卷与安全实践，构建可移植、可复制的容器化部署流程。"
 ---
 

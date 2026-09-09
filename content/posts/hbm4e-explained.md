@@ -2,7 +2,7 @@
 title: "HBM4E 详解： SK 海力士凭什么抢跑下一代内存"
 date: 2026-06-18
 draft: false
-tags: ["ai", "memory", "hbm", "nvidia", "tech"]
+tags: ["ai", "memory", "hbm", "nvidia"]
 categories: ["tech"]
 description: "2026年6月18日，SK海力士宣布向英伟达送样12层堆叠 HBM4E，带宽达 4TB/s、能效提升20%。本文深度解析 HBM 技术演进路径、HBM4E 的关键突破，以及三大厂商的竞争格局。"
 ---

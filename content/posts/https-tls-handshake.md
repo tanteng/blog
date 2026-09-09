@@ -2,7 +2,7 @@
 title: "HTTPS TLS 1.2 握手过程与加密原理全解析"
 date: 2018-05-10T10:00:00+08:00
 draft: false
-tags: ["http", "security", "protocol"]
+tags: ["http", "security", "protocol", "networking"]
 categories: ["tech"]
 description: "HTTPS 之所以安全，是因为它在 HTTP 之下、TCP 之上叠加了 TLS 协议。本文从密码学原语出发，完整拆解 TLS 1.2 四次握手的过程、RSA 与 ECDHE 密钥交换的差异，以及会话恢复机制。"
 url: /2018/05/https-tls-handshake/

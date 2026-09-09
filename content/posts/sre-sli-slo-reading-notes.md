@@ -2,7 +2,7 @@
 title: "《SRE：Google 运维解密》读书笔记：SLI 与 SLO"
 date: 2023-11-30T10:00:00+08:00
 draft: false
-tags: ["reading", "reading-notes", "observability", "reliability"]
+tags: ["reading-notes", "observability", "reliability"]
 categories: ["reading-notes"]
 description: "Google SRE 团队出版的这本书改变了整个运维行业。它的核心理念是用 SLO（服务等级目标）替代传统的 SLA 思维，把可靠性和工程效率挂钩。这篇文章聊聊 SLI/SLO 的核心思想。"
 ---

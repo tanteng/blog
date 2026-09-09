@@ -3,7 +3,7 @@ title: "RAG 召回率提升的另一条路：HyDE 让问题先伪装成答案"
 date: 2026-03-03T08:00:00+08:00
 description: "Query 改写从'问题侧'把模糊问题变清晰，HyDE 从'答案侧'反向生成。两者思路相反，效果互补。"
 categories: ['ai']
-tags: ['ai', 'rag', 'hyde', 'embedding', 'vector-search', 'query-rewriting']
+tags: ['ai', 'rag', 'embedding', 'vector-search']
 featured_image: ""
 ---
 

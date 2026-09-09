@@ -2,7 +2,7 @@
 title: "《领域驱动设计》读书笔记：聚合根与实体"
 date: 2023-02-18T10:00:00+08:00
 draft: false
-tags: ["ddd", "reading", "reading-notes", "architecture"]
+tags: ["ddd", "reading-notes", "architecture"]
 categories: ["reading-notes"]
 description: "Eric Evans 的 DDD 已经出版 20 年，但其中「聚合根」的设计原则至今仍是复杂业务系统的关键。本文重读聚合根的概念，结合实际项目经验谈谈它的精妙之处。"
 ---

@@ -2,7 +2,7 @@
 title: 'gRPC HTTP Transcoding 注解详解'
 date: 2022-09-15T10:00:00+08:00
 draft: false
-tags: ['grpc', 'microservices', 'go', 'restful', 'protocol-buffers']
+tags: ['grpc', 'microservices', 'golang', 'protocol', 'api-gateway']
 categories: ['tech']
 description: '深入解析 gRPC HTTP Transcoding 机制：如何通过 google.api.http 注解让 gRPC 服务同时支持 gRPC 协议和 RESTful HTTP/JSON 调用，并提供完整的 Go 语言实战示例。'
 ---

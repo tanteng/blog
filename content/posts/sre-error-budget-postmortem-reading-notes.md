@@ -2,7 +2,7 @@
 title: "《SRE：Google 运维解密》读书笔记：错误预算与事后总结"
 date: 2024-09-25T10:00:00+08:00
 draft: false
-tags: ["reading", "reading-notes", "observability", "reliability"]
+tags: ["reading-notes", "observability", "reliability"]
 categories: ["reading-notes"]
 description: "Google SRE 第二个核心实践：把错误预算当成可靠性管理的「货币」，用无指责的事后总结建立学习型组织。这套体系把「故障」从追责对象变成改进机会。"
 ---

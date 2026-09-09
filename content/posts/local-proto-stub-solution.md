@@ -2,7 +2,7 @@
 title: "用本地 Stub 解决 Go Proto 冲突"
 date: 2026-05-28
 draft: false
-tags: ["go", "golang", "protobuf", "microservices", "protocol"]
+tags: ["golang", "microservices", "protocol"]
 categories: ["tech"]
 description: "当引入一个内部 RPC 依赖导致两个 proto 文件冲突服务直接 panic 时，如何通过手写本地精简 Stub 绕过注册机制，以最小代价解决这一经典 Go protobuf 依赖地狱问题。"
 ---

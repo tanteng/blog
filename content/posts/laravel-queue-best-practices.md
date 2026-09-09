@@ -2,7 +2,7 @@
 title: "Laravel 队列实践指南"
 date: 2017-12-11T10:08:13+08:00
 draft: false
-tags: ['laravel']
+tags: ['laravel', 'queue', 'redis']
 categories: ['tech']
 description: "Laravel 队列实践指南"
 ---

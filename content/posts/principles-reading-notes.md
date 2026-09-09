@@ -2,7 +2,7 @@
 title: "《原则》：达利欧的生活与工作方法论"
 date: 2024-07-25T10:00:00+08:00
 draft: false
-tags: ["reading", "reading-notes", "thinking", "philosophy"]
+tags: ["reading-notes", "thinking", "philosophy"]
 categories: ["reading-notes"]
 description: "瑞·达利欧的《原则》不是普通的成功学——它是桥水基金创始人 40 年实战经验的总结。核心方法论：把痛苦转化为反思，把反思转化为原则，把原则转化为算法，最终实现「想法-现实-结果的闭环」。"
 ---

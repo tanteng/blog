@@ -4,7 +4,7 @@ date: 2015-10-02T22:00:00+08:00
 draft: false
 original: true
 url: /2015/10/the-martian-analysis/
-tags: ['the-martian', 'film']
+tags: ['the-martian', 'film-review']
 categories: ['movies']
 ---
 

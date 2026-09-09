@@ -2,7 +2,7 @@
 title: "《编写可读代码的艺术》：代码是写给人看的，只是偶尔让机器执行"
 date: 2022-07-20T10:00:00+08:00
 draft: false
-tags: ["reading", "reading-notes", "thinking", "methodology"]
+tags: ["reading-notes", "thinking", "methodology"]
 categories: ["reading-notes"]
 description: "Dustin Boswell 和 Trevor Foucher 的《编写可读代码的艺术》是一本被严重低估的工程书。它不教你写更聪明的代码，它教你写更易读的代码——而后者，决定了你能写出多复杂的系统。"
 ---

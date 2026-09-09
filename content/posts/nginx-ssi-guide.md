@@ -2,7 +2,7 @@
 title: "Nginx SSI 使用指南"
 date: 2016-04-08T12:47:34+08:00
 draft: false
-tags: ['nginx']
+tags: ['nginx', 'http', 'ssr']
 categories: ['tech']
 description: "Nginx SSI 使用指南"
 ---

@@ -4,7 +4,7 @@ date: 2026-01-18T14:30:00+08:00
 draft: false
 original: true
 slug: "macau-coloane-film-citywalk"
-tags: ["photography", "film", "film-camera", "film-roll", "travel"]
+tags: ["photography", "travel"]
 categories: ["photo"]
 featured_image: "https://assets.tanteng.space/photo-0oRmKXRMXIpuU0j3.jpeg?imageMogr2/auto-orient/thumbnail/2000x/format/webp/quality/92/sharpen/100x50/strip/interlace/1"
 description: "带一台 Pentax 17 半格胶片相机去澳门路环岛徒步，从安德鲁饼店走到黑沙海滩，顺便聊聊胶片相机的乐趣。"

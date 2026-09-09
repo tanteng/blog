@@ -2,7 +2,7 @@
 title: "Linux发明人Linus Torvalds自传摘录"
 date: 2012-09-04T16:07:50+08:00
 draft: false
-tags: ['linux', 'torvalds']
+tags: ['linux', 'torvalds', 'reading-notes']
 categories: ['tech']
 description: "除了程序员，大概很少人知道Linux操作系统。它的发明者Linus Torvalds，知道的人就更少了。他的自传《Just For Fun》出版于十年前（2001年），已经几乎被遗忘了。"
 ---

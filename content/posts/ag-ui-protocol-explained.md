@@ -1,7 +1,7 @@
 ---
 title: "一文读懂 AG-UI 协议：AI Agent 与前端交互的新标准"
 date: 2026-03-09
-tags: ["ai", "ag-ui", "protocol", "tech"]
+tags: ["ai", "ag-ui", "protocol"]
 categories: ["tech"]
 ---
 

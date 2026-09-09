@@ -1,7 +1,7 @@
 ---
 title: "微单无法复制的 7 件事：胶片的不可替代性"
 date: 2025-11-11
-tags: ["photography", "camera", "film-camera", "film"]
+tags: ["photography", "camera"]
 categories: ["photo"]
 description: "微单在技术指标上已经全面碾压胶片，但胶片依然有几件事是数码很难甚至无法复制的。这不是情怀，而是物理和化学层面的本质差异。"
 ---

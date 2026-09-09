@@ -2,7 +2,7 @@
 title: "Next.js 照片博客性能优化：回源协议与 HTTP/3 升级"
 date: 2026-03-29T00:00:00+08:00
 draft: false
-tags: ['next.js', 'performance', 'nginx', 'edgeone', 'tencent-cloud']
+tags: ['next.js', 'performance-optimization', 'nginx', 'tencent-cloud', 'http']
 categories: ['tech']
 description: "在完成 Vercel 到腾讯云的迁移后，围绕回源协议做了一系列优化：从双重 SSL 到 HTTP 明文，再到 HTTPS + HTTP/2 回源，最终实现全链路 HTTP/2 多路复用。同时启用 HTTP/3 (QUIC) 提升用户侧体验"
 ---

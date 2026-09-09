@@ -4,7 +4,7 @@ date: 2011-04-08T22:00:00+08:00
 draft: false
 original: true
 url: /2011/04/the-pursuit-of-happyness-analysis/
-tags: ['the-pursuit-of-happyness', 'film']
+tags: ['the-pursuit-of-happyness', 'film-review']
 categories: ['movies']
 ---
 

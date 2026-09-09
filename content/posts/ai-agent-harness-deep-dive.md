@@ -2,7 +2,7 @@
 title: "深度拆解：AI Agent Harness 的构造【译】"
 date: 2026-05-11
 draft: false
-tags: ["agent", "ai", "translation"]
+tags: ["agent", "ai", "llm"]
 categories: ["ai"]
 url: /2026/05/ai-agent-harness-deep-dive/
 ---

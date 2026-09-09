@@ -2,7 +2,7 @@
 title: "《领域驱动设计》读书笔记：领域事件与限界上下文"
 date: 2023-04-22T10:00:00+08:00
 draft: false
-tags: ["ddd", "reading", "reading-notes", "architecture"]
+tags: ["ddd", "reading-notes", "architecture"]
 categories: ["reading-notes"]
 description: "DDD 中两个互补的概念：限界上下文定义模型的边界，领域事件定义跨上下文的协作方式。理解这两个概念，能解决微服务拆分、跨团队协作、设计耦合等一系列架构难题。"
 ---

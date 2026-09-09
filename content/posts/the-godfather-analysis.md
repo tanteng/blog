@@ -4,7 +4,7 @@ date: 2018-06-15T20:30:00+08:00
 draft: false
 original: true
 url: /2018/06/the-godfather-analysis/
-tags: ['godfather', 'film']
+tags: ['godfather', 'film-review']
 categories: ['movies']
 ---
 

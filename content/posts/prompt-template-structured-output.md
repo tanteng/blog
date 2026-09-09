@@ -1,7 +1,7 @@
 ---
 title: "基于 LangChain 的结构化输出实践"
 date: 2023-12-25
-tags: ["ai", "prompt", "llm", "structured-output", "langchaingo"]
+tags: ["ai", "prompt", "llm", "structured-output"]
 categories: ["tech"]
 ---
 

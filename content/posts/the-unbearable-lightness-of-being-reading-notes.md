@@ -2,7 +2,7 @@
 title: "《不能承受的生命之轻》读书笔记：轻与重的永恒辩证"
 date: 2022-11-08T10:00:00+08:00
 draft: false
-tags: ["reading", "reading-notes", "philosophy", "thinking"]
+tags: ["reading-notes", "philosophy", "thinking"]
 categories: ["reading-notes"]
 description: "米兰·昆德拉借托马斯和特蕾莎的爱情，写出了人类处境的核心悖论：轻让人无法承受，重让人无法呼吸。生命的意义不在于选择本身，而在于选择之后承担它的重量。"
 ---

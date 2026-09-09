@@ -3,9 +3,10 @@ title: "股票修复策略（Stock Repair）：被套时如何不追加资金解
 date: 2026-04-24
 categories: ['investment']
 tags:
-  - 投资策略
-  - stock-repair
+  - investment
+  - stock
   - options
+  - trading
 description: "介绍机构常用的股票修复策略（Stock Repair），通过比例价差组合在不追加本金的情况下大幅降低盈亏平衡点，以 SPCX 为例详细拆解操作逻辑与适用场景。"
 ---
 

@@ -6,8 +6,8 @@ categories: ['ai']
 tags:
   - ai
   - llm
+  - prompt
   - dspy
-  - prompt-engineering
   - optimization
 ---
 

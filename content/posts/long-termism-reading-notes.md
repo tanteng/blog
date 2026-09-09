@@ -2,7 +2,7 @@
 title: "《长期主义》：与时间为友的反本能修炼"
 date: 2024-04-08T10:00:00+08:00
 draft: false
-tags: ["reading", "reading-notes", "thinking", "growth"]
+tags: ["reading-notes", "thinking", "growth"]
 categories: ["reading-notes"]
 description: "短期主义是人类的本能——多巴胺系统让我们追逐即时满足。长期主义是一种反本能的修炼，需要设计系统来对抗短期诱惑。这本书讲的不是鸡汤，而是可操作的方法。"
 ---

@@ -3,7 +3,7 @@ title: "消息队列选型：Redis Stream、RabbitMQ、Kafka 的语义差异"
 date: 2019-12-10T10:00:00+08:00
 draft: false
 url: /posts/message-queue-selection/
-tags: ['kafka', 'rabbitmq', 'queue', 'distributed']
+tags: ['kafka', 'rabbitmq', 'queue', 'distributed', 'redis']
 categories: ['tech']
 description: "选型分歧的根源不是性能，而是三个产品对'一条消息属于谁、什么时候算处理完'的不同回答。围绕五个问题横向对比 Redis Stream、RabbitMQ、Kafka，并给出消费幂等、重试退避、堆积监控、本地消息表等通用防线。"
 ---

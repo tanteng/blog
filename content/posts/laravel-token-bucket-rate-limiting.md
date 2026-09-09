@@ -5,7 +5,6 @@ draft: false
 tags:
  - laravel
  - redis
- - rate-limiting
 categories: ['tech']
 description: "详解 Laravel Redis::throttle 的实现原理，分析其与标准令牌桶算法的区别。"
 ---

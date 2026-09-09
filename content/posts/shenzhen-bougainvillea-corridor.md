@@ -1,7 +1,7 @@
 ---
 title: "深圳三角梅花海长廊"
 date: 2026-03-24
-tags: ["photo", "shenzhen", "flowers"]
+tags: ["photography"]
 categories: ["photo"]
 description: "深圳街头三角梅盛开的场景"
 ---

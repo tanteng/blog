@@ -3,7 +3,7 @@ title: "Prompt Engineering 演进：从 Zero-shot 到 ReAct"
 date: 2025-05-15T11:00:00+08:00
 draft: false
 url: /2025/05/prompt-engineering-evolution/
-tags: ['prompt-engineering', 'llm', 'agent', 'ai']
+tags: ['ai', 'prompt', 'llm', 'agent']
 categories: ['tech']
 description: "Prompt Engineering 范式演进史：Zero-shot → Few-shot → Chain-of-Thought → ReAct → Reflexion → Tree of Thoughts → DSPy。从手工 prompt 到自动优化的工程化路径。"
 ---

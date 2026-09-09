@@ -2,7 +2,7 @@
 title: "MacBook Pro 自行更换电池记录"
 date: 2021-10-01T20:22:04+08:00
 draft: false
-tags: ['macbook']
+tags: ['macbook', 'life']
 categories: ['life']
 description: "MacBook Pro 自行更换电池记录"
 ---

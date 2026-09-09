@@ -3,7 +3,7 @@ title: "Go 语言入门：从 PHP 到 Go 的思维转变"
 date: 2018-02-18T11:00:00+08:00
 draft: false
 url: /2018/02/go-from-php-mindset/
-tags: ['go', 'golang', 'php', 'performance-optimization']
+tags: ['golang', 'php', 'backend']
 categories: ['tech']
 description: "从 PHP 转向 Go 不只是语法变化，更是编程范式的转变：编译型、静态类型、并发模型、错误处理和工程化的全面升级。"
 ---

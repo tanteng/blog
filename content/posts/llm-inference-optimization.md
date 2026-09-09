@@ -3,7 +3,7 @@ title: "LLM 推理优化：KV Cache、PagedAttention 与量化"
 date: 2025-03-25T14:00:00+08:00
 draft: false
 url: /2025/03/llm-inference-optimization/
-tags: ['llm-inference', 'kv-cache', 'quantization', 'ai', 'llm']
+tags: ['llm-inference', 'kv-cache', 'quantization', 'ai', 'performance-optimization']
 categories: ['tech']
 description: "LLM 推理优化核心算法：KV Cache 分页管理（PagedAttention）、FlashAttention-2 IO 优化、KV Cache 量化（KIVI）、模型权重量化（GPTQ/AWQ/GGUF）、Speculative Decoding 投机解码。"
 ---

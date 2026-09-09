@@ -4,7 +4,7 @@ date:  2023-06-18T20:30:00+08:00
 draft: false
 original: true
 url: /2023/06/the-legend-of-1900-analysis/
-tags: ['the-legend-of-1900', 'film']
+tags: ['the-legend-of-1900', 'film-review']
 categories: ['movies']
 ---
 

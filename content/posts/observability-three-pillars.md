@@ -4,7 +4,7 @@ date: 2021-03-15T10:00:00+08:00
 draft: false
 url: /2021/03/observability-three-pillars/
 categories: ['tech']
-tags: ['observability', 'monitoring', 'architecture', 'performance-optimization', 'distributed']
+tags: ['observability', 'monitoring', 'distributed', 'tracing']
 description: "Metrics/Logs/Traces 三种信号的差异、采样模型与统一上下文传播，从监控走向可观测性的工程路径。"
 ---
 

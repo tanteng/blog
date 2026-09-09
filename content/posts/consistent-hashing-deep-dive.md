@@ -3,7 +3,7 @@ title: "一致性哈希算法：动态扩容的优雅解法"
 date: 2017-08-30T14:00:00+08:00
 draft: false
 url: /2017/08/consistent-hashing-deep-dive/
-tags: ['algorithm', 'distributed', 'architecture', 'database']
+tags: ['algorithm', 'distributed', 'database', 'performance-optimization']
 categories: ['tech']
 description: "一致性哈希如何解决传统哈希在动态扩容时的缓存雪崩问题，以及虚拟节点的设计取舍与工程实现。"
 ---

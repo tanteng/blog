@@ -2,7 +2,7 @@
 title: "索尼 A7M4 白平衡偏移设置完全指南"
 date: 2026-04-08
 draft: false
-tags: ["photography", "camera", "sony", "a7m4", "white-balance", "color-science"]
+tags: ["photography", "camera", "sony", "a7m4", "color-grading"]
 categories: ["photo"]
 description: "详解索尼 A7M4 白平衡偏移（WB Shift）的核心坐标轴与四套主流方案，涵盖清透人像、复古电影感、冷调都市、日系空气感，让直出色彩一步到位。"
 ---

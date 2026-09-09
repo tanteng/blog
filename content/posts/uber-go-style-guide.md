@@ -2,7 +2,7 @@
 title: "Uber Go 开发规范"
 date: 2019-09-03T08:00:00+08:00
 draft: false
-tags: ['go']
+tags: ['golang', 'methodology']
 categories: ['tech']
 description: "Uber Go 开发规范解读"
 ---

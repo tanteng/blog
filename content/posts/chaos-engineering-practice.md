@@ -3,7 +3,7 @@ title: "混沌工程实践：从 Chaos Monkey 到 Chaos Mesh 的演进"
 date: 2022-04-08T11:00:00+08:00
 draft: false
 url: /2022/04/chaos-engineering-practice/
-tags: ['chaos-engineering', 'kubernetes', 'architecture', 'reliability']
+tags: ['chaos-engineering', 'kubernetes', 'reliability', 'distributed']
 categories: ['tech']
 description: "混沌工程从 Netflix 的 Chaos Monkey 到云原生的 Chaos Mesh / ChaosBlade，关键能力演进与生产实践总结。"
 ---

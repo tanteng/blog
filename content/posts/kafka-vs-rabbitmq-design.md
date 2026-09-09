@@ -3,7 +3,7 @@ title: "消息队列：Kafka 与 RabbitMQ 的设计哲学对比"
 date: 2018-11-15T09:00:00+08:00
 draft: false
 url: /2018/11/kafka-vs-rabbitmq-design/
-tags: ['kafka', 'rabbitmq', 'queue', 'architecture']
+tags: ['kafka', 'rabbitmq', 'queue', 'distributed']
 categories: ['tech']
 description: "深入对比 Kafka 与 RabbitMQ 在设计哲学、消息模型、存储机制、消费模式上的根本差异，以及不同业务场景下的选型建议。"
 ---

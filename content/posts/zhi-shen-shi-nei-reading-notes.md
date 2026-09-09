@@ -2,7 +2,7 @@
 title: "《置身事内》：理解中国经济的入门钥匙"
 date: 2024-03-20T10:00:00+08:00
 draft: false
-tags: ["reading", "reading-notes", "thinking", "philosophy"]
+tags: ["reading-notes", "thinking", "investment"]
 categories: ["reading-notes"]
 description: "兰小欢的《置身事内》用通俗语言讲清了中国政府与经济发展的关系。它不站在任何政治立场，只讲机制——分税制、地方政府、城投债、土地财政、产能过剩，这些看似抽象的概念被讲成了「看得见的故事」。"
 ---

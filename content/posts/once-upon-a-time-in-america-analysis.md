@@ -4,7 +4,7 @@ date: 2023-11-08T22:15:00+08:00
 draft: false
 original: true
 url: /2023/11/once-upon-a-time-in-america-analysis/
-tags: ['once-upon-a-time-in-america', 'film']
+tags: ['once-upon-a-time-in-america', 'film-review']
 categories: ['movies']
 ---
 

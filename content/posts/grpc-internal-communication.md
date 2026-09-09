@@ -3,7 +3,7 @@ title: "gRPC 实战：内部通信的协议之争"
 date: 2019-09-25T14:00:00+08:00
 draft: false
 url: /2019/09/grpc-internal-communication/
-tags: ['grpc', 'protocol', 'microservices', 'performance-optimization']
+tags: ['grpc', 'protocol', 'microservices']
 categories: ['tech']
 description: "微服务内部通信协议对比：REST/JSON vs gRPC vs Thrift，从性能、契约、流式通信、生态成熟度四个维度解析为什么 gRPC 成为云原生时代的事实标准。"
 ---

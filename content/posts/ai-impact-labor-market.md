@@ -1,7 +1,7 @@
 ---
 title: "AI对劳动力市场的影响——Anthropic最新研究解读"
 date: 2026-03-07
-tags: ["ai", "tech", "thinking"]
+tags: ["ai", "thinking"]
 categories: ["ai"]
 description: "Anthropic发布最新研究，用新指标观察AI对就业的实际影响，结果出人意料..."
 ---

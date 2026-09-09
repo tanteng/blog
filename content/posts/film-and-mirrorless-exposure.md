@@ -2,7 +2,7 @@
 title: "胶片与微单的曝光技巧"
 date: 2026-03-22T00:00:00+08:00
 draft: false
-tags: ['photography', 'film', 'film-camera', 'camera']
+tags: ['photography', 'camera']
 categories: ['photo']
 url: /2026/03/film-and-mirrorless-exposure/
 description: "胶片高光宽容，按暗部曝光（宁过勿欠）；微单暗部宽容，按高光曝光 + 向右曝光（ETTR）。两者相反，本质是介质物理差异。"

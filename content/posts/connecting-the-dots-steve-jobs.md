@@ -3,7 +3,7 @@ title: "乔布斯的 Connecting the Dots"
 date: 2013-08-01
 lastmod: 2026-07-13
 draft: false
-tags: ["stevejobs", "reading"]
+tags: ["stevejobs", "reading-notes", "thinking"]
 categories: ["reading-notes"]
 description: "Jobs 2005 年斯坦福毕业典礼的第一则故事。重读才发现,多数中文译文漏掉了一层。"
 ---

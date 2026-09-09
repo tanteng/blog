@@ -3,7 +3,7 @@ title: "进程、线程与协程：操作系统视角的本质区别"
 date: 2016-12-05T11:00:00+08:00
 draft: false
 url: /2016/12/process-thread-coroutine/
-tags: ['linux', 'concurrency', 'coroutine', 'performance-optimization']
+tags: ['linux', 'concurrency', 'coroutine', 'architecture']
 categories: ['tech']
 description: "从操作系统内核视角区分进程、线程、协程的调度、内存、创建开销，理解为什么高并发服务最终选择协程模型。"
 ---

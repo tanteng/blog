@@ -3,7 +3,7 @@ title: "《思考，快与慢》读书笔记：前景理论"
 date: 2024-01-15T10:00:00+08:00
 url: /posts/thinking-fast-and-slow-prospect-theory/
 draft: false
-tags: ["reading", "reading-notes", "thinking", "psychology"]
+tags: ["reading-notes", "thinking", "psychology"]
 categories: ["reading-notes"]
 description: "前景理论是卡尼曼最重要的学术贡献，它解释了人类在面对收益和损失时的非理性决策。文章通过几个经典实验说明：人在输钱时的痛苦是赢钱时的快乐的两倍。"
 ---

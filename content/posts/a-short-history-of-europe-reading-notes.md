@@ -2,7 +2,7 @@
 title: "《你一定爱读的极简欧洲史》读书笔记"
 date: 2022-03-12T10:00:00+08:00
 draft: false
-tags: ["reading", "reading-notes", "thinking"]
+tags: ["reading-notes", "thinking"]
 categories: ["reading-notes"]
 description: "约翰·赫斯特用两百页讲清楚欧洲文明的骨架。这本书最妙的地方不是史料堆砌，而是把教会、骑士、蛮族三条线索织成一张网，让读者看清现代欧洲是怎么从混乱中长出来的。"
 ---

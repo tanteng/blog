@@ -2,7 +2,7 @@
 title: "《黑天鹅》：极不确定世界中的生存哲学"
 date: 2025-09-30T10:00:00+08:00
 draft: false
-tags: ["reading", "reading-notes", "thinking", "philosophy"]
+tags: ["reading-notes", "thinking", "philosophy"]
 categories: ["reading-notes"]
 description: "纳西姆·塔勒布的《黑天鹅》解释了为什么我们这个世界由极端、不可预测的事件驱动——9/11、2008 金融危机、新冠、AI 革命。黑天鹅不是意外，而是结构性特征。理解这一点，能彻底改变你看待风险和机会的方式。"
 ---

@@ -2,7 +2,7 @@
 title: "《贪婪的多巴胺》读书笔记：欲望与快乐的分离"
 date: 2025-08-20T10:00:00+08:00
 draft: false
-tags: ["reading", "reading-notes", "neuroscience", "dopamine"]
+tags: ["reading-notes", "neuroscience", "dopamine"]
 categories: ["reading-notes"]
 description: "重读《贪婪的多巴胺》，重点理解「想要」和「喜欢」是两套独立的神经回路。多巴胺管欲望，不管快乐。现代人的痛苦来自欲望回路过度激活，而控制回路几乎休眠。"
 ---

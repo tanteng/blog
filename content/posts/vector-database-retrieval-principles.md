@@ -3,7 +3,7 @@ title: "向量数据库检索原理：从 Embedding 到最近邻搜索"
 date: 2024-12-20
 description: "通俗易懂地介绍向量数据库的核心检索原理：从文本转向量（Embedding）、相似度度量、ANN 最近邻搜索算法，到 HNSW 图索引的工作机制。"
 categories: ['tech']
-tags: ['ai', 'rag', 'vector-db']
+tags: ['ai', 'rag', 'vector-db', 'embedding']
 featured_image: ""
 summary: |
   在 AI 时代，向量数据库是 RAG（检索增强生成）系统的核心基础设施。本文用通俗的方式解释其背后原理：从文本转向量（Embedding）开始，介绍相似度度量、ANN 最近邻搜索算法，再到 HNSW 图索引的工作机制。理解这些，你就掌握了现代 AI 系统中"为什么能语义搜索而非关键词匹配"的关键。

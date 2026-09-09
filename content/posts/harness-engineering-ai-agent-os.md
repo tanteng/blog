@@ -2,7 +2,7 @@
 title: "Harness 工程：当大模型变成 CPU，谁来写这个操作系统"
 date: 2026-08-03T15:55:00+08:00
 draft: false
-tags: ["ai", "agent", "llm", "harness", "operating-system", "engineering"]
+tags: ["ai", "agent", "llm", "methodology"]
 categories: ["ai"]
 description: "Harness 不是 wrapper，是 AI Agent 的操作系统。模型是 CPU，Harness 才是 OS——这一层包括 system prompt、tooling、context、编排、reasoning、channel、skill 七层，每一层都对应着传统 OS 的某个子系统。Harness 工程不是越复杂越好，OS 设计的简洁哲学同样适用。而 AI 时代的真正战场，正是 Harness Engineering——谁能写好这个 OS，谁就能让模型发挥出真正的算力。"
 ---

@@ -3,7 +3,7 @@ title: "《中国近代史》读书笔记（蒋廷黻）"
 date: 2023-08-12T10:00:00+08:00
 url: /posts/chinese-modern-history-reading-notes/
 draft: false
-tags: ["reading", "reading-notes", "thinking"]
+tags: ["reading-notes", "thinking"]
 categories: ["reading-notes"]
 description: "蒋廷黻的《中国近代史》只有五万字，但信息密度极高。他用冷静的笔触剖析中国近代的种种失败，把焦点从「列强欺负我们」转向「我们自己没做对什么」，这种态度对今天的反思仍有价值。"
 ---

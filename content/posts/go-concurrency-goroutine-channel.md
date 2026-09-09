@@ -3,7 +3,7 @@ title: "Go 并发编程：goroutine 与 channel 的工程实践"
 date: 2018-06-22T15:30:00+08:00
 draft: false
 url: /2018/06/go-concurrency-goroutine-channel/
-tags: ['go', 'golang', 'concurrency', 'goroutine']
+tags: ['golang', 'concurrency', 'goroutine']
 categories: ['tech']
 description: "从 CSP 模型出发，深入 Go goroutine 与 channel 的设计哲学、常见并发模式，以及工程中避免 goroutine 泄露、竞态、死锁的实战经验。"
 ---

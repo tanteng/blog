@@ -1,7 +1,7 @@
 ---
 title: "google.protobuf.Value 用法与最佳实践"
 date: 2026-05-01T10:00:00+08:00
-tags: ["protobuf", "tech", "golang", "backend"]
+tags: ["protobuf", "golang", "backend"]
 categories: ["tech"]
 ---
 

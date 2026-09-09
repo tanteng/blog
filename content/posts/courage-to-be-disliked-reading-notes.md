@@ -2,7 +2,7 @@
 title: "《被讨厌的勇气》：阿德勒心理学的七个核心命题"
 date: 2024-11-20T10:00:00+08:00
 draft: false
-tags: ["reading", "reading-notes", "thinking", "philosophy", "courage-to-be-disliked"]
+tags: ["reading-notes", "psychology", "philosophy", "courage-to-be-disliked"]
 categories: ["reading-notes"]
 description: "《被讨厌的勇气》不是一本普通的鸡汤书——它系统介绍了阿德勒心理学，用「哲人与青年」的对话体，把弗洛伊德和荣格之外被忽视的「心理学第三巨头」重新带回大众视野。七个命题重新定义自由、幸福和人际关系。"
 ---

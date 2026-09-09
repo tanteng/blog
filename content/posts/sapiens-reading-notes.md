@@ -2,7 +2,7 @@
 title: "《人类简史》：从动物到上帝的认知革命"
 date: 2023-06-15T10:00:00+08:00
 draft: false
-tags: ["reading", "reading-notes", "thinking", "philosophy"]
+tags: ["reading-notes", "thinking", "philosophy"]
 categories: ["reading-notes"]
 description: "赫拉利的《人类简史》用一个「虚构故事」的主线解释人类文明的崛起——智人凭什么战胜其他人类物种？凭什么驯化小麦？凭什么建立帝国？答案都指向同一个词：「相信」。"
 ---

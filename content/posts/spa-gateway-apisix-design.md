@@ -4,15 +4,11 @@ date: 2024-03-25T10:00:00+08:00
 draft: false
 categories: ['tech']
 tags:
-  - nginx
+  - apisix
+  - api-gateway
   - architecture
   - backend
-  - go
-  - vue
-  - redis
-  - mysql
-  - cos
-  - performance-optimization
+  - microservices
 description: "基于私有 COS 桶的多租户 SPA 网关完整方案：APISIX 网关 + Go 中间件（subdomain 解析 + COS SDK 签名）+ EdgeOne CDN（私有桶 origin-pull）+ Redis 缓存 + MySQL 元数据。前端 Vue 3 + Vite。"
 ---
 
