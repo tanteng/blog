@@ -4,7 +4,7 @@
 
 {{ define "main" }}
   {{- $related_content := .Site.RegularPages.Related . -}}
-  {{- $needs_aside := or .Params.toc $related_content -}}
+  {{- $needs_aside := and .Params.toc (not $related_content) -}}
   {{ $page := .}}
   {{ $section := .Site.GetPage "section" .Section }}
 
@@ -56,6 +56,7 @@
       {{- partials.Include "hook.html" (dict "hook" "content-before" "context" .) -}}
       {{- .Content -}}
       {{- partials.Include "tags.html" . -}}
+      {{- partials.Include "related-posts.html" . -}}
       {{- partials.Include "posts-prev-next.html" . -}}
       {{ if .Site.Config.Services.Disqus.Shortname }}
       <div class="mt6 instapaper_ignoref">
