@@ -1,0 +1,38 @@
+{{/*
+  全站按发布时间排序的上一/下一篇文章导航。
+  用 .Site.RegularPages 拿所有 Section=posts 的页面，按 Date 倒序，
+  找到当前页的索引后取前后邻居。
+*/}}
+{{- $pages := where .Site.RegularPages "Section" "posts" -}}
+{{- $pages = where $pages "Params.draft" "ne" true -}}
+{{- $sorted := $pages.ByDate.Reverse -}}
+{{- $idx := -1 -}}
+{{- range $i, $p := $sorted -}}
+  {{- if eq $p.Permalink $.Permalink -}}
+    {{- $idx = $i -}}
+  {{- end -}}
+{{- end -}}
+{{- if gt (len $sorted) 0 -}}
+  {{- $prev := "" -}}
+  {{- $next := "" -}}
+  {{- if and (ge $idx 0) (gt $idx 0) -}}
+    {{- $prev = index $sorted (sub $idx 1) -}}
+  {{- end -}}
+  {{- if and (ge $idx 0) (lt $idx (sub (len $sorted) 1)) -}}
+    {{- $next = index $sorted (add $idx 1) -}}
+  {{- end -}}
+  {{- if or $prev $next -}}
+  <nav class="prev-next-posts mt5 pt3 bt b--light-gray f6 mid-gray">
+    {{- if $prev }}
+    <a class="link dim fl mr3" href="{{ $prev.Permalink }}" title="{{ $prev.Title }}">
+      ← {{ $prev.Title }}
+    </a>
+    {{- end }}
+    {{- if $next }}
+    <a class="link dim fr ml3 tr" href="{{ $next.Permalink }}" title="{{ $next.Title }}">
+      {{ $next.Title }} →
+    </a>
+    {{- end }}
+  </nav>
+  {{- end -}}
+{{- end -}}
