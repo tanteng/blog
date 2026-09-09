@@ -200,3 +200,51 @@ figure.post-img img {
 
 /* 文章页右侧栏样式已废弃（相关文章移至正文底部、桌面端不再使用 fixed aside），
    保留此注释以便日后若恢复右侧栏时参考。 */
+
+/* 文章正文图片：限制最大宽度、居中、加阴影与圆角、留出呼吸空间。
+   对所有文章生效。
+   - `p > img`：markdown `![alt](url)` 默认会被 Hugo 包在 <p> 标签里
+   - `> figure.post-img img`：单张 figure 短代码（直接子，不含 image-gallery 里的并排图）
+   - 不影响 `.image-gallery` 里的并排图（这些是 .image-gallery 的直接子 figure） */
+.nested-copy-line-height p > img,
+.nested-copy-line-height > figure.post-img img {
+  display: block;
+  max-width: 720px;
+  width: auto;
+  height: auto;
+  margin: 1.75rem auto;
+  border-radius: 6px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* figure.post-img 包裹 <a>（点击放大）的场景：限宽并居中 */
+.nested-copy-line-height > figure.post-img a {
+  display: inline-block;
+  max-width: 720px;
+}
+
+/* 图片说明文字（figcaption）：稍小字号、低饱和色、与图片留出间距 */
+.nested-copy-line-height > figure.post-img figcaption {
+  display: block;
+  max-width: 720px;
+  margin: 0.6rem auto 0;
+  font-size: 0.85rem;
+  color: #777;
+  text-align: center;
+  line-height: 1.5;
+}
+.nested-copy-line-height > figure.post-img figcaption p {
+  margin: 0;
+}
+
+/* 移动端：占满宽度，去掉大阴影避免视觉拥挤 */
+@media (max-width: 768px) {
+  .nested-copy-line-height p > img,
+  .nested-copy-line-height > figure.post-img img,
+  .nested-copy-line-height > figure.post-img a {
+    max-width: 100%;
+    border-radius: 4px;
+    margin: 1.25rem auto;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+  }
+}

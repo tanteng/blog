@@ -10,21 +10,23 @@
   Fix: add the `blue` (Tachyons: color: #357edd) class so this section link
   matches the color of links inside the post body.
 */ -}}
-{{- with .CurrentSection -}}
-  {{- $section := . -}}
-  {{- $target := $section -}}
-  {{- with $.Param "ananke.section_link" -}}
-    {{- if eq . "first" -}}
-      {{- with first 1 $section.RegularPages -}}
-        {{- $target = index . 0 -}}
-      {{- end -}}
-    {{- else -}}
-      {{- with $section.GetPage . -}}
-        {{- $target = . -}}
+{{- if not (strings.HasSuffix .RelPermalink "/about/") -}}
+  {{- with .CurrentSection -}}
+    {{- $section := . -}}
+    {{- $target := $section -}}
+    {{- with $.Param "ananke.section_link" -}}
+      {{- if eq . "first" -}}
+        {{- with first 1 $section.RegularPages -}}
+          {{- $target = index . 0 -}}
+        {{- end -}}
+      {{- else -}}
+        {{- with $section.GetPage . -}}
+          {{- $target = . -}}
+        {{- end -}}
       {{- end -}}
     {{- end -}}
+    <aside class="instapaper_ignoref b helvetica tracked ttu">
+      <a class="link dim blue" href="{{ $target.Permalink }}">文章</a>
+    </aside>
   {{- end -}}
-  <aside class="instapaper_ignoref b helvetica tracked ttu">
-    <a class="link dim blue" href="{{ $target.Permalink }}">文章</a>
-  </aside>
 {{- end -}}

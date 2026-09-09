@@ -14,14 +14,14 @@ ananke:
 ## 关于我
 
 - 🧑‍💻 后台开发工程师，关注 Golang，K8S，AI，Agent 等技术
-- 📷 喜欢 [摄影](/categories/photo/)，咖啡，旅行
+- 📷 喜欢摄影（[访问相册](https://photos.tanteng.space/)），咖啡，旅行
 - 📍 常驻深圳，来自湖北黄石
 
 ### 📷 摄影装备
 
 - 📷 **Sony A7M4** — 主力微单，索尼大法
-- 📷 **Nikon FM2** — 尼康经典全机械胶片单反
-- 📷 **Pentax 17** — 半格胶片，2024 年新发布的复刻机型
+- 🎞️ **Nikon FM2** — 尼康经典全机械胶片单反
+- 🎞️ **Pentax 17** — 半格胶片，2024 年新发布的复刻机型
 
 ### ✈️ 旅行足迹
 
@@ -35,7 +35,7 @@ ananke:
 
 ### ✨ 喜欢的名言
 
-最喜欢名人是 **Steve Jobs**（史蒂夫·乔布斯，1955–2011），苹果公司联合创始人。
+最喜欢的名人是 **Steve Jobs**（史蒂夫·乔布斯，1955–2011），苹果公司联合创始人。
 
 1. **["Stay Hungry, Stay Foolish."](/posts/steve-jobs-stay-hungry-stay-foolish/)** — 求知若饥，虚心若愚。
 
