@@ -47,7 +47,7 @@ ananke:
 
 5. **["Your time is limited, so don't waste it living someone else's life."](/posts/your-time-is-limited-live-your-own-life/)** — 你的时间是有限的，不要浪费它去过别人的生活。
 
-### 📮 联系方式
+### 🔗 社交平台
 
 - [{{< social "instagram" >}} Instagram · tanteng1031](https://www.instagram.com/tanteng1031/)
 - {{< social "tiktok" >}} 抖音 · tonytony1031
