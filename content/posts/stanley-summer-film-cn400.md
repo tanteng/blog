@@ -1,6 +1,6 @@
 ---
 title: "赤柱的夏天 [Nikon FM2, 35mm, Alien CN400]"
-date: 2025-08-08T15:00:00+08:00
+date: 2026-08-08T15:00:00+08:00
 draft: false
 tags: ["photography", "photo", "alien400cn", "travel"]
 categories: ["photo"]
