@@ -1,6 +1,6 @@
 ---
 title: "4 种强烈推荐使用期权的场景"
-date: 2026-07-25
+date: 2024-07-25
 draft: false
 tags: ["options", "trading", "investment"]
 categories: ["investment"]

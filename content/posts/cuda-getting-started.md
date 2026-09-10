@@ -1,6 +1,6 @@
 ---
 title: 'CUDA 并行计算原理解析：GPU 加速的本质'
-date: 2026-04-07T14:00:00+08:00
+date: 2025-04-07T14:00:00+08:00
 draft: false
 tags: ['cuda', 'gpu', 'performance-optimization', 'ai']
 categories: ['tech']

@@ -1,6 +1,6 @@
 ---
 title: "期权价差组合策略：低成本博方向的买方向价差"
-date: 2026-04-06
+date: 2024-04-06
 draft: false
 tags: ["options", "trading", "investment"]
 categories: ["investment"]

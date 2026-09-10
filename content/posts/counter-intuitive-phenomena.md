@@ -1,6 +1,6 @@
 ---
 title: '那些反直觉的有趣现象'
-date: 2026-02-28T21:30:00+08:00
+date: 2024-02-28T21:30:00+08:00
 draft: false
 tags: ['science', 'psychology', 'thinking', 'common-sense']
 categories: ['science']

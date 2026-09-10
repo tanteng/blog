@@ -1,6 +1,6 @@
 ---
 title: 'Go 语言 Goroutine 泄露：实战案例分析与排查指南'
-date: 2026-03-01T10:00:00+08:00
+date: 2025-03-01T10:00:00+08:00
 draft: false
 tags: ['golang', 'goroutine', 'memory-management', 'observability']
 categories: ['tech']

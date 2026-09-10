@@ -1,6 +1,6 @@
 ---
 title: 'K8s Service 与 Istio 流量管理'
-date: 2026-02-28T22:00:00+08:00
+date: 2025-02-28T22:00:00+08:00
 draft: false
 tags: ['kubernetes', 'istio', 'service-mesh', 'microservices']
 categories: ['tech']

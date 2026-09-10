@@ -1,6 +1,6 @@
 ---
 title: "胶片与微单的曝光技巧"
-date: 2026-03-22T00:00:00+08:00
+date: 2025-03-22T00:00:00+08:00
 draft: false
 tags: ['photography', 'camera']
 categories: ['photo']

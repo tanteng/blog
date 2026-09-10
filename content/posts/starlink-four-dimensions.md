@@ -1,6 +1,6 @@
 ---
 title: "马斯克的闭环战略：从 Tesla 到 Starship 的完整拼图"
-date: 2026-06-14
+date: 2024-06-14
 draft: false
 tags: ["space", "technews"]
 categories: ["tech"]

@@ -1,6 +1,6 @@
 ---
 title: "索尼 A7M4 白平衡偏移设置完全指南"
-date: 2026-04-08
+date: 2025-04-08
 draft: false
 tags: ["photography", "camera", "sony", "a7m4", "color-grading"]
 categories: ["photo"]

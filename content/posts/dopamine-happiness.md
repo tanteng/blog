@@ -1,6 +1,6 @@
 ---
 title: "多巴胺与内啡肽：大脑如何制造快乐"
-date: 2026-03-01
+date: 2024-03-01
 draft: false
 tags: ["dopamine", "psychology", "neuroscience", "happiness"]
 categories: ["life"]

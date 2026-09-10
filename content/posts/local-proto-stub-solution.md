@@ -1,6 +1,6 @@
 ---
 title: "用本地 Stub 解决 Go Proto 冲突"
-date: 2026-05-28
+date: 2025-05-28
 draft: false
 tags: ["golang", "microservices", "protocol"]
 categories: ["tech"]

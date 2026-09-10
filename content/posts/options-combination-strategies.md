@@ -1,6 +1,6 @@
 ---
 title: "期权卖方组合拳：卖 Put 与卖 Call 的经典搭配策略"
-date: 2026-04-09
+date: 2024-04-09
 draft: false
 tags: ["options", "trading", "investment"]
 categories: ["investment"]

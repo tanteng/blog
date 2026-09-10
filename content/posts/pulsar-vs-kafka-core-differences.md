@@ -1,6 +1,6 @@
 ---
 title: "Pulsar 与 Kafka 核心区别深度解析"
-date: 2026-05-26
+date: 2025-05-26
 draft: false
 tags: ["messaging", "pulsar", "kafka", "distributed-system"]
 categories: ["tech"]

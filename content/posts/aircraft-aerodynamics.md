@@ -1,6 +1,6 @@
 ---
 title: '空气动力学与飞行的秘密'
-date: 2026-03-01T12:00:00+08:00
+date: 2024-03-01T12:00:00+08:00
 draft: false
 tags: ['science', 'physics', 'aviation']
 categories: ['science']

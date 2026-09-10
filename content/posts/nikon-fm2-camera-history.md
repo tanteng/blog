@@ -1,6 +1,6 @@
 ---
 title: '尼康FM2相机历史脉络和使用技巧'
-date: 2026-02-28T22:30:00+08:00
+date: 2025-02-28T22:30:00+08:00
 draft: false
 tags: ['photography', 'camera', 'nikon', 'fm2']
 categories: ['photo']

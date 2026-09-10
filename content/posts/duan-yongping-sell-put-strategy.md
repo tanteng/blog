@@ -1,6 +1,6 @@
 ---
 title: "段永平的卖Put策略：像收保费一样做投资"
-date: 2026-02-25
+date: 2024-02-25
 draft: false
 tags: ["investment", "stock", "options"]
 categories: ["investment"]

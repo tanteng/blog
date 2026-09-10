@@ -1,6 +1,6 @@
 ---
 title: "胶片济州岛 [Nikon FM2, 35mm, Kodak Ektar 100]"
-date: 2026-05-08T15:00:00+08:00
+date: 2025-05-08T15:00:00+08:00
 draft: false
 tags: ["photography", "photo", "ektar100", "travel"]
 categories: ["photo"]
