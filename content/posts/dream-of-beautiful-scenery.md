@@ -19,6 +19,7 @@ related_posts:
   - posts/macau-coloane-film-citywalk.md
   - posts/nikon-fm2-multiple-exposure.md
   - posts/shenzhen-bougainvillea-corridor.md
+  - posts/stanley-summer-film-cn400.md
   - posts/film-vs-mirrorless-what-digital-cannot-replicate.md
 
   # 旅行与城市
