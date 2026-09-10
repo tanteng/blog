@@ -105,12 +105,32 @@ tbody tr:hover td {
   }
 }
 
-/* 视频 iframe 响应式自适应 */
-iframe {
+/* 文章正文里的视频（B 站等 iframe 嵌入）：
+   - 居中、在桌面端占满 article 内容宽度（去掉旧 max-width: 800px 的限制）
+   - 锁定 16:9 比例，避免 B 站默认 4:3 显示时上下留黑边或裁切
+   - H5（≤ 768px）：紧贴左右边缘，避免外层 ph3 + 内层居中 margin 双重叠加导致过窄
+   - 用 .post-video 类限定作用域，不影响文章中其他可能的小 iframe */
+.post-video {
+  display: block;
   width: 100%;
-  max-width: 800px;
+  max-width: 960px;          /* 桌面端最大宽度，介于 mw7 与 mw8 之间，留出阅读舒适感 */
+  margin: 1.75rem auto;       /* 上下间距 + 水平居中 */
+}
+.post-video iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;       /* 强制 16:9，防止 B 站默认 4:3 iframe 留黑边 */
   height: auto;
-  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
+@media (max-width: 768px) {
+  .post-video {
+    /* H5 移除水平 margin，宽度直接撑满 article 内容区（已含 ph3 内边距） */
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 100%;
+  }
 }
 
 /* 文章页 section 分类标签：未访问和已访问颜色保持一致 (Ananke 蓝 #357edd)
