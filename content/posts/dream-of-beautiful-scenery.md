@@ -8,16 +8,26 @@ categories: ["life"]
 slug: "dream-of-beautiful-scenery"
 description: "昨夜做了一个梦，梦见了非常壮观的美景。"
 related_posts:
+  # 你指定（位置固定）
   - posts/2022-03-27-fry-steak.md
   - posts/vibe-coding-to-sdd.md
-  - posts/4-recommended-options-strategies.md
-  - posts/stanley-summer-film-cn400.md
-  - posts/film-jeju-island-ektar100.md
-  - posts/jensen-huang-thinking-machine-reading-notes.md
-  - posts/what-is-separation-of-tasks.md
   - posts/steve-jobs-remembering-death.md
   - posts/steve-jobs-intuition.md
   - posts/your-time-is-limited-live-your-own-life.md
+
+  # 摄影 + 视觉美学（呼应「梦见壮观美景」主题）
+  - posts/macau-coloane-film-citywalk.md
+  - posts/nikon-fm2-multiple-exposure.md
+  - posts/shenzhen-bougainvillea-corridor.md
+  - posts/film-vs-mirrorless-what-digital-cannot-replicate.md
+
+  # 旅行与城市
+  - posts/spring-outing.md
+  - posts/kyoto-kiyomizu-dera-omikuji.md
+
+  # 个人感悟
+  - posts/connecting-the-dots-steve-jobs.md
+  - posts/reading-and-growth.md
 ---
 
 昨晚做了一个梦，梦见了非常壮观的美景。
