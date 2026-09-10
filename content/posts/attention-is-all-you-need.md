@@ -3,7 +3,7 @@ title: "Attention Is All You Need 全文翻译与深度解读（中英对照）"
 date: 2025-11-05T09:30:00+08:00
 url: /2025/11/attention-is-all-you-need/
 draft: false
-tags: ["ai", "transformer", "deep-learning", "nlp", "llm"]
+tags: ["ai", "transformer", "deep-learning", "nlp", "llm", "paper"]
 categories: ["ai"]
 description: "完整翻译 Attention Is All You Need 论文正文（中英对照），并用今天的视角逐段解读：为什么要除以根号 dk、多头注意力在做什么、位置编码如何表达顺序，以及这篇 2017 年的论文如何长成今天的大模型。"
 ---

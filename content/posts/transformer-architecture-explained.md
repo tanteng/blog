@@ -1,7 +1,7 @@
 ---
 title: "一图看懂 Transformer 架构原理"
 date: 2026-04-03T00:00:00+08:00
-tags: ["ai", "transformer", "deep-learning", "nlp"]
+tags: ["ai", "transformer", "deep-learning", "nlp", "paper"]
 categories: ["ai"]
 description: "通过一张交互式架构图和核心公式，直观理解 Transformer 的完整原理。从 Encoder-Decoder 结构到 Multi-Head Attention，从位置编码到数据流全貌。"
 ---
