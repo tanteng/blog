@@ -1,7 +1,6 @@
 ---
 title: "大模型是怎么炼成的"
 date: 2026-03-01
-weight: 10
 draft: false
 tags: ["ai", "machine-learning", "deep-learning", "llm", "transformer"]
 categories: ["ai"]
