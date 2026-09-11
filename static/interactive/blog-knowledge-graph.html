@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>围绕「乔布斯」</title>
+<script src="https://unpkg.com/vis-network@9.1.6/standalone/umd/vis-network.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1115; --panel: #181b22; --border: #262a35;
+    --text: #e8eaed; --text-dim: #9aa0a6; --accent: #7fb3d5;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; height: 100%; width: 100%;
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue",
+                 "PingFang SC", "Microsoft YaHei", sans-serif;
+    overflow: hidden;
+  }
+  #container { display: flex; height: 100vh; }
+  #sidebar {
+    width: 280px; padding: 18px 20px;
+    background: var(--panel); border-right: 1px solid var(--border);
+    overflow-y: auto; flex-shrink: 0;
+  }
+  #sidebar h2 { margin: 0 0 4px; font-size: 16px; color: var(--accent); font-weight: 600; }
+  #sidebar .sub { color: var(--text-dim); font-size: 12px; margin-bottom: 16px; }
+  .stat {
+    display: flex; justify-content: space-between;
+    padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px;
+  }
+  .stat span:last-child { color: var(--accent); font-weight: 600; }
+  .section { margin-top: 20px; }
+  .section h3 { font-size: 13px; color: var(--text-dim); margin: 0 0 8px; font-weight: 500; }
+  .top-item {
+    padding: 6px 8px; margin: 2px 0; border-radius: 4px;
+    background: rgba(255,255,255,0.03); font-size: 12px;
+    display: flex; justify-content: space-between; cursor: pointer;
+    transition: background 0.15s;
+  }
+  .top-item:hover { background: rgba(127,179,213,0.15); }
+  .top-item .deg { color: var(--accent); margin-left: 8px; }
+  #network { flex: 1; background: var(--bg); position: relative; }
+  #loading {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    color: var(--text-dim); font-size: 14px;
+  }
+  #search {
+    width: 100%; padding: 8px 12px; margin-bottom: 12px;
+    background: #0f1115; border: 1px solid var(--border);
+    border-radius: 6px; color: var(--text); font-size: 13px;
+    font-family: inherit;
+  }
+  #search:focus { outline: none; border-color: var(--accent); }
+  .legend { display: flex; align-items: center; gap: 6px; margin: 4px 0; font-size: 12px; color: var(--text-dim); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+  #footer-note {
+    position: absolute; bottom: 8px; right: 12px;
+    color: var(--text-dim); font-size: 11px; opacity: 0.6;
+  }
+</style>
+</head>
+<body>
+<div id="container">
+  <aside id="sidebar">
+    <h2>博客知识图谱</h2>
+    <div class="sub">2-hop 邻居子图（红=匹配，蓝=邻居）</div>
+    <input type="text" id="search" placeholder="搜索实体…" />
+    <div class="stat"><span>节点</span><span id="stat-nodes">-</span></div>
+    <div class="stat"><span>边</span><span id="stat-edges">-</span></div>
+    <div class="section">
+      <h3>高频实体 (Top 15)</h3>
+      <div id="top-list"></div>
+    </div>
+    <div class="section">
+      <h3>图例</h3>
+      <div class="legend"><span class="legend-dot" style="background:#e07b91"></span>匹配实体</div>
+      <div class="legend"><span class="legend-dot" style="background:#7fb3d5"></span>邻居节点</div>
+      <div class="legend"><span class="legend-dot" style="background:#f4d35e"></span>选中节点</div>
+    </div>
+    <div class="section">
+      <h3>操作</h3>
+      <div style="font-size:12px; color:var(--text-dim); line-height:1.7">
+        • 拖拽节点 / 滚轮缩放<br>
+        • 点击节点固定位置<br>
+        • 悬停查看实体 + 度数<br>
+        • 搜索框定位到实体
+      </div>
+    </div>
+  </aside>
+  <main id="network">
+    <div id="loading">加载中…</div>
+    <div id="footer-note">博客知识图谱 · 实体关系由 LLM 从文章抽取</div>
+  </main>
+</div>
+<script>
+(function() {
+  function hashCode(s) {
+    var h = 0;
+    for (var i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
+    return h;
+  }
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function(c) {
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+    });
+  }
+
+  var payload = {"nodes": [{"id": "我会永远和苹果保持联系", "label": "我会永远和苹果保持联系", "title": "我会永远和苹果保持联系\n关联度: 1", "value": 1}, {"id": "人类", "label": "人类", "title": "人类\n关联度: 2", "value": 2}, {"id": "决不妥协", "label": "决不妥协", "title": "决不妥协\n关联度: 2", "value": 2}, {"id": "一个人", "label": "一个人", "title": "一个人\n关联度: 1", "value": 1}, {"id": "苏格拉底相处", "label": "苏格拉底相处", "title": "苏格拉底相处\n关联度: 3", "value": 3}, {"id": "乔布斯一个人", "label": "乔布斯一个人", "title": "乔布斯一个人\n关联度: 1", "value": 1}, {"id": "2005年1月，斯坦福大学演讲", "label": "2005年1月，斯坦福大学演讲", "title": "2005年1月，斯坦福大学演讲\n关联度: 1", "value": 1}, {"id": "专注和简单", "label": "专注和简单", "title": "专注和简单\n关联度: 1", "value": 1}, {"id": "他患癌", "label": "他患癌", "title": "他患癌\n关联度: 1", "value": 1}, {"id": "专注", "label": "专注", "title": "专注\n关联度: 2", "value": 2}, {"id": "禅宗那句话的真理", "label": "禅宗那句话的真理", "title": "禅宗那句话的真理\n关联度: 2", "value": 2}, {"id": "走遍世界寻访导师，导师自会在你隔壁出现", "label": "走遍世界寻访导师，导师自会在你隔壁…", "title": "走遍世界寻访导师，导师自会在你隔壁出现\n关联度: 1", "value": 1}, {"id": "勇气、目的、生命、因缘", "label": "勇气、目的、生命、因缘", "title": "勇气、目的、生命、因缘\n关联度: 1", "value": 1}, {"id": "禅宗", "label": "禅宗", "title": "禅宗\n关联度: 3", "value": 3}, {"id": "斯坦福大学", "label": "斯坦福大学", "title": "斯坦福大学\n关联度: 4", "value": 4}, {"id": "在2003年10月", "label": "在2003年10月", "title": "在2003年10月\n关联度: 1", "value": 1}, {"id": "同事", "label": "同事", "title": "同事\n关联度: 1", "value": 1}, {"id": "成批出现的", "label": "成批出现的", "title": "成批出现的\n关联度: 1", "value": 1}, {"id": "影响力", "label": "影响力", "title": "影响力\n关联度: 1", "value": 1}, {"id": "爱与失去", "label": "爱与失去", "title": "爱与失去\n关联度: 1", "value": 1}, {"id": "计算机硬件和软件产业", "label": "计算机硬件和软件产业", "title": "计算机硬件和软件产业\n关联度: 2", "value": 2}, {"id": "对称", "label": "对称", "title": "对称\n关联度: 1", "value": 1}, {"id": "乔布斯留在美国", "label": "乔布斯留在美国", "title": "乔布斯留在美国\n关联度: 1", "value": 1}, {"id": "关于他在苹果的角色", "label": "关于他在苹果的角色", "title": "关于他在苹果的角色\n关联度: 2", "value": 2}, {"id": "第三十六章", "label": "第三十六章", "title": "第三十六章\n关联度: 2", "value": 2}, {"id": "所有的科技", "label": "所有的科技", "title": "所有的科技\n关联度: 2", "value": 2}, {"id": "迷失在中间现象", "label": "迷失在中间现象", "title": "迷失在中间现象\n关联度: 1", "value": 1}, {"id": "第十三章", "label": "第十三章", "title": "第十三章\n关联度: 1", "value": 1}, {"id": "苹果电脑公司的创始人", "label": "苹果电脑公司的创始人", "title": "苹果电脑公司的创始人\n关联度: 2", "value": 2}, {"id": "退思会", "label": "退思会", "title": "退思会\n关联度: 3", "value": 3}, {"id": "有才华的人和卓越的管理团队", "label": "有才华的人和卓越的管理团队", "title": "有才华的人和卓越的管理团队\n关联度: 1", "value": 1}, {"id": "激励大师", "label": "激励大师", "title": "激励大师\n关联度: 2", "value": 2}, {"id": "技术", "label": "技术", "title": "技术\n关联度: 1", "value": 1}, {"id": "再设计", "label": "再设计", "title": "再设计\n关联度: 1", "value": 1}, {"id": "有才华的人", "label": "有才华的人", "title": "有才华的人\n关联度: 1", "value": 1}, {"id": "我留在美国", "label": "我留在美国", "title": "我留在美国\n关联度: 1", "value": 1}, {"id": "《置身事内：中国政府与经济发展》", "label": "《置身事内：中国政府与经济发展》", "title": "《置身事内：中国政府与经济发展》\n关联度: 1", "value": 1}, {"id": "改变世界", "label": "改变世界", "title": "改变世界\n关联度: 1", "value": 1}, {"id": "直到上市，产品才能算是完工", "label": "直到上市，产品才能算是完工", "title": "直到上市，产品才能算是完工\n关联度: 1", "value": 1}, {"id": "艰苦的设计", "label": "艰苦的设计", "title": "艰苦的设计\n关联度: 1", "value": 1}, {"id": "用所有科技换取和苏格拉底相处", "label": "用所有科技换取和苏格拉底相处", "title": "用所有科技换取和苏格拉底相处\n关联度: 1", "value": 1}, {"id": "跟随内心", "label": "跟随内心", "title": "跟随内心\n关联度: 1", "value": 1}, {"id": "虚构故事", "label": "虚构故事", "title": "虚构故事\n关联度: 2", "value": 2}, {"id": "演讲者/推销者", "label": "演讲者/推销者", "title": "演讲者/推销者\n关联度: 1", "value": 1}, {"id": "整篇演讲", "label": "整篇演讲", "title": "整篇演讲\n关联度: 1", "value": 1}, {"id": "个人电脑领域的梦想家", "label": "个人电脑领域的梦想家", "title": "个人电脑领域的梦想家\n关联度: 1", "value": 1}, {"id": "商业周刊", "label": "商业周刊", "title": "商业周刊\n关联度: 2", "value": 2}, {"id": "与苹果的关系", "label": "与苹果的关系", "title": "与苹果的关系\n关联度: 1", "value": 1}, {"id": "《史蒂夫·乔布斯传》", "label": "《史蒂夫·乔布斯传》", "title": "《史蒂夫·乔布斯传》\n关联度: 3", "value": 3}, {"id": "沃尔特·艾萨克森", "label": "沃尔特·艾萨克森", "title": "沃尔特·艾萨克森\n关联度: 2", "value": 2}, {"id": "行业", "label": "行业", "title": "行业\n关联度: 1", "value": 1}, {"id": "有点趣味性的设计", "label": "有点趣味性的设计", "title": "有点趣味性的设计\n关联度: 1", "value": 1}, {"id": "乔布斯", "label": "乔布斯", "title": "乔布斯\n关联度: 55", "value": 55}, {"id": "对称的设计", "label": "对称的设计", "title": "对称的设计\n关联度: 1", "value": 1}, {"id": "真正重要的东西", "label": "真正重要的东西", "title": "真正重要的东西\n关联度: 1", "value": 1}, {"id": "模仿大自然的设计", "label": "模仿大自然的设计", "title": "模仿大自然的设计\n关联度: 1", "value": 1}, {"id": "因缘", "label": "因缘", "title": "因缘\n关联度: 1", "value": 1}, {"id": "胰腺神经内分泌肿瘤", "label": "胰腺神经内分泌肿瘤", "title": "胰腺神经内分泌肿瘤\n关联度: 1", "value": 1}, {"id": "演讲者", "label": "演讲者", "title": "演讲者\n关联度: 5", "value": 5}, {"id": "阿德勒", "label": "阿德勒", "title": "阿德勒\n关联度: 4", "value": 4}, {"id": "推销者", "label": "推销者", "title": "推销者\n关联度: 1", "value": 1}, {"id": "科技", "label": "科技", "title": "科技\n关联度: 1", "value": 1}, {"id": "它是改变生命的代理人", "label": "它是改变生命的代理人", "title": "它是改变生命的代理人\n关联度: 1", "value": 1}, {"id": "发明", "label": "发明", "title": "发明\n关联度: 1", "value": 1}, {"id": "启发性的设计", "label": "启发性的设计", "title": "启发性的设计\n关联度: 1", "value": 1}, {"id": "启发性", "label": "启发性", "title": "启发性\n关联度: 1", "value": 1}, {"id": "公众", "label": "公众", "title": "公众\n关联度: 3", "value": 3}, {"id": "处理数据的算法", "label": "处理数据的算法", "title": "处理数据的算法\n关联度: 1", "value": 1}, {"id": "濒临破产", "label": "濒临破产", "title": "濒临破产\n关联度: 1", "value": 1}, {"id": "乔布斯是一个无与伦比的演讲者与推销者", "label": "乔布斯是一个无与伦比的演讲者与推销者", "title": "乔布斯是一个无与伦比的演讲者与推销者\n关联度: 1", "value": 1}, {"id": "帕加罗沙丘", "label": "帕加罗沙丘", "title": "帕加罗沙丘\n关联度: 1", "value": 1}, {"id": "英伟达", "label": "英伟达", "title": "英伟达\n关联度: 1", "value": 1}, {"id": "作者", "label": "作者", "title": "作者\n关联度: 1", "value": 1}, {"id": "解决主要问题的设计", "label": "解决主要问题的设计", "title": "解决主要问题的设计\n关联度: 1", "value": 1}, {"id": "未来", "label": "未来", "title": "未来\n关联度: 2", "value": 2}, {"id": "2011年10月5日", "label": "2011年10月5日", "title": "2011年10月5日\n关联度: 1", "value": 1}, {"id": "简单的设计", "label": "简单的设计", "title": "简单的设计\n关联度: 1", "value": 1}, {"id": "关于计算机的引言", "label": "关于计算机的引言", "title": "关于计算机的引言\n关联度: 2", "value": 2}, {"id": "创意与创新能够改变世界", "label": "创意与创新能够改变世界", "title": "创意与创新能够改变世界\n关联度: 1", "value": 1}, {"id": "非同凡想", "label": "非同凡想", "title": "非同凡想\n关联度: 1", "value": 1}, {"id": "《华尔街日报》", "label": "《华尔街日报》", "title": "《华尔街日报》\n关联度: 2", "value": 2}, {"id": "苹果需要重新找回灵魂", "label": "苹果需要重新找回灵魂", "title": "苹果需要重新找回灵魂\n关联度: 1", "value": 1}, {"id": "精神导师", "label": "精神导师", "title": "精神导师\n关联度: 2", "value": 2}, {"id": "三个否定句", "label": "三个否定句", "title": "三个否定句\n关联度: 1", "value": 1}, {"id": "产品", "label": "产品", "title": "产品\n关联度: 2", "value": 2}, {"id": "约翰·斯考利", "label": "约翰·斯考利", "title": "约翰·斯考利\n关联度: 3", "value": 3}, {"id": "双刃剑", "label": "双刃剑", "title": "双刃剑\n关联度: 1", "value": 1}, {"id": "三层意思", "label": "三层意思", "title": "三层意思\n关联度: 1", "value": 1}, {"id": "苹果", "label": "苹果", "title": "苹果\n关联度: 17", "value": 17}, {"id": "在2009年", "label": "在2009年", "title": "在2009年\n关联度: 1", "value": 1}, {"id": "领域驱动设计", "label": "领域驱动设计", "title": "领域驱动设计\n关联度: 1", "value": 1}, {"id": "乔氏语录", "label": "乔氏语录", "title": "乔氏语录\n关联度: 1", "value": 1}, {"id": "这个个人电脑领域的梦想家引领并改变了整个计算机硬件和软件产业", "label": "这个个人电脑领域的梦想家引领并改变…", "title": "这个个人电脑领域的梦想家引领并改变了整个计算机硬件和软件产业\n关联度: 1", "value": 1}, {"id": "乔布斯在督促约翰·斯考利加入苹果", "label": "乔布斯在督促约翰·斯考利加入苹果", "title": "乔布斯在督促约翰·斯考利加入苹果\n关联度: 1", "value": 1}, {"id": "我", "label": "我", "title": "我\n关联度: 5", "value": 5}, {"id": "生命", "label": "生命", "title": "生命\n关联度: 5", "value": 5}, {"id": "简单", "label": "简单", "title": "简单\n关联度: 2", "value": 2}, {"id": "过程就是奖励", "label": "过程就是奖励", "title": "过程就是奖励\n关联度: 1", "value": 1}, {"id": "个人电脑 (?)", "label": "个人电脑 (?)", "title": "个人电脑 (?)\n关联度: 1", "value": 1}, {"id": "心智", "label": "心智", "title": "心智\n关联度: 1", "value": 1}, {"id": "《黑天鹅》", "label": "《黑天鹅》", "title": "《黑天鹅》\n关联度: 1", "value": 1}, {"id": "日本", "label": "日本", "title": "日本\n关联度: 2", "value": 2}, {"id": "一家是专门苹果售后维修的", "label": "一家是专门苹果售后维修的", "title": "一家是专门苹果售后维修的\n关联度: 1", "value": 1}, {"id": "三个故事", "label": "三个故事", "title": "三个故事\n关联度: 7", "value": 7}, {"id": "停留在同一件事上", "label": "停留在同一件事上", "title": "停留在同一件事上\n关联度: 1", "value": 1}, {"id": "勇气", "label": "勇气", "title": "勇气\n关联度: 2", "value": 2}, {"id": "成长", "label": "成长", "title": "成长\n关联度: 3", "value": 3}, {"id": "我的生活", "label": "我的生活", "title": "我的生活\n关联度: 1", "value": 1}, {"id": "永平寺", "label": "永平寺", "title": "永平寺\n关联度: 4", "value": 4}, {"id": "卖糖水 (?)", "label": "卖糖水 (?)", "title": "卖糖水 (?)\n关联度: 1", "value": 1}, {"id": "外在的期待、骄傲、恐惧", "label": "外在的期待、骄傲、恐惧", "title": "外在的期待、骄傲、恐惧\n关联度: 1", "value": 1}, {"id": "攻击者甚至不需要注册你的产品", "label": "攻击者甚至不需要注册你的产品", "title": "攻击者甚至不需要注册你的产品\n关联度: 1", "value": 1}, {"id": "自卑感", "label": "自卑感", "title": "自卑感\n关联度: 2", "value": 2}, {"id": "具有创造性的重要人物结盟", "label": "具有创造性的重要人物结盟", "title": "具有创造性的重要人物结盟\n关联度: 1", "value": 1}, {"id": "课题分离", "label": "课题分离", "title": "课题分离\n关联度: 3", "value": 3}, {"id": "修行场所", "label": "修行场所", "title": "修行场所\n关联度: 1", "value": 1}, {"id": "远景", "label": "远景", "title": "远景\n关联度: 1", "value": 1}, {"id": "这个精力充沛魅力无限的家伙同时也是一个很会鼓动人心的激励大师", "label": "这个精力充沛魅力无限的家伙同时也是…", "title": "这个精力充沛魅力无限的家伙同时也是一个很会鼓动人心的激励大师\n关联度: 1", "value": 1}, {"id": "他最珍贵的遗言之一", "label": "他最珍贵的遗言之一", "title": "他最珍贵的遗言之一\n关联度: 1", "value": 1}, {"id": "托马斯", "label": "托马斯", "title": "托马斯\n关联度: 1", "value": 1}, {"id": "七个月", "label": "七个月", "title": "七个月\n关联度: 2", "value": 2}, {"id": "自己的想法", "label": "自己的想法", "title": "自己的想法\n关联度: 1", "value": 1}, {"id": "看似容易的设计", "label": "看似容易的设计", "title": "看似容易的设计\n关联度: 1", "value": 1}, {"id": "乔布斯那段话", "label": "乔布斯那段话", "title": "乔布斯那段话\n关联度: 1", "value": 1}, {"id": "目的", "label": "目的", "title": "目的\n关联度: 1", "value": 1}, {"id": "苹果公司", "label": "苹果公司", "title": "苹果公司\n关联度: 6", "value": 6}, {"id": "死亡 (方式)", "label": "死亡 (方式)", "title": "死亡 (方式)\n关联度: 6", "value": 6}, {"id": "56岁的生命", "label": "56岁的生命", "title": "56岁的生命\n关联度: 1", "value": 1}, {"id": "两天", "label": "两天", "title": "两天\n关联度: 1", "value": 1}, {"id": "斯蒂夫·乔布斯", "label": "斯蒂夫·乔布斯", "title": "斯蒂夫·乔布斯\n关联度: 5", "value": 5}, {"id": "好设计", "label": "好设计", "title": "好设计\n关联度: 20", "value": 20}, {"id": "卓越的管理团队", "label": "卓越的管理团队", "title": "卓越的管理团队\n关联度: 1", "value": 1}, {"id": "工作", "label": "工作", "title": "工作\n关联度: 2", "value": 2}, {"id": "2005年6月12日", "label": "2005年6月12日", "title": "2005年6月12日\n关联度: 1", "value": 1}, {"id": "花花公子", "label": "花花公子", "title": "花花公子\n关联度: 3", "value": 3}, {"id": "蒂姆·库克", "label": "蒂姆·库克", "title": "蒂姆·库克\n关联度: 2", "value": 2}, {"id": "2003年", "label": "2003年", "title": "2003年\n关联度: 5", "value": 5}, {"id": "他就是拥有梦幻般传奇经历的苹果电脑公司的创始人斯蒂夫·乔布斯", "label": "他就是拥有梦幻般传奇经历的苹果电脑…", "title": "他就是拥有梦幻般传奇经历的苹果电脑公司的创始人斯蒂夫·乔布斯\n关联度: 1", "value": 1}, {"id": "永不过时的设计", "label": "永不过时的设计", "title": "永不过时的设计\n关联度: 1", "value": 1}, {"id": "大胆的设计", "label": "大胆的设计", "title": "大胆的设计\n关联度: 1", "value": 1}, {"id": "苹果公司供应链", "label": "苹果公司供应链", "title": "苹果公司供应链\n关联度: 1", "value": 1}, {"id": "唯一的一次加法", "label": "唯一的一次加法", "title": "唯一的一次加法\n关联度: 1", "value": 1}, {"id": "连接生命中的点", "label": "连接生命中的点", "title": "连接生命中的点\n关联度: 1", "value": 1}, {"id": "幽默", "label": "幽默", "title": "幽默\n关联度: 1", "value": 1}, {"id": "广州区域", "label": "广州区域", "title": "广州区域\n关联度: 1", "value": 1}, {"id": "奇特的设计", "label": "奇特的设计", "title": "奇特的设计\n关联度: 1", "value": 1}, {"id": "股价", "label": "股价", "title": "股价\n关联度: 2", "value": 2}, {"id": "一个人表演的地方", "label": "一个人表演的地方", "title": "一个人表演的地方\n关联度: 2", "value": 2}, {"id": "关于死亡", "label": "关于死亡", "title": "关于死亡\n关联度: 1", "value": 1}, {"id": "能够复制的设计", "label": "能够复制的设计", "title": "能够复制的设计\n关联度: 1", "value": 1}, {"id": "一次加法", "label": "一次加法", "title": "一次加法\n关联度: 1", "value": 1}, {"id": "西方世界的疯狂", "label": "西方世界的疯狂", "title": "西方世界的疯狂\n关联度: 2", "value": 2}, {"id": "计算机", "label": "计算机", "title": "计算机\n关联度: 3", "value": 3}, {"id": "《低俗小说》", "label": "《低俗小说》", "title": "《低俗小说》\n关联度: 1", "value": 1}, {"id": "乔布斯的生命", "label": "乔布斯的生命", "title": "乔布斯的生命\n关联度: 2", "value": 2}], "edges": [{"from": "我会永远和苹果保持联系", "to": "苹果", "label": "保持联系", "title": "我会永远和苹果保持联系 --保持联系--> 苹果"}, {"from": "人类", "to": "虚构故事", "label": "靠", "title": "人类 --靠--> 虚构故事"}, {"from": "人类", "to": "苹果公司", "label": "相信", "title": "人类 --相信--> 苹果公司"}, {"from": "决不妥协", "to": "双刃剑", "label": "是", "title": "决不妥协 --是--> 双刃剑"}, {"from": "2005年1月，斯坦福大学演讲", "to": "斯坦福大学", "label": "演讲于", "title": "2005年1月，斯坦福大学演讲 --演讲于--> 斯坦福大学"}, {"from": "禅宗", "to": "我的生活", "label": "影响", "title": "禅宗 --影响--> 我的生活"}, {"from": "禅宗", "to": "走遍世界寻访导师，导师自会在你隔壁出现", "label": "说", "title": "禅宗 --说--> 走遍世界寻访导师，导师自会在你隔壁出现"}, {"from": "禅宗", "to": "乔布斯的生命", "label": "深刻影响", "title": "禅宗 --深刻影响--> 乔布斯的生命"}, {"from": "同事", "to": "工作", "label": "评价", "title": "同事 --评价--> 工作"}, {"from": "关于他在苹果的角色", "to": "一个人表演的地方", "label": "不是", "title": "关于他在苹果的角色 --不是--> 一个人表演的地方"}, {"from": "第三十六章", "to": "非同凡想", "label": "名为", "title": "第三十六章 --名为--> 非同凡想"}, {"from": "所有的科技", "to": "苏格拉底相处", "label": "换取", "title": "所有的科技 --换取--> 苏格拉底相处"}, {"from": "迷失在中间现象", "to": "斯坦福大学", "label": "发现", "title": "迷失在中间现象 --发现--> 斯坦福大学"}, {"from": "退思会", "to": "帕加罗沙丘", "label": "位于", "title": "退思会 --位于--> 帕加罗沙丘"}, {"from": "退思会", "to": "两天", "label": "持续", "title": "退思会 --持续--> 两天"}, {"from": "技术", "to": "死亡 (方式)", "label": "解决", "title": "技术 --解决--> 死亡 (方式)"}, {"from": "《置身事内：中国政府与经济发展》", "to": "2003年", "label": "出版于", "title": "《置身事内：中国政府与经济发展》 --出版于--> 2003年"}, {"from": "跟随内心", "to": "勇气", "label": "是", "title": "跟随内心 --是--> 勇气"}, {"from": "整篇演讲", "to": "三个故事", "label": "讲了", "title": "整篇演讲 --讲了--> 三个故事"}, {"from": "商业周刊", "to": "乔布斯", "label": "刊登", "title": "商业周刊 --刊登--> 乔布斯"}, {"from": "与苹果的关系", "to": "苹果", "label": "保持联系", "title": "与苹果的关系 --保持联系--> 苹果"}, {"from": "《史蒂夫·乔布斯传》", "to": "第十三章", "label": "包含", "title": "《史蒂夫·乔布斯传》 --包含--> 第十三章"}, {"from": "《史蒂夫·乔布斯传》", "to": "第三十六章", "label": "包含", "title": "《史蒂夫·乔布斯传》 --包含--> 第三十六章"}, {"from": "沃尔特·艾萨克森", "to": "《史蒂夫·乔布斯传》", "label": "写作", "title": "沃尔特·艾萨克森 --写作--> 《史蒂夫·乔布斯传》"}, {"from": "沃尔特·艾萨克森", "to": "作者", "label": "是", "title": "沃尔特·艾萨克森 --是--> 作者"}, {"from": "乔布斯", "to": "演讲者", "label": "是", "title": "乔布斯 --是--> 演讲者"}, {"from": "乔布斯", "to": "推销者", "label": "是", "title": "乔布斯 --是--> 推销者"}, {"from": "乔布斯", "to": "计算机", "label": "谈论", "title": "乔布斯 --谈论--> 计算机"}, {"from": "乔布斯", "to": "好设计", "label": "谈论", "title": "乔布斯 --谈论--> 好设计"}, {"from": "乔布斯", "to": "约翰·斯考利", "label": "督促", "title": "乔布斯 --督促--> 约翰·斯考利"}, {"from": "乔布斯", "to": "成长", "label": "谈论", "title": "乔布斯 --谈论--> 成长"}, {"from": "乔布斯", "to": "远景", "label": "有", "title": "乔布斯 --有--> 远景"}, {"from": "乔布斯", "to": "苹果", "label": "保持联系", "title": "乔布斯 --保持联系--> 苹果"}, {"from": "乔布斯", "to": "未来", "label": "相信", "title": "乔布斯 --相信--> 未来"}, {"from": "乔布斯", "to": "工作", "label": "谈论", "title": "乔布斯 --谈论--> 工作"}, {"from": "乔布斯", "to": "死亡 (方式)", "label": "谈论", "title": "乔布斯 --谈论--> 死亡 (方式)"}, {"from": "乔布斯", "to": "停留在同一件事上", "label": "不喜欢", "title": "乔布斯 --不喜欢--> 停留在同一件事上"}, {"from": "乔布斯", "to": "生命", "label": "有", "title": "乔布斯 --有--> 生命"}, {"from": "乔布斯", "to": "花花公子", "label": "接受采访于", "title": "乔布斯 --接受采访于--> 花花公子"}, {"from": "乔布斯", "to": "商业周刊", "label": "接受采访于", "title": "乔布斯 --接受采访于--> 商业周刊"}, {"from": "乔布斯", "to": "斯坦福大学", "label": "演讲于", "title": "乔布斯 --演讲于--> 斯坦福大学"}, {"from": "乔布斯", "to": "关于他在苹果的角色", "label": "谈论", "title": "乔布斯 --谈论--> 关于他在苹果的角色"}, {"from": "乔布斯", "to": "产品", "label": "谈论", "title": "乔布斯 --谈论--> 产品"}, {"from": "乔布斯", "to": "56岁的生命", "label": "拥有", "title": "乔布斯 --拥有--> 56岁的生命"}, {"from": "乔布斯", "to": "勇气", "label": "相信", "title": "乔布斯 --相信--> 勇气"}, {"from": "乔布斯", "to": "目的", "label": "相信", "title": "乔布斯 --相信--> 目的"}, {"from": "乔布斯", "to": "因缘", "label": "相信", "title": "乔布斯 --相信--> 因缘"}, {"from": "乔布斯", "to": "卖糖水 (?)", "label": "比喻", "title": "乔布斯 --比喻--> 卖糖水 (?)"}, {"from": "乔布斯", "to": "专注", "label": "相信", "title": "乔布斯 --相信--> 专注"}, {"from": "乔布斯", "to": "简单", "label": "相信", "title": "乔布斯 --相信--> 简单"}, {"from": "乔布斯", "to": "《华尔街日报》", "label": "接受采访于", "title": "乔布斯 --接受采访于--> 《华尔街日报》"}, {"from": "乔布斯", "to": "专注和简单", "label": "相信", "title": "乔布斯 --相信--> 专注和简单"}, {"from": "乔布斯", "to": "勇气、目的、生命、因缘", "label": "相信", "title": "乔布斯 --相信--> 勇气、目的、生命、因缘"}, {"from": "乔布斯", "to": "苹果需要重新找回灵魂", "label": "意识到", "title": "乔布斯 --意识到--> 苹果需要重新找回灵魂"}, {"from": "乔布斯", "to": "苹果公司", "label": "重返", "title": "乔布斯 --重返--> 苹果公司"}, {"from": "乔布斯", "to": "所有的科技", "label": "愿意用", "title": "乔布斯 --愿意用--> 所有的科技"}, {"from": "乔布斯", "to": "苏格拉底相处", "label": "想和", "title": "乔布斯 --想和--> 苏格拉底相处"}, {"from": "乔布斯", "to": "用所有科技换取和苏格拉底相处", "label": "愿意", "title": "乔布斯 --愿意--> 用所有科技换取和苏格拉底相处"}, {"from": "乔布斯", "to": "七个月", "label": "在印度村庄待了", "title": "乔布斯 --在印度村庄待了--> 七个月"}, {"from": "乔布斯", "to": "永平寺", "label": "试图进入", "title": "乔布斯 --试图进入--> 永平寺"}, {"from": "乔布斯", "to": "西方世界的疯狂", "label": "看到", "title": "乔布斯 --看到--> 西方世界的疯狂"}, {"from": "乔布斯", "to": "禅宗那句话的真理", "label": "领悟", "title": "乔布斯 --领悟--> 禅宗那句话的真理"}, {"from": "乔布斯", "to": "2003年", "label": "被诊断出胰腺神经内分泌肿瘤", "title": "乔布斯 --被诊断出胰腺神经内分泌肿瘤--> 2003年"}, {"from": "乔布斯", "to": "2011年10月5日", "label": "离世于", "title": "乔布斯 --离世于--> 2011年10月5日"}, {"from": "乔布斯", "to": "胰腺神经内分泌肿瘤", "label": "被诊断出", "title": "乔布斯 --被诊断出--> 胰腺神经内分泌肿瘤"}, {"from": "乔布斯", "to": "在2003年10月", "label": "被诊断出胰腺神经内分泌肿瘤", "title": "乔布斯 --被诊断出胰腺神经内分泌肿瘤--> 在2003年10月"}, {"from": "乔布斯", "to": "决不妥协", "label": "提出", "title": "乔布斯 --提出--> 决不妥协"}, {"from": "乔布斯", "to": "过程就是奖励", "label": "提出", "title": "乔布斯 --提出--> 过程就是奖励"}, {"from": "乔布斯", "to": "直到上市，产品才能算是完工", "label": "提出", "title": "乔布斯 --提出--> 直到上市，产品才能算是完工"}, {"from": "乔布斯", "to": "退思会", "label": "参加", "title": "乔布斯 --参加--> 退思会"}, {"from": "乔布斯", "to": "自己的想法", "label": "贴上", "title": "乔布斯 --贴上--> 自己的想法"}, {"from": "乔布斯", "to": "三个否定句", "label": "使用", "title": "乔布斯 --使用--> 三个否定句"}, {"from": "乔布斯", "to": "唯一的一次加法", "label": "做", "title": "乔布斯 --做--> 唯一的一次加法"}, {"from": "乔布斯", "to": "三个故事", "label": "讲", "title": "乔布斯 --讲--> 三个故事"}, {"from": "乔布斯", "to": "一次加法", "label": "做", "title": "乔布斯 --做--> 一次加法"}, {"from": "演讲者", "to": "他最珍贵的遗言之一", "label": "被视为", "title": "演讲者 --被视为--> 他最珍贵的遗言之一"}, {"from": "演讲者", "to": "2005年6月12日", "label": "发生在", "title": "演讲者 --发生在--> 2005年6月12日"}, {"from": "演讲者", "to": "斯坦福大学", "label": "在", "title": "演讲者 --在--> 斯坦福大学"}, {"from": "演讲者", "to": "三个故事", "label": "包含", "title": "演讲者 --包含--> 三个故事"}, {"from": "阿德勒", "to": "未来", "label": "强调", "title": "阿德勒 --强调--> 未来"}, {"from": "阿德勒", "to": "自卑感", "label": "区分", "title": "阿德勒 --区分--> 自卑感"}, {"from": "阿德勒", "to": "课题分离", "label": "提出", "title": "阿德勒 --提出--> 课题分离"}, {"from": "科技", "to": "苏格拉底相处", "label": "换取", "title": "科技 --换取--> 苏格拉底相处"}, {"from": "它是改变生命的代理人", "to": "生命", "label": "改变", "title": "它是改变生命的代理人 --改变--> 生命"}, {"from": "公众", "to": "他患癌", "label": "得知", "title": "公众 --得知--> 他患癌"}, {"from": "公众", "to": "乔布斯", "label": "得知", "title": "公众 --得知--> 乔布斯"}, {"from": "公众", "to": "在2009年", "label": "得知乔布斯患癌", "title": "公众 --得知乔布斯患癌--> 在2009年"}, {"from": "乔布斯是一个无与伦比的演讲者与推销者", "to": "演讲者/推销者", "label": "是", "title": "乔布斯是一个无与伦比的演讲者与推销者 --是--> 演讲者/推销者"}, {"from": "英伟达", "to": "2003年", "label": "提出于", "title": "英伟达 --提出于--> 2003年"}, {"from": "关于计算机的引言", "to": "计算机", "label": "谈论", "title": "关于计算机的引言 --谈论--> 计算机"}, {"from": "关于计算机的引言", "to": "好设计", "label": "谈论", "title": "关于计算机的引言 --谈论--> 好设计"}, {"from": "《华尔街日报》", "to": "乔布斯", "label": "刊登", "title": "《华尔街日报》 --刊登--> 乔布斯"}, {"from": "精神导师", "to": "我留在美国", "label": "敦促", "title": "精神导师 --敦促--> 我留在美国"}, {"from": "精神导师", "to": "乔布斯留在美国", "label": "敦促", "title": "精神导师 --敦促--> 乔布斯留在美国"}, {"from": "约翰·斯考利", "to": "苹果", "label": "加入", "title": "约翰·斯考利 --加入--> 苹果"}, {"from": "苹果", "to": "一个人表演的地方", "label": "不是", "title": "苹果 --不是--> 一个人表演的地方"}, {"from": "苹果", "to": "有才华的人", "label": "复兴于", "title": "苹果 --复兴于--> 有才华的人"}, {"from": "苹果", "to": "卓越的管理团队", "label": "复兴于", "title": "苹果 --复兴于--> 卓越的管理团队"}, {"from": "苹果", "to": "有才华的人和卓越的管理团队", "label": "复兴于", "title": "苹果 --复兴于--> 有才华的人和卓越的管理团队"}, {"from": "苹果", "to": "改变世界", "label": "代表", "title": "苹果 --代表--> 改变世界"}, {"from": "苹果", "to": "个人电脑 (?)", "label": "生产", "title": "苹果 --生产--> 个人电脑 (?)"}, {"from": "苹果", "to": "乔布斯一个人", "label": "不依靠", "title": "苹果 --不依靠--> 乔布斯一个人"}, {"from": "苹果", "to": "一个人", "label": "不依靠", "title": "苹果 --不依靠--> 一个人"}, {"from": "苹果", "to": "具有创造性的重要人物结盟", "label": "应该与", "title": "苹果 --应该与--> 具有创造性的重要人物结盟"}, {"from": "苹果", "to": "创意与创新能够改变世界", "label": "相信", "title": "苹果 --相信--> 创意与创新能够改变世界"}, {"from": "苹果", "to": "股价", "label": "影响", "title": "苹果 --影响--> 股价"}, {"from": "苹果", "to": "影响力", "label": "比国家更有", "title": "苹果 --比国家更有--> 影响力"}, {"from": "领域驱动设计", "to": "2003年", "label": "出版于", "title": "领域驱动设计 --出版于--> 2003年"}, {"from": "乔氏语录", "to": "斯蒂夫·乔布斯", "label": "属于", "title": "乔氏语录 --属于--> 斯蒂夫·乔布斯"}, {"from": "这个个人电脑领域的梦想家引领并改变了整个计算机硬件和软件产业", "to": "计算机硬件和软件产业", "label": "改变", "title": "这个个人电脑领域的梦想家引领并改变了整个计算机硬件和软件产业 --改变--> 计算机硬件和软件产业"}, {"from": "乔布斯在督促约翰·斯考利加入苹果", "to": "约翰·斯考利", "label": "督促", "title": "乔布斯在督促约翰·斯考利加入苹果 --督促--> 约翰·斯考利"}, {"from": "我", "to": "七个月", "label": "在印度村庄待了", "title": "我 --在印度村庄待了--> 七个月"}, {"from": "我", "to": "西方世界的疯狂", "label": "看到", "title": "我 --看到--> 西方世界的疯狂"}, {"from": "我", "to": "日本", "label": "想到", "title": "我 --想到--> 日本"}, {"from": "我", "to": "永平寺", "label": "试图进入", "title": "我 --试图进入--> 永平寺"}, {"from": "我", "to": "禅宗那句话的真理", "label": "领悟", "title": "我 --领悟--> 禅宗那句话的真理"}, {"from": "生命", "to": "处理数据的算法", "label": "是", "title": "生命 --是--> 处理数据的算法"}, {"from": "心智", "to": "成长", "label": "不会因年龄停止", "title": "心智 --不会因年龄停止--> 成长"}, {"from": "《黑天鹅》", "to": "2003年", "label": "出版于", "title": "《黑天鹅》 --出版于--> 2003年"}, {"from": "一家是专门苹果售后维修的", "to": "苹果", "label": "专门维修", "title": "一家是专门苹果售后维修的 --专门维修--> 苹果"}, {"from": "三个故事", "to": "连接生命中的点", "label": "包括", "title": "三个故事 --包括--> 连接生命中的点"}, {"from": "三个故事", "to": "爱与失去", "label": "包括", "title": "三个故事 --包括--> 爱与失去"}, {"from": "三个故事", "to": "关于死亡", "label": "包括", "title": "三个故事 --包括--> 关于死亡"}, {"from": "永平寺", "to": "修行场所", "label": "是", "title": "永平寺 --是--> 修行场所"}, {"from": "永平寺", "to": "日本", "label": "位于", "title": "永平寺 --位于--> 日本"}, {"from": "攻击者甚至不需要注册你的产品", "to": "产品", "label": "不需要注册", "title": "攻击者甚至不需要注册你的产品 --不需要注册--> 产品"}, {"from": "自卑感", "to": "成长", "label": "推动", "title": "自卑感 --推动--> 成长"}, {"from": "课题分离", "to": "专注", "label": "目的是", "title": "课题分离 --目的是--> 专注"}, {"from": "课题分离", "to": "阿德勒", "label": "概念由...提出", "title": "课题分离 --概念由...提出--> 阿德勒"}, {"from": "这个精力充沛魅力无限的家伙同时也是一个很会鼓动人心的激励大师", "to": "激励大师", "label": "是", "title": "这个精力充沛魅力无限的家伙同时也是一个很会鼓动人心的激励大师 --是--> 激励大师"}, {"from": "托马斯", "to": "花花公子", "label": "是", "title": "托马斯 --是--> 花花公子"}, {"from": "乔布斯那段话", "to": "三层意思", "label": "包含", "title": "乔布斯那段话 --包含--> 三层意思"}, {"from": "苹果公司", "to": "濒临破产", "label": "在1997年初", "title": "苹果公司 --在1997年初--> 濒临破产"}, {"from": "苹果公司", "to": "虚构故事", "label": "是", "title": "苹果公司 --是--> 虚构故事"}, {"from": "苹果公司", "to": "股价", "label": "影响", "title": "苹果公司 --影响--> 股价"}, {"from": "苹果公司", "to": "行业", "label": "改变", "title": "苹果公司 --改变--> 行业"}, {"from": "死亡 (方式)", "to": "生命", "label": "改变", "title": "死亡 (方式) --改变--> 生命"}, {"from": "死亡 (方式)", "to": "发明", "label": "是", "title": "死亡 (方式) --是--> 发明"}, {"from": "死亡 (方式)", "to": "真正重要的东西", "label": "留下", "title": "死亡 (方式) --留下--> 真正重要的东西"}, {"from": "死亡 (方式)", "to": "外在的期待、骄傲、恐惧", "label": "让", "title": "死亡 (方式) --让--> 外在的期待、骄傲、恐惧"}, {"from": "斯蒂夫·乔布斯", "to": "苹果电脑公司的创始人", "label": "是", "title": "斯蒂夫·乔布斯 --是--> 苹果电脑公司的创始人"}, {"from": "斯蒂夫·乔布斯", "to": "个人电脑领域的梦想家", "label": "是", "title": "斯蒂夫·乔布斯 --是--> 个人电脑领域的梦想家"}, {"from": "斯蒂夫·乔布斯", "to": "计算机硬件和软件产业", "label": "引领", "title": "斯蒂夫·乔布斯 --引领--> 计算机硬件和软件产业"}, {"from": "斯蒂夫·乔布斯", "to": "激励大师", "label": "是", "title": "斯蒂夫·乔布斯 --是--> 激励大师"}, {"from": "好设计", "to": "简单", "label": "具有", "title": "好设计 --具有--> 简单"}, {"from": "好设计", "to": "对称", "label": "具有", "title": "好设计 --具有--> 对称"}, {"from": "好设计", "to": "启发性", "label": "具有", "title": "好设计 --具有--> 启发性"}, {"from": "好设计", "to": "幽默", "label": "具有", "title": "好设计 --具有--> 幽默"}, {"from": "好设计", "to": "简单的设计", "label": "是", "title": "好设计 --是--> 简单的设计"}, {"from": "好设计", "to": "永不过时的设计", "label": "是", "title": "好设计 --是--> 永不过时的设计"}, {"from": "好设计", "to": "解决主要问题的设计", "label": "是", "title": "好设计 --是--> 解决主要问题的设计"}, {"from": "好设计", "to": "启发性的设计", "label": "是", "title": "好设计 --是--> 启发性的设计"}, {"from": "好设计", "to": "有点趣味性的设计", "label": "是", "title": "好设计 --是--> 有点趣味性的设计"}, {"from": "好设计", "to": "艰苦的设计", "label": "是", "title": "好设计 --是--> 艰苦的设计"}, {"from": "好设计", "to": "看似容易的设计", "label": "是", "title": "好设计 --是--> 看似容易的设计"}, {"from": "好设计", "to": "对称的设计", "label": "是", "title": "好设计 --是--> 对称的设计"}, {"from": "好设计", "to": "模仿大自然的设计", "label": "是", "title": "好设计 --是--> 模仿大自然的设计"}, {"from": "好设计", "to": "再设计", "label": "是", "title": "好设计 --是--> 再设计"}, {"from": "好设计", "to": "能够复制的设计", "label": "是", "title": "好设计 --是--> 能够复制的设计"}, {"from": "好设计", "to": "奇特的设计", "label": "是", "title": "好设计 --是--> 奇特的设计"}, {"from": "好设计", "to": "成批出现的", "label": "是", "title": "好设计 --是--> 成批出现的"}, {"from": "好设计", "to": "大胆的设计", "label": "是", "title": "好设计 --是--> 大胆的设计"}, {"from": "花花公子", "to": "乔布斯", "label": "刊登", "title": "花花公子 --刊登--> 乔布斯"}, {"from": "蒂姆·库克", "to": "乔布斯", "label": "接替", "title": "蒂姆·库克 --接替--> 乔布斯"}, {"from": "蒂姆·库克", "to": "苹果公司供应链", "label": "管理", "title": "蒂姆·库克 --管理--> 苹果公司供应链"}, {"from": "他就是拥有梦幻般传奇经历的苹果电脑公司的创始人斯蒂夫·乔布斯", "to": "苹果电脑公司的创始人", "label": "是", "title": "他就是拥有梦幻般传奇经历的苹果电脑公司的创始人斯蒂夫·乔布斯 --是--> 苹果电脑公司的创始人"}, {"from": "计算机", "to": "广州区域", "label": "集中到", "title": "计算机 --集中到--> 广州区域"}, {"from": "《低俗小说》", "to": "三个故事", "label": "包含", "title": "《低俗小说》 --包含--> 三个故事"}, {"from": "乔布斯的生命", "to": "生命", "label": "有", "title": "乔布斯的生命 --有--> 生命"}]};
+  var matchedSet = new Set(["《史蒂夫·乔布斯传》", "乔布斯", "乔布斯一个人", "乔布斯在督促约翰·斯考利加入苹果", "乔布斯是一个无与伦比的演讲者与推销者", "乔布斯留在美国", "乔布斯的生命", "乔布斯那段话", "他就是拥有梦幻般传奇经历的苹果电脑公司的创始人斯蒂夫·乔布斯", "斯蒂夫·乔布斯"]);
+  var palette = ["#7fb3d5", "#f5b041", "#82c4a3", "#e07b91", "#bb8fce", "#76d6c9", "#f4d35e", "#e8784e", "#9bbfa5", "#c4a484"];
+  var nodes = payload.nodes, edges = payload.edges;
+
+  for (var i = 0; i < nodes.length; i++) {
+    var n = nodes[i];
+    var isMatch = matchedSet.has(n.id);
+    var baseColor = palette[Math.abs(hashCode(n.id)) % palette.length];
+    n.color = {
+      background: isMatch ? '#e07b91' : baseColor,
+      border: isMatch ? '#ffffff' : '#2a2e38',
+      highlight: { background: '#f4d35e', border: '#ffffff' }
+    };
+    n.font = { color: '#e8eaed', size: 12, face: 'sans-serif', strokeWidth: 0 };
+    n.shape = 'dot';
+    n.borderWidth = 1;
+  }
+  for (var j = 0; j < edges.length; j++) {
+    var e = edges[j];
+    e.arrows = { to: { enabled: true, scaleFactor: 0.5 } };
+    e.font = { size: 10, align: 'middle', color: '#9aa0a6', strokeWidth: 0 };
+    e.color = { color: '#3a3f4b', highlight: '#7fb3d5' };
+    e.width = 0.6;
+    e.smooth = { type: 'continuous' };
+  }
+
+  var container = document.getElementById('network');
+  var loading = document.getElementById('loading');
+  var data = { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) };
+  var options = {
+    physics: {
+      enabled: true,
+      stabilization: { iterations: 200 },
+      barnesHut: { gravitationalConstant: -8000, springLength: 120, springConstant: 0.04 },
+      maxVelocity: 30
+    },
+    interaction: {
+      hover: true,
+      tooltipDelay: 100,
+      navigationButtons: true,
+      keyboard: true
+    }
+  };
+  var network = new vis.Network(container, data, options);
+  loading.style.display = 'none';
+
+  document.getElementById('stat-nodes').textContent = nodes.length.toLocaleString();
+  document.getElementById('stat-edges').textContent = edges.length.toLocaleString();
+
+  var topList = document.getElementById('top-list');
+  var topNodes = nodes.slice().sort(function(a, b) { return b.value - a.value; }).slice(0, 15);
+  topNodes.forEach(function(n) {
+    var item = document.createElement('div');
+    item.className = 'top-item';
+    item.innerHTML = '<span>' + escapeHtml(n.label) + '</span><span class="deg">' + n.value + '</span>';
+    item.onclick = function() {
+      network.focus(n.id, { scale: 1.2, animation: true });
+      network.selectNodes([n.id]);
+    };
+    topList.appendChild(item);
+  });
+
+  var search = document.getElementById('search');
+  search.addEventListener('input', function() {
+    var q = search.value.trim().toLowerCase();
+    if (!q) return;
+    var hit = nodes.find(function(n) { return n.id.toLowerCase().indexOf(q) !== -1; });
+    if (hit) {
+      network.focus(hit.id, { scale: 1.5, animation: true });
+      network.selectNodes([hit.id]);
+    }
+  });
+})();
+</script>
+</body>
+</html>
