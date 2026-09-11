@@ -335,3 +335,41 @@ figure.post-img img {
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
   }
 }
+
+/* 上一篇/下一篇导航：移动端上下堆叠，桌面端左右并排 */
+.prev-next-posts {
+  display: flex;
+  flex-wrap: wrap;
+}
+.prev-next-card {
+  flex: 1 1 100%;
+  min-width: 0;
+  padding: 0.75rem 1rem;
+}
+.prev-next-prev {
+  border-bottom: 1px solid #eee;
+}
+.prev-next-label {
+  display: block;
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+.prev-next-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+@media (min-width: 768px) {
+  .prev-next-card {
+    flex: 1 1 50%;
+  }
+  .prev-next-prev {
+    border-right: 1px solid #eee;
+    border-bottom: 0;
+  }
+  .prev-next-next {
+    text-align: right;
+  }
+}

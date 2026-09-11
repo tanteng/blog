@@ -1,8 +1,7 @@
-{{/*
-  全站按发布时间排序的上一/下一篇文章导航。
-  用 .Site.RegularPages 拿所有 Section=posts 的页面，按 Date 倒序，
-  找到当前页的索引后取前后邻居。
-*/}}
+{{- /*
+  按发布时间排序的上一/下一篇文章导航。
+  取所有 Section=posts、非草稿页面，按 Date 倒序，找当前页索引取邻居。
+*/ -}}
 {{- $pages := where .Site.RegularPages "Section" "posts" -}}
 {{- $pages = where $pages "Params.draft" "ne" true -}}
 {{- $sorted := $pages.ByDate.Reverse -}}
@@ -12,27 +11,27 @@
     {{- $idx = $i -}}
   {{- end -}}
 {{- end -}}
-{{- if gt (len $sorted) 0 -}}
-  {{- $prev := "" -}}
-  {{- $next := "" -}}
-  {{- if and (ge $idx 0) (gt $idx 0) -}}
-    {{- $prev = index $sorted (sub $idx 1) -}}
-  {{- end -}}
-  {{- if and (ge $idx 0) (lt $idx (sub (len $sorted) 1)) -}}
-    {{- $next = index $sorted (add $idx 1) -}}
-  {{- end -}}
-  {{- if or $prev $next -}}
-  <nav class="prev-next-posts mt5 pt3 bt b--light-gray f6 mid-gray">
-    {{- if $prev }}
-    <a class="link dim fl mr3" href="{{ $prev.Permalink }}" title="{{ $prev.Title }}">
-      ← {{ $prev.Title }}
-    </a>
-    {{- end }}
-    {{- if $next }}
-    <a class="link dim fr ml3 tr" href="{{ $next.Permalink }}" title="{{ $next.Title }}">
-      {{ $next.Title }} →
-    </a>
-    {{- end }}
-  </nav>
-  {{- end -}}
+{{- $prev := "" -}}
+{{- if gt $idx 0 -}}
+  {{- $prev = index $sorted (sub $idx 1) -}}
 {{- end -}}
+{{- $next := "" -}}
+{{- if and (ge $idx 0) (lt $idx (sub (len $sorted) 1)) -}}
+  {{- $next = index $sorted (add $idx 1) -}}
+{{- end -}}
+{{- if or $prev $next -}}
+<nav class="prev-next-posts mt5 pt3 bt b--light-gray f6 mid-gray" aria-label="文章导航">
+  {{- with $prev }}
+  <a class="prev-next-card prev-next-prev link dim" href="{{ .Permalink }}" rel="prev">
+    <span class="prev-next-label">← 上一篇</span>
+    <span class="prev-next-title">{{ .Title }}</span>
+  </a>
+  {{- end }}
+  {{- with $next }}
+  <a class="prev-next-card prev-next-next link dim" href="{{ .Permalink }}" rel="next">
+    <span class="prev-next-label">下一篇 →</span>
+    <span class="prev-next-title">{{ .Title }}</span>
+  </a>
+  {{- end }}
+</nav>
+{{- end }}
