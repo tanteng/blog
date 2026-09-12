@@ -1,5 +1,7 @@
 {{ define "main" }}
   <article class="cf pa2 pa4-m pa4-l">
+    {{/* 分类/标签列表页顶部保留与 /posts/ 一致的「分类 + 标签」导航条 */}}
+    {{ partial "posts-taxonomy-bar.html" . }}
     {{ $pages := where .Pages "Section" "ne" "notes" }}
     {{/* 分页：使用全局 pagerSize（config.toml: pagerSize = 30），与 /posts/ 列表一致 */}}
     {{ $paginator := .Paginate $pages }}
