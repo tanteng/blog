@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /profile.html/
+
+Sitemap: https://blog.tanteng.space/sitemap.xml

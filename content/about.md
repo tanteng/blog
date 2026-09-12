@@ -3,6 +3,7 @@ title: '关于我'
 seo_title: '关于我 | 谈腾'
 date: 1989-10-31T00:00:00+08:00
 draft: false
+description: '谈腾（Tony老师），后台开发工程师，关注 Golang、K8S、AI 与 Agent。常驻深圳，来自湖北黄石。用索尼 A7M4、尼康 FM2 与宾得 17 记录旅途。'
 ananke:
   show_date: false
 ---
