@@ -1,4 +1,8 @@
 <article class="note bb b--black-10 pv3 pv4-ns">
+  <time class="f6 db mv1 mid-gray" {{ fmt.Printf `datetime="%s"` (.Date.Format "2006-01-02T15:04:05Z07:00") | safe.HTMLAttr }}>
+    {{- .Date | time.Format (compare.Default "January 2, 2006" .Site.Params.date_format) -}}
+  </time>
+
   <div class="note-content nested-copy-line-height nested-links lh-copy f5 f4-ns mid-gray">
     {{ .Content }}
   </div>
@@ -11,8 +15,4 @@
       {{ end }}
     </div>
   {{ end }}
-
-  <time class="f7 mt3 db mid-gray" {{ fmt.Printf `datetime="%s"` (.Date.Format "2006-01-02T15:04:05Z07:00") | safe.HTMLAttr }}>
-    {{- .Date.Format "2006-01-02 15:04" -}}
-  </time>
 </article>
