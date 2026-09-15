@@ -12,4 +12,4 @@ categories: ["ai"]
 
 图中景点沿尼罗河自南向北排布，三角洲一带密度最高（点图看大图）：
 
-[![埃及主要景点位置示意图](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/09/264a2b9d61d3e3251b0168cc7985773e.png)](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/09/264a2b9d61d3e3251b0168cc7985773e.png)
+<a href="https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/09/264a2b9d61d3e3251b0168cc7985773e.png" target="_blank" rel="noopener"><img src="https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/09/5ff40b4bda524ca284c7cea97dfa3d54.png" width="480" alt="埃及主要景点位置示意图"></a>
