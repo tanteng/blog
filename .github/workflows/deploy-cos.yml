@@ -197,12 +197,23 @@ jobs:
           fi
 
       - name: Purge EdgeOne Cache
+        # ⚠️ 所有 ${{ }} 值必须经 env 传入，禁止直接插值进 run 脚本。
+        # 原因：表达式结果是含双引号的 JSON（如 ["https://.../"]），写成
+        #   append_urls "笔记" "${{ steps...note_urls }}"
+        # 插值后形如 ... "["https://..."]" ，双引号会被 shell 当语法吃掉，
+        # 拼出的 --Targets 变成非法 JSON，tccli 直接 exit 255（曾导致连续 3 次部署失败）。
         env:
           TENCENTCLOUD_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
           TENCENTCLOUD_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
+          EDGEONE_ZONE_ID: ${{ secrets.EDGEONE_ZONE_ID }}
+          PURGE_ALL: ${{ steps.detect-changes.outputs.purge_all }}
+          ARTICLE_URLS: ${{ steps.detect-changes.outputs.article_urls }}
+          NOTE_URLS: ${{ steps.detect-changes.outputs.note_urls }}
+          CATEGORY_URLS: ${{ steps.detect-changes.outputs.category_urls }}
+          TAG_URLS: ${{ steps.detect-changes.outputs.tag_urls }}
+          TOP_URLS: ${{ steps.detect-changes.outputs.top_urls }}
         run: |
-          ZONE_ID="${{ secrets.EDGEONE_ZONE_ID }}"
-          PURGE_ALL="${{ steps.detect-changes.outputs.purge_all }}"
+          ZONE_ID="$EDGEONE_ZONE_ID"
 
           if [ "$PURGE_ALL" = "true" ]; then
             # 全局文件变更（layouts/static/config 等），清理全站缓存
@@ -232,13 +243,20 @@ jobs:
           }
 
           echo "🧹 准备清理 EdgeOne 缓存..."
-          append_urls "文章"   "${{ steps.detect-changes.outputs.article_urls }}"
-          append_urls "笔记"   "${{ steps.detect-changes.outputs.note_urls }}"
-          append_urls "分类页" "${{ steps.detect-changes.outputs.category_urls }}"
-          append_urls "标签页" "${{ steps.detect-changes.outputs.tag_urls }}"
-          append_urls "顶层页" "${{ steps.detect-changes.outputs.top_urls }}"
+          append_urls "文章"   "$ARTICLE_URLS"
+          append_urls "笔记"   "$NOTE_URLS"
+          append_urls "分类页" "$CATEGORY_URLS"
+          append_urls "标签页" "$TAG_URLS"
+          append_urls "顶层页" "$TOP_URLS"
 
           echo "📋 最终清理列表: ${ALL_URLS}"
+
+          # 防回归：拼装错误会产出非法 JSON，提前拦住并给出可读报错
+          echo "$ALL_URLS" | python3 -c '
+          import json, sys
+          urls = json.load(sys.stdin)
+          print(f"✅ Targets JSON 合法，共 {len(urls)} 个 URL")
+          '
 
           tccli teo CreatePurgeTask \
             --region ap-guangzhou \
