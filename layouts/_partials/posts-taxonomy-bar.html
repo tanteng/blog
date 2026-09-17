@@ -2,14 +2,14 @@
   posts-taxonomy-bar.html
   /posts/ 列表页顶部的「分类 / 标签」导航条。
 
-  - 分类、标签各取文章数最多的 20 个
+  - 分类、标签各取文章数最多的 30 个
   - 只统计 posts 分区，与 /categories/xx/、/tags/xx/ 的口径一致（排除 notes）
   - 所有 class 统一 posts-taxonomy- 前缀，样式内联且仅随本 partial 输出，
     因此只在引用它的页面（/posts/）生效，不影响其他页面
 
   ctx: . — 页面上下文
 */}}
-{{ $limit := 20 }}
+{{ $limit := 30 }}
 {{ $current := .RelPermalink }}
 
 {{ $cats := slice }}
