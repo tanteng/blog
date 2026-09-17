@@ -9,16 +9,16 @@ slug: "dream-of-beautiful-scenery"
 description: "昨夜做了一个梦，梦见了非常壮观的美景。"
 related_posts:
   - posts/2022-03-27-fry-steak.md
-  - posts/macau-coloane-film-citywalk.md
-  - posts/stanley-summer-film-cn400.md
-  - posts/shenzhen-bougainvillea-corridor.md
-  - posts/steve-jobs-remembering-death.md
-  - posts/steve-jobs-intuition.md
-  - posts/your-time-is-limited-live-your-own-life.md
-  - posts/connecting-the-dots-steve-jobs.md 
   - posts/spring-outing.md
   - posts/vibe-coding-to-sdd.md
   - posts/graphrag-introduction.md
+  - posts/common-film-color-characteristics.md
+  - posts/macau-coloane-film-citywalk.md
+  - posts/stanley-summer-film-cn400.md
+  - posts/steve-jobs-remembering-death.md
+  - posts/steve-jobs-intuition.md
+  - posts/your-time-is-limited-live-your-own-life.md
+  - posts/connecting-the-dots-steve-jobs.md
 ---
 
 昨晚做了一个梦，梦见了非常壮观的美景。
