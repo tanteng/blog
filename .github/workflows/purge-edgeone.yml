@@ -1,0 +1,50 @@
+# 手动触发：按 host 清理 EdgeOne 全站缓存
+name: Purge EdgeOne by Host
+
+on:
+  workflow_dispatch:
+    inputs:
+      host:
+        description: '要清理的 host（不带 https://）'
+        required: true
+        default: 'blog.tanteng.space'
+        type: string
+      zone_id:
+        description: 'EdgeOne ZoneId（留空用默认 secrets.EDGEONE_ZONE_ID）'
+        required: false
+        default: ''
+        type: string
+
+jobs:
+  purge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install tccli
+        run: pip install tccli
+
+      - name: Purge by host
+        env:
+          TENCENTCLOUD_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
+          TENCENTCLOUD_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
+          EDGEONE_ZONE_ID: ${{ secrets.EDGEONE_ZONE_ID }}
+          HOST: ${{ inputs.host }}
+          ZONE_ID_OVERRIDE: ${{ inputs.zone_id }}
+        run: |
+          # 默认用 secrets 里的 zone id，inputs.zone_id 可覆盖
+          if [ -n "$ZONE_ID_OVERRIDE" ]; then
+            ZONE_ID="$ZONE_ID_OVERRIDE"
+          else
+            ZONE_ID="$EDGEONE_ZONE_ID"
+          fi
+
+          echo "🧹 准备清理 EdgeOne 缓存"
+          echo "  host:   $HOST"
+          echo "  zoneId: $ZONE_ID"
+
+          tccli teo CreatePurgeTask \
+            --region ap-guangzhou \
+            --ZoneId "$ZONE_ID" \
+            --Type purge_host \
+            --Targets "[\"$HOST\"]"
+
+          echo "✅ purge_host 任务已提交"
