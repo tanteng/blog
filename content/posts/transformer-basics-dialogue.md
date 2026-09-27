@@ -3,7 +3,7 @@ title: "Transformer 基础对话录：Q/K/V、训练与编解码器"
 date: 2025-11-07T10:00:00+08:00
 url: /2025/11/transformer-basics-dialogue/
 draft: false
-tags: ["ai", "transformer", "deep-learning", "machine-learning", "llm"]
+tags: ["ai", "transformer", "deep-learning", "machine-learning", "llm", "paper"]
 categories: ["ai"]
 description: "我和 ChatGPT 学 Transformer 的对话整理：从 Q、K、V 是怎么来的、Softmax 为什么要把分数归一化、√d_k 到底在防什么，一路问到参数怎么训练、参数量指什么、编码器和解码器有什么区别，最后停在后训练。"
 ---

@@ -2,7 +2,7 @@
 title: "知识蒸馏：小模型如何继承大模型的能力"
 date: 2026-07-10
 draft: false
-tags: ["ai", "llm", "deep-learning", "fine-tuning", "deepseek"]
+tags: ["ai", "llm", "deep-learning", "fine-tuning", "deepseek", "paper"]
 categories: ["ai"]
 url: /2026/07/llm-distillation-explained/
 description: "拆开「蒸馏」这个词的两种含义：Hinton 的软标签到底传递了什么信息、温度为什么必须存在、黑盒序列级蒸馏与 On-Policy 蒸馏在工程上如何取舍，以及苹果 ICML 2025 的蒸馏 Scaling Law 给出的算力分配答案。"

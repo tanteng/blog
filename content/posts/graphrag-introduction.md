@@ -1,7 +1,7 @@
 ---
 title: "GraphRAG：用知识图谱改进大模型检索"
 date: 2026-09-11T00:00:00+08:00
-tags: ["ai", "rag", "knowledge-graph", "graphrag", "agent"]
+tags: ["ai", "rag", "knowledge-graph", "graphrag", "agent", "paper"]
 categories: ["ai"]
 description: "介绍 GraphRAG 的核心思想，对比向量检索、关键词检索、GraphRAG、LLM Wiki 四种范式；用我自己的 270 篇博客转出的知识图谱作为交互示例。"
 ---

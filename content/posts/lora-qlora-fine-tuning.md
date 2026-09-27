@@ -10,6 +10,7 @@ tags:
   - lora
   - qlora
   - peft
+  - paper
 ---
 
 > Fine-tuning 是 LLM 应用的分水岭——但 90% 的场景其实**不应该 fine-tune**。这篇文章讲清楚：什么时候 fine-tune、什么时候用 RAG、什么时候用 prompt，以及 fine-tune 时**LoRA / QLoRA 的工程要点**（2025 年最新）。

@@ -3,7 +3,7 @@ title: "多模态 RAG：ColPali 让 VLM 直接读 PDF"
 date: 2025-07-08T15:00:00+08:00
 draft: false
 url: /2025/07/multimodal-rag-and-colpali/
-tags: ['multimodal', 'vlm', 'rag', 'ai']
+tags: ['multimodal', 'vlm', 'rag', 'ai', 'paper']
 categories: ['tech']
 description: "多模态 RAG 检索架构革命：ColPali/ColQwen 直接用 VLM 对 PDF 页面 patch embedding，跳过 OCR + layout + chunking 传统管线。ViDoRe benchmark、late interaction、实战索引构建。"
 ---

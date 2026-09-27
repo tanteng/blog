@@ -9,6 +9,7 @@ tags:
   - prompt
   - dspy
   - optimization
+  - paper
 ---
 
 > 写 prompt 调到怀疑人生？改一个词要测 100 条 case？2025 年开始，**别再手调 prompt 了**——用 DSPy 这种"prompt 编译器"，让优化器自动搜索最优指令。

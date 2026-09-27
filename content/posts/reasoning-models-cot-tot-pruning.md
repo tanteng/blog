@@ -2,7 +2,7 @@
 title: "从 CoT 到 ToT：大模型推理的思维进化与剪枝策略"
 date: 2026-06-30
 draft: false
-tags: ["ai", "llm", "reasoning", "agent"]
+tags: ["ai", "llm", "reasoning", "agent", "paper"]
 categories: ["ai"]
 description: "本文系统梳理大模型推理架构的演进路径：从 ReAct 的内外交互，到 CoT 的线性思维链，再到 ToT 的树状搜索，以及支撑 ToT 高效运转的剪枝策略，并探讨这些技术在实际 Agent 开发中的应用。"
 ---

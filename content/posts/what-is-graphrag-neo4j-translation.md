@@ -3,7 +3,7 @@ title: "Neo4j《What is GraphRAG?》全文翻译（中英对照）"
 date: 2026-03-06T08:00:00+08:00
 url: /2026/03/what-is-graphrag/
 draft: false
-tags: ["rag", "graph-rag", "knowledge-graph", "ai", "llm"]
+tags: ["rag", "graph-rag", "knowledge-graph", "ai", "llm", "paper"]
 categories: ["ai"]
 description: "Neo4j 官方 GraphRAG 长文全文中英对照翻译：从 RAG 三阶段、纯向量检索的两大软肋，到知识图谱建模、8 类 GraphRAG Retriever 选型、知识图谱构建流水线、SimpleKGPipeline 实战，以及企业级落地场景。附深度解读：多跳问答为什么是向量 RAG 的命门、Global Queries 与 Microsoft GraphRAG 的区别、Text2Cypher 被高估的工程风险、以及文章没算的那笔成本账。"
 ---
