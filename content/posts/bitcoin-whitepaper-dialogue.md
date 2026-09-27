@@ -3,8 +3,8 @@ title: "比特币白皮书对话录：双花、工作量证明与确认数"
 date: 2023-12-10T10:00:00+08:00
 url: /2023/12/bitcoin-whitepaper-dialogue/
 draft: false
-tags: ["bitcoin", "blockchain", "distributed-system", "paper", "security"]
-categories: ["tech"]
+tags: ["bitcoin", "blockchain", "proof-of-work", "consensus", "cryptography"]
+categories: ["blockchain"]
 description: "一段围绕中本聪白皮书的对话整理：从双花问题出发，逐块拆开数字签名、时间戳服务器、工作量证明、最长链和确认数，最后落到一笔交易如何进入网络、买一杯咖啡要等多久，以及丢失私钥意味着什么。"
 ---
 

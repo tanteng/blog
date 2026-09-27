@@ -2,7 +2,7 @@
 title: "Pulsar 与 Kafka 核心区别深度解析"
 date: 2025-05-26
 draft: false
-tags: ["messaging", "pulsar", "kafka", "distributed-system"]
+tags: ["messaging", "pulsar", "kafka", "distributed"]
 categories: ["tech"]
 description: "深度对比 Pulsar 与 Kafka 的架构设计、消息分发模式、性能差异，以及各自的适用场景。"
 ---

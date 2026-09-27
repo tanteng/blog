@@ -3,8 +3,8 @@ title: "比特币白皮书中英对照全文翻译（Bitcoin: A Peer-to-Peer Ele
 date: 2015-10-31T10:00:00+08:00
 url: /2015/10/bitcoin-whitepaper-cn-en/
 draft: false
-tags: ["bitcoin", "blockchain", "paper", "security", "distributed-system"]
-categories: ["tech"]
+tags: ["bitcoin", "blockchain", "proof-of-work", "cryptography", "paper"]
+categories: ["blockchain"]
 description: "比特币白皮书 Bitcoin: A Peer-to-Peer Electronic Cash System 的完整中英对照翻译，共 12 节，含工作量证明难度调整、默克尔树剪枝、简化支付验证，以及攻击者追上诚实链概率的推导与对应的 C 代码。"
 ---
 
