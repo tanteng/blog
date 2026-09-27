@@ -396,3 +396,52 @@ figure.film-figure figcaption {
   color: #6b7480;
   text-align: left;
 }
+
+/* ------------------------------------------------------------------ *
+ * 代码块配色：浅色（GitHub 风格）
+ *
+ * 深色有两个来源，都要覆盖：
+ *   1. 主题 ananke/css/_code.css 里写死的 `pre{background:#222;color:#ddd}`
+ *      —— 没有语言标注的代码块（ASCII 结构图、伪代码）走这条；
+ *   2. Chroma 内联在带语言代码块 <pre> 上的 background-color
+ *      —— 值由 config.toml 的 `markup.highlight.style` 决定，
+ *      现在是 github 的 #f7f7f7，跟页面底色 #f4f4f4 几乎分不出来，
+ *      所以这里用 !important 统一刷成白色，靠边框做出块感。
+ *
+ * custom.css 在 ananke/css/main.css 之后加载，同优先级即可覆盖主题规则。
+ * 想回退成深色：删掉这一段，并把 config.toml 里的 markup.highlight.style
+ * 改回 "monokai"。
+ * ------------------------------------------------------------------ */
+
+pre {
+  background-color: #fff;
+  color: #24292e;
+  border: 1px solid #e6e8eb;
+  border-radius: 8px;
+}
+
+/* 带语言标注的代码块：覆盖 Chroma 内联的 background-color */
+.highlight pre {
+  background-color: #fff !important;
+  color: #24292e;
+}
+
+/* 复制按钮：原来是为深色底配的浅字浅边，浅底上要反过来 */
+.code-block .code-copy {
+  color: #57606a;
+  background-color: rgba(27, 31, 35, 0.05);
+  border-color: rgba(27, 31, 35, 0.15);
+}
+
+.code-block .code-copy:hover {
+  background-color: rgba(27, 31, 35, 0.12);
+}
+
+/* mermaid 图是 head-additions.html 里的 JS 把 <pre> 换成 <div class="mermaid"> 生成的，
+   外层的 .code-block 和复制按钮会残留下来，点它没反应（copyFrom 找不到 <pre> 直接 return）。
+   按钮原本是给深色底配的浅字，在浅底上几乎看不见，所以留着也不影响；
+   改成浅色后 hover 会显出来，这里直接隐藏。
+   :has() 不支持的老浏览器会忽略这条，退化成现在的行为，不会报错。 */
+.code-block:has(> .mermaid) .code-copy {
+  display: none;
+}

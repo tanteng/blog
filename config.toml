@@ -73,6 +73,17 @@ open_graph_image = "https://tanteng.space/blog-cover.jpg"
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+  [markup.highlight]
+    # 浅色配色，跟站点的浅色主题统一。Hugo 不配这项时默认是 monokai（深色）。
+    style = "github"
+    # 用内联样式输出高亮，不依赖单独生成的 chroma 样式表
+    noClasses = true
+    # 未标注语言的代码块保持原样，不要猜语言（ASCII 图会被猜错）
+    guessSyntax = false
+    # 不开行号
+    lineNos = false
+    # 制表符按 4 列展开，避免 <pre> 里 tab 被撑成 8 列
+    tabWidth = 4
   [markup.tableOfContents]
     startLevel = 2
     endLevel = 4
