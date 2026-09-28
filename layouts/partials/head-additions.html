@@ -1,7 +1,17 @@
 <link rel="icon" href="/favicon.ico">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="apple-touch-icon" href="/favicon.png">
-<link rel="stylesheet" href="/css/custom.css?v=20260928b">
+{{- /* custom.css 走 Hugo 资源管线，文件名带内容指纹 → /css/custom.<hash>.css
+       为什么不再用 ?v=YYYYMMDD：
+       查询串版本号靠人工 bump，而且新版本号第一次出现时，只要 CDN 在部署同步窗口内
+       回源（HTML 传完、custom.css 还没传完），就会把当时 COS 上的旧 CSS 缓存到这个
+       新 URL 上，之后长期返回旧样式。2026-09-28 两栏对照在 PC 上不生效就是这个原因：
+       ?v=20260928b 绑到了前一天的旧 CSS（12983 字节，没有 .bilingual 规则）。
+       带指纹的文件名随内容变化，资源还没传完时最坏是短暂 404，不会张冠李戴。 */ -}}
+{{- $custom := resources.Get "css/custom.css" -}}
+{{- if not $custom }}{{ errorf "assets/css/custom.css 缺失（两栏对照等自定义样式依赖它）" }}{{ end -}}
+{{- $custom = $custom | minify | fingerprint -}}
+<link rel="stylesheet" href="{{ $custom.RelPermalink }}">
 <!-- Mermaid.js: always loaded so fenced ```mermaid code blocks render anywhere -->
 <style>
   .mermaid {

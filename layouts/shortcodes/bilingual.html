@@ -17,7 +17,8 @@
   `<!--zh-->` 是英文与中文的分隔符：用 `{{% %}}` 时 Hugo 会先把内部按 markdown 渲染，
   这个 HTML 注释在渲染后原样保留，所以能可靠地切开两段 HTML。
 
-  样式在 static/css/custom.css 的「中英两栏对照」一节。
+  样式在 assets/css/custom.css 的「中英两栏对照」一节（由 head-additions.html 走资源管线
+  以带指纹的文件名引入，改完 CSS 不用手动 bump 版本号）。
   相对主题的差异：ananke 没有这个 shortcode，属项目级新增，不受主题升级影响。
 */}}
 

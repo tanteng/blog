@@ -52,6 +52,27 @@ jobs:
           curl -fsSL https://cosbrowser.cloud.tencent.com/software/coscli/coscli-linux-amd64 -o /usr/local/bin/coscli
           chmod +x /usr/local/bin/coscli
 
+      # 静态资源（CSS/JS）先传，再传整站。
+      # 原因：HTML 里引用的资源名带内容指纹，而 public/ 里年份目录（2014/…2024/）排在
+      # css/ 前面，若按默认顺序同步，会出现「HTML 已上线、它引用的 CSS 还没传完」的窗口，
+      # 该窗口内 CDN 回源只会拿到 404。先传资源再传 HTML，任何时刻访问都是完整的。
+      - name: Upload static assets first
+        # 这一步只是缩小「HTML 已上线、资源还没传完」的窗口，属优化项而非正确性前提：
+        # 资源名本身带内容指纹，串版本已经不可能发生。所以失败不阻断部署。
+        continue-on-error: true
+        run: |
+          for d in css js ananke; do
+            if [ -d "./public/$d" ]; then
+              echo "→ 先传 ./public/$d/"
+              coscli sync "./public/$d/" "cos://${{ secrets.TENCENT_BUCKET }}/$d/" \
+                -r \
+                -e cos.${{ secrets.TENCENT_REGION }}.myqcloud.com \
+                -i ${{ secrets.TENCENT_SECRET_ID }} \
+                -k ${{ secrets.TENCENT_SECRET_KEY }} \
+                --force
+            fi
+          done
+
       - name: Upload to COS
         run: |
           coscli sync ./public/ cos://${{ secrets.TENCENT_BUCKET }}/ \
@@ -67,13 +88,30 @@ jobs:
 
       - name: Detect changes
         id: detect-changes
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_BEFORE: ${{ github.event.before }}
         run: |
-          # 安全获取 diff：如果 HEAD~1 不存在（首次提交或 shallow clone 不足），
-          # 则回退到列出当前提交的所有文件
-          if git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
-            CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+          # 变更基线取「本次推送前的 SHA」（github.event.before），不要用 HEAD~1。
+          # 原因：HEAD~1 只看最后一个提交，一次 push 提交多个 commit 时，前面那些提交
+          # 对 layouts/ static/ 的改动会被完全漏掉 → 该全站清缓存却只清了文章 URL，
+          # 于是 CDN 继续发旧 CSS（2026-09-28 两栏对照在 PC 上不生效就是这个原因）。
+          # 取不到基线（workflow_dispatch / 浅克隆里没有该提交 / 新分支）时看不到影响面，
+          # 保守按「全站清理」处理，宁可多清不可漏清。
+          DIFF_BASE=""
+          if [ "$EVENT_NAME" = "push" ] && [ -n "$EVENT_BEFORE" ] \
+             && [ "$EVENT_BEFORE" != "0000000000000000000000000000000000000000" ] \
+             && git cat-file -e "${EVENT_BEFORE}^{commit}" 2>/dev/null; then
+            DIFF_BASE="$EVENT_BEFORE"
+          fi
+
+          FORCE_PURGE_ALL=false
+          if [ -n "$DIFF_BASE" ]; then
+            echo "变更基线: $DIFF_BASE"
+            CHANGED_FILES=$(git diff --name-only "$DIFF_BASE" HEAD)
           else
-            echo "⚠️ 无法获取上一次提交，列出当前提交所有文件"
+            echo "⚠️ 无法确定变更基线（event=$EVENT_NAME before=$EVENT_BEFORE），按全站清理处理"
+            FORCE_PURGE_ALL=true
             CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD)
           fi
 
@@ -82,7 +120,7 @@ jobs:
 
           # 1. 全局文件检测：模板/样式/配置等变更影响所有页面，需全站清理
           GLOBAL_CHANGES=$(echo "$CHANGED_FILES" | grep -E "^(layouts/|static/|config\.|themes/|assets/|i18n/|\.github/)" || true)
-          if [ -n "$GLOBAL_CHANGES" ]; then
+          if [ -n "$GLOBAL_CHANGES" ] || [ "$FORCE_PURGE_ALL" = "true" ]; then
             echo "🔄 检测到全局文件变更（模板/样式/配置），需清理全站缓存"
             echo "$GLOBAL_CHANGES"
             echo "purge_all=true" >> "$GITHUB_OUTPUT"
@@ -121,11 +159,38 @@ jobs:
 
           BASE="https://blog.tanteng.space"
 
-          # 3. 文章（content/posts/*.md）→ /posts/<slug>/
+          # 3. 文章（content/posts/*.md）
+          # ⚠️ 不能一律拼 /posts/<slug>/：站上约 124 篇文章在 frontmatter 里写了
+          # url: /YYYY/MM/<slug>/，它们的真实路径不是 /posts/<slug>/。按老写法等于去清
+          # 一个不存在的地址，真正的文章页缓存根本没被清掉（改了标题/正文却在 CDN 上看到旧版）。
+          # 规则：frontmatter 有 url: 就用它，没有才回落到 /posts/<slug>/。
           POSTS=$(echo "$CHANGED_FILES" | grep "^content/posts/[^/]*\.md$" || true)
           if [ -n "$POSTS" ]; then
             echo "检测到修改的文章:"; echo "$POSTS"
-            ARTICLE_URLS=$(build_url_list "$POSTS" "$BASE/posts/")
+            ARTICLE_URLS="["
+            ARTICLE_FIRST=true
+            for f in $POSTS; do
+              # 只在 frontmatter 段（首个 --- 到第二个 ---）里找 url:
+              FM_URL=$(sed -n '2,/^---[[:space:]]*$/p' "$f" | sed -n 's/^url:[[:space:]]*//p' | head -1 | tr -d '"'"'"' \r')
+              if [ -n "$FM_URL" ]; then
+                case "$FM_URL" in
+                  /*) ARTICLE_URL="${BASE}${FM_URL}" ;;
+                  *)  ARTICLE_URL="${BASE}/${FM_URL}" ;;
+                esac
+                # 去掉可能存在的重复斜杠（BASE 已无尾斜杠）
+                ARTICLE_URL=$(echo "$ARTICLE_URL" | sed 's#://#@@#;s#//#/#g;s#@@#://#')
+              else
+                ARTICLE_URL="${BASE}/posts/$(basename "$f" .md)/"
+              fi
+              echo "  $f → $ARTICLE_URL"
+              if [ "$ARTICLE_FIRST" = true ]; then
+                ARTICLE_URLS="${ARTICLE_URLS}\"${ARTICLE_URL}\""
+                ARTICLE_FIRST=false
+              else
+                ARTICLE_URLS="${ARTICLE_URLS},\"${ARTICLE_URL}\""
+              fi
+            done
+            ARTICLE_URLS="${ARTICLE_URLS}]"
             echo "article_urls=${ARTICLE_URLS}" >> "$GITHUB_OUTPUT"
             echo "has_articles=true" >> "$GITHUB_OUTPUT"
           else
