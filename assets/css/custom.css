@@ -447,97 +447,87 @@ pre {
 }
 
 /* ------------------------------------------------------------------ *
- * 中英两栏对照（bilingual）
+ * 两栏对照（bilingual shortcode）
  *
- * 用法：在 markdown 里直接写 raw HTML（config.toml 已开 goldmark unsafe）：
+ * 结构由 shortcode 生成，这里只管样子。类名是**位置语义**，不含语言假设：
  *
  *   <div class="bilingual">
- *
- *   <div class="bi-en">
- *
- *   English paragraph.
- *
+ *     <div class="bi-col" lang="en">…</div>   ← 第一栏：从栏（原文/外文）
+ *     <div class="bi-col" lang="zh">…</div>   ← 第二栏：主栏（译文/中文）
  *   </div>
  *
- *   <div class="bi-zh">
+ * 约定：第二栏是主栏，第一栏是从栏。
+ *   - 桌面端：并排等宽，主栏在右、正文色、带左分隔线；从栏偏灰。
+ *     从栏字号抬 5% 是为了补偿拉丁字形——同等字号下它的视觉尺寸比汉字小，
+ *     抬一点两栏观感才齐（中文对中文的对照里就是从栏略大，可接受）。
+ *   - H5（≤ 768px）：单列堆叠，主栏 order:1 浮到最上。读者先读主栏（译文/中文），
+ *     从栏降为「原文参考」：缩小字号、褪色、加左侧竖线。
+ *     两栏在 375px 屏上并排放不下，只能堆叠，这点绕不过去。
  *
- *   中文段落。
+ * 两栏等宽靠 grid 的 1fr 自动分配，不用写宽度。
  *
- *   </div>
- *
- *   </div>
- *
- * ⚠️ 标签后必须空一行：CommonMark 里 <div …> 属「HTML block type 6」，
- *    遇到空行才结束，中间的 markdown 才会被解析成 <p>。
- *    不留空行的话整段会当成 raw HTML 原样输出，markdown 语法全部失效。
- *
- * 断点行为：
- *   - 桌面端（> 768px）：左右两栏，英文在左、中文在右，中间一条细分隔线
- *   - H5（≤ 768px）：单列堆叠，用 grid 的 order 让中文在上、英文在下。
- *     中文是本站读者的主读语言，手机上一路先读英文会把阅读节奏打碎；
- *     英文同时缩小字号 + 褪色 + 左侧竖线，视觉上降为「原文参考」。
- *     两栏本身在 375px 宽的屏上放不下，只能堆叠，这点无法绕过。
- *
- * 作用域限定在 .bilingual 内，不影响正文其他段落（.nested-copy-line-height p）。
- * 正文整体字号是 f4（20px），窄栏里偏大，所以这里统一收到 0.95em。
+ * 作用域限定在 .bilingual 内，不影响正文其他段落。正文整体字号 f4（20px），
+ * 窄栏里偏大，所以这里统一收到 0.95em。
  * ------------------------------------------------------------------ */
 .bilingual {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
   align-items: start;
-  column-gap: 0;
   margin: 1.75rem 0;
   font-size: 0.95em;
 }
-.bilingual > .bi-en {
+/* 从栏（第一栏）：偏灰、字号略抬一点（补偿拉丁字形——同等字号下它的视觉尺寸比汉字小） */
+.bilingual > .bi-col:first-child {
   padding-right: 1.5rem;
   color: #4b5563;
-  /* 同等字号下拉丁字形的视觉尺寸比汉字小，往上抬一点让两栏观感对齐 */
   font-size: 1.05em;
 }
-.bilingual > .bi-zh {
+/* 主栏（第二栏）：左侧一条细分隔线，把它和从栏隔开。
+   padding-left 跟着分隔线走，主栏才会与线拉开距离。 */
+.bilingual > .bi-col:last-child {
   padding-left: 1.5rem;
   border-left: 1px solid #e6e8eb;
 }
 /* grid 子项默认 min-width:auto：栏里一旦出现长 URL（参考文献一节里很多）这类
    不可断的长串，整栏会被撑到比容器还宽，窄屏（单列）下表现为整页横向滚动。
    min-width:0 让栏可以收缩，长串再由 break-word 兜底断开。 */
-.bilingual > div {
+.bilingual > .bi-col {
   min-width: 0;
   overflow-wrap: break-word;
 }
 /* 栏内段落：只留一份段间距，避免与 .bilingual 的外边距叠加成双倍留白 */
-.bilingual > div > p {
+.bilingual > .bi-col > p {
   margin: 0 0 0.85rem;
 }
-.bilingual > div > p:last-child {
+.bilingual > .bi-col > p:last-child {
   margin-bottom: 0;
 }
 
-/* 图注也走两栏：比正文再小一号、去掉左侧分隔线的强对比 */
+/* 图注也走两栏：比正文再小一号、褪掉从栏的深灰 */
 .bilingual.bi-caption {
   margin: 0.6rem 0 1.75rem;
   font-size: 0.85em;
   line-height: 1.5;
   color: #6b7480;
 }
-.bilingual.bi-caption > .bi-en {
+.bilingual.bi-caption > .bi-col:first-child {
   color: #6b7480;
 }
 
 @media (max-width: 768px) {
   .bilingual {
-    grid-template-columns: 1fr;
+    grid-auto-flow: row;
     margin: 1.5rem 0;
     font-size: 1em;
   }
-  .bilingual > .bi-zh {
+  .bilingual > .bi-col:last-child {
     order: 1;
     padding-left: 0;
     border-left: 0;
     color: inherit;
   }
-  .bilingual > .bi-en {
+  .bilingual > .bi-col:first-child {
     order: 2;
     margin-top: 0.7rem;
     padding-right: 0;
@@ -562,4 +552,28 @@ pre {
    所以 H5 断点里 `max-width: 100%` 的规则照常生效。 */
 article.page-nasa-lunar-photography-guide .nested-copy-line-height p > img {
   max-height: 600px;
+}
+
+/* ------------------------------------------------------------------
+ * 衬线正文里的中文加粗是失效的（2026-09-29 发现，全站问题）
+ *
+ * 正文容器带 tachyons 的 .serif，栈是 `georgia, times, serif` —— 三张都没有汉字字形，
+ * 汉字由浏览器系统 fallback 提供。实测在同一段 20px 中文上把字重从 400 提到 700：
+ *
+ *   栈 georgia,times,serif（即正文）   墨量 994 → 1144，1.15 倍  ← 肉眼看不出来
+ *   栈 sans-serif（PingFang SC）       墨量 1235 → 1699，1.38 倍  ← 正常加粗
+ *
+ * 也就是说站内所有 `**强调**` 在中文上一直没显示成加粗。
+ * 试过把 CJK 衬线族显式写进栈（`"Songti SC"`）—— 墨量 994 → 1144，完全没变，
+ * 说明瓶颈不在选字面，而在 Chromium 对这条 fallback 路径不做字重合成。
+ * 另外这条路还有个坑：Hugo 的 CSS 压缩器会把 `"Songti SC"` 的引号剥掉变成非法的
+ * `songti sc`，写了也是静默失效（转义写法 `Songti\ SC` 和自定义属性能幸存）。
+ *
+ * 所以改成显式做合成加粗。0.03em 是量出来的：整行墨量从 1.00 抬到 1.12
+ * （加粗区本身约 1.4 倍），再大就开始糊笔画了。
+ * 只作用在正文的 strong/b —— 标题靠字号已经拉开层级，不动。
+ * ------------------------------------------------------------------ */
+.nested-copy-line-height strong,
+.nested-copy-line-height b {
+  -webkit-text-stroke: 0.03em currentColor;
 }

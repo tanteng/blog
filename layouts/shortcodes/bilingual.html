@@ -1,32 +1,45 @@
 {{/*
-  bilingual.html — 中英两栏对照（左英文 / 右中文）
+  bilingual.html — 两栏对照（原文 / 译文）
 
-  用法（用 {{% %}} 形式，内部才是 markdown；{{< >}} 不会渲染 markdown）：
+  用法（必须用 {{% %}} 形式，内部才会走 markdown；{{< >}} 不渲染 markdown）：
 
     {{% bilingual %}}
     English paragraph with **markdown**.
-    <!--zh-->
+    <!--col-->
     带 **markdown** 的中文段落。
     {{% /bilingual %}}
 
-  图注等次要文字加 class：
+  固定两栏，用 <!--col--> 切分：前半是第一栏（原文/外文），后半是第二栏（译文/中文）。
+  分隔符是 HTML 注释，经 markdown 渲染后原样保留，只用来切分，不会渲染成内容。
 
-    {{% bilingual class="bi-caption" %}}
-    ...
+  参数（都可省略）：
 
-  `<!--zh-->` 是英文与中文的分隔符：用 `{{% %}}` 时 Hugo 会先把内部按 markdown 渲染，
-  这个 HTML 注释在渲染后原样保留，所以能可靠地切开两段 HTML。
+    langs="en,zh"
+        两栏各自的 lang 属性，按位置一一对应，默认 en,zh。
+        做「文言原文 / 白话译文」这类中文对中文的对照时改成 langs="lzh,zh"
+        （lzh 是 ISO 639-3 里文言文的代码），否则屏幕阅读器会把文言当英文念。
 
-  样式在 assets/css/custom.css 的「中英两栏对照」一节（由 head-additions.html 走资源管线
-  以带指纹的文件名引入，改完 CSS 不用手动 bump 版本号）。
-  相对主题的差异：ananke 没有这个 shortcode，属项目级新增，不受主题升级影响。
+    class="bi-caption"
+        追加到外层容器的 class，用于图注这类次要文字。
+
+  排版约定：**第二栏是主栏，第一栏是从栏**。桌面端主栏在右、正文色、带左分隔线；
+  H5 堆叠时主栏浮到最上面，从栏缩小褪色降为参考。
+  这个约定由 CSS 按位置（:first-child / :last-child）实现，类名 bi-col 里不含语言假设。
+
+  样式在 assets/css/custom.css 的「两栏对照」一节，由 head-additions.html 走资源管线
+  以带指纹的文件名引入。相对主题的差异：ananke 没有这个 shortcode，属项目级新增。
 */}}
 
-{{- $parts := split .InnerDeindent "<!--zh-->" -}}
-{{- if lt (len $parts) 2 -}}
-  {{- errorf "bilingual shortcode 缺少 <!--zh--> 分隔符（见 %s）" .Page.File.Path -}}
+{{- $sep := "<!--col-->" -}}
+{{- $cols := split .InnerDeindent $sep -}}
+{{- $langs := split (.Get "langs" | default "en,zh") "," -}}
+{{- if ne (len $cols) 2 -}}
+  {{- errorf "bilingual 需要恰好一处分隔符 %s（当前切出 %d 栏），见 %s" $sep (len $cols) .Page.File.Path -}}
 {{- end -}}
-<div class="bilingual{{ with (.Get "class") }} {{ . }}{{ end }}">
-<div class="bi-en" lang="en">{{ index $parts 0 | .Page.RenderString (dict "display" "block") }}</div>
-<div class="bi-zh" lang="zh">{{ index $parts 1 | .Page.RenderString (dict "display" "block") }}</div>
+{{- if ne (len $langs) 2 -}}
+  {{- errorf "bilingual 的 langs 需要恰好两项（当前 %q），见 %s" (.Get "langs" | default "en,zh") .Page.File.Path -}}
+{{- end -}}
+<div class="bilingual{{ with .Get "class" }} {{ . }}{{ end }}">
+<div class="bi-col" lang="{{ index $langs 0 }}">{{ index $cols 0 | $.Page.RenderString (dict "display" "block") }}</div>
+<div class="bi-col" lang="{{ index $langs 1 }}">{{ index $cols 1 | $.Page.RenderString (dict "display" "block") }}</div>
 </div>
