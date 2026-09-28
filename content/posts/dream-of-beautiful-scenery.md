@@ -15,6 +15,7 @@ related_posts:
   - posts/common-film-color-characteristics.md
   - posts/macau-coloane-film-citywalk.md
   - posts/stanley-summer-film-cn400.md
+  - posts/mclehose-po-pin-chau-long-ke-wan.md
   - posts/steve-jobs-remembering-death.md
   - posts/steve-jobs-intuition.md
   - posts/your-time-is-limited-live-your-own-life.md
