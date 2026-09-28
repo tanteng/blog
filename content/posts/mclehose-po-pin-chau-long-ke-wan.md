@@ -1,6 +1,6 @@
 ---
 title: "麦理浩径破边洲&浪茄湾航拍"
-date: 2026-09-20T10:00:00+08:00
+date: 2026-09-26T10:00:00+08:00
 draft: false
 url: /2026/09/mclehose-po-pin-chau-long-ke-wan/
 tags: ['travel', 'photography']
