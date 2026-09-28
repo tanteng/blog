@@ -8,7 +8,6 @@ categories: ["life"]
 slug: "dream-of-beautiful-scenery"
 description: "昨夜做了一个梦，梦见了非常壮观的美景。"
 related_posts:
-  - posts/spring-outing.md
   - posts/2022-03-27-fry-steak.md
   - posts/common-film-color-characteristics.md
   - posts/mclehose-po-pin-chau-long-ke-wan.md
