@@ -1,0 +1,45 @@
+{{/* 项目覆盖版：themes/ananke/layouts/summary-with-image.html
+   本文件只被首页信息流（layouts/home.html 里 .Render "summary-with-image"）使用
+   —— 主题的 list.html / post/list.html 走的是 show_list_images 开关，本站未开启，
+   所以改动不会影响其他列表页。
+
+   相对主题的差异：外层 div 去掉了 `ph3 ph0-l`。
+   原因：主题这个 ph3 是配「白底卡片」用的（上游 list 模板的包裹层带 bg-white），
+   而本站首页的 post 卡片没有白底、分隔线（.bb）又是通栏的，多出来的 16px 水平内边距
+   会让 H5 上 post 的文字/按钮比随笔（note）卡片靠右 16px，也和卡片自身的封面图、
+   分隔线左边缘对不齐。去掉后 H5 与桌面端行为一致（桌面端原本就是 ph0-l = 0）。 */}}
+{{ $featured_image := partials.Include "func/GetFeaturedImage.html" . }}
+{{ $show_date := partials.Include "func/ShowDate.html" . }}
+<article class="bb b--black-10">
+  <div class="db pv4 dark-gray no-underline">
+    <div class="flex-column flex-row-ns flex">
+      {{ if $featured_image }}
+          {{/* Trimming the slash and adding absURL make sure the image works no matter collections.Where our site lives */}}
+        <div class="{{ compare.Conditional (compare.Eq $.Site.Language.Direction "rtl") "pl3-ns" "pr3-ns" }} mb4 mb0-ns w-100 w-40-ns">
+          <a href="{{.RelPermalink}}" class="db grow">
+            <img src="{{ $featured_image }}" class="img" alt="image from {{ .Title }}">
+          </a>
+        </div>
+      {{ end }}
+      <div class="blah w-100{{ if $featured_image }} w-60-ns {{ compare.Conditional (compare.Eq $.Site.Language.Direction "rtl") "pr3-ns" "pl3-ns" }}{{ end }}">
+        {{ if $show_date }}
+          <time class="f6 db" {{ fmt.Printf `datetime="%s"` (.Date.Format "2006-01-02T15:04:05Z07:00") | safe.HTMLAttr }}>
+            {{- .Date | time.Format (compare.Default "January 2, 2006" .Site.Params.date_format) -}}
+          </time>
+        {{ end }}
+        <h1 class="f3 fw1 athelas mt0 lh-title">
+          <a href="{{.RelPermalink}}" class="color-inherit dim link">
+            {{ .Title }}
+            </a>
+        </h1>
+        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+          {{ .Summary }}
+        </div>
+        {{ with .Params.author | compare.Default .Site.Params.author }}
+          <p class="f6 lh-copy mv0">By {{ . }}</p>
+        {{- end -}}
+        <a href="{{.RelPermalink}}" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">{{ $.Param "read_more_copy" | compare.Default (lang.Translate "readMore") }}</a>
+      </div>
+    </div>
+  </div>
+</article>
