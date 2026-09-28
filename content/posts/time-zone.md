@@ -18,50 +18,64 @@ description: "《TIME ZONE》全文翻译与中英对照。这首诗在中文互
 
 ## 一、中英对照
 
-> New York is 3 hours ahead of California, \
-> but it does not make California slow.
-
+{{% bilingual %}}
+New York is 3 hours ahead of California, \
+but it does not make California slow.
+<!--zh-->
 纽约时间比加州时间早三个小时，但加州时间并没有变慢。
+{{% /bilingual %}}
 
-> Someone graduated at the age of 22, \
-> but waited 5 years before securing a good job! \
-> Someone became a CEO at 25, \
-> and died at 50. \
-> While another became a CEO at 50, \
-> and lived to 90 years.
-
+{{% bilingual %}}
+Someone graduated at the age of 22, \
+but waited 5 years before securing a good job! \
+Someone became a CEO at 25, \
+and died at 50. \
+While another became a CEO at 50, \
+and lived to 90 years.
+<!--zh-->
 有人 22 岁就毕业了，但等了五年才找到一份好工作。有人 25 岁当上 CEO，却在 50 岁去世。也有人 50 岁才当上 CEO，然后活到 90 岁。
+{{% /bilingual %}}
 
-> Someone is still single, \
-> while someone else got married.
-
+{{% bilingual %}}
+Someone is still single, \
+while someone else got married.
+<!--zh-->
 有人依然单身，同时也有人已婚。
+{{% /bilingual %}}
 
-> Obama retires at 55, \
-> but Trump starts at 70.
-
+{{% bilingual %}}
+Obama retires at 55, \
+but Trump starts at 70.
+<!--zh-->
 奥巴马 55 岁就退休，而特朗普 70 岁才刚开始。
+{{% /bilingual %}}
 
-> Absolutely everyone in this world works based on their Time Zone. \
-> People around you might seem to go ahead of you, \
-> some might seem to be behind you. \
-> But everyone is running their own RACE, in their own TIME. \
-> Don't envy them or mock them. \
-> They are in their TIME ZONE, and you are in yours!
-
+{{% bilingual %}}
+Absolutely everyone in this world works based on their Time Zone. \
+People around you might seem to go ahead of you, \
+some might seem to be behind you. \
+But everyone is running their own RACE, in their own TIME. \
+Don't envy them or mock them. \
+They are in their TIME ZONE, and you are in yours!
+<!--zh-->
 世上每个人本来就活在自己的时区里。身边有些人看似走在你前面，也有人看似走在你后面。但每个人都只是在各自的时区里，跑自己的那一程。不用嫉妒，也不用嘲笑。他们在他们的时区里，你在你的。
+{{% /bilingual %}}
 
-> Life is about waiting for the right moment to act. \
-> So, RELAX. \
-> You're not LATE. You're not EARLY. \
-> You are very much ON TIME, and in your TIME ZONE Destiny set up for you.
-
+{{% bilingual %}}
+Life is about waiting for the right moment to act. \
+So, RELAX. \
+You're not LATE. You're not EARLY. \
+You are very much ON TIME, and in your TIME ZONE Destiny set up for you.
+<!--zh-->
 生命在于等待正确的行动时机。所以，放轻松。你没有落后，也没有领先。在命运为你安排的那个时区里，你一直都很准时。
+{{% /bilingual %}}
 
-> Like autumn ice cream \
-> can also be the torch of Athens
-
+{{% bilingual %}}
+Like autumn ice cream \
+can also be the torch of Athens
+<!--zh-->
 就像秋天的冰淇淋，也可以成为雅典的火炬。
+{{% /bilingual %}}
 
 ## 二、来历
 

@@ -38,101 +38,143 @@ description: "Neo4j 官方 GraphRAG 长文全文中英对照翻译：从 RAG 三
 
 ### 引言
 
-> GraphRAG is a powerful retrieval mechanism that improves GenAI applications by taking advantage of the rich context in graph data structures.
-
+{{% bilingual %}}
+GraphRAG is a powerful retrieval mechanism that improves GenAI applications by taking advantage of the rich context in graph data structures.
+<!--zh-->
 GraphRAG 是一种强大的检索机制，它借助图数据结构中丰富的上下文信息来改进生成式 AI（GenAI）应用。
+{{% /bilingual %}}
 
-> Enterprise GenAI systems face a critical challenge: the need for trustworthy and reliable results. Pure large language model (LLM)-based solutions often fall short in this regard. These models are trained to prioritize helpfulness over factuality, and their pre-training data usually lacks crucial recent and relevant information. Consequently, they are prone to generating hallucinations of facts and explanations, which is particularly damaging in high-value business domains and use cases.
-
+{{% bilingual %}}
+Enterprise GenAI systems face a critical challenge: the need for trustworthy and reliable results. Pure large language model (LLM)-based solutions often fall short in this regard. These models are trained to prioritize helpfulness over factuality, and their pre-training data usually lacks crucial recent and relevant information. Consequently, they are prone to generating hallucinations of facts and explanations, which is particularly damaging in high-value business domains and use cases.
+<!--zh-->
 企业级 GenAI 系统面临一个关键挑战：结果必须可信、可靠。而纯粹基于大语言模型（LLM）的方案在这方面往往力不从心。这类模型的训练目标是优先保证「有用」，而非「真实」；同时它们的预训练数据通常缺少关键的近期信息和相关背景。因此，它们很容易在事实和解释上产生幻觉——在高价值业务领域和场景中，这种错误的破坏力尤其大。
+{{% /bilingual %}}
 
-> To address these issues, Retrieval-Augmented Generation (RAG) architectures have emerged as a solution. RAG improves the reliability of GenAI components by ensuring that LLM answers are based only on accurate information from existing knowledge sources.
-
+{{% bilingual %}}
+To address these issues, Retrieval-Augmented Generation (RAG) architectures have emerged as a solution. RAG improves the reliability of GenAI components by ensuring that LLM answers are based only on accurate information from existing knowledge sources.
+<!--zh-->
 为解决这些问题，检索增强生成（RAG）架构应运而生。RAG 通过确保 LLM 的回答只基于现有知识源中的准确信息，提升了 GenAI 组件的可靠性。
+{{% /bilingual %}}
 
-> Basic RAG systems rely solely on semantic search in vector databases to retrieve and rank sets of isolated text fragments. While this approach can surface some relevant information, it fails to capture the context connecting these pieces. For this reason, basic RAG systems are ill-equipped to answer complex, multi-hop questions.
-
+{{% bilingual %}}
+Basic RAG systems rely solely on semantic search in vector databases to retrieve and rank sets of isolated text fragments. While this approach can surface some relevant information, it fails to capture the context connecting these pieces. For this reason, basic RAG systems are ill-equipped to answer complex, multi-hop questions.
+<!--zh-->
 基础版 RAG 系统仅依赖向量数据库中的语义搜索，来检索并排序一组组彼此孤立的文本片段。这种方式虽然能捞出一些相关信息，却捕捉不到把这些片段连接起来的上下文。正因如此，基础 RAG 系统难以胜任复杂的多跳（multi-hop）问题。
+{{% /bilingual %}}
 
-> This is where GraphRAG comes in. It uses knowledge graphs to represent and connect information to capture not only more data points but also their relationships. Thus, graph-based retrievers can provide more accurate and relevant results by uncovering hidden connections that aren't often obvious but are crucial for correlating information.
-
+{{% bilingual %}}
+This is where GraphRAG comes in. It uses knowledge graphs to represent and connect information to capture not only more data points but also their relationships. Thus, graph-based retrievers can provide more accurate and relevant results by uncovering hidden connections that aren't often obvious but are crucial for correlating information.
+<!--zh-->
 这正是 GraphRAG 的用武之地。它用知识图谱来表达并连接信息，不仅能捕获更多的数据点，还能捕获它们之间的关系。于是，基于图的检索器能够挖掘出那些通常并不显眼、却对串联信息至关重要的隐藏连接，从而给出更准确、更相关的结果。
+{{% /bilingual %}}
 
-> In this blog post, we'll dive into how GraphRAG works, explore its advantages over other RAG architectures in improving answer quality and explainability, and demonstrate its practical application using a Neo4j example.
-
+{{% bilingual %}}
+In this blog post, we'll dive into how GraphRAG works, explore its advantages over other RAG architectures in improving answer quality and explainability, and demonstrate its practical application using a Neo4j example.
+<!--zh-->
 在这篇文章中，我们将深入探讨 GraphRAG 的工作原理，剖析它在提升答案质量和可解释性方面相比其他 RAG 架构的优势，并通过一个 Neo4j 示例演示它的实际应用。
+{{% /bilingual %}}
 
 ### 检索增强生成（RAG）入门
 
-> Before diving into the specifics of GraphRAG, it's essential to understand the basic concepts of RAG. Let's take a closer look at the three key phases of RAG:
-
+{{% bilingual %}}
+Before diving into the specifics of GraphRAG, it's essential to understand the basic concepts of RAG. Let's take a closer look at the three key phases of RAG:
+<!--zh-->
 在深入 GraphRAG 的细节之前，有必要先理解 RAG 的基本概念。让我们仔细看看 RAG 的三个关键阶段：
+{{% /bilingual %}}
 
-> **Retrieval:** In this phase, the RAG system retrieves relevant information from external data sources, such as documents or databases, based on the user's query. The retrieval process can use different techniques to identify the most pertinent data, such as similarity searches or database queries. The results are then ranked and scored based on their relevance to the query.
-
+{{% bilingual %}}
+**Retrieval:** In this phase, the RAG system retrieves relevant information from external data sources, such as documents or databases, based on the user's query. The retrieval process can use different techniques to identify the most pertinent data, such as similarity searches or database queries. The results are then ranked and scored based on their relevance to the query.
+<!--zh-->
 **检索（Retrieval）：** 在这一阶段，RAG 系统根据用户的查询，从文档或数据库等外部数据源中检索相关信息。检索过程可以使用多种技术来找出最相关的数据，例如相似度搜索或数据库查询。随后，结果会依据与查询的相关性被打分并排序。
+{{% /bilingual %}}
 
-> **Augmentation:** During the augmentation phase, the retrieved information is combined with the original user question, along with any additional instructions or context. This augmented prompt provides a richer context for the language model to generate a response. The goal is to force the model to only use this relevant information to produce an accurate and useful output.
-
+{{% bilingual %}}
+**Augmentation:** During the augmentation phase, the retrieved information is combined with the original user question, along with any additional instructions or context. This augmented prompt provides a richer context for the language model to generate a response. The goal is to force the model to only use this relevant information to produce an accurate and useful output.
+<!--zh-->
 **增强（Augmentation）：** 在增强阶段，检索到的信息会与用户原始问题、以及任何附加指令或上下文合并在一起。这个被增强过的 prompt 为语言模型提供了更丰富的上下文。其目的是强制模型只使用这些相关信息，来产出准确且有价值的结果。
+{{% /bilingual %}}
 
-> **Generation:** In the final phase, the augmented prompt is processed by an LLM, which generates an answer in a requested format using only the provided context rather than relying on its pre-trained knowledge. The response can also link source information and additional metadata.
-
+{{% bilingual %}}
+**Generation:** In the final phase, the augmented prompt is processed by an LLM, which generates an answer in a requested format using only the provided context rather than relying on its pre-trained knowledge. The response can also link source information and additional metadata.
+<!--zh-->
 **生成（Generation）：** 在最后阶段，增强后的 prompt 交由 LLM 处理，模型仅依据所提供的上下文——而不是依赖其预训练知识——生成指定格式的答案。响应中还可以附带来源信息和额外的元数据。
+{{% /bilingual %}}
 
-> By augmenting the language model with external knowledge and using the model's natural language understanding capabilities to retrieve and process this information, RAG systems can produce more accurate and informative responses compared to standalone language models that rely solely on their pre-trained knowledge.
-
+{{% bilingual %}}
+By augmenting the language model with external knowledge and using the model's natural language understanding capabilities to retrieve and process this information, RAG systems can produce more accurate and informative responses compared to standalone language models that rely solely on their pre-trained knowledge.
+<!--zh-->
 通过用外部知识增强语言模型，并利用模型自身的自然语言理解能力去检索和处理这些信息，RAG 系统能够产出比「仅依赖预训练知识」的独立语言模型更准确、信息量更丰富的响应。
+{{% /bilingual %}}
 
 ![检索增强生成的流程](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/09/e124df65e322e4a5ad9082617d173334.png)
 
 ### 纯向量 RAG 的局限
 
-> Many baseline RAG systems rely solely on vector search over text embeddings (numerical vector representations) for information retrieval. To accurately capture the cohesive semantic meaning of a piece of text, the source documents are often chunked into smaller fragments, which are then embedded, indexed, and stored for retrieval.
-
+{{% bilingual %}}
+Many baseline RAG systems rely solely on vector search over text embeddings (numerical vector representations) for information retrieval. To accurately capture the cohesive semantic meaning of a piece of text, the source documents are often chunked into smaller fragments, which are then embedded, indexed, and stored for retrieval.
+<!--zh-->
 许多基线 RAG 系统在信息检索时，仅依赖对文本嵌入（embedding，即文本的数值向量表示）的向量搜索。为了准确捕获一段文本整体的语义含义，源文档往往会被切分成更小的片段（chunk），然后对这些片段做嵌入、建索引并存储，以供检索使用。
+{{% /bilingual %}}
 
-> However, this approach has its limitations. By relying solely on vector search, the response's content is confined to the text fragments in the retrieved chunks. This can lead to incomplete or fragmented answers.
-
+{{% bilingual %}}
+However, this approach has its limitations. By relying solely on vector search, the response's content is confined to the text fragments in the retrieved chunks. This can lead to incomplete or fragmented answers.
+<!--zh-->
 然而，这种做法有其局限。仅依赖向量搜索，意味着回答的内容被束缚在检索到的那些 chunk 的文本片段里。这会导致答案不完整或支离破碎。
+{{% /bilingual %}}
 
-> For example, if a user asks a question about a specific product feature, a vector-only RAG system might retrieve chunks that mention the product but fail to include relevant information from other parts of the documentation that provide a more comprehensive answer.
-
+{{% bilingual %}}
+For example, if a user asks a question about a specific product feature, a vector-only RAG system might retrieve chunks that mention the product but fail to include relevant information from other parts of the documentation that provide a more comprehensive answer.
+<!--zh-->
 举个例子：如果用户问的是某个具体产品特性，纯向量 RAG 系统可能只捞到提及该产品的那些 chunk，却漏掉了文档其他位置本该纳入、能让答案更完整的相关信息。
+{{% /bilingual %}}
 
-> Moreover, due to the black-box nature of vector representations and vector search, such methods cannot explain the sources of the gathered information. This means that users and developers have limited visibility into why certain chunks were retrieved and how they contribute to the generated response. This lack of explainability can be a significant drawback, particularly in domains where transparency and accountability are crucial, such as healthcare or finance.
-
+{{% bilingual %}}
+Moreover, due to the black-box nature of vector representations and vector search, such methods cannot explain the sources of the gathered information. This means that users and developers have limited visibility into why certain chunks were retrieved and how they contribute to the generated response. This lack of explainability can be a significant drawback, particularly in domains where transparency and accountability are crucial, such as healthcare or finance.
+<!--zh-->
 更进一步，由于向量表示和向量搜索的「黑盒」特性，这类方法无法解释所收集信息的来源。这意味着用户和开发者很难看清：为什么某些 chunk 会被检索到，以及它们如何影响了最终生成的回答。这种可解释性的缺失可能是一个重大缺陷，在医疗、金融等对透明度和可问责性要求极高的领域尤其如此。
+{{% /bilingual %}}
 
-> To address these shortcomings, new techniques are emerging to improve different phases of the RAG process (retrieval, augmentation, and generation).
-
+{{% bilingual %}}
+To address these shortcomings, new techniques are emerging to improve different phases of the RAG process (retrieval, augmentation, and generation).
+<!--zh-->
 为弥补这些不足，业界正在涌现各种新技术，用来改进 RAG 流程的不同阶段（检索、增强、生成）。
+{{% /bilingual %}}
 
-> Since the information provided to the LLM is crucial to answer quality, improving the retrieval mechanism often has the most significant impact. GraphRAG is a common approach to enhance retrieval by incorporating structured domain knowledge stored in a knowledge graph. By tapping into the rich connections and semantic relationships in a knowledge graph, GraphRAG aims to overcome the limitations of vector-only RAG and provide more accurate and explainable responses.
-
+{{% bilingual %}}
+Since the information provided to the LLM is crucial to answer quality, improving the retrieval mechanism often has the most significant impact. GraphRAG is a common approach to enhance retrieval by incorporating structured domain knowledge stored in a knowledge graph. By tapping into the rich connections and semantic relationships in a knowledge graph, GraphRAG aims to overcome the limitations of vector-only RAG and provide more accurate and explainable responses.
+<!--zh-->
 由于提供给 LLM 的信息对答案质量至关重要，改进检索机制往往能带来最显著的收益。GraphRAG 就是一种常见做法：把存放在知识图谱里的结构化领域知识纳入检索流程，以此增强检索。通过挖掘知识图谱中丰富的连接和语义关系，GraphRAG 旨在克服纯向量 RAG 的局限，给出更准确、也更可解释的响应。
+{{% /bilingual %}}
 
 ### 用知识图谱表达数据
 
-> A knowledge graph model is especially suitable for representing structured and unstructured data with connected elements. Unlike traditional databases, they don't require a rigid schema but are more flexible in the data model. The graph model allows efficient storage, management, querying, and processing of the richness of real-world information. In a RAG system, the knowledge graph serves as the flexible memory companion to the language skills of LLMs, such as summarization, translation, and extraction.
-
+{{% bilingual %}}
+A knowledge graph model is especially suitable for representing structured and unstructured data with connected elements. Unlike traditional databases, they don't require a rigid schema but are more flexible in the data model. The graph model allows efficient storage, management, querying, and processing of the richness of real-world information. In a RAG system, the knowledge graph serves as the flexible memory companion to the language skills of LLMs, such as summarization, translation, and extraction.
+<!--zh-->
 知识图谱模型特别适合表达那些「元素之间存在连接」的结构化和非结构化数据。与传统数据库不同，它不需要刚性的 schema，数据模型更灵活。图模型能够高效地存储、管理、查询和处理现实世界信息的丰富性。在 RAG 系统中，知识图谱充当 LLM 语言能力（如摘要、翻译、抽取）的「灵活记忆」搭档。
+{{% /bilingual %}}
 
 ![知识图谱的组成要素](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/09/ffefd2dcd14c43bdec5e0c6e2cdb50ac.png)
 
-> In a knowledge graph, facts and entities are represented as nodes with attributes connected with typed relationships, which also carry attributes for qualification. This graph model can scale from a simple family tree to the complete digital twin of a company encompassing employees, customers, processes, products, partnerships, and resources, with millions or billions of connections.
-
+{{% bilingual %}}
+In a knowledge graph, facts and entities are represented as nodes with attributes connected with typed relationships, which also carry attributes for qualification. This graph model can scale from a simple family tree to the complete digital twin of a company encompassing employees, customers, processes, products, partnerships, and resources, with millions or billions of connections.
+<!--zh-->
 在知识图谱中，事实和实体被表示为带属性的节点，节点之间通过**有类型的关系（typed relationship）**相连，关系本身同样携带属性以作限定。这个图模型的可扩展范围，从一个简单的家谱，一直到一个企业的完整数字孪生——涵盖员工、客户、流程、产品、合作伙伴和资源，连接数可达数百万乃至数十亿。
+{{% /bilingual %}}
 
-> Graph structures can originate from various sources, from a structured business domain, (hierarchical) document representations, and signals computed by graph algorithms.
-
+{{% bilingual %}}
+Graph structures can originate from various sources, from a structured business domain, (hierarchical) document representations, and signals computed by graph algorithms.
+<!--zh-->
 图结构可以来自多种来源：结构化的业务领域数据、（层次化的）文档表示，以及由图算法计算出来的信号。
+{{% /bilingual %}}
 
 ### 面向 GraphRAG 检索器的图查询
 
-> Graphs can be navigated (traversed) by following simple patterns like `(node:Type)-[relationship:TYPE]->(node:Type)` or more complex variants expressed in Graph query languages like Cypher or GQL. Pattern matching results in paths whose nodes, relationships, and attributes can be filtered, aggregated, and sorted like in other query languages like SQL.
-
+{{% bilingual %}}
+Graphs can be navigated (traversed) by following simple patterns like `(node:Type)-[relationship:TYPE]->(node:Type)` or more complex variants expressed in Graph query languages like Cypher or GQL. Pattern matching results in paths whose nodes, relationships, and attributes can be filtered, aggregated, and sorted like in other query languages like SQL.
+<!--zh-->
 图谱可以通过追踪简单的模式来导航（遍历），比如下面这种「节点—关系—节点」的写法，也可以用 Cypher 或 GQL 等图查询语言表达更复杂的变体：
+{{% /bilingual %}}
 
 ```
 (node:Type)-[relationship:TYPE]->(node:Type)
@@ -151,49 +193,62 @@ ORDER BY score DESC LIMIT 10
 
 ### GraphRAG 如何改进检索
 
-> A GraphRAG retrieval can find starting points in this network of data via vector, fulltext, spatial, or other searches and then follow relevant relationships to gather additional information to satisfy the user queries. The context of the user and task is considered to increase relevance. All captured nodes, relationships and their attributes can be filtered and ranked before being returned as context in the augmentation phase.
-
+{{% bilingual %}}
+A GraphRAG retrieval can find starting points in this network of data via vector, fulltext, spatial, or other searches and then follow relevant relationships to gather additional information to satisfy the user queries. The context of the user and task is considered to increase relevance. All captured nodes, relationships and their attributes can be filtered and ranked before being returned as context in the augmentation phase.
+<!--zh-->
 一次 GraphRAG 检索，可以先通过向量、全文、空间或其他搜索，在这个数据网络中找到若干起点，然后沿相关关系继续游走，收集更多信息来满足用户查询。过程中会考虑用户与任务的上下文以提升相关性。所有被捕获的节点、关系及其属性，都可以先经过过滤和排序，再作为增强阶段的上下文返回。
+{{% /bilingual %}}
 
 ![GraphRAG 检索示意图](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/09/98c1ac34450ddc6025e7760b885587fc.png)
 
-> This approach offers several advantages over vector-only RAG systems:
-
+{{% bilingual %}}
+This approach offers several advantages over vector-only RAG systems:
+<!--zh-->
 相比纯向量 RAG 系统，这种做法有几项优势：
+{{% /bilingual %}}
 
-> - By navigating the graph structure and following relevant relationships, GraphRAG can retrieve information that may not be directly mentioned in the initial set of retrieved chunks, providing a more comprehensive and contextually relevant response.
-> - The ability to filter and rank the retrieved information based on the user's context and task allows GraphRAG to prioritize the most pertinent information, improving the overall quality of the generated response.
-> - GraphRAG enables better explainability by capturing the relationships between the retrieved information, making it easier to trace the sources and reasoning behind the generated response.
-> - By using the knowledge graph's ability to integrate structured and unstructured data, as well as computed signals, GraphRAG can provide more informed and nuanced responses that draw from a wider range of information sources.
-
+{{% bilingual %}}
+- By navigating the graph structure and following relevant relationships, GraphRAG can retrieve information that may not be directly mentioned in the initial set of retrieved chunks, providing a more comprehensive and contextually relevant response.
+- The ability to filter and rank the retrieved information based on the user's context and task allows GraphRAG to prioritize the most pertinent information, improving the overall quality of the generated response.
+- GraphRAG enables better explainability by capturing the relationships between the retrieved information, making it easier to trace the sources and reasoning behind the generated response.
+- By using the knowledge graph's ability to integrate structured and unstructured data, as well as computed signals, GraphRAG can provide more informed and nuanced responses that draw from a wider range of information sources.
+<!--zh-->
 - 通过在图结构上游走、沿相关关系追踪，GraphRAG 能检索到初始召回的 chunk 集合中未被直接提及的信息，从而给出更完整、在上下文上更贴切的响应。
 - 依据用户上下文和任务对检索到的信息做过滤与排序，使 GraphRAG 能优先使用最相关的信息，提升生成响应的整体质量。
 - GraphRAG 捕获了被检索信息之间的关系，因而具备更好的可解释性，让生成响应的来源与推理链路更容易被追溯。
 - 借助知识图谱整合结构化数据、非结构化数据以及计算得出的信号的能力，GraphRAG 能够从更广泛的信息来源中取材，给出更有依据、更细腻的响应。
+{{% /bilingual %}}
 
-> These improvements in the retrieval phase contribute to GraphRAG's ability to generate more accurate, relevant, and traceable responses compared to vector-only RAG systems.
-
+{{% bilingual %}}
+These improvements in the retrieval phase contribute to GraphRAG's ability to generate more accurate, relevant, and traceable responses compared to vector-only RAG systems.
+<!--zh-->
 这些在检索阶段的改进，使 GraphRAG 相比纯向量 RAG 系统，能够生成更准确、更相关、也更可追溯的响应。
+{{% /bilingual %}}
 
 ### GraphRAG 检索器的类型
 
-> The actual graph retrieval depends on the use case and domain. Different types of retrievers can be combined, and their results ranked, combined, or sequenced. In an agentic setup, retrievers can become tools that the LLM selects and runs iteratively, passing parameters and results until the necessary information to answer the question is collected.
-
+{{% bilingual %}}
+The actual graph retrieval depends on the use case and domain. Different types of retrievers can be combined, and their results ranked, combined, or sequenced. In an agentic setup, retrievers can become tools that the LLM selects and runs iteratively, passing parameters and results until the necessary information to answer the question is collected.
+<!--zh-->
 具体采用哪种图检索，取决于用例和领域。不同类型的检索器可以组合使用，其结果可以排序、合并或按顺序串联。在 Agentic（智能体化）的设定下，检索器可以成为工具，由 LLM 选择并迭代执行，不断传递参数和结果，直到收集齐回答问题所需的信息。
+{{% /bilingual %}}
 
-> Examples of GraphRAG retriever types include:
-
+{{% bilingual %}}
+Examples of GraphRAG retriever types include:
+<!--zh-->
 GraphRAG 检索器的类型示例包括：
+{{% /bilingual %}}
 
-> - **Vector (Embedding), Fulltext, Spatial, or other Search Indexes:** Using index searches with information from the user question to determine starting points in the graph for further exploration.
-> - **Neighborhood Traversal:** Access direct or indirect neighbors of a node to put a piece of information into context.
-> - **Path Traversals:** Find paths between starting entities, expand relationships to their neighborhood, and retrieve additional related documents, claims, and other entities.
-> - **Global Queries:** Using pre-computed, cross-topic summarization and other global representations of insights to answer general questions (see Microsoft's GraphRAG with Query Focused Summarization).
-> - **Query Templates:** Use case-specific queries for categories of questions are provided by a domain expert, can have the same starting points but explore different sub-graphs, and can be selected by categorizing questions.
-> - **Dynamic Cypher Generation (Text2Cypher):** A (fine-tuned) LLM generates a Cypher query from the user question and the graph schema description to answer specific and structural questions.
-> - **Agentic Traversal:** Using different retrievers, an LLM selects and executes them in a planned sequence to collect all information to answer the question.
-> - **Graph Embedding Retrievers:** Using embeddings to represent the "essence" of a node's neighborhood and allow fuzzy topological search by matching candidate embeddings.
-
+{{% bilingual %}}
+- **Vector (Embedding), Fulltext, Spatial, or other Search Indexes:** Using index searches with information from the user question to determine starting points in the graph for further exploration.
+- **Neighborhood Traversal:** Access direct or indirect neighbors of a node to put a piece of information into context.
+- **Path Traversals:** Find paths between starting entities, expand relationships to their neighborhood, and retrieve additional related documents, claims, and other entities.
+- **Global Queries:** Using pre-computed, cross-topic summarization and other global representations of insights to answer general questions (see Microsoft's GraphRAG with Query Focused Summarization).
+- **Query Templates:** Use case-specific queries for categories of questions are provided by a domain expert, can have the same starting points but explore different sub-graphs, and can be selected by categorizing questions.
+- **Dynamic Cypher Generation (Text2Cypher):** A (fine-tuned) LLM generates a Cypher query from the user question and the graph schema description to answer specific and structural questions.
+- **Agentic Traversal:** Using different retrievers, an LLM selects and executes them in a planned sequence to collect all information to answer the question.
+- **Graph Embedding Retrievers:** Using embeddings to represent the "essence" of a node's neighborhood and allow fuzzy topological search by matching candidate embeddings.
+<!--zh-->
 - **向量（嵌入）、全文、空间或其他搜索索引**：用索引搜索加上用户问题中的信息，确定图上的起点，以便进一步探索。
 - **邻域遍历（Neighborhood Traversal）**：访问某个节点的直接或间接邻居，把一条信息放回上下文中。
 - **路径遍历（Path Traversals）**：找出起始实体之间的路径，把关系扩展到其邻域，并检索更多相关文档、主张（claim）和其他实体。
@@ -202,80 +257,107 @@ GraphRAG 检索器的类型示例包括：
 - **动态 Cypher 生成（Text2Cypher）**：由一个（微调过的）LLM 根据用户问题和图 schema 描述生成 Cypher 查询，用来回答具体的、结构性的问题。
 - **Agentic 遍历（Agentic Traversal）**：LLM 使用不同的检索器，按规划好的顺序选择和执行它们，收集齐回答该问题所需的全部信息。
 - **图嵌入检索器（Graph Embedding Retrievers）**：用嵌入来表示一个节点邻域的「本质」，并通过匹配候选嵌入实现模糊的拓扑搜索。
+{{% /bilingual %}}
 
-> You can find more examples in the GraphRAG Pattern Catalog on graphrag.com.
-
+{{% bilingual %}}
+You can find more examples in the GraphRAG Pattern Catalog on graphrag.com.
+<!--zh-->
 更多示例可以在 graphrag.com 的 GraphRAG Pattern Catalog 中找到。
+{{% /bilingual %}}
 
 ### 知识图谱的构建
 
-> For GraphRAG to work well, we need to ensure that our data has a shape that accurately represents the highly relevant, connected pieces of information. To create this knowledge graph, we need to follow two steps, which can be repeated for refinement:
-
+{{% bilingual %}}
+For GraphRAG to work well, we need to ensure that our data has a shape that accurately represents the highly relevant, connected pieces of information. To create this knowledge graph, we need to follow two steps, which can be repeated for refinement:
+<!--zh-->
 要让 GraphRAG 发挥好效果，我们需要确保数据的形态能够准确表达那些高度相关、彼此连接的信息。构建这张知识图谱需要遵循两个步骤，并且可以反复迭代以持续优化：
+{{% /bilingual %}}
 
-> - Model the relevant nodes and relationships to represent our domain data.
-> - Import, create, or compute the graph structures to fit this graph model.
-
+{{% bilingual %}}
+- Model the relevant nodes and relationships to represent our domain data.
+- Import, create, or compute the graph structures to fit this graph model.
+<!--zh-->
 - 对相关的节点和关系建模，以表达我们的领域数据。
 - 导入、创建或计算图结构，使其适配这个图模型。
+{{% /bilingual %}}
 
 ![为 AI 用例构建知识图谱](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/09/46e92604dac5f364b702870c4e4a0bd3.png)
 
-> We can combine different sources of data:
-
+{{% bilingual %}}
+We can combine different sources of data:
+<!--zh-->
 我们可以组合不同的数据来源：
+{{% /bilingual %}}
 
-> - Import existing structured data from databases, files or APIs.
-> - Turn unstructured data (text, audio, video) into a graph representation of document structures/hierarchies and add vector embeddings and full-text indexes for chunks.
-> - Construct or connect structured entities (with optional embeddings) and their relationships from textual information.
-> - Enhance existing graphs with additional computation or algorithms, such as topic-clustering summaries (like in Microsoft Query Focused Summarization), similarity relationships, and personalized page rank (PPR) scores.
-
+{{% bilingual %}}
+- Import existing structured data from databases, files or APIs.
+- Turn unstructured data (text, audio, video) into a graph representation of document structures/hierarchies and add vector embeddings and full-text indexes for chunks.
+- Construct or connect structured entities (with optional embeddings) and their relationships from textual information.
+- Enhance existing graphs with additional computation or algorithms, such as topic-clustering summaries (like in Microsoft Query Focused Summarization), similarity relationships, and personalized page rank (PPR) scores.
+<!--zh-->
 - 从数据库、文件或 API 导入已有的结构化数据。
 - 把非结构化数据（文本、音频、视频）转成文档结构／层次 的图表示，并为 chunk 添加向量嵌入和全文索引。
 - 从文本信息中构建或连接结构化实体（可选带嵌入）及其关系。
 - 用额外的计算或算法增强已有的图，例如主题聚类摘要（如微软的 Query Focused Summarization）、相似度关系，以及个性化 PageRank（PPR）分数。
+{{% /bilingual %}}
 
-> These graph models and sources are also described in more detail in the GraphRAG pattern catalog.
-
+{{% bilingual %}}
+These graph models and sources are also described in more detail in the GraphRAG pattern catalog.
+<!--zh-->
 这些图模型和数据来源在 GraphRAG 模式目录（pattern catalog）中也有更详细的描述。
+{{% /bilingual %}}
 
 ### 一个 Neo4j 的 GraphRAG 实战示例
 
-> A frequent use case for GraphRAG is analyzing research information in more detail than just "chatting with your PDF." In a vector-only semantic search approach, the data returned from the retrievers are just scored chunks of text with little or no information on how they relate to concepts from the domain or each other.
-
+{{% bilingual %}}
+A frequent use case for GraphRAG is analyzing research information in more detail than just "chatting with your PDF." In a vector-only semantic search approach, the data returned from the retrievers are just scored chunks of text with little or no information on how they relate to concepts from the domain or each other.
+<!--zh-->
 GraphRAG 一个常见的用例，是比「和你的 PDF 聊天」更细致地分析研究信息。在纯向量的语义搜索方案里，检索器返回的数据只是一些被打过分的文本 chunk，几乎没有（甚至完全没有）信息说明它们与领域概念、或彼此之间是什么关系。
+{{% /bilingual %}}
 
-> In contrast, a GraphRAG approach allows us to extract entities such as Person, Organization, Article, Paper, BiologicalProcess, Condition, Disease, Drug, Gene, Expression, Exposure, and Pathway that appear in our documents and create a rich network of information.
-
+{{% bilingual %}}
+In contrast, a GraphRAG approach allows us to extract entities such as Person, Organization, Article, Paper, BiologicalProcess, Condition, Disease, Drug, Gene, Expression, Exposure, and Pathway that appear in our documents and create a rich network of information.
+<!--zh-->
 相比之下，GraphRAG 方案允许我们从文档中抽取出 Person、Organization、Article、Paper、BiologicalProcess、Condition、Disease、Drug、Gene、Expression、Exposure、Pathway 等实体，并构建出一张丰富的信息网络。
+{{% /bilingual %}}
 
-> To demonstrate this, let's walk through an example of constructing a knowledge graph using the open source neo4j-graphrag package. You can also use LangChain, LlamaIndex, or other integrations.
-
+{{% bilingual %}}
+To demonstrate this, let's walk through an example of constructing a knowledge graph using the open source neo4j-graphrag package. You can also use LangChain, LlamaIndex, or other integrations.
+<!--zh-->
 为演示这一点，让我们走一遍用开源 `neo4j-graphrag` 包构建知识图谱的示例。你也可以使用 LangChain、LlamaIndex 或其他集成方案。
+{{% /bilingual %}}
 
-> In this example, we use the SimpleKGPipeline, which comes with a number of defaults and executes the steps depicted below:
-
+{{% bilingual %}}
+In this example, we use the SimpleKGPipeline, which comes with a number of defaults and executes the steps depicted below:
+<!--zh-->
 在这个示例中，我们使用 `SimpleKGPipeline`，它自带一系列默认配置，并会执行下图所示的步骤：
+{{% /bilingual %}}
 
 ![SimpleKGPipeline 的处理流程](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/09/71983c350144ed4d6a2dd6dc3b7d7fd1.png)
 
-> To run this extraction, we configure the Pipeline with the following components:
-
+{{% bilingual %}}
+To run this extraction, we configure the Pipeline with the following components:
+<!--zh-->
 要运行这次抽取，我们需要为 Pipeline 配置以下几个组件：
+{{% /bilingual %}}
 
-> - LLM (e.g., gpt-4o-mini from OpenAI)
-> - Embedding model
-> - Document splitter
-> - Graph schema
-
+{{% bilingual %}}
+- LLM (e.g., gpt-4o-mini from OpenAI)
+- Embedding model
+- Document splitter
+- Graph schema
+<!--zh-->
 - LLM（例如 OpenAI 的 gpt-4o-mini）
 - 嵌入模型（Embedding model）
 - 文档切分器（Document splitter）
 - 图 schema（Graph schema）
+{{% /bilingual %}}
 
-> Once configured, we can execute the pipeline on our dataset of biomedical research papers:
-
+{{% bilingual %}}
+Once configured, we can execute the pipeline on our dataset of biomedical research papers:
+<!--zh-->
 配置完成后，我们就可以在一批生物医学研究论文数据集上执行这个 pipeline：
+{{% /bilingual %}}
 
 ```python
 driver = neo4j.GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USERNAME, NEO4J_PASSWORD))
@@ -313,19 +395,25 @@ for path in pdf_file_paths:
     graph_data = await kg_builder_pdf.run_async(file_path=path)
 ```
 
-> After storing the chunked document data and graph data in Neo4j, we can visualize it using our Query tool.
-
+{{% bilingual %}}
+After storing the chunked document data and graph data in Neo4j, we can visualize it using our Query tool.
+<!--zh-->
 把切分后的文档数据和图数据存入 Neo4j 之后，我们可以用 Query 工具把它可视化出来。
+{{% /bilingual %}}
 
 ![图数据可视化](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/09/d060bc5e6e198350dfeef658dd47b843.png)
 
-> Now, we can execute a GraphRAG retriever and compare its results with a vector RAG retriever.
-
+{{% bilingual %}}
+Now, we can execute a GraphRAG retriever and compare its results with a vector RAG retriever.
+<!--zh-->
 现在，我们可以运行一个 GraphRAG 检索器，并把结果与向量 RAG 检索器做对比。
+{{% /bilingual %}}
 
-> This retriever first executes a vector search for the indexed text chunks and then follows non-chunk relationships up to 2 hops out, retrieving not only the directly extracted entities but also their first- and second-degree neighbors. It returns the chunk texts and entity-relationship-entity pairs as context for use in the final phases of prompt augmentation and answer generation.
-
+{{% bilingual %}}
+This retriever first executes a vector search for the indexed text chunks and then follows non-chunk relationships up to 2 hops out, retrieving not only the directly extracted entities but also their first- and second-degree neighbors. It returns the chunk texts and entity-relationship-entity pairs as context for use in the final phases of prompt augmentation and answer generation.
+<!--zh-->
 这个检索器会先对已建索引的文本 chunk 执行一次向量搜索，然后沿非 chunk 关系向外追踪最多 2 跳，不仅取回直接抽取出的实体，还包括它们的一度和二度邻居。它返回 chunk 文本以及「实体-关系-实体」三元组作为上下文，供后续的 prompt 增强和答案生成阶段使用。
+{{% /bilingual %}}
 
 ```python
 from neo4j_graphrag.retrievers import VectorCypherRetriever
@@ -352,9 +440,11 @@ RETURN apoc.text.join([c in chunks | c.text], '\n') +
 )
 ```
 
-> Next, we build the vector and GraphRAG pipelines using each retriever with a suitable LLM (here, using the better OpenAI gpt-4o) and prompt for question answering:
-
+{{% bilingual %}}
+Next, we build the vector and GraphRAG pipelines using each retriever with a suitable LLM (here, using the better OpenAI gpt-4o) and prompt for question answering:
+<!--zh-->
 接下来，我们用各自的检索器分别搭建向量 pipeline 和 GraphRAG pipeline，配合一个合适的 LLM（这里用的是更强的 OpenAI gpt-4o）以及用于问答的 prompt：
+{{% /bilingual %}}
 
 ```python
 llm = LLM(model_name="gpt-4o", model_params={"temperature": 0.0})
@@ -380,31 +470,38 @@ vector_rag.search(q, retriever_config={'top_k':5}).answer
 graph_rag.search(q, retriever_config={'top_k':5}).answer
 ```
 
-> The comparison of answers shows that the GraphRAG response is much more comprehensive and covers more of the relevant context.
-
+{{% bilingual %}}
+The comparison of answers shows that the GraphRAG response is much more comprehensive and covers more of the relevant context.
+<!--zh-->
 答案对比显示，GraphRAG 的响应要全面得多，覆盖了更多相关上下文。
+{{% /bilingual %}}
 
 ![向量 RAG 与 GraphRAG 答案对比](https://notes-1303209934.cos.ap-guangzhou.myqcloud.com/2026/09/51b6c4e0d0a87a4c6b43094e16396653.png)
 
-> For more details, see GraphRAG Python Package: Accelerating GenAI With Knowledge Graphs and check out the resources section.
-
+{{% bilingual %}}
+For more details, see GraphRAG Python Package: Accelerating GenAI With Knowledge Graphs and check out the resources section.
+<!--zh-->
 更多细节参见《GraphRAG Python Package: Accelerating GenAI With Knowledge Graphs》，并查看下方的资源列表。
+{{% /bilingual %}}
 
 ### GraphRAG 的常见用例
 
-> GraphRAG is used in applications and domains that require a higher level of trust, as their outputs are used for critical business decision-making. Some examples include:
-
+{{% bilingual %}}
+GraphRAG is used in applications and domains that require a higher level of trust, as their outputs are used for critical business decision-making. Some examples include:
+<!--zh-->
 GraphRAG 被用在那些对可信度要求更高、其输出会被用于关键业务决策的应用和领域中。示例如下：
+{{% /bilingual %}}
 
-> - **Legal and Compliance:** Reviewing and analyzing contracts, cases, laws, and regulations.
-> - **Investment Research:** Investigating organizations, people, competitors, markets, and trends.
-> - **Biotech:** Accessing knowledge graphs for drug discovery and repurposing, clinical trials, and research.
-> - **Business Process Support:** Integrating various business data sources into a cohesive view of an organization.
-> - **Supply Chain:** Conducting investigations for risk assessment, compliance, and sustainability of products and production processes.
-> - **Fraud Detection:** Identifying and preventing money laundering (AML), insurance fraud, and other fraudulent activities.
-> - **Investigative Journalism:** Uncovering connections and patterns in large datasets for news stories and investigations.
-> - **Natural Language Search and Chatbots:** Democratizing access to pre-existing knowledge bases through user-friendly interfaces.
-
+{{% bilingual %}}
+- **Legal and Compliance:** Reviewing and analyzing contracts, cases, laws, and regulations.
+- **Investment Research:** Investigating organizations, people, competitors, markets, and trends.
+- **Biotech:** Accessing knowledge graphs for drug discovery and repurposing, clinical trials, and research.
+- **Business Process Support:** Integrating various business data sources into a cohesive view of an organization.
+- **Supply Chain:** Conducting investigations for risk assessment, compliance, and sustainability of products and production processes.
+- **Fraud Detection:** Identifying and preventing money laundering (AML), insurance fraud, and other fraudulent activities.
+- **Investigative Journalism:** Uncovering connections and patterns in large datasets for news stories and investigations.
+- **Natural Language Search and Chatbots:** Democratizing access to pre-existing knowledge bases through user-friendly interfaces.
+<!--zh-->
 - **法律与合规**：审阅和分析合同、案件、法律与法规。
 - **投资研究**：调查机构、人物、竞争对手、市场与趋势。
 - **生物科技**：访问知识图谱以支持药物发现与老药新用、临床试验和研究。
@@ -413,20 +510,27 @@ GraphRAG 被用在那些对可信度要求更高、其输出会被用于关键�
 - **欺诈检测**：识别并防范洗钱（AML）、保险欺诈及其他欺诈活动。
 - **调查性新闻**：在大型数据集中挖掘关联与模式，服务于新闻报道和调查。
 - **自然语言搜索与聊天机器人**：通过易用的交互界面，让既有知识库的访问「平民化」。
+{{% /bilingual %}}
 
 ### GraphRAG：支撑企业级 AI 应用
 
-> RAG architectures are currently the most effective way to provide reliable content for GenAI business applications by using data from trusted data sources. GraphRAG takes this a step further, improving upon basic vector-based RAG in both quality and explainability.
-
+{{% bilingual %}}
+RAG architectures are currently the most effective way to provide reliable content for GenAI business applications by using data from trusted data sources. GraphRAG takes this a step further, improving upon basic vector-based RAG in both quality and explainability.
+<!--zh-->
 目前，RAG 架构是通过可信数据源为 GenAI 业务应用提供可靠内容的最有效方式。GraphRAG 则更进一步，在质量和可解释性两方面都超越了基础的向量 RAG。
+{{% /bilingual %}}
 
-> By considering more relevant context and using a variety of retrievers that navigate document, domain, and computed graph structures, GraphRAG delivers more accurate, trustworthy, and traceable results. The combination of knowledge graphs, with their rich representation of real-world information, and LLMs, with their advanced language skills, creates a robust and reliable solution for enterprise use cases.
-
+{{% bilingual %}}
+By considering more relevant context and using a variety of retrievers that navigate document, domain, and computed graph structures, GraphRAG delivers more accurate, trustworthy, and traceable results. The combination of knowledge graphs, with their rich representation of real-world information, and LLMs, with their advanced language skills, creates a robust and reliable solution for enterprise use cases.
+<!--zh-->
 通过纳入更多相关上下文，并使用多种检索器去游走文档结构、领域结构和计算得到的图结构，GraphRAG 交付的是更准确、更可信、更可追溯的结果。知识图谱对现实世界信息的丰富表达，加上 LLM 先进的语言能力，两者结合为企业用例提供了健壮而可靠的解决方案。
+{{% /bilingual %}}
 
-> As more organizations adopt GenAI, GraphRAG will be essential in ensuring the accuracy, reliability, and transparency of these systems, paving the way for better decision-making and improved business outcomes.
-
+{{% bilingual %}}
+As more organizations adopt GenAI, GraphRAG will be essential in ensuring the accuracy, reliability, and transparency of these systems, paving the way for better decision-making and improved business outcomes.
+<!--zh-->
 随着越来越多的组织采用 GenAI，GraphRAG 将在确保这些系统的准确性、可靠性和透明度方面变得必不可少，为更好的决策和更优的业务结果铺平道路。
+{{% /bilingual %}}
 
 > ### Design a RAG solution that handles complex questions
 >
@@ -444,43 +548,51 @@ AI 工程师讲解如何为生产级 RAG 整合结构化与非结构化数据。
 
 ### 更多资源
 
-> If you want to learn more about GraphRAG, check out these resources:
-
+{{% bilingual %}}
+If you want to learn more about GraphRAG, check out these resources:
+<!--zh-->
 如果你想进一步了解 GraphRAG，可以看看这些资源：
+{{% /bilingual %}}
 
-> **Overviews**
->
-> - GraphRAG Manifesto
-> - What is a Knowledge Graph
-> - Generative AI with Neo4j
+{{% bilingual %}}
+**Overviews**
 
+- GraphRAG Manifesto
+- What is a Knowledge Graph
+- Generative AI with Neo4j
+<!--zh-->
 **概览类**
 
 - GraphRAG Manifesto
 - What is a Knowledge Graph
 - Generative AI with Neo4j
+{{% /bilingual %}}
 
-> **Technical**
->
-> - GraphRAG Pattern Catalog
-> - Online Neo4j LLM Knowledge Graph Builder (using LangChain)
-> - Neo4j GraphRAG Python Package
+{{% bilingual %}}
+**Technical**
 
+- GraphRAG Pattern Catalog
+- Online Neo4j LLM Knowledge Graph Builder (using LangChain)
+- Neo4j GraphRAG Python Package
+<!--zh-->
 **技术类**
 
 - GraphRAG Pattern Catalog
 - Online Neo4j LLM Knowledge Graph Builder（基于 LangChain）
 - Neo4j GraphRAG Python Package
+{{% /bilingual %}}
 
-> **Courses**
->
-> - DeepLearning.AI Knowledge Graphs for RAG course
-> - Free GraphAcademy GenAI courses
+{{% bilingual %}}
+**Courses**
 
+- DeepLearning.AI Knowledge Graphs for RAG course
+- Free GraphAcademy GenAI courses
+<!--zh-->
 **课程类**
 
 - DeepLearning.AI 的 Knowledge Graphs for RAG 课程
 - 免费的 GraphAcademy GenAI 课程
+{{% /bilingual %}}
 
 ---
 
