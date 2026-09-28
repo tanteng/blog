@@ -445,3 +445,121 @@ pre {
 .code-block:has(> .mermaid) .code-copy {
   display: none;
 }
+
+/* ------------------------------------------------------------------ *
+ * 中英两栏对照（bilingual）
+ *
+ * 用法：在 markdown 里直接写 raw HTML（config.toml 已开 goldmark unsafe）：
+ *
+ *   <div class="bilingual">
+ *
+ *   <div class="bi-en">
+ *
+ *   English paragraph.
+ *
+ *   </div>
+ *
+ *   <div class="bi-zh">
+ *
+ *   中文段落。
+ *
+ *   </div>
+ *
+ *   </div>
+ *
+ * ⚠️ 标签后必须空一行：CommonMark 里 <div …> 属「HTML block type 6」，
+ *    遇到空行才结束，中间的 markdown 才会被解析成 <p>。
+ *    不留空行的话整段会当成 raw HTML 原样输出，markdown 语法全部失效。
+ *
+ * 断点行为：
+ *   - 桌面端（> 768px）：左右两栏，英文在左、中文在右，中间一条细分隔线
+ *   - H5（≤ 768px）：单列堆叠，用 grid 的 order 让中文在上、英文在下。
+ *     中文是本站读者的主读语言，手机上一路先读英文会把阅读节奏打碎；
+ *     英文同时缩小字号 + 褪色 + 左侧竖线，视觉上降为「原文参考」。
+ *     两栏本身在 375px 宽的屏上放不下，只能堆叠，这点无法绕过。
+ *
+ * 作用域限定在 .bilingual 内，不影响正文其他段落（.nested-copy-line-height p）。
+ * 正文整体字号是 f4（20px），窄栏里偏大，所以这里统一收到 0.95em。
+ * ------------------------------------------------------------------ */
+.bilingual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  column-gap: 0;
+  margin: 1.75rem 0;
+  font-size: 0.95em;
+}
+.bilingual > .bi-en {
+  padding-right: 1.5rem;
+  color: #4b5563;
+  /* 同等字号下拉丁字形的视觉尺寸比汉字小，往上抬一点让两栏观感对齐 */
+  font-size: 1.05em;
+}
+.bilingual > .bi-zh {
+  padding-left: 1.5rem;
+  border-left: 1px solid #e6e8eb;
+}
+/* grid 子项默认 min-width:auto：栏里一旦出现长 URL（参考文献一节里很多）这类
+   不可断的长串，整栏会被撑到比容器还宽，窄屏（单列）下表现为整页横向滚动。
+   min-width:0 让栏可以收缩，长串再由 break-word 兜底断开。 */
+.bilingual > div {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+/* 栏内段落：只留一份段间距，避免与 .bilingual 的外边距叠加成双倍留白 */
+.bilingual > div > p {
+  margin: 0 0 0.85rem;
+}
+.bilingual > div > p:last-child {
+  margin-bottom: 0;
+}
+
+/* 图注也走两栏：比正文再小一号、去掉左侧分隔线的强对比 */
+.bilingual.bi-caption {
+  margin: 0.6rem 0 1.75rem;
+  font-size: 0.85em;
+  line-height: 1.5;
+  color: #6b7480;
+}
+.bilingual.bi-caption > .bi-en {
+  color: #6b7480;
+}
+
+@media (max-width: 768px) {
+  .bilingual {
+    grid-template-columns: 1fr;
+    margin: 1.5rem 0;
+    font-size: 1em;
+  }
+  .bilingual > .bi-zh {
+    order: 1;
+    padding-left: 0;
+    border-left: 0;
+    color: inherit;
+  }
+  .bilingual > .bi-en {
+    order: 2;
+    margin-top: 0.7rem;
+    padding-right: 0;
+    padding-left: 0.85rem;
+    border-left: 3px solid #e6e8eb;
+    font-size: 0.9em;
+    line-height: 1.55;
+  }
+  .bilingual.bi-caption {
+    margin: 0.55rem 0 1.4rem;
+    font-size: 0.9em;
+  }
+}
+
+/* 单篇文章的配图限高：《NASA 月球摄影指南》一文有 15 张配图，其中竖构图
+   （1800×2400、2850×3800）和方形（1600×1600 等）占了大半。站内默认
+   `.nested-copy-line-height p > img` 只限宽 720px，竖图会被拉到 960px 高，
+   一张照片超过一屏，读起来很别扭。
+   这里只对这篇文章限高 600px：竖图/方图会被压到一屏内，横图本来就受 720px
+   限宽（高度都 < 600px），不受影响。
+   限定在 article.page-* 上，不波及其它文章；只写 max-height，不碰 max-width，
+   所以 H5 断点里 `max-width: 100%` 的规则照常生效。 */
+article.page-nasa-lunar-photography-guide .nested-copy-line-height p > img {
+  max-height: 600px;
+}

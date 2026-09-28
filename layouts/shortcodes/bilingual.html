@@ -1,0 +1,31 @@
+{{/*
+  bilingual.html — 中英两栏对照（左英文 / 右中文）
+
+  用法（用 {{% %}} 形式，内部才是 markdown；{{< >}} 不会渲染 markdown）：
+
+    {{% bilingual %}}
+    English paragraph with **markdown**.
+    <!--zh-->
+    带 **markdown** 的中文段落。
+    {{% /bilingual %}}
+
+  图注等次要文字加 class：
+
+    {{% bilingual class="bi-caption" %}}
+    ...
+
+  `<!--zh-->` 是英文与中文的分隔符：用 `{{% %}}` 时 Hugo 会先把内部按 markdown 渲染，
+  这个 HTML 注释在渲染后原样保留，所以能可靠地切开两段 HTML。
+
+  样式在 static/css/custom.css 的「中英两栏对照」一节。
+  相对主题的差异：ananke 没有这个 shortcode，属项目级新增，不受主题升级影响。
+*/}}
+
+{{- $parts := split .InnerDeindent "<!--zh-->" -}}
+{{- if lt (len $parts) 2 -}}
+  {{- errorf "bilingual shortcode 缺少 <!--zh--> 分隔符（见 %s）" .Page.File.Path -}}
+{{- end -}}
+<div class="bilingual{{ with (.Get "class") }} {{ . }}{{ end }}">
+<div class="bi-en" lang="en">{{ index $parts 0 | .Page.RenderString (dict "display" "block") }}</div>
+<div class="bi-zh" lang="zh">{{ index $parts 1 | .Page.RenderString (dict "display" "block") }}</div>
+</div>
