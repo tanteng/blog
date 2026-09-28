@@ -28,7 +28,7 @@ weight = 1
   [[menu.main]]
     identifier = "home"
     name = "首页"
-    url = "https://tanteng.space"
+    url = "https://blog.tanteng.space"
     weight = -1
 
   [[menu.main]]
