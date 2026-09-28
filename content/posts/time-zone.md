@@ -4,7 +4,7 @@ date: 2022-10-20T21:00:00+08:00
 url: /2022/10/time-zone/
 draft: false
 tags: ["life", "growth", "philosophy", "career", "happiness"]
-categories: ["life"]
+categories: ["reading-notes"]
 description: "《TIME ZONE》全文翻译与中英对照。这首诗在中文互联网上叫《纽约比加州时间早三个小时》《放轻松，你没有落后》，作者一栏通常写「佚名」。"
 ---
 

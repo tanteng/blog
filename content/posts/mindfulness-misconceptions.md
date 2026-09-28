@@ -3,7 +3,7 @@ title: "正念冥想的常见误区与进阶指南"
 date: 2024-04-20
 draft: false
 tags: ["psychology", "self-awareness", "neuroscience", "happiness"]
-categories: ["life"]
+categories: ["science"]
 ---
 
 作为一种源自东方禅修传统、如今被大量心理学研究支持的干预方法，正念在走向大众的过程中积累了不少常见误解。而这些误解，恰恰是阻碍练习者真正受益的关键。

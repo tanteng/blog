@@ -4,7 +4,7 @@ date: 2023-05-20T21:30:00+08:00
 draft: false
 original: false
 tags: ["life", "travel", "thinking", "philosophy"]
-categories: ["life"]
+categories: ["travel"]
 slug: "kyoto-kiyomizu-dera-omikuji"
 description: "2018 年在京都清水寺抽的一张御神签，第二十一番，吉。翻译签文与签解，顺带考据这套「汉诗百签」的来历。"
 ---

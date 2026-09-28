@@ -4,7 +4,7 @@ date: 2022-11-15T21:00:00+08:00
 url: /2022/11/the-road-not-taken/
 draft: false
 tags: ["reading", "philosophy", "life", "thinking", "growth"]
-categories: ["life"]
+categories: ["reading-notes"]
 description: "罗伯特·弗罗斯特《未选择的路》（The Road Not Taken）全文翻译与中英对照。这首诗被称为英语世界被误读最多的诗——那句「我选择了人迹更少的一条」，其实是诗中人准备讲的一个故事。"
 ---
 

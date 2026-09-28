@@ -3,7 +3,7 @@ title: 英语里那些"哑巴"字母
 date: 2022-03-02T10:00:00+08:00
 url: /2022/03/english-silent-letters/
 tags: ['life', 'science']
-categories: ['life']
+categories: ['science']
 ---
 
 学英语时，你可能发现过一件奇怪的事：**knife** 里的 k 不发音，**lamb** 里的 b 不发音，**write** 里的 w 不发音……拼写与发音之间存在一条奇怪的鸿沟。英语里大约 60% 的单词都有不发音的字母，这在主要语言里算是相当高的比例了。这是为什么？
