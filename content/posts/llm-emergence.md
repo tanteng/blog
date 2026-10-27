@@ -5,12 +5,12 @@ url: /2026/10/llm-emergence/
 draft: false
 tags: ["transformer", "llm", "ai", "deep-learning", "reasoning"]
 categories: ["ai"]
-description: "从 Wolfram 的括号实验出发拆解大模型训练中的「涌现」：为什么 1 个注意力块学不会平衡括号而 2 个能收敛，Anthropic 的 induction head 如何解释这个两层门槛，Olsson 等人在训练中观察到的相变（2.5B–5B token、损失曲线出现凸起、induction head 批量形成），以及 Schaeffer 等人对「涌现只是度量幻觉」的反驳（0.5⁵=3%、0.8⁵=33%、0.95⁵=77%）。最后落在工程边界上：学会了规律不等于掌握算法，精确性任务仍需受约束解码与外部验证。"
+description: "从 Stephen Wolfram 的括号实验出发拆解大模型训练中的「涌现」：为什么 1 个注意力块学不会平衡括号而 2 个能收敛，Anthropic 的 induction head 如何解释这个两层门槛，Olsson 等人在训练中观察到的相变（2.5B–5B token、损失曲线出现凸起、induction head 批量形成），以及 Schaeffer 等人对「涌现只是度量幻觉」的反驳（0.5⁵=3%、0.8⁵=33%、0.95⁵=77%）。最后落在工程边界上：学会了规律不等于掌握算法，精确性任务仍需受约束解码与外部验证。"
 ---
 
 「涌现」是这两年大模型讨论里被用得最滥的词。它有时指能力随规模突然出现，有时指训练中某种结构自己长出来，有时又只是评测曲线上的一个陡坎——这三件事的机制完全不同，混着用会得出互相矛盾的结论。
 
-Wolfram 讲 ChatGPT 时用括号语言做过一个能自己复现的实验：1 个注意力块的 Transformer 学不会平衡括号，2 个就能收敛。这大概是最小的一份「涌现」样本。下面从它出发，把「训练中长出来」这件事拆成机制、测量和工程边界几个层面来看。
+数学家 Stephen Wolfram（Wolfram Research 创始人，Mathematica 与 Wolfram|Alpha 的作者）在 2023 年初的《What Is ChatGPT Doing… and Why Does It Work?》里，用括号语言做过一个能自己复现的实验：1 个注意力块的 Transformer 学不会平衡括号，2 个就能收敛。这大概是最小的一份「涌现」样本。下面按机制、测量和工程边界三层来看。
 
 <!--more-->
 
@@ -45,7 +45,7 @@ Transformer（attention-only）
 
 第 3 点是后面所有讨论的伏笔：<strong>网络确实学会了括号语言的规律，但没有学会括号匹配的算法。</strong>
 
-这个「一层不行、两层才行」的门槛，在 Anthropic 那边被独立测到过，而且给出了机制解释。他们把极小的 attention-only Transformer 按层数拆开：0 层的模型直接建模 bigram 统计；1 层的模型等价于 bigram 与 skip-trigram（形如「A … B C」）的混合；到 2 层，模型开始用多个注意力头的组合实现复杂算法，其中最关键的一种叫 induction head。
+这个「一层不行、两层才行」的门槛，Anthropic 在[《A Mathematical Framework for Transformer Circuits》](https://transformer-circuits.pub/2021/framework/index.html)里独立测到过，并给出了机制解释。他们把极小的 attention-only Transformer 按层数拆开：0 层的模型直接建模 bigram 统计；1 层的模型等价于 bigram 与 skip-trigram（形如「A … B C」）的混合；到 2 层，模型开始用多个注意力头的组合实现复杂算法，其中最关键的一种叫 induction head。
 
 induction head 完成的是这样一件事：
 
@@ -59,9 +59,11 @@ induction head 完成的是这样一件事：
 
 它不查表、不检索，只靠两跳注意力在上下文里找到「上一次 A 后面跟的那个 B」。作者发现，这类头<strong>只在至少有两个注意力块的模型里出现</strong>。Wolfram 的括号实验和 Anthropic 的机制分析是两组独立的工作，都指向「层数是硬门槛」这件事。
 
+括号实验的原文在 [Wolfram Blog（2023 年 2 月）](https://blog.wolfram.com/2023/02/14/what-is-chatgpt-doing-and-why-does-it-work/)，书籍版是 [What Is ChatGPT Doing… and Why Does It Work?](https://wolfram.com/books/profile.cgi?id=9846)（Wolfram Media，2023 年 3 月，112 页）。
+
 ## 三、能力在训练中途长出来
 
-如果 induction head 是关键，那么它什么时候出现就成了可测的问题。Olsson 等人 2022 年的答案是：它在一个很窄的训练窗口里成批出现，同一时刻，模型的上下文学习能力陡增。
+如果 induction head 是关键，那么它什么时候出现就成了可测的问题。Olsson 等人 2022 年在[《In-context Learning and Induction Heads》](https://arxiv.org/abs/2209.11895)里的答案是：它在一个很窄的训练窗口里成批出现，同一时刻，模型的上下文学习能力陡增。
 
 他们分析了 34 个 decoder-only Transformer，覆盖 1–6 层的小模型直到 40 层、130 亿参数的全尺寸模型，结论有三条：
 
@@ -115,7 +117,7 @@ flowchart LR
 
 ## 四、学会规律不等于掌握算法
 
-回到括号。Wolfram 的观察在今天依然成立，而且被拆得更细了。2025 年 NeurIPS 上的一篇工作在一批 124M 到 70 亿参数的模型上追这个问题，结论是：模型内部同时存在「可靠机制」和「缺陷机制」两类组件，两者各自独立地对最终输出投票，出错的原因是缺陷机制的影响压过了可靠机制。
+回到括号。Wolfram 的观察在今天依然成立，而且被拆得更细了。2025 年 NeurIPS 上的一篇工作（[《Failure by Interference》](https://arxiv.org/abs/2507.00322)）在一批 124M 到 70 亿参数的模型上追这个问题，结论是：模型内部同时存在「可靠机制」和「缺陷机制」两类组件，两者各自独立地对最终输出投票，出错的原因是缺陷机制的影响压过了可靠机制。
 
 关键细节是：可靠机制确实存在。论文报告，在某些模型里，单独一个注意力头的准确率比整个模型还高——正确的逻辑就在里面，只是被噪声淹没了。他们提出的 RASteer 方法先按跨子任务的稳定性给组件排名，再在推理时放大排名靠前组件的贡献，在平衡括号任务上把部分模型从 0% 提到接近 100%，在算术推理任务上最高提升约 20%。
 
@@ -127,7 +129,7 @@ flowchart LR
 
 上面讲的是机制。争论的另一面是：模型规模的曲线本身在不在骗人。
 
-Schaeffer 等人 2023 年的论文给出了一个很锋利的论证。多数基准用 Accuracy、Exact String Match 这类非连续指标打分，而这类指标会把平滑的能力增长放大成断崖。数学上的机制再简单不过——五位数字的答案要求每一位都对，单 token 正确率是 50% 时全对率约 3%，80% 时约 33%，95% 时约 77%：
+Schaeffer 等人 2023 年的[论文](https://arxiv.org/abs/2304.15004)给出了一个很锋利的论证。多数基准用 Accuracy、Exact String Match 这类非连续指标打分，而这类指标会把平滑的能力增长放大成断崖。数学上的机制再简单不过——五位数字的答案要求每一位都对，单 token 正确率是 50% 时全对率约 3%，80% 时约 33%，95% 时约 77%：
 
 ```text
 单 token 正确率 p
