@@ -5,7 +5,7 @@ url: /2026/10/rea-reverse-engineering-tool/
 draft: false
 tags: ["mcp", "agent", "ai-coding", "context-engineering", "security"]
 categories: ["ai"]
-description: "拆解 REA（Reverse Engineer Anything）这个给编程助手用的 MCP 逆向工具：它不自己反编译，而是把 Hopper、Ghidra、IDA、JADX 包成 agent 能调用的工具。用 DX-Ball 声像函数（3,205 个 x86 用例、63 字节编译结果一致）和 Notion 剪贴板桥（preload → IPC 通道 → 主进程）看它的输出长什么样，再讲三个真正值得学的设计：Evidence 作为一等数据结构（evidence_id 带内容摘要、observed/inferred/derived 三档确定性、integrity mismatch）、把上下文预算写进协议（334 MB 证据投影成 10 KB 视图、1024 元素输入上限）、以及把被分析目标当成不可信输入并打 provenance 标记。最后是社区两组对照实验的冷水：482 次运行未见成功率提升、纯 CLI 方案 74/75 对 75/75。"
+description: "REA（Reverse Engineer Anything）不自己实现反编译，而是把 Hopper、Ghidra、IDA、JADX 等引擎包装成编程助手能调用的 MCP 工具，让 AI 在没有源码时也能一步步调查软件内部实现。文章按五部分展开：它接了哪些引擎、原理为何是编排而非反编译、为什么做成 MCP、以 evidence_id 为核心的证据模型（确定性分级、上下文预算、不可信输入标记），以及如何用一条由观察驱动的调查链还原 DX-Ball 的声像函数（3,205 个用例、编译后 63 字节逐字节一致）。"
 ---
 
 REA（Reverse Engineer Anything）在 2026 年 4 月开源，MIT 许可，TypeScript 写成，形态是一个 MCP 服务加一套命令行。
